@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio
 
-## Getting Started
+A personal design portfolio — Next.js (App Router) + TypeScript + Tailwind CSS v4 + Motion, with case studies and writing authored in MDX.
 
-First, run the development server:
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> Requires Node 20+ (this repo was built on Node 26).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+  app/             # routes: /, /work, /work/[slug], /writing, /writing/[slug], /about, /contact
+  components/      # nav, footer, theme toggle, motion primitives, work card
+  content/
+    work/          # case studies (.mdx, with frontmatter)
+    writing/       # notes/blog (.mdx, with frontmatter)
+  lib/
+    site.ts        # name, role, socials, nav — EDIT THIS FIRST
+    content.ts     # reads MDX frontmatter for listings
+  mdx-components.tsx
+```
 
-## Learn More
+## Editing content
 
-To learn more about Next.js, take a look at the following resources:
+- **Site identity:** edit `src/lib/site.ts` (name, role, email, socials, domain URL).
+- **Add a case study:** create `src/content/work/<slug>.mdx` with frontmatter:
+  ```yaml
+  ---
+  title: "Project title"
+  summary: "One-line summary."
+  year: "2025"
+  role: "Lead Product Designer"
+  client: "Company (or 'Confidential')"
+  tags: ["Product", "Brand"]
+  featured: true   # show first
+  order: 1
+  ---
+  ```
+- **Add a writing post:** create `src/content/writing/<slug>.mdx` with `title`, `summary`, `date`, `tags`.
+- Images go in `public/` and are referenced as `/your-image.png` in MDX.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Theming
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Design tokens (colors, dark mode) live in `src/app/globals.css` under `:root` and `.dark`.
+Fonts are configured in `src/app/layout.tsx`.
 
-## Deploy on Vercel
+## Deploy to Vercel (free)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Push this repo to GitHub.
+2. Go to [vercel.com](https://vercel.com) → **Add New → Project** → import the repo.
+3. Vercel auto-detects Next.js — no config needed. Click **Deploy**.
+4. Every push to `main` auto-deploys; pull requests get preview URLs.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Custom domain
+
+In the Vercel project: **Settings → Domains → Add**, then point your domain's DNS to the records Vercel shows. SSL is automatic. Finally, update `url` in `src/lib/site.ts` to your domain so metadata/OG tags are correct.
