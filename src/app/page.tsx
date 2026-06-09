@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { getWork, getWriting } from "@/lib/content";
+import { getWriting } from "@/lib/content";
+import { getCaseStudies } from "@/lib/case-studies";
 import { siteConfig } from "@/lib/site";
 import { FadeIn, Reveal } from "@/components/motion";
 import { WorkCard } from "@/components/work-card";
 
 export default function Home() {
-  const work = getWork().slice(0, 3);
+  const work = getCaseStudies().slice(0, 3);
   const writing = getWriting().slice(0, 2);
 
   return (

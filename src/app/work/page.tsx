@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getWork } from "@/lib/content";
+import { getCaseStudies } from "@/lib/case-studies";
 import { FadeIn, Reveal } from "@/components/motion";
 import { WorkCard } from "@/components/work-card";
 
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default function WorkPage() {
-  const work = getWork();
+  const work = getCaseStudies();
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-20">

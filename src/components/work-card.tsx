@@ -1,7 +1,7 @@
 import Link from "next/link";
-import type { WorkMeta } from "@/lib/content";
+import type { CaseStudy } from "@/lib/case-studies";
 
-export function WorkCard({ project }: { project: WorkMeta }) {
+export function WorkCard({ project }: { project: CaseStudy }) {
   return (
     <Link
       href={`/work/${project.slug}`}
@@ -9,7 +9,7 @@ export function WorkCard({ project }: { project: WorkMeta }) {
     >
       <div className="flex items-center justify-between">
         <span className="font-mono text-xs uppercase tracking-wider text-muted">
-          {project.client ?? project.role}
+          {project.role}
         </span>
         <span className="font-mono text-xs text-muted">{project.year}</span>
       </div>

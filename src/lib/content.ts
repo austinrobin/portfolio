@@ -4,20 +4,9 @@ import matter from "gray-matter";
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content");
 
-export type Collection = "work" | "writing";
-
-export interface WorkMeta {
-  slug: string;
-  title: string;
-  summary: string;
-  year: string;
-  role: string;
-  client?: string;
-  tags: string[];
-  cover?: string;
-  featured?: boolean;
-  order?: number;
-}
+// Case studies are structured data (see lib/case-studies.ts).
+// MDX is used for the writing/notes collection only.
+export type Collection = "writing";
 
 export interface WritingMeta {
   slug: string;
@@ -39,13 +28,6 @@ function readCollection(collection: Collection) {
       const { data } = matter(raw);
       return { slug, ...data } as Record<string, unknown> & { slug: string };
     });
-}
-
-export function getWork(): WorkMeta[] {
-  return (readCollection("work") as unknown as WorkMeta[]).sort((a, b) => {
-    if (a.featured !== b.featured) return a.featured ? -1 : 1;
-    return (a.order ?? 99) - (b.order ?? 99);
-  });
 }
 
 export function getWriting(): WritingMeta[] {
