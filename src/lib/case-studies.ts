@@ -6,6 +6,11 @@ export interface ImpactStat {
   placeholder?: boolean;
 }
 
+export interface Block {
+  label: string;
+  desc: string;
+}
+
 export type Section =
   | {
       kind: "narrative";
@@ -15,6 +20,7 @@ export type Section =
       title?: string;
       hook: string[];
       body: string[];
+      blocks?: Block[];
     }
   | {
       kind: "callout";

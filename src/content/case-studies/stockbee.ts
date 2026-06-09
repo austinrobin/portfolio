@@ -38,7 +38,7 @@ export const stockbee: CaseStudy = {
     {
       kind: "narrative",
       id: "five-second-advantage",
-      navLabel: "The Five-Second Advantage",
+      navLabel: "Five-Second Advantage",
       eyebrow: "The Experience",
       title: "The Five-Second Advantage",
       hook: [
@@ -47,8 +47,14 @@ export const stockbee: CaseStudy = {
       ],
       body: [
         "Every alert was designed around a simple principle: communicate relevance in seconds.",
-        "Instead of forwarding raw announcements, StockBee transforms market-moving events into structured intelligence. Each alert combines sentiment, price movement, context, and AI-powered summaries into a format designed to be understood at a glance.",
+        "Instead of forwarding raw announcements, StockBee transforms market-moving events into structured intelligence — a format designed to be understood at a glance.",
         "The result is an experience that reduces noise, accelerates understanding, and helps traders focus on what deserves their attention.",
+      ],
+      blocks: [
+        { label: "Sentiment", desc: "Bullish, bearish, or neutral — tagged at a glance." },
+        { label: "Price movement", desc: "Live price and the size of the move." },
+        { label: "Context", desc: "Why it matters, not just what happened." },
+        { label: "AI summary", desc: "Plain-English, readable in seconds." },
       ],
     },
     {
@@ -60,19 +66,26 @@ export const stockbee: CaseStudy = {
     {
       kind: "narrative",
       id: "signal-to-conviction",
-      navLabel: "From Signal to Conviction",
+      navLabel: "Signal to Conviction",
       eyebrow: "Depth on Demand",
       title: "From Signal to Conviction",
       hook: ["Speed creates awareness.", "Confidence comes from context."],
       body: [
-        "Every alert expands into a deeper layer of intelligence, bringing together financial performance, sentiment analysis, source attribution, market impact, and AI-generated breakdowns into a single experience.",
-        "Rather than forcing users to navigate multiple platforms and reports, StockBee brings the full story into one place, helping traders move from awareness to understanding without breaking their flow.",
+        "Every alert expands into a deeper layer of intelligence, bringing the full story together in a single experience.",
+        "Rather than forcing users to navigate multiple platforms and reports, StockBee brings it all into one place, helping traders move from awareness to understanding without breaking their flow.",
+      ],
+      blocks: [
+        { label: "Financial performance", desc: "The numbers behind the move." },
+        { label: "Sentiment analysis", desc: "A directional read on the event." },
+        { label: "Source attribution", desc: "One tap to the original filing." },
+        { label: "Market impact", desc: "How much the news actually moved the stock." },
+        { label: "AI breakdown", desc: "The full story, structured and summarised." },
       ],
     },
     {
       kind: "narrative",
       id: "opportunity-engine",
-      navLabel: "The Opportunity Engine",
+      navLabel: "Opportunity Engine",
       eyebrow: "Trader's Den",
       title: "The Opportunity Engine",
       hook: [
@@ -80,8 +93,15 @@ export const stockbee: CaseStudy = {
         "They're found before everyone else notices.",
       ],
       body: [
-        "To support discovery at scale, I designed Trader's Den, a real-time command centre that helps traders uncover momentum, identify breakouts, monitor sector movements, track derivatives activity, and discover opportunities across the market.",
+        "To support discovery at scale, I designed Trader's Den, a real-time command centre for finding opportunities across the entire market.",
         "The experience was built to balance information density with clarity, allowing users to scan large volumes of market activity while maintaining focus on the signals that matter most.",
+      ],
+      blocks: [
+        { label: "Momentum", desc: "Surface stocks on the move, live." },
+        { label: "Breakouts", desc: "Catch moves as they break." },
+        { label: "Sector movements", desc: "See where capital is rotating." },
+        { label: "Derivatives activity", desc: "Track F&O and options flow." },
+        { label: "Discovery", desc: "Find opportunities across the whole market." },
       ],
     },
     {
@@ -104,14 +124,20 @@ export const stockbee: CaseStudy = {
       title: "Designing for Trust",
       hook: ["Financial products operate on trust."],
       body: [
-        "From sentiment indicators and source attribution to information hierarchy and visual cues, every interaction was designed to help users move quickly without sacrificing confidence.",
+        "Every interaction was designed to help users move quickly without sacrificing confidence.",
         "The challenge was not simply making information faster to consume, but making it reliable enough to act on.",
+      ],
+      blocks: [
+        { label: "Sentiment indicators", desc: "Clear directional cues." },
+        { label: "Source attribution", desc: "Every claim traceable to its source." },
+        { label: "Information hierarchy", desc: "The important things, first." },
+        { label: "Visual cues", desc: "Colour and weight that guide the eye." },
       ],
     },
     {
       kind: "narrative",
       id: "brand",
-      navLabel: "A Brand Built for Urgency",
+      navLabel: "Brand & Identity",
       eyebrow: "Brand & Identity",
       title: "A Brand Built for Urgency",
       hook: ["A visual system that feels focused, intelligent, and immediate."],

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type {
+  Block,
   CaseStudy,
   ImpactStat,
   Section,
@@ -8,8 +9,25 @@ import type {
 import { Reveal } from "@/components/motion";
 
 /* ----------------------------------------------------------------
-   Shared placeholder frame (stands in for product screenshots)
+   Shared bits
 ----------------------------------------------------------------- */
+function Eyebrow({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <p
+      className={`flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.2em] text-muted ${className}`}
+    >
+      <span className="size-2 rounded-full bg-accent" />
+      {children}
+    </p>
+  );
+}
+
 export function BrowserFrame({
   label,
   className = "",
@@ -29,7 +47,7 @@ export function BrowserFrame({
           stock-bee.com
         </span>
       </div>
-      <div className="relative grid aspect-[16/10] place-items-center bg-[radial-gradient(ellipse_70%_60%_at_50%_30%,rgba(182,255,61,0.10),transparent_70%)]">
+      <div className="relative grid aspect-[16/9] place-items-center bg-[radial-gradient(ellipse_70%_60%_at_50%_30%,rgba(182,255,61,0.10),transparent_70%)]">
         <div className="text-center">
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#B6FF3D]/70">
             {label ?? "Product screenshot"}
@@ -37,6 +55,22 @@ export function BrowserFrame({
           <p className="mt-2 text-sm text-white/35">Replace with real visual</p>
         </div>
       </div>
+    </div>
+  );
+}
+
+function BlockCard({ block }: { block: Block }) {
+  return (
+    <div className="flex gap-3.5 rounded-xl border border-border bg-subtle/50 p-4">
+      <span className="mt-px grid size-7 shrink-0 place-items-center rounded-lg bg-accent/10 text-accent">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+          <path d="M12 2l10 10-10 10L2 12z" />
+        </svg>
+      </span>
+      <p className="text-[13.5px] leading-relaxed text-muted">
+        <span className="font-semibold text-foreground">{block.label}.</span>{" "}
+        {block.desc}
+      </p>
     </div>
   );
 }
@@ -54,7 +88,7 @@ export function CaseStudyHero({ cs }: { cs: CaseStudy }) {
             "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(182,255,61,0.12) 0%, transparent 60%)",
         }}
       />
-      <div className="relative mx-auto max-w-5xl px-6 pb-16 pt-8 text-center">
+      <div className="relative mx-auto max-w-6xl px-6 pb-16 pt-8 text-center">
         <div className="flex justify-start">
           <Link
             href="/work"
@@ -73,7 +107,7 @@ export function CaseStudyHero({ cs }: { cs: CaseStudy }) {
           {cs.tagline}
         </p>
 
-        <div className="mx-auto mt-14 max-w-4xl">
+        <div className="mx-auto mt-14 max-w-5xl">
           <BrowserFrame label="Hero — flagship product view" />
         </div>
       </div>
@@ -90,9 +124,7 @@ function MetaItem({ label, value }: { label: string; value: React.ReactNode }) {
       <dt className="font-mono text-xs uppercase tracking-[0.16em] text-muted">
         {label}
       </dt>
-      <dd className="mt-1.5 text-[15px] leading-relaxed text-foreground">
-        {value}
-      </dd>
+      <dd className="mt-1.5 text-sm leading-relaxed text-foreground">{value}</dd>
     </div>
   );
 }
@@ -100,7 +132,7 @@ function MetaItem({ label, value }: { label: string; value: React.ReactNode }) {
 export function CaseStudyMeta({ cs }: { cs: CaseStudy }) {
   return (
     <section id="overview" className="scroll-mt-24 border-b border-border">
-      <div className="mx-auto grid max-w-5xl gap-12 px-6 py-16 md:grid-cols-[260px_1fr] md:gap-16">
+      <div className="mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-[240px_1fr] md:gap-16">
         <dl className="flex flex-col gap-8">
           <MetaItem label="My Role" value={cs.role} />
           {cs.team && <MetaItem label="Team" value={cs.team} />}
@@ -134,8 +166,8 @@ export function CaseStudyMeta({ cs }: { cs: CaseStudy }) {
                 key={i}
                 className={
                   i === 0
-                    ? "text-2xl font-medium leading-snug tracking-tight text-foreground"
-                    : "text-[17px] leading-relaxed text-muted"
+                    ? "text-xl font-medium leading-snug tracking-tight text-foreground"
+                    : "max-w-2xl text-[13.5px] leading-relaxed text-muted"
                 }
               >
                 {p}
@@ -149,7 +181,7 @@ export function CaseStudyMeta({ cs }: { cs: CaseStudy }) {
 }
 
 /* ----------------------------------------------------------------
-   Narrative section — big two-line "hook" + body
+   Narrative section — big hook  +  (label-left / body-right)
 ----------------------------------------------------------------- */
 export function NarrativeSection({
   section,
@@ -157,30 +189,45 @@ export function NarrativeSection({
   section: Extract<Section, { kind: "narrative" }>;
 }) {
   return (
-    <section id={section.id} className="scroll-mt-24 py-16 sm:py-20">
-      {section.eyebrow && (
-        <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-          {section.eyebrow}
-        </p>
-      )}
+    <section id={section.id} className="scroll-mt-24 py-14 sm:py-20">
+      {section.eyebrow && <Eyebrow>{section.eyebrow}</Eyebrow>}
       <Reveal>
-        <div className="mt-5 space-y-1">
+        <div className="mt-5 max-w-4xl space-y-1">
           {section.hook.map((line, i) => (
             <p
               key={i}
-              className="text-3xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-[40px]"
+              className="text-3xl font-bold leading-[1.12] tracking-tight text-foreground sm:text-[40px]"
             >
               {line}
             </p>
           ))}
         </div>
       </Reveal>
-      <div className="mt-8 space-y-5">
-        {section.body.map((p, i) => (
-          <p key={i} className="text-[17px] leading-relaxed text-muted">
-            {p}
-          </p>
-        ))}
+
+      <div className="mt-10 grid gap-x-12 gap-y-5 md:grid-cols-[minmax(0,200px)_minmax(0,1fr)]">
+        <div>
+          {section.title && (
+            <h3 className="text-lg font-semibold tracking-tight text-foreground md:sticky md:top-24">
+              {section.title}
+            </h3>
+          )}
+        </div>
+        <div>
+          <div className="max-w-2xl space-y-4">
+            {section.body.map((p, i) => (
+              <p key={i} className="text-[13.5px] leading-relaxed text-muted">
+                {p}
+              </p>
+            ))}
+          </div>
+          {section.blocks && (
+            <div className="mt-7 grid gap-3 sm:grid-cols-2">
+              {section.blocks.map((b) => (
+                <BlockCard key={b.label} block={b} />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );
@@ -223,7 +270,7 @@ export function CalloutSection({
 }
 
 /* ----------------------------------------------------------------
-   Image band — full-bleed dark placeholder
+   Image band — full-bleed dark placeholder (visuals carry the story)
 ----------------------------------------------------------------- */
 export function ImageBand({
   section,
@@ -233,9 +280,9 @@ export function ImageBand({
   return (
     <section
       id={section.id}
-      className="mx-[calc(50%-50vw)] w-screen scroll-mt-24 bg-[#060906] py-16 sm:py-20"
+      className="mx-[calc(50%-50vw)] w-screen scroll-mt-24 bg-[#060906] py-16 sm:py-24"
     >
-      <div className="mx-auto max-w-5xl px-6">
+      <div className="mx-auto max-w-6xl px-6">
         <Reveal>
           {section.src ? (
             <Image
@@ -284,7 +331,7 @@ export function ImpactSection({
 }) {
   const hasPlaceholders = section.stats.some((s) => s.placeholder);
   return (
-    <section id={section.id} className="scroll-mt-24 py-16 sm:py-20">
+    <section id={section.id} className="scroll-mt-24 py-14 sm:py-20">
       <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
         {section.title}
       </h2>
@@ -328,7 +375,7 @@ export function ClosingSection({
         </div>
         <div className="mt-8 space-y-4">
           {section.body.map((p, i) => (
-            <p key={i} className="text-lg leading-relaxed text-[#B5C2B5]">
+            <p key={i} className="text-base leading-relaxed text-[#B5C2B5]">
               {p}
             </p>
           ))}

@@ -36,12 +36,10 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
       <CaseStudyMeta cs={cs} />
 
       <div className="mx-auto max-w-6xl px-6">
-        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_200px] lg:gap-12">
-          <div className="mx-auto w-full max-w-3xl">
-            {cs.sections.map(renderSection)}
-          </div>
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_140px] lg:gap-10 xl:gap-16">
+          <div className="w-full min-w-0">{cs.sections.map(renderSection)}</div>
           <aside className="hidden lg:block">
-            <div className="sticky top-24 z-10 rounded-xl bg-background/70 p-4 backdrop-blur-sm">
+            <div className="sticky top-24 z-10 rounded-lg bg-background/70 py-3 pl-1 pr-2 backdrop-blur-sm">
               <ContentsNav items={contents} />
             </div>
           </aside>
