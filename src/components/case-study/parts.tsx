@@ -132,7 +132,7 @@ function MetaItem({ label, value }: { label: string; value: React.ReactNode }) {
 export function CaseStudyMeta({ cs }: { cs: CaseStudy }) {
   return (
     <section id="overview" className="scroll-mt-24 border-b border-border">
-      <div className="mx-auto grid max-w-6xl gap-12 px-6 py-16 md:grid-cols-[240px_1fr] md:gap-16">
+      <div className="mx-auto grid max-w-4xl gap-12 px-6 py-16 md:grid-cols-[220px_1fr] md:gap-14">
         <dl className="flex flex-col gap-8">
           <MetaItem label="My Role" value={cs.role} />
           {cs.team && <MetaItem label="Team" value={cs.team} />}
@@ -192,7 +192,7 @@ export function NarrativeSection({
     <section id={section.id} className="scroll-mt-24 py-14 sm:py-20">
       {section.eyebrow && <Eyebrow>{section.eyebrow}</Eyebrow>}
       <Reveal>
-        <div className="mt-5 max-w-4xl space-y-1">
+        <div className="mt-5 space-y-1">
           {section.hook.map((line, i) => (
             <p
               key={i}
@@ -204,31 +204,21 @@ export function NarrativeSection({
         </div>
       </Reveal>
 
-      <div className="mt-10 grid gap-x-12 gap-y-5 md:grid-cols-[minmax(0,200px)_minmax(0,1fr)]">
-        <div>
-          {section.title && (
-            <h3 className="text-lg font-semibold tracking-tight text-foreground md:sticky md:top-24">
-              {section.title}
-            </h3>
-          )}
-        </div>
-        <div>
-          <div className="max-w-2xl space-y-4">
-            {section.body.map((p, i) => (
-              <p key={i} className="text-[13.5px] leading-relaxed text-muted">
-                {p}
-              </p>
-            ))}
-          </div>
-          {section.blocks && (
-            <div className="mt-7 grid gap-3 sm:grid-cols-2">
-              {section.blocks.map((b) => (
-                <BlockCard key={b.label} block={b} />
-              ))}
-            </div>
-          )}
-        </div>
+      <div className="mt-7 space-y-4">
+        {section.body.map((p, i) => (
+          <p key={i} className="text-[13.5px] leading-relaxed text-muted">
+            {p}
+          </p>
+        ))}
       </div>
+
+      {section.blocks && (
+        <div className="mt-7 grid gap-3 sm:grid-cols-2">
+          {section.blocks.map((b) => (
+            <BlockCard key={b.label} block={b} />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

@@ -35,15 +35,15 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
       <CaseStudyHero cs={cs} />
       <CaseStudyMeta cs={cs} />
 
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_140px] lg:gap-10 xl:gap-16">
-          <div className="w-full min-w-0">{cs.sections.map(renderSection)}</div>
-          <aside className="hidden lg:block">
-            <div className="sticky top-24 z-10 rounded-lg bg-background/70 py-3 pl-1 pr-2 backdrop-blur-sm">
-              <ContentsNav items={contents} />
-            </div>
-          </aside>
-        </div>
+      <div className="relative mx-auto max-w-6xl px-6">
+        {/* Centered content block */}
+        <div className="mx-auto max-w-3xl">{cs.sections.map(renderSection)}</div>
+        {/* Floating progress rail in the right margin */}
+        <aside className="absolute right-6 top-0 hidden h-full xl:block">
+          <div className="sticky top-28 z-10 w-[150px]">
+            <ContentsNav items={contents} />
+          </div>
+        </aside>
       </div>
 
       <div className="border-t border-border">
