@@ -39,7 +39,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
         {/* Centered content block */}
         <div className="mx-auto max-w-3xl">{cs.sections.map(renderSection)}</div>
         {/* Floating progress rail in the right margin */}
-        <aside className="absolute right-6 top-0 hidden h-full xl:block">
+        <aside className="absolute right-6 top-0 hidden h-full min-[1180px]:block">
           <div className="sticky top-28 z-10 w-[150px]">
             <ContentsNav items={contents} />
           </div>
