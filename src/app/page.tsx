@@ -1,25 +1,24 @@
 import Link from "next/link";
 import { getWriting } from "@/lib/content";
-import { getCaseStudies } from "@/lib/case-studies";
+import { showcase } from "@/lib/showcase";
 import { siteConfig } from "@/lib/site";
 import { FadeIn, Reveal } from "@/components/motion";
-import { WorkCard } from "@/components/work-card";
+import { ProjectDeck } from "@/components/home/project-deck";
 
 export default function Home() {
-  const work = getCaseStudies().slice(0, 3);
   const writing = getWriting().slice(0, 2);
 
   return (
-    <div className="mx-auto max-w-5xl px-6">
+    <div>
       {/* Hero */}
-      <section className="py-20 sm:py-28">
+      <section className="mx-auto max-w-3xl px-6 py-20 sm:py-28">
         <FadeIn>
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">
             {siteConfig.role}
           </p>
         </FadeIn>
         <FadeIn delay={0.08}>
-          <h1 className="mt-6 max-w-3xl font-display text-5xl leading-[1.05] tracking-tight sm:text-7xl">
+          <h1 className="mt-6 font-display text-5xl leading-[1.05] tracking-tight sm:text-7xl">
             Designing financial products people actually trust — and shaping how
             craft evolves in the age of AI.
           </h1>
@@ -47,30 +46,28 @@ export default function Home() {
         </FadeIn>
       </section>
 
-      {/* Selected work */}
-      <section className="border-t border-border py-16">
-        <Reveal className="flex items-baseline justify-between">
-          <h2 className="font-display text-3xl">Selected work</h2>
-          <Link
-            href="/work"
-            className="text-sm text-muted underline-offset-4 hover:text-foreground hover:underline"
-          >
-            All projects →
-          </Link>
-        </Reveal>
-
-        <div className="mt-10 grid gap-6 sm:grid-cols-2">
-          {work.map((project, i) => (
-            <Reveal key={project.slug} delay={i * 0.06}>
-              <WorkCard project={project} />
-            </Reveal>
-          ))}
+      {/* Selected work — scroll-driven flip deck on a dark stage */}
+      <section className="bg-[#060906]">
+        <div className="mx-auto max-w-3xl px-6 pt-16 sm:pt-20">
+          <div className="flex items-baseline justify-between">
+            <p className="flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.2em] text-white/50">
+              <span className="size-2 rounded-full bg-[#B6FF3D]" />
+              Selected work
+            </p>
+            <Link
+              href="/work"
+              className="text-sm text-white/50 underline-offset-4 transition-colors hover:text-white hover:underline"
+            >
+              All projects →
+            </Link>
+          </div>
         </div>
+        <ProjectDeck items={showcase} />
       </section>
 
       {/* Writing */}
       {writing.length > 0 && (
-        <section className="border-t border-border py-16">
+        <section className="mx-auto max-w-3xl border-t border-border px-6 py-16">
           <Reveal className="flex items-baseline justify-between">
             <h2 className="font-display text-3xl">Writing</h2>
             <Link
