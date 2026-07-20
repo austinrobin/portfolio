@@ -1,9 +1,11 @@
 {
   "headline": "Lead Product Designer.",
-  "cell": 24,
-  "hoverRadius": 130,
+  "cell": 12,
+  "hoverRadius": 140,
   "holdRadius": 440,
   "holdGrowMs": 1100,
   "decay": 0.9,
-  "textureStrength": 1
+  "textureStrength": 1,
+  "rippleStrength": 1,
+  "deform": 1
 }

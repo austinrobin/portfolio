@@ -294,8 +294,8 @@ export function StudioClient() {
               <Slider
                 label="Pixel size"
                 value={draft.hero.cell}
-                min={12}
-                max={48}
+                min={6}
+                max={40}
                 onChange={(v) =>
                   setDraft({ ...draft, hero: { ...draft.hero, cell: v } })
                 }
@@ -351,6 +351,31 @@ export function StudioClient() {
                     hero: { ...draft.hero, textureStrength: v },
                   })
                 }
+              />
+              <Slider
+                label="Ripple strength"
+                value={draft.hero.rippleStrength}
+                min={0}
+                max={2}
+                step={0.1}
+                onChange={(v) =>
+                  setDraft({
+                    ...draft,
+                    hero: { ...draft.hero, rippleStrength: v },
+                  })
+                }
+                hint="Water waves on click, fading out."
+              />
+              <Slider
+                label="Pixel deform"
+                value={draft.hero.deform}
+                min={0}
+                max={2}
+                step={0.1}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, deform: v } })
+                }
+                hint="How much the lattice bends with the waves."
               />
             </section>
 
