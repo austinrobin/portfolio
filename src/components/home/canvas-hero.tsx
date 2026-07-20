@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useLayoutEffect, useRef } from "react";
+import heroDefaults from "../../../content/hero.json";
 
 /*
  * Pixel-reveal hero.
@@ -12,13 +13,22 @@ import { useLayoutEffect, useRef } from "react";
  * edge breaks into blocks like the reference); energy decays every frame,
  * which produces the trailing flow. Press-and-hold grows the radius with
  * an ease-out curve; releasing lets the decay close the reveal again.
+ *
+ * All tunables live in content/hero.json — editable from /studio, which
+ * previews changes live via the `overrides` prop.
  */
 
-const CELL = 24; // css px per grid cell
-const HOVER_R = 130;
-const HOLD_R = 440;
-const HOLD_GROW_MS = 1100;
-const DECAY = 0.9;
+export interface HeroSettings {
+  headline: string;
+  cell: number;
+  hoverRadius: number;
+  holdRadius: number;
+  holdGrowMs: number;
+  decay: number;
+  textureStrength: number;
+}
+
+export const heroConfig: HeroSettings = heroDefaults;
 
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 const smooth = (t: number) => t * t * (3 - 2 * t);
@@ -28,7 +38,21 @@ function parseRgb(s: string): [number, number, number] {
   return m ? [+m[1], +m[2], +m[3]] : [250, 249, 247];
 }
 
-export function CanvasHero() {
+export function CanvasHero({
+  overrides,
+  compact = false,
+}: {
+  overrides?: Partial<HeroSettings>;
+  compact?: boolean;
+}) {
+  const cfg: HeroSettings = { ...heroConfig, ...overrides };
+  const CELL = Math.max(8, cfg.cell);
+  const HOVER_R = cfg.hoverRadius;
+  const HOLD_R = cfg.holdRadius;
+  const HOLD_GROW_MS = cfg.holdGrowMs;
+  const DECAY = Math.min(0.985, Math.max(0.5, cfg.decay));
+  const TEXTURE = cfg.textureStrength;
+
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imgWrapRef = useRef<HTMLDivElement>(null);
@@ -86,7 +110,7 @@ export function CanvasHero() {
       cellFill = new Array(cols * rows);
       for (let i = 0; i < cols * rows; i++) {
         // ±2% per-cell tint so the idle surface has the reference's texture
-        const t = Math.round((jitter[i] - 0.5) * (light ? -9 : 11));
+        const t = Math.round((jitter[i] - 0.5) * (light ? -9 : 11) * TEXTURE);
         cellFill[i] = `rgb(${r + t}, ${g + t}, ${b + t})`;
       }
     };
@@ -250,14 +274,18 @@ export function CanvasHero() {
       section.removeEventListener("pointercancel", onUp);
       section.removeEventListener("pointerleave", onLeave);
     };
-  }, []);
+    // Re-init the grid whenever the tunables change (studio live preview).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [CELL, HOVER_R, HOLD_R, HOLD_GROW_MS, DECAY, TEXTURE]);
 
   return (
     <section
       ref={sectionRef}
-      className="relative h-[calc(100svh-4rem)] min-h-[540px] w-full cursor-crosshair select-none overflow-hidden"
+      className={`relative w-full cursor-crosshair select-none overflow-hidden ${
+        compact ? "h-full min-h-[320px]" : "h-[calc(100svh-4rem)] min-h-[540px]"
+      }`}
       style={{ touchAction: "pan-y" }}
-      aria-label="Lead Product Designer"
+      aria-label={cfg.headline}
     >
       {/* Underlay — hidden until the cover has painted once */}
       <div
@@ -280,8 +308,12 @@ export function CanvasHero() {
 
       {/* Centre text */}
       <div className="pointer-events-none absolute inset-0 grid place-items-center px-6">
-        <h1 className="text-center font-display text-6xl leading-none tracking-tight sm:text-8xl">
-          Lead Product Designer.
+        <h1
+          className={`text-center font-display leading-none tracking-tight ${
+            compact ? "text-3xl" : "text-6xl sm:text-8xl"
+          }`}
+        >
+          {cfg.headline}
         </h1>
       </div>
     </section>
