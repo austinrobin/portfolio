@@ -34,6 +34,16 @@ export function Footer() {
           </p>
         </div>
       </div>
+
+      {/* Colophon — the quiet flex */}
+      <div className="border-t border-border/60">
+        <div className="mx-auto max-w-5xl px-6 py-5">
+          <p className="font-mono text-[11px] leading-relaxed text-muted/70">
+            Designed, art-directed &amp; built by {siteConfig.name} — with AI as
+            a collaborator. Set in Instrument Serif &amp; Geist.
+          </p>
+        </div>
+      </div>
     </footer>
   );
 }
