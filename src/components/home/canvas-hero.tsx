@@ -1,25 +1,30 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { heroConfig, type HeroSettings } from "./hero-config";
 import { CanvasHero2D } from "./canvas-hero-2d";
 
 export { heroConfig, type HeroSettings } from "./hero-config";
 
 /*
- * WebGL pixel-reveal hero.
+ * LED-matrix imprint hero.
  *
- * A fragment shader composites a background-coloured pixel lattice over the
- * underlay image. A trail of recent pointer positions (uniform ring buffer)
- * carves a fluid reveal whose mosaic resolves from coarse blocks to fine
- * detail; press-and-hold grows the reveal radius. Clicks spawn damped
- * water ripples that displace the lattice and refract the image, fading
- * out over a few seconds. Falls back to the Canvas-2D version without WebGL.
+ * The surface is a lattice of rounded tiles. Around the cursor the underlay
+ * image is IMPRINTED onto the tiles (one colour per tile, mosaic style)
+ * rather than revealed through a window. Tiles ease in/out with a random
+ * per-tile response lag (trail), the near zone gets randomly animated
+ * white "elevation" sparkles (tech/glitch shine), the far zone is colour
+ * only, and every active tile breathes its opacity so the field feels
+ * alive. Clicks send a ripple ring of activation through the tiles.
+ *
+ * Per-tile easing runs on the CPU (a small state grid uploaded as a
+ * texture each frame — this is what gives true ease-in/out with random
+ * delay); all visual treatment happens in the fragment shader. Falls back
+ * to the Canvas-2D version when WebGL is unavailable.
  *
  * Tunables live in content/hero.json — live-editable from /studio.
  */
 
-const TRAIL_N = 16;
 const RIPPLE_N = 10;
 
 const VERT = `
@@ -31,22 +36,27 @@ void main() {
 }`;
 
 const FRAG = `
+#ifdef GL_FRAGMENT_PRECISION_HIGH
 precision highp float;
+#else
+precision mediump float;
+#endif
 varying vec2 vUv;
 
-uniform vec2 uRes;          // css px
+uniform vec2 uRes;        // css px
 uniform vec3 uBg;
 uniform vec3 uSeam;
-uniform float uTexture;     // idle surface texture strength
-uniform float uCell;        // lattice size, css px
-uniform float uDeform;      // lattice deformation amount
-uniform float uRippleStrength;
-uniform float uTrailLambda; // trail fade rate (1/s)
+uniform float uTexture;   // idle surface texture strength
+uniform float uCell;      // tile size, css px
+uniform float uTime;      // seconds
+uniform vec2 uPointer;    // css px (last known)
+uniform float uNearR;     // shine zone radius, css px
+uniform float uShine;     // elevation/shine intensity
 uniform sampler2D uImage;
 uniform vec2 uImageSize;
 uniform float uImageReady;
-uniform vec4 uTrail[${TRAIL_N}];   // x, y, age(s), radius(px); age < 0 = inactive
-uniform vec3 uRipples[${RIPPLE_N}]; // x, y, age(s); age < 0 = inactive
+uniform sampler2D uState; // per-tile activation, NEAREST
+uniform vec2 uGrid;       // cols, rows
 
 float hash(vec2 p) {
   return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
@@ -56,71 +66,63 @@ void main() {
   // y-down pixel coords, matching pointer math
   vec2 px = vec2(vUv.x, 1.0 - vUv.y) * uRes;
 
-  /* ---- water ripples: height + gradient (for displacement) ---- */
-  float h = 0.0;
-  vec2 grad = vec2(0.0);
-  for (int i = 0; i < ${RIPPLE_N}; i++) {
-    vec3 r = uRipples[i];
-    if (r.z < 0.0) continue;
-    float age = r.z;
-    vec2 dv = px - r.xy;
-    float d = length(dv) + 1e-4;
-    float front = 300.0 * age;               // wavefront distance
-    float band = exp(-abs(d - front) * 0.014);
-    float damp = exp(-age * 1.5) * uRippleStrength;
-    float phase = 0.10 * (d - front);
-    float w = sin(phase) * band * damp;
-    h += w;
-    grad += (dv / d) * cos(phase) * band * damp;
-  }
+  vec2 cellId = floor(px / uCell);
+  vec2 cellUv = fract(px / uCell);
+  vec2 cellCenter = (cellId + 0.5) * uCell;
 
-  /* ---- fluid reveal energy from the pointer trail ---- */
-  float m = 0.0;
-  for (int i = 0; i < ${TRAIL_N}; i++) {
-    vec4 t = uTrail[i];
-    if (t.z < 0.0) continue;
-    float d = distance(px, t.xy);
-    float fall = 1.0 - smoothstep(t.w * 0.15, t.w, d);
-    float life = exp(-t.z * uTrailLambda);
-    m = max(m, fall * life);
-  }
-  // ripples briefly reveal a shimmer of the world
-  m = clamp(m + abs(h) * 0.30, 0.0, 1.0);
-  m *= uImageReady;
+  /* ---- per-tile eased activation from the CPU sim ---- */
+  float a = texture2D(uState, (cellId + 0.5) / uGrid).r;
+  a = smoothstep(0.0, 1.0, a); // S-curve → ease-in-out feel
+  a *= uImageReady;
 
-  /* ---- deform the lattice with the ripple field ---- */
-  vec2 warp = grad * 9.0 * uDeform;
-  vec2 pw = px + warp;
+  /* ---- static per-tile randomness ---- */
+  float h1 = hash(cellId);
+  float h2 = hash(cellId + 57.31);
 
-  vec2 cellId = floor(pw / uCell);
-  vec2 cellUv = fract(pw / uCell);
-  float jitter = hash(cellId);
+  /* ---- cluster patchiness (reference look): coarse groups, drifting ---- */
+  float c1 = hash(floor(cellId / 3.0));
+  float c2 = hash(floor(cellId / 6.0) + 21.7);
+  float drift = 0.5 + 0.5 * sin(uTime * (0.25 + 0.6 * c1) + c1 * 6.2831);
+  float cluster = 0.62 + 0.38 * mix(c2, drift, 0.6);
+  float A = a * cluster;
 
-  // dithered per-cell threshold keeps a pixel feel at the fringe,
-  // blended with the smooth field so the motion stays fluid
-  float mq = clamp(m + (jitter - 0.5) * 0.22 * (1.0 - m), 0.0, 1.0);
-  float mask = mix(mq, m, 0.45);
-  mask = smoothstep(0.06, 0.94, mask);
+  /* ---- lively opacity variance on active tiles ---- */
+  float breathe = 0.82 + 0.18 * sin(uTime * (1.1 + 2.2 * h2) + h2 * 6.2831);
+  A *= breathe;
 
-  /* ---- cover: bg with per-cell tint + seams, fading with reveal ---- */
-  float tint = (jitter - 0.5) * 0.045 * uTexture;
-  vec3 cover = uBg + tint;
-  vec2 seamD = min(cellUv, 1.0 - cellUv);
-  float seam = 1.0 - smoothstep(0.0, 0.10, min(seamD.x, seamD.y));
-  cover = mix(cover, uSeam, seam * 0.65);
-  // faint ripple sheen on the cover itself
-  cover += h * 0.035;
-
-  /* ---- image: cover-fit, mosaic resolving with the mask, refracted ---- */
+  /* ---- imprint colour: image sampled once per tile (mosaic) ---- */
   float scale = max(uRes.x / uImageSize.x, uRes.y / uImageSize.y);
-  vec2 imgPx = (px + warp * 1.6 - 0.5 * uRes) / scale + 0.5 * uImageSize;
-  float mos = mix(uCell * 1.25, 1.5, mask) / scale;
-  vec2 mosPx = (floor(imgPx / mos) + 0.5) * mos;
-  vec2 imgUv = clamp(mosPx / uImageSize, 0.0, 1.0);
+  vec2 imgPx = (cellCenter - 0.5 * uRes) / scale + 0.5 * uImageSize;
+  vec2 imgUv = clamp(imgPx / uImageSize, 0.0, 1.0);
   vec3 img = texture2D(uImage, imgUv).rgb;
-  img += h * 0.05; // water light
 
-  gl_FragColor = vec4(mix(cover, img, mask), 1.0);
+  /* ---- near-zone: randomly animated elevation shine ---- */
+  float dNow = distance(cellCenter, uPointer);
+  float near = 1.0 - smoothstep(uNearR * 0.35, uNearR, dNow);
+  float flick = 0.5 + 0.5 * sin(uTime * (2.0 + 7.0 * h1) + h1 * 40.0);
+  float spark = step(0.955, fract(h1 * 9.13 + uTime * (0.35 + 0.9 * h2)));
+  float shine = near * a * uShine * (0.18 * flick + 0.85 * spark * (0.4 + 0.6 * flick));
+
+  /* ---- tile shape: rounded LED tile with dark grout when active ---- */
+  vec2 q = abs(cellUv - 0.5);
+  float inset = 0.075;
+  float edge = max(q.x, q.y);
+  float tileMask = 1.0 - smoothstep(0.5 - inset - 0.06, 0.5 - inset, edge);
+
+  /* ---- idle cover surface ---- */
+  float tint = (h1 - 0.5) * 0.045 * uTexture;
+  vec3 cover = uBg + tint;
+  float idleSeam = 1.0 - smoothstep(0.0, 0.10, min(0.5 - q.x, 0.5 - q.y));
+  cover = mix(cover, uSeam, idleSeam * 0.65);
+
+  /* ---- composite: imprint the image onto the tile face ---- */
+  vec3 grout = mix(cover, uBg * 0.25 + vec3(0.02), min(a * 1.4, 1.0));
+  vec3 lit = mix(cover, img, A);
+  lit = mix(lit, vec3(1.0), clamp(shine, 0.0, 1.0) * 0.9);
+  lit += img * shine * 0.35;
+
+  vec3 col = mix(grout, lit, tileMask);
+  gl_FragColor = vec4(col, 1.0);
 }`;
 
 function parseRgb(s: string): [number, number, number] {
@@ -137,14 +139,13 @@ export function CanvasHero({
 }) {
   const cfg: HeroSettings = { ...heroConfig, ...overrides };
   const [noWebgl, setNoWebgl] = useState(false);
+  const [glEpoch, setGlEpoch] = useState(0); // bumped to rebuild after context restore
 
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const cfgRef = useRef(cfg);
-  cfgRef.current = cfg;
 
   // remount the GL scene when tunables change (studio live preview)
-  const cfgKey = `${cfg.cell}|${cfg.hoverRadius}|${cfg.holdRadius}|${cfg.holdGrowMs}|${cfg.decay}|${cfg.textureStrength}|${cfg.rippleStrength}|${cfg.deform}`;
+  const cfgKey = `${cfg.cell}|${cfg.hoverRadius}|${cfg.holdRadius}|${cfg.holdGrowMs}|${cfg.decay}|${cfg.textureStrength}|${cfg.rippleStrength}|${cfg.nearRatio}|${cfg.shine}`;
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -164,13 +165,17 @@ export function CanvasHero({
       return;
     }
 
-    const c = cfgRef.current;
+    // capture this render's settings — the effect re-runs via cfgKey whenever
+    // any sim-relevant field changes, so this never goes stale
+    const c = cfg;
+    const CELL = Math.max(6, c.cell);
     const HOVER_R = c.hoverRadius;
     const HOLD_R = c.holdRadius;
-    const HOLD_GROW_MS = c.holdGrowMs;
+    const HOLD_GROW_MS = Math.max(1, c.holdGrowMs);
     const DECAY = Math.min(0.98, Math.max(0.7, c.decay));
-    // slider 0.7 → fast fade, 0.98 → long lingering trail
-    const TRAIL_LAMBDA = 7.0 - ((DECAY - 0.7) / 0.28) * 5.8;
+    // fall speed: persistence slider → slower fade for longer trails
+    const FALL_K = 14.0 - ((DECAY - 0.7) / 0.28) * 11.5; // 14 → 2.5 (1/s)
+    const RISE_K = 16.0;
 
     /* ---------- program ---------- */
     const compile = (type: number, src: string) => {
@@ -196,6 +201,7 @@ export function CanvasHero({
       return;
     }
     gl.useProgram(prog);
+    gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
 
     const quad = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, quad);
@@ -213,25 +219,25 @@ export function CanvasHero({
     const uBg = U("uBg");
     const uSeam = U("uSeam");
     const uTexture = U("uTexture");
-    const uCell = U("uCell");
-    const uDeform = U("uDeform");
-    const uRippleStrength = U("uRippleStrength");
-    const uTrailLambda = U("uTrailLambda");
+    const uCellU = U("uCell");
+    const uTime = U("uTime");
+    const uPointer = U("uPointer");
+    const uNearR = U("uNearR");
+    const uShine = U("uShine");
     const uImageSize = U("uImageSize");
     const uImageReady = U("uImageReady");
-    const uTrail = U("uTrail");
-    const uRipples = U("uRipples");
+    const uGrid = U("uGrid");
 
-    gl.uniform1f(uCell, Math.max(4, c.cell));
+    gl.uniform1f(uCellU, CELL);
     gl.uniform1f(uTexture, c.textureStrength);
-    gl.uniform1f(uDeform, c.deform);
-    gl.uniform1f(uRippleStrength, c.rippleStrength);
-    gl.uniform1f(uTrailLambda, TRAIL_LAMBDA);
+    gl.uniform1f(uShine, c.shine);
     gl.uniform1i(U("uImage"), 0);
+    gl.uniform1i(U("uState"), 1);
 
-    /* ---------- image texture ---------- */
-    const tex = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, tex);
+    /* ---------- image texture (unit 0) ---------- */
+    const imgTex = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, imgTex);
     gl.texImage2D(
       gl.TEXTURE_2D,
       0,
@@ -255,17 +261,33 @@ export function CanvasHero({
     img.src = "/hero-underlay.jpg";
     img.onload = () => {
       if (disposed) return;
-      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, imgTex);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, img);
       gl.uniform2f(uImageSize, img.naturalWidth, img.naturalHeight);
       gl.uniform1f(uImageReady, 1);
       wake();
     };
+    img.onerror = () => {
+      console.warn("hero underlay failed to load — imprint stays dormant");
+    };
 
-    /* ---------- state ---------- */
-    const trail = new Float32Array(TRAIL_N * 4).fill(-1);
+    /* ---------- per-tile state (unit 1) ---------- */
+    const stateTex = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE1);
+    gl.bindTexture(gl.TEXTURE_2D, stateTex);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+
+    let cols = 0;
+    let rows = 0;
+    let v: Float32Array = new Float32Array(0); // activation per tile
+    let rate: Float32Array = new Float32Array(0); // random response factor
+    let bytes: Uint8Array = new Uint8Array(0);
+
     const ripples = new Float32Array(RIPPLE_N * 3).fill(-1);
-    let trailHead = 0;
     let rippleHead = 0;
     let px = -1e4;
     let py = -1e4;
@@ -273,17 +295,46 @@ export function CanvasHero({
     let holding = false;
     let holdStart = 0;
     let currentR = HOVER_R;
-    let last = performance.now();
+    const start = performance.now();
+    let last = start;
     let raf = 0;
     let running = false;
-    let bgKey = "";
+    let colorsDirty = true;
+    let maxV = 0;
 
     const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
+    const initGrid = () => {
+      const nCols = Math.max(1, Math.ceil(section.clientWidth / CELL));
+      const nRows = Math.max(1, Math.ceil(section.clientHeight / CELL));
+      // keep live tile state across no-op resize events
+      if (nCols === cols && nRows === rows) return;
+      cols = nCols;
+      rows = nRows;
+      v = new Float32Array(cols * rows);
+      rate = new Float32Array(cols * rows);
+      for (let i = 0; i < rate.length; i++) rate[i] = 0.35 + 1.35 * Math.random();
+      bytes = new Uint8Array(cols * rows);
+      gl.uniform2f(uGrid, cols, rows);
+      gl.activeTexture(gl.TEXTURE1);
+      gl.bindTexture(gl.TEXTURE_2D, stateTex);
+      gl.texImage2D(
+        gl.TEXTURE_2D,
+        0,
+        gl.LUMINANCE,
+        cols,
+        rows,
+        0,
+        gl.LUMINANCE,
+        gl.UNSIGNED_BYTE,
+        bytes,
+      );
+    };
+
     const syncColors = () => {
+      if (!colorsDirty) return;
+      colorsDirty = false;
       const bg = getComputedStyle(document.body).backgroundColor;
-      if (bg === bgKey) return;
-      bgKey = bg;
       const [r, g, b] = parseRgb(bg);
       const light = (r + g + b) / 3 > 128;
       const sd = light ? -11 : 13;
@@ -306,63 +357,113 @@ export function CanvasHero({
       }
       gl.viewport(0, 0, bw, bh);
       gl.uniform2f(uRes, w, hgt);
+      initGrid();
     };
 
-    const anythingAlive = () => {
-      for (let i = 0; i < TRAIL_N; i++) {
-        if (trail[i * 4 + 2] >= 0) return true;
-      }
+    const anyRipple = () => {
       for (let i = 0; i < RIPPLE_N; i++) {
         if (ripples[i * 3 + 2] >= 0) return true;
       }
       return false;
     };
 
-    const frame = () => {
+    const simulate = (dt: number) => {
+      // hold growth (dt-based so feel is refresh-rate independent)
       const now = performance.now();
-      const dt = Math.min((now - last) / 1000, 0.05);
-      last = now;
-
-      syncColors();
-
-      // hold growth
       const targetR = holding
         ? HOVER_R +
           (HOLD_R - HOVER_R) *
             easeOutCubic(Math.min((now - holdStart) / HOLD_GROW_MS, 1))
         : HOVER_R;
-      currentR += (targetR - currentR) * 0.16;
+      currentR += (targetR - currentR) * (1 - Math.exp(-11 * dt));
 
-      // age everything
-      for (let i = 0; i < TRAIL_N; i++) {
-        const a = trail[i * 4 + 2];
-        if (a >= 0) {
-          const na = a + dt;
-          trail[i * 4 + 2] = na > 2.5 ? -1 : na;
-        }
-      }
+      // age ripples (retired once their envelope is imperceptible)
       for (let i = 0; i < RIPPLE_N; i++) {
         const a = ripples[i * 3 + 2];
         if (a >= 0) {
           const na = a + dt;
-          ripples[i * 3 + 2] = na > 4 ? -1 : na;
+          ripples[i * 3 + 2] = na > 3.0 ? -1 : na;
         }
       }
 
-      // write the current pointer into the ring
-      if (inside) {
-        trail[trailHead * 4] = px;
-        trail[trailHead * 4 + 1] = py;
-        trail[trailHead * 4 + 2] = 0;
-        trail[trailHead * 4 + 3] = currentR;
-        trailHead = (trailHead + 1) % TRAIL_N;
+      const R = currentR;
+      const innerR = R * 0.15;
+      maxV = 0;
+      for (let cy = 0; cy < rows; cy++) {
+        const cyPx = (cy + 0.5) * CELL;
+        for (let cx = 0; cx < cols; cx++) {
+          const i = cy * cols + cx;
+          const cxPx = (cx + 0.5) * CELL;
+
+          // target from cursor proximity
+          let T = 0;
+          if (inside) {
+            const dx = cxPx - px;
+            const dy = cyPx - py;
+            const d = Math.sqrt(dx * dx + dy * dy);
+            if (d < R) {
+              const t = Math.min(Math.max((R - d) / (R - innerR), 0), 1);
+              T = t * t * (3 - 2 * t);
+            }
+          }
+          // ripple rings push activation through the field
+          for (let ri = 0; ri < RIPPLE_N; ri++) {
+            const age = ripples[ri * 3 + 2];
+            if (age < 0) continue;
+            const dx = cxPx - ripples[ri * 3];
+            const dy = cyPx - ripples[ri * 3 + 1];
+            const d = Math.sqrt(dx * dx + dy * dy);
+            const front = 300 * age;
+            const band = Math.exp(-Math.abs(d - front) * 0.02);
+            const ring =
+              band * Math.exp(-age * 1.0) * c.rippleStrength;
+            if (ring > T) T = ring;
+          }
+
+          // eased approach with per-tile random response (delay + trail)
+          const k = (T > v[i] ? RISE_K : FALL_K) * rate[i];
+          v[i] += (T - v[i]) * (1 - Math.exp(-k * dt));
+          if (v[i] >= 1) v[i] = 1; // clamp before Uint8 quantise (no wraparound)
+          else if (v[i] < 0.004) v[i] = 0;
+          if (v[i] > maxV) maxV = v[i];
+          bytes[i] = (v[i] * 255) | 0;
+        }
       }
 
-      gl.uniform4fv(uTrail, trail);
-      gl.uniform3fv(uRipples, ripples);
+      gl.activeTexture(gl.TEXTURE1);
+      gl.bindTexture(gl.TEXTURE_2D, stateTex);
+      gl.texSubImage2D(
+        gl.TEXTURE_2D,
+        0,
+        0,
+        0,
+        cols,
+        rows,
+        gl.LUMINANCE,
+        gl.UNSIGNED_BYTE,
+        bytes,
+      );
+    };
+
+    const frame = () => {
+      // dead-man guards: no zombie loops after unmount or context loss
+      if (disposed || gl.isContextLost()) {
+        running = false;
+        return;
+      }
+      const now = performance.now();
+      const dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+
+      syncColors();
+      simulate(dt);
+
+      gl.uniform1f(uTime, (now - start) / 1000);
+      gl.uniform2f(uPointer, px, py);
+      gl.uniform1f(uNearR, currentR * c.nearRatio);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
 
-      if (!inside && !holding && !anythingAlive()) {
+      if (!inside && !holding && maxV === 0 && !anyRipple()) {
         running = false;
         return;
       }
@@ -392,7 +493,6 @@ export function CanvasHero({
       inside = true;
       holding = true;
       holdStart = performance.now();
-      // spawn a water ripple
       ripples[rippleHead * 3] = px;
       ripples[rippleHead * 3 + 1] = py;
       ripples[rippleHead * 3 + 2] = 0;
@@ -417,15 +517,17 @@ export function CanvasHero({
 
     const onResize = () => {
       resize();
-      wake();
-      frame();
+      if (running) return; // active loop picks the new size up next frame
+      // repaint once without starting a competing rAF chain
+      syncColors();
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
     };
     const ro = new ResizeObserver(onResize);
     ro.observe(section);
     window.addEventListener("resize", onResize);
 
     const mo = new MutationObserver(() => {
-      bgKey = "";
+      colorsDirty = true;
       wake();
     });
     mo.observe(document.documentElement, {
@@ -433,14 +535,22 @@ export function CanvasHero({
       attributeFilter: ["class"],
     });
 
-    const onLost = (e: Event) => e.preventDefault();
-    const onRestored = () => setNoWebgl(true); // simplest safe path: fall back
+    // opt into restoration on loss and rebuild the scene once restored
+    const onLost = (e: Event) => {
+      e.preventDefault();
+      cancelAnimationFrame(raf);
+      running = false;
+    };
+    const onRestored = () => setGlEpoch((n) => n + 1);
     canvas.addEventListener("webglcontextlost", onLost);
     canvas.addEventListener("webglcontextrestored", onRestored);
 
     resize();
     syncColors();
-    gl.drawArrays(gl.TRIANGLES, 0, 3); // first paint: full cover
+    gl.uniform1f(uTime, 0);
+    gl.uniform2f(uPointer, -1e4, -1e4);
+    gl.uniform1f(uNearR, HOVER_R * c.nearRatio);
+    gl.drawArrays(gl.TRIANGLES, 0, 3); // first paint: idle cover
 
     return () => {
       disposed = true;
@@ -455,10 +565,16 @@ export function CanvasHero({
       section.removeEventListener("pointerup", onUp);
       section.removeEventListener("pointercancel", onUp);
       section.removeEventListener("pointerleave", onLeave);
-      gl.getExtension("WEBGL_lose_context")?.loseContext();
+      // free resources but keep the context usable — the effect re-runs on
+      // the SAME canvas for studio tweaks/StrictMode, and getContext would
+      // hand back a context killed by loseContext() forever.
+      gl.deleteProgram(prog);
+      gl.deleteBuffer(quad);
+      gl.deleteTexture(imgTex);
+      gl.deleteTexture(stateTex);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cfgKey, noWebgl]);
+  }, [cfgKey, noWebgl, glEpoch]);
 
   if (noWebgl) {
     return <CanvasHero2D overrides={overrides} compact={compact} />;
@@ -473,7 +589,7 @@ export function CanvasHero({
       style={{ touchAction: "pan-y" }}
       aria-label={cfg.headline}
     >
-      {/* Painted cover + underlay + effect, all on the GPU */}
+      {/* Painted cover + imprint effect, all on the GPU */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 bg-background"

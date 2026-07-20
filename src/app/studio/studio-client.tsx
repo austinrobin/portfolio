@@ -364,18 +364,29 @@ export function StudioClient() {
                     hero: { ...draft.hero, rippleStrength: v },
                   })
                 }
-                hint="Water waves on click, fading out."
+                hint="Activation ring on click, fading out."
               />
               <Slider
-                label="Pixel deform"
-                value={draft.hero.deform}
+                label="Shine radius"
+                value={draft.hero.nearRatio}
+                min={0.15}
+                max={0.85}
+                step={0.05}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, nearRatio: v } })
+                }
+                hint="Elevation zone as a fraction of the hover radius."
+              />
+              <Slider
+                label="Shine intensity"
+                value={draft.hero.shine}
                 min={0}
                 max={2}
                 step={0.1}
                 onChange={(v) =>
-                  setDraft({ ...draft, hero: { ...draft.hero, deform: v } })
+                  setDraft({ ...draft, hero: { ...draft.hero, shine: v } })
                 }
-                hint="How much the lattice bends with the waves."
+                hint="Random animated elevation sparkle near the cursor."
               />
             </section>
 
