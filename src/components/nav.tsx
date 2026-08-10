@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { siteConfig } from "@/lib/site";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Nav() {
   const pathname = usePathname();
@@ -41,12 +40,9 @@ export function Nav() {
               {item.label}
             </Link>
           ))}
-          <span className="mx-2 h-5 w-px bg-border" />
-          <ThemeToggle />
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
-          <ThemeToggle />
           <button
             type="button"
             aria-label="Toggle menu"

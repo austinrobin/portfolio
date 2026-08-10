@@ -1,27 +1,21 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-/* Enable class-based dark mode (toggle adds `.dark` to <html>), defaulting to system. */
+/* Class-gated dark variant kept so any residual `dark:` utilities stay
+   inert — the site is single-theme (banknote paper) and no code ever adds
+   the `.dark` class. */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Banknote palette — the hero's paper is the base colour of the whole site,
+   with warm paper-family neutrals and the engraving ink as accent. */
 :root {
-  --background: #faf9f7;
-  --foreground: #1a1a1a;
-  --muted: #6b6b6b;
-  --subtle: #f0eeea;
-  --border: #e4e1db;
-  --accent: #3a55d9;
+  --background: #f9f7f1;
+  --foreground: #1a1913;
+  --muted: #6b675c;
+  --subtle: #f1eee4;
+  --border: #e4e0d2;
+  --accent: #101bbc;
   --accent-foreground: #ffffff;
-}
-
-.dark {
-  --background: #0c0c0d;
-  --foreground: #ededed;
-  --muted: #9a9a9a;
-  --subtle: #161617;
-  --border: #232325;
-  --accent: #7c8cff;
-  --accent-foreground: #0c0c0d;
 }
 
 @theme inline {

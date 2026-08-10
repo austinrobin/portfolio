@@ -14,11 +14,11 @@
   "threshold": 0.42,
   "edgeSoft": 0.03,
 
-  "tearScale": 4.5,
-  "tearAmp": 0.075,
-  "tearDrift": 0.03,
-  "crumbScale": 34,
-  "crumbAmp": 0.1,
+  "tearScale": 3.2,
+  "tearAmp": 0.12,
+  "tearDrift": 0.05,
+  "crumbScale": 26,
+  "crumbAmp": 0.14,
 
   "bandPx": 7,
   "bandRate": 14,
@@ -30,7 +30,7 @@
   "edgeGlow": 0.18,
 
   "autoScan": true,
-  "autoScanDesktop": true,
+  "autoScanDesktop": false,
   "scanSpeed": 1,
   "idleMs": 2500,
 

@@ -483,11 +483,12 @@ export function PortraitHero({
       x1: number,
       y1: number,
       weight: number,
+      widen = 1,
     ) => {
       if (weight <= 0.001) return;
       const c = cfgRef.current;
-      const rx = c.brushRadius / Math.max(rect.w, 1);
-      const ry = c.brushRadius / Math.max(rect.h, 1);
+      const rx = (c.brushRadius * widen) / Math.max(rect.w, 1);
+      const ry = (c.brushRadius * widen) / Math.max(rect.h, 1);
       const minX = Math.max(0, Math.floor((Math.min(x0, x1) - rx) * GW));
       const maxX = Math.min(GW - 1, Math.ceil((Math.max(x0, x1) + rx) * GW));
       const minY = Math.max(0, Math.floor((Math.min(y0, y1) - ry) * GH));
@@ -569,12 +570,17 @@ export function PortraitHero({
       const speed = Math.sqrt(movedX * movedX + movedY * movedY) / Math.max(dt, 1e-3);
       velocity += (Math.min(speed / 1.6, 1) - velocity) * (1 - Math.exp(-8 * dt));
 
-      /* stamp */
-      if (handover > 0.001 && hasReal) {
-        stampCapsule(prevRealX, prevRealY, realX, realY, handover);
+      /* stamp — ONLY while the pointer is actually moving. A still cursor
+         stops feeding the field, so the reveal decays back to the engraving
+         (the effect exists in motion, per the design direction). Faster
+         strokes stamp wider, which keeps the shape fluid rather than round. */
+      const realDist = Math.hypot(realX - prevRealX, realY - prevRealY);
+      const widen = 1 + velocity * 0.55;
+      if (handover > 0.001 && hasReal && realDist > 0.0012) {
+        stampCapsule(prevRealX, prevRealY, realX, realY, handover, widen);
       }
       if (handover < 0.999 && amb) {
-        stampCapsule(prevVirtX, prevVirtY, virtX, virtY, 1 - handover);
+        stampCapsule(prevVirtX, prevVirtY, virtX, virtY, 1 - handover, widen);
       }
       prevRealX = realX;
       prevRealY = realY;
@@ -636,7 +642,9 @@ export function PortraitHero({
 
       if (ready && !disposed) setPainted(true);
 
-      if (!amb && !realActive && maxV === 0 && handover < 0.002) {
+      // With movement-gated stamping a resting cursor drains the field to
+      // zero — sleep then, even mid-hover; any pointermove wakes the loop.
+      if (!amb && maxV === 0 && realDist <= 0.0012) {
         running = false;
         return;
       }
