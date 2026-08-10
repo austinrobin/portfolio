@@ -6,8 +6,13 @@ export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
   const [dark, setDark] = useState(false);
 
+  /* The theme is applied by a pre-paint script in the document head, so the
+     real value only exists on the client. Reading it in an effect is the
+     correct hydration-safe pattern here. */
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDark(document.documentElement.classList.contains("dark"));
   }, []);
 

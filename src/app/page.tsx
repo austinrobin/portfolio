@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { showcase } from "@/lib/showcase";
-import { CanvasHero } from "@/components/home/canvas-hero";
+import { PortraitHero } from "@/components/home/portrait-hero";
 import { ProjectDeck } from "@/components/home/project-deck";
 import { LabTeaser } from "@/components/home/lab-teaser";
 import { LifeTeaser } from "@/components/home/life-teaser";
@@ -8,7 +8,7 @@ import { LifeTeaser } from "@/components/home/life-teaser";
 export default function Home() {
   return (
     <div>
-      <CanvasHero />
+      <PortraitHero />
 
       {/* Work — scroll-driven flip deck on a dark stage */}
       <section id="work" className="scroll-mt-16 bg-[#060906]">

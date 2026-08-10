@@ -2,10 +2,10 @@
 
 import { useEffect, useMemo, useState } from "react";
 import {
-  CanvasHero,
+  PortraitHero,
   heroConfig,
   type HeroSettings,
-} from "@/components/home/canvas-hero";
+} from "@/components/home/portrait-hero";
 import { siteConfig, type SiteConfig } from "@/lib/site";
 
 /* ------------------------------------------------------------------ types */
@@ -19,7 +19,7 @@ interface LogEntry {
   changes: { field: string; from: unknown; to: unknown }[];
 }
 
-const DRAFT_KEY = "studio-draft-v1";
+const DRAFT_KEY = "studio-draft-v2";
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = { hero: heroConfig, site: siteConfig };
@@ -104,6 +104,43 @@ function TextField({
   );
 }
 
+function Toggle({
+  label,
+  value,
+  onChange,
+  hint,
+}: {
+  label: string;
+  value: boolean;
+  onChange: (v: boolean) => void;
+  hint?: string;
+}) {
+  return (
+    <label className="flex items-start justify-between gap-4">
+      <span>
+        <span className="text-sm font-medium">{label}</span>
+        {hint && <span className="mt-0.5 block text-xs text-muted">{hint}</span>}
+      </span>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={value}
+        aria-label={label}
+        onClick={() => onChange(!value)}
+        className={`mt-0.5 h-6 w-10 shrink-0 rounded-full border transition-colors ${
+          value ? "border-foreground bg-foreground" : "border-border bg-transparent"
+        }`}
+      >
+        <span
+          className={`block size-4 rounded-full bg-background transition-transform ${
+            value ? "translate-x-5" : "translate-x-1"
+          }`}
+        />
+      </button>
+    </label>
+  );
+}
+
 /* ------------------------------------------------------------------ page */
 export function StudioClient() {
   const [key, setKey] = useState("");
@@ -115,18 +152,21 @@ export function StudioClient() {
   const [saving, setSaving] = useState(false);
   const [log, setLog] = useState<LogEntry[]>([]);
 
-  /* restore draft + key */
+  /* Restore draft + key. localStorage can't be read during render (it doesn't
+     exist on the server), so hydrating from it in an effect is the correct
+     pattern here despite the lint rule's general advice. */
   useEffect(() => {
     try {
       const d = localStorage.getItem(DRAFT_KEY);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (d) setDraft({ ...defaults, ...JSON.parse(d) });
       const k = sessionStorage.getItem(KEY_KEY);
       if (k !== null) {
+
         setKey(k);
         void tryAuth(k);
       }
     } catch {}
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /* persist draft locally so nothing is ever lost */
@@ -275,7 +315,7 @@ export function StudioClient() {
               Live preview — hover &amp; hold
             </p>
             <div className="h-[420px] overflow-hidden rounded-xl border border-border">
-              <CanvasHero compact overrides={draft.hero} />
+              <PortraitHero compact overrides={draft.hero} />
             </div>
             {dirty && (
               <p className="mt-3 text-xs text-muted">
@@ -289,109 +329,6 @@ export function StudioClient() {
           <div className="space-y-8">
             <section className="space-y-4">
               <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
-                Hero — effect
-              </h2>
-              <Slider
-                label="Pixel size"
-                value={draft.hero.cell}
-                min={6}
-                max={40}
-                onChange={(v) =>
-                  setDraft({ ...draft, hero: { ...draft.hero, cell: v } })
-                }
-              />
-              <Slider
-                label="Hover reveal radius"
-                value={draft.hero.hoverRadius}
-                min={60}
-                max={300}
-                onChange={(v) =>
-                  setDraft({ ...draft, hero: { ...draft.hero, hoverRadius: v } })
-                }
-              />
-              <Slider
-                label="Hold reveal radius"
-                value={draft.hero.holdRadius}
-                min={200}
-                max={800}
-                onChange={(v) =>
-                  setDraft({ ...draft, hero: { ...draft.hero, holdRadius: v } })
-                }
-              />
-              <Slider
-                label="Hold grow time (ms)"
-                value={draft.hero.holdGrowMs}
-                min={300}
-                max={3000}
-                step={50}
-                onChange={(v) =>
-                  setDraft({ ...draft, hero: { ...draft.hero, holdGrowMs: v } })
-                }
-              />
-              <Slider
-                label="Trail persistence"
-                value={draft.hero.decay}
-                min={0.7}
-                max={0.98}
-                step={0.01}
-                onChange={(v) =>
-                  setDraft({ ...draft, hero: { ...draft.hero, decay: v } })
-                }
-                hint="Higher = the reveal lingers longer."
-              />
-              <Slider
-                label="Surface texture"
-                value={draft.hero.textureStrength}
-                min={0}
-                max={2}
-                step={0.1}
-                onChange={(v) =>
-                  setDraft({
-                    ...draft,
-                    hero: { ...draft.hero, textureStrength: v },
-                  })
-                }
-              />
-              <Slider
-                label="Ripple strength"
-                value={draft.hero.rippleStrength}
-                min={0}
-                max={2}
-                step={0.1}
-                onChange={(v) =>
-                  setDraft({
-                    ...draft,
-                    hero: { ...draft.hero, rippleStrength: v },
-                  })
-                }
-                hint="Activation ring on click, fading out."
-              />
-              <Slider
-                label="Shine radius"
-                value={draft.hero.nearRatio}
-                min={0.15}
-                max={0.85}
-                step={0.05}
-                onChange={(v) =>
-                  setDraft({ ...draft, hero: { ...draft.hero, nearRatio: v } })
-                }
-                hint="Elevation zone as a fraction of the hover radius."
-              />
-              <Slider
-                label="Shine intensity"
-                value={draft.hero.shine}
-                min={0}
-                max={2}
-                step={0.1}
-                onChange={(v) =>
-                  setDraft({ ...draft, hero: { ...draft.hero, shine: v } })
-                }
-                hint="Random animated elevation sparkle near the cursor."
-              />
-            </section>
-
-            <section className="space-y-4">
-              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
                 Hero — text
               </h2>
               <TextField
@@ -400,6 +337,303 @@ export function StudioClient() {
                 onChange={(v) =>
                   setDraft({ ...draft, hero: { ...draft.hero, headline: v } })
                 }
+              />
+              <TextField
+                label="Sub-line"
+                value={draft.hero.sub}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, sub: v } })
+                }
+              />
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
+                Hero — layout
+              </h2>
+              <Slider
+                label="Portrait column width"
+                value={draft.hero.slotWidthFrac}
+                min={0.3}
+                max={0.7}
+                step={0.02}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, slotWidthFrac: v } })
+                }
+                hint="Right-hand slot as a fraction of the hero."
+              />
+              <Slider
+                label="Portrait scale"
+                value={draft.hero.portraitScale}
+                min={0.5}
+                max={1.2}
+                step={0.02}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, portraitScale: v } })
+                }
+              />
+              <Slider
+                label="Horizontal anchor"
+                value={draft.hero.anchorX}
+                min={0}
+                max={1}
+                step={0.05}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, anchorX: v } })
+                }
+              />
+              <Slider
+                label="Vertical anchor"
+                value={draft.hero.anchorY}
+                min={0}
+                max={1}
+                step={0.05}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, anchorY: v } })
+                }
+                hint="1 keeps the chin on a stable baseline."
+              />
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
+                Hero — reveal
+              </h2>
+              <Slider
+                label="Brush radius"
+                value={draft.hero.brushRadius}
+                min={40}
+                max={400}
+                step={5}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, brushRadius: v } })
+                }
+                hint="Size of the revealed area, css px."
+              />
+              <Slider
+                label="Trail persistence"
+                value={draft.hero.trailPersistence}
+                min={0.5}
+                max={0.98}
+                step={0.01}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, trailPersistence: v } })
+                }
+                hint="Higher = the reveal lingers longer."
+              />
+              <Slider
+                label="Threshold"
+                value={draft.hero.threshold}
+                min={0.05}
+                max={0.9}
+                step={0.01}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, threshold: v } })
+                }
+                hint="Lower = larger reveal."
+              />
+              <Slider
+                label="Edge softness"
+                value={draft.hero.edgeSoft}
+                min={0.002}
+                max={0.15}
+                step={0.002}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, edgeSoft: v } })
+                }
+              />
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
+                Hero — torn edge
+              </h2>
+              <Slider
+                label="Tear scale"
+                value={draft.hero.tearScale}
+                min={1}
+                max={20}
+                step={0.5}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, tearScale: v } })
+                }
+                hint="Frequency of the big ragged tears."
+              />
+              <Slider
+                label="Tear amount"
+                value={draft.hero.tearAmp}
+                min={0}
+                max={0.25}
+                step={0.005}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, tearAmp: v } })
+                }
+              />
+              <Slider
+                label="Tear drift"
+                value={draft.hero.tearDrift}
+                min={0}
+                max={0.3}
+                step={0.01}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, tearDrift: v } })
+                }
+                hint="Ambient crawl. 0 = perfectly still."
+              />
+              <Slider
+                label="Crumb scale"
+                value={draft.hero.crumbScale}
+                min={8}
+                max={120}
+                step={2}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, crumbScale: v } })
+                }
+                hint="Fine crumble along the boundary."
+              />
+              <Slider
+                label="Crumb amount"
+                value={draft.hero.crumbAmp}
+                min={0}
+                max={0.4}
+                step={0.01}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, crumbAmp: v } })
+                }
+              />
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
+                Hero — datamosh
+              </h2>
+              <Slider
+                label="Band height"
+                value={draft.hero.bandPx}
+                min={2}
+                max={40}
+                step={1}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, bandPx: v } })
+                }
+                hint="Smear band height, css px."
+              />
+              <Slider
+                label="Band rate"
+                value={draft.hero.bandRate}
+                min={0}
+                max={60}
+                step={1}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, bandRate: v } })
+                }
+                hint="Re-rolls per second. 0 = frozen bands."
+              />
+              <Slider
+                label="Band density"
+                value={draft.hero.bandDensity}
+                min={0}
+                max={1}
+                step={0.05}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, bandDensity: v } })
+                }
+                hint="Fraction of bands that smear."
+              />
+              <Slider
+                label="Smear distance"
+                value={draft.hero.smearPx}
+                min={0}
+                max={200}
+                step={2}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, smearPx: v } })
+                }
+              />
+              <Slider
+                label="Edge reach"
+                value={draft.hero.edgeBand}
+                min={0.02}
+                max={0.5}
+                step={0.01}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, edgeBand: v } })
+                }
+                hint="How far from the tear the smear reaches."
+              />
+              <Slider
+                label="Mask smear"
+                value={draft.hero.maskSmearMix}
+                min={0}
+                max={1}
+                step={0.05}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, maskSmearMix: v } })
+                }
+                hint="Smears the boundary itself — makes the tabs."
+              />
+              <Slider
+                label="RGB split"
+                value={draft.hero.rgbSplitPx}
+                min={0}
+                max={24}
+                step={1}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, rgbSplitPx: v } })
+                }
+              />
+              <Slider
+                label="Edge glow"
+                value={draft.hero.edgeGlow}
+                min={0}
+                max={1}
+                step={0.02}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, edgeGlow: v } })
+                }
+              />
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
+                Hero — auto-scan
+              </h2>
+              <Toggle
+                label="Auto-scan"
+                value={draft.hero.autoScan}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, autoScan: v } })
+                }
+                hint="Drifts across the head when nobody is pointing."
+              />
+              <Toggle
+                label="Auto-scan on desktop"
+                value={draft.hero.autoScanDesktop}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, autoScanDesktop: v } })
+                }
+                hint="Off = touch devices only."
+              />
+              <Slider
+                label="Scan speed"
+                value={draft.hero.scanSpeed}
+                min={0.2}
+                max={3}
+                step={0.1}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, scanSpeed: v } })
+                }
+              />
+              <Slider
+                label="Idle delay (ms)"
+                value={draft.hero.idleMs}
+                min={600}
+                max={8000}
+                step={100}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, idleMs: v } })
+                }
+                hint="How long after the cursor stops before auto-scan resumes."
               />
             </section>
 

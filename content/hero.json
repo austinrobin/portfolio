@@ -1,12 +1,39 @@
 {
   "headline": "Lead Product Designer.",
-  "cell": 12,
-  "hoverRadius": 170,
-  "holdRadius": 440,
-  "holdGrowMs": 1100,
-  "decay": 0.9,
-  "textureStrength": 1,
-  "rippleStrength": 1,
-  "nearRatio": 0.45,
-  "shine": 1
+  "sub": "Product, brand and creative direction — mostly in fintech.",
+
+  "slotWidthFrac": 0.46,
+  "portraitScale": 0.92,
+  "anchorX": 0.55,
+  "anchorY": 1,
+
+  "brushRadius": 150,
+  "trailPersistence": 0.86,
+  "threshold": 0.42,
+  "edgeSoft": 0.03,
+
+  "tearScale": 4.5,
+  "tearAmp": 0.075,
+  "tearDrift": 0.03,
+  "crumbScale": 34,
+  "crumbAmp": 0.1,
+
+  "bandPx": 7,
+  "bandRate": 14,
+  "bandDensity": 0.35,
+  "smearPx": 46,
+  "edgeBand": 0.14,
+  "maskSmearMix": 0.5,
+  "rgbSplitPx": 5,
+  "edgeGlow": 0.18,
+
+  "autoScan": true,
+  "autoScanDesktop": true,
+  "scanSpeed": 1,
+  "idleMs": 2500,
+
+  "scanCenterX": 0.5,
+  "scanCenterY": 0.42,
+  "scanRadiusX": 0.26,
+  "scanRadiusY": 0.28
 }
