@@ -10,6 +10,10 @@ export function Nav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
+  // The landing hero carries its own banknote-style nav (per the Figma
+  // design) — the global bar would double it.
+  if (pathname === "/") return null;
+
   function isActive(href: string) {
     return href === "/" ? pathname === "/" : pathname.startsWith(href);
   }

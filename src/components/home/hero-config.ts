@@ -1,15 +1,41 @@
+import localFont from "next/font/local";
 import heroDefaults from "../../../content/hero.json";
 
-export interface HeroSettings {
-  /* text (rendered as normal DOM in the left column) */
-  headline: string;
-  sub: string;
+/* Banknote palette, fixed by the design (the hero stays paper-coloured in
+   both themes; #F9F7F1 matches the currency art's baked background). */
+export const PAPER = "#F9F7F1";
+export const INK = "#101BBC";
 
-  /* layout — where the portrait sits inside the hero */
-  slotWidthFrac: number; // right-hand slot as a fraction of hero width
-  portraitScale: number; // fill within that slot
-  anchorX: number; // 0..1 horizontal anchor inside the slot
-  anchorY: number; // 1 = bottom-anchored (keeps the chin on a stable baseline)
+/* Design fonts from the Figma reference. Both are trial/personal-use
+   licences — flagged for purchase before public launch. */
+const silk = localFont({
+  src: [
+    { path: "../../fonts/SilkSansDisplay-Medium.ttf", weight: "500" },
+    { path: "../../fonts/SilkSansDisplay-Bold.ttf", weight: "700" },
+  ],
+  variable: "--font-silk",
+  display: "swap",
+});
+const peristiwa = localFont({
+  src: "../../fonts/Peristiwa.otf",
+  variable: "--font-peristiwa",
+  display: "swap",
+});
+export const heroFonts = { silk, peristiwa };
+
+export interface HeroSettings {
+  /* text (rendered as normal DOM per the banknote design) */
+  headline: string; // name, letterspaced caps — left block
+  role: string; // script line under the name
+  sub: string; // script tagline — right block
+
+  /* layout — where the portrait sits inside the hero (fractions of the
+     1512x982 design canvas: width 0.481, centered, 6.4% bottom bleed) */
+  slotWidthFrac: number; // portrait width as a fraction of hero width
+  portraitScale: number; // multiplier on that width
+  anchorX: number; // 0.5 = centered (the design centers exactly)
+  anchorY: number; // 1 = bottom-anchored
+  bleedFrac: number; // fraction of portrait height pushed below the fold
 
   /* mask + trail */
   brushRadius: number; // css px

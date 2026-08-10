@@ -1,25 +1,29 @@
 "use client";
 
-/* These <img> elements are deliberate: they are positioned by JS to match the
-   shader's portrait rect and act as the pre-paint / no-JS rendering, neither of
-   which next/image supports. */
+/* These <img> elements are deliberate: they are positioned to match the
+   shader's portrait rect and act as the pre-paint / no-JS rendering, neither
+   of which next/image supports. */
 /* eslint-disable @next/next/no-img-element */
 
 import { useRef, useSyncExternalStore } from "react";
-import { heroConfig, type HeroSettings } from "./hero-config";
+import {
+  heroConfig,
+  heroFonts,
+  INK,
+  PAPER,
+  type HeroSettings,
+} from "./hero-config";
 
 /*
- * No-WebGL fallback for the portrait hero.
+ * No-WebGL fallback for the banknote hero.
  *
- * Tier 2: the marble bust, with the real face revealed through a CSS radial
+ * Tier 2: the currency art, with the real face revealed through a CSS radial
  * mask that follows the pointer. No canvas, no rAF — pointermove just writes
  * two custom properties.
- * Tier 3 (no CSS mask support, or reduced motion): the bust alone. A still
- * portrait is a complete hero; we don't try to approximate the shader.
+ * Tier 3 (no CSS mask support, or reduced motion): the art alone. A still
+ * banknote portrait is a complete hero; we don't approximate the shader.
  */
 
-/* Client-only capability probe. useSyncExternalStore keeps SSR at `false`
-   and avoids a setState-in-effect. */
 const noopSubscribe = () => () => {};
 const probeMask = () => {
   const reduced =
@@ -50,9 +54,10 @@ export function PortraitHero2D({
 
   return (
     <section
-      className={`relative w-full select-none overflow-hidden ${
-        compact ? "h-full min-h-[320px]" : "min-h-[560px] h-[calc(100svh-4rem)]"
+      className={`relative w-full select-none overflow-hidden ${heroFonts.silk.variable} ${heroFonts.peristiwa.variable} ${
+        compact ? "h-full min-h-[320px]" : "min-h-[560px] h-svh"
       }`}
+      style={{ background: PAPER, color: INK }}
       onPointerMove={(e) => {
         const el = wrapRef.current;
         if (!el || !canMask) return;
@@ -65,40 +70,42 @@ export function PortraitHero2D({
         wrapRef.current?.style.setProperty("--mo", "0");
       }}
     >
-      <div className="pointer-events-none absolute inset-0 z-10 mx-auto flex max-w-6xl flex-col justify-center px-6">
-        <div className="max-w-lg">
-          <h1
-            className={`font-display leading-[0.95] tracking-tight ${
-              compact ? "text-2xl" : "text-5xl sm:text-6xl md:text-7xl"
-            }`}
-          >
-            {cfg.headline}
-          </h1>
-          {!compact && cfg.sub && (
-            <p className="mt-5 max-w-sm text-base leading-relaxed text-muted">
-              {cfg.sub}
-            </p>
-          )}
-        </div>
+      <div className="pointer-events-none absolute left-[6.61%] top-[44.4svh] z-10 max-md:left-5 max-md:top-[12svh]">
+        <h1
+          className="text-[clamp(26px,2.65vw,40px)] font-bold leading-none tracking-[-0.04em]"
+          style={{ fontFamily: "var(--font-silk)" }}
+        >
+          {cfg.headline}
+        </h1>
+        <p
+          className="mt-[3.4svh] text-[clamp(24px,2.65vw,40px)] leading-none"
+          style={{ fontFamily: "var(--font-peristiwa)" }}
+        >
+          {cfg.role}
+        </p>
       </div>
+      {!compact && (
+        <p
+          className="pointer-events-none absolute left-[70.74%] top-[45.2svh] z-10 w-[24.5vw] max-md:w-auto text-[clamp(24px,2.65vw,40px)] leading-[1.175] max-md:hidden"
+          style={{ fontFamily: "var(--font-peristiwa)" }}
+        >
+          {cfg.sub}
+        </p>
+      )}
 
-      <div
-        ref={wrapRef}
-        className="absolute inset-0"
-        style={{ ["--mo" as string]: "0" }}
-      >
+      <div ref={wrapRef} className="absolute inset-0" style={{ ["--mo" as string]: "0" }}>
         <img
           src="/hero-art.png"
           alt=""
           aria-hidden
-          className="absolute inset-0 size-full object-contain object-bottom md:object-right-bottom"
+          className="absolute bottom-[-5.6%] left-1/2 h-[88.3%] w-auto -translate-x-1/2"
         />
         {canMask && (
           <img
             src="/hero-face.png"
             alt=""
             aria-hidden
-            className="absolute inset-0 size-full object-contain object-bottom opacity-[var(--mo)] transition-opacity duration-300 md:object-right-bottom"
+            className="absolute bottom-[-5.6%] left-1/2 h-[88.3%] w-auto -translate-x-1/2 opacity-[var(--mo)] transition-opacity duration-300"
             style={{
               maskImage:
                 "radial-gradient(circle 150px at var(--mx, -999px) var(--my, -999px), #000 40%, transparent 72%)",

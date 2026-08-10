@@ -19,7 +19,7 @@ interface LogEntry {
   changes: { field: string; from: unknown; to: unknown }[];
 }
 
-const DRAFT_KEY = "studio-draft-v2";
+const DRAFT_KEY = "studio-draft-v3";
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = { hero: heroConfig, site: siteConfig };
@@ -332,14 +332,21 @@ export function StudioClient() {
                 Hero — text
               </h2>
               <TextField
-                label="Headline"
+                label="Name"
                 value={draft.hero.headline}
                 onChange={(v) =>
                   setDraft({ ...draft, hero: { ...draft.hero, headline: v } })
                 }
               />
               <TextField
-                label="Sub-line"
+                label="Role line"
+                value={draft.hero.role}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, role: v } })
+                }
+              />
+              <TextField
+                label="Tagline"
                 value={draft.hero.sub}
                 onChange={(v) =>
                   setDraft({ ...draft, hero: { ...draft.hero, sub: v } })
@@ -352,7 +359,7 @@ export function StudioClient() {
                 Hero — layout
               </h2>
               <Slider
-                label="Portrait column width"
+                label="Portrait width"
                 value={draft.hero.slotWidthFrac}
                 min={0.3}
                 max={0.7}
@@ -392,6 +399,17 @@ export function StudioClient() {
                   setDraft({ ...draft, hero: { ...draft.hero, anchorY: v } })
                 }
                 hint="1 keeps the chin on a stable baseline."
+              />
+              <Slider
+                label="Bottom bleed"
+                value={draft.hero.bleedFrac}
+                min={0}
+                max={0.2}
+                step={0.005}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, bleedFrac: v } })
+                }
+                hint="How much of the portrait sinks below the fold."
               />
             </section>
 

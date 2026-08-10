@@ -1,10 +1,21 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { heroConfig, type HeroSettings } from "./hero-config";
+import Link from "next/link";
+import {
+  heroConfig,
+  heroFonts,
+  INK,
+  PAPER,
+  type HeroSettings,
+} from "./hero-config";
 import { PortraitHero2D } from "./portrait-hero-2d";
+import { Monogram } from "./monogram";
 
 export { heroConfig, type HeroSettings } from "./hero-config";
+
+const silk = heroFonts.silk;
+const peristiwa = heroFonts.peristiwa;
 
 /*
  * Portrait glitch-reveal hero.
@@ -19,11 +30,12 @@ export { heroConfig, type HeroSettings } from "./hero-config";
  * devices); a real pointer takes over via a crossfaded stamp weight, so
  * handover never jumps.
  *
- * The real portrait's alpha is the shared silhouette. The art may ship with
- * a baked background (it is authored against the light page colour); that is
- * detected at load and the art is cropped into the silhouette, so the
- * background is never drawn and the hero stays correct in either theme.
- * Canvas is premultiplied-alpha and composites over the page background.
+ * Per the banknote design, the art displays UNCROPPED — its baked paper
+ * background matches the hero's fixed paper colour — while the reveal is
+ * confined to the real portrait's alpha so the tear never punches holes in
+ * the paper. Layout, palette and type all come from the Figma reference
+ * (1512x982): portrait centered at 48.1% width with a 6.4% bottom bleed,
+ * Silk Sans caps + Peristiwa script in ink #101BBC, signature monogram nav.
  *
  * Tunables live in content/hero.json — live-editable from /studio. They are
  * read through a ref inside the frame loop, so a slider drag never rebuilds
@@ -65,7 +77,7 @@ uniform vec4 uM1; // threshold, edgeSoft, tearScale, tearAmp
 uniform vec4 uM2; // tearPhase, crumbScale, crumbAmp, time
 uniform vec4 uB1; // bandPx, bandSeed, bandDensity, smearPx
 uniform vec4 uB2; // edgeBand, maskSmearMix, rgbSplitPx, edgeGlow
-uniform vec4 uX;  // velocity, ready, artOpaque, -
+uniform vec4 uX;  // velocity, ready, -, -
 
 #define TH        uM1.x
 #define EDGESOFT  uM1.y
@@ -84,7 +96,6 @@ uniform vec4 uX;  // velocity, ready, artOpaque, -
 #define EDGEGLOW  uB2.w
 #define VEL       uX.x
 #define READY     uX.y
-#define ARTOPAQUE uX.z
 
 /* mediump-safe hash: every intermediate is re-fract'd back into [0,1) */
 float hash21(vec2 p) {
@@ -156,6 +167,11 @@ void main() {
   float mask = smoothstep(TH - EDGESOFT + crumb, TH + EDGESOFT + crumb, field);
   mask *= READY;
 
+  /* The art displays UNCROPPED — its paper background matches the page
+     (by design; both are ~#F9F7F1). The reveal, though, is confined to the
+     real portrait's silhouette so the tear never punches holes in the
+     paper outside the face. */
+
   /* ---- sample both portraits (do NOT branch — the boundary is the
           highest-frequency thing on screen) ------------------------------ */
   vec2 tA = uTexRect.xy + (pUv + vec2(off * 0.45, 0.0)) * uTexRect.zw;
@@ -171,15 +187,9 @@ void main() {
     B.rgb = min(B.rgb, vec3(B.a));   // keep the premultiplied invariant
   }
 
-  /* The real portrait (B) carries the shared silhouette. When the art ships
-     with a baked background (ARTOPAQUE = 1) it is cropped into that
-     silhouette, so its background is never drawn — which also keeps the hero
-     correct in either theme. When the art has its own matching matte the
-     expression collapses to A, with no double-premultiply. */
-  float silh = B.a;
-  vec4 Ac = mix(A, vec4(A.rgb * silh, silh), ARTOPAQUE);
+  mask *= smoothstep(0.02, 0.35, B.a);
 
-  vec4 s = mix(Ac, B, mask);
+  vec4 s = mix(A, B, mask);
 
   // bright fringe along the tear
   float fringe = (1.0 - smoothstep(0.0, 0.35, abs(mask - 0.5))) * EDGEGLOW * s.a;
@@ -209,6 +219,7 @@ export function PortraitHero({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imgARef = useRef<HTMLImageElement>(null);
   const imgBRef = useRef<HTMLImageElement>(null);
+  const fadeRef = useRef<HTMLDivElement>(null);
 
   const cfgRef = useRef(cfg);
   const wakeRef = useRef<(() => void) | null>(null);
@@ -340,27 +351,10 @@ export function PortraitHero({
     );
 
     let disposed = false;
-    let imgW = 1200;
-    let imgH = 1600;
+    let imgW = 1124;
+    let imgH = 1340;
     let loadedA = false;
     let loadedB = false;
-    let artOpaque = 0;
-
-    /* Does the art ship with a baked background? Read one corner pixel.
-       Falls back to 0 (treat as already-matted) if the canvas is tainted. */
-    const detectOpaque = (img: HTMLImageElement) => {
-      try {
-        const probe = document.createElement("canvas");
-        probe.width = 1;
-        probe.height = 1;
-        const p2d = probe.getContext("2d");
-        if (!p2d) return 0;
-        p2d.drawImage(img, 0, 0, 1, 1, 0, 0, 1, 1);
-        return p2d.getImageData(0, 0, 1, 1).data[3] > 250 ? 1 : 0;
-      } catch {
-        return 0;
-      }
-    };
 
     const upload = (img: HTMLImageElement, tex: WebGLTexture, unit: number) => {
       if (disposed || !img.naturalWidth) return;
@@ -375,7 +369,6 @@ export function PortraitHero({
       if (disposed || !imgA.naturalWidth) return;
       imgW = imgA.naturalWidth;
       imgH = imgA.naturalHeight;
-      artOpaque = detectOpaque(imgA);
       upload(imgA, texA!, 0);
       loadedA = true;
       resize();
@@ -432,19 +425,18 @@ export function PortraitHero({
     const computeRect = () => {
       const c = cfgRef.current;
       const narrow = boxW < 760;
-      // narrow: portrait fills the width in the lower band; text sits above
-      const slotX = narrow ? 0 : boxW * (1 - c.slotWidthFrac);
-      const slotW = narrow ? boxW : boxW * c.slotWidthFrac;
-      const slotY = narrow ? boxH * 0.34 : 0;
-      const slotH = narrow ? boxH * 0.66 : boxH;
-      const s =
-        Math.min(slotW / imgW, slotH / imgH) * Math.max(c.portraitScale, 0.1);
-      const w = imgW * s;
-      const h = imgH * s;
-      const ax = narrow ? 0.5 : c.anchorX;
+      // Design spec (1512x982): portrait width = 48.1% of the hero, exactly
+      // centered, bottom-anchored with 6.4% of its height bleeding below
+      // the fold. Narrow screens widen the portrait and keep the bleed.
+      // narrow screens size by height so the portrait fills the lower band
+      const wideW = boxW * c.slotWidthFrac * Math.max(c.portraitScale, 0.1);
+      const narrowW = Math.min(boxW * 0.94, boxH * 0.68 * (imgW / imgH));
+      const w = narrow ? narrowW : wideW;
+      const h = w * (imgH / imgW);
+      const bleed = h * Math.max(0, Math.min(c.bleedFrac, 0.3));
       rect = {
-        x: slotX + (slotW - w) * ax,
-        y: slotY + (slotH - h) * c.anchorY,
+        x: (boxW - w) * (narrow ? 0.5 : c.anchorX),
+        y: boxH - h + bleed,
         w,
         h,
       };
@@ -474,6 +466,14 @@ export function PortraitHero({
       imgA.style.top = `${rect.y}px`;
       imgA.style.width = `${rect.w}px`;
       imgA.style.height = `${rect.h}px`;
+      // right-edge paper fade from the design (last ~15% of the portrait)
+      const fade = fadeRef.current;
+      if (fade) {
+        fade.style.left = `${rect.x + rect.w * 0.851}px`;
+        fade.style.top = `${rect.y}px`;
+        fade.style.width = `${rect.w * 0.149}px`;
+        fade.style.height = `${rect.h}px`;
+      }
     };
 
     /* ---------- trail stamping ---------- */
@@ -630,7 +630,7 @@ export function PortraitHero({
       );
       gl.uniform4f(uB1, c.bandPx, bandSeed, c.bandDensity, c.smearPx);
       gl.uniform4f(uB2, c.edgeBand, c.maskSmearMix, c.rgbSplitPx, c.edgeGlow);
-      gl.uniform4f(uX, velocity, ready, artOpaque, 0);
+      gl.uniform4f(uX, velocity, ready, 0, 0);
 
       gl.drawArrays(gl.TRIANGLES, 0, 3);
 
@@ -786,37 +786,76 @@ export function PortraitHero({
     return <PortraitHero2D overrides={overrides} compact={compact} />;
   }
 
+  /* Design-canvas fractions (1512x982 Figma frame) */
+  const navLinks = [
+    { label: "Work", href: "/work", left: "6.61%" },
+    { label: "About", href: "/about", left: "21.9%" },
+    { label: "Writing", href: "/writing", left: "64.9%" },
+    { label: "Contact", href: "/contact", left: "80.4%" },
+  ];
+
   return (
     <section
       ref={sectionRef}
-      className={`relative w-full select-none overflow-hidden ${
-        compact ? "h-full min-h-[320px]" : "min-h-[560px] h-[calc(100svh-4rem)]"
+      className={`relative w-full select-none overflow-hidden ${silk.variable} ${peristiwa.variable} ${
+        compact ? "h-full min-h-[320px]" : "min-h-[560px] h-svh"
       }`}
-      style={{ touchAction: "pan-y" }}
+      style={{ touchAction: "pan-y", background: PAPER, color: INK }}
     >
-      {/* Editorial column — real DOM, so this is the LCP element */}
-      <div
-        className={`pointer-events-none absolute inset-0 z-10 mx-auto flex max-w-6xl flex-col justify-center px-6 ${
-          compact ? "" : "md:justify-center"
-        }`}
-      >
-        <div className="max-w-lg">
-          <h1
-            className={`font-display leading-[0.95] tracking-tight ${
-              compact ? "text-2xl" : "text-5xl sm:text-6xl md:text-7xl"
-            }`}
+      {/* ---- banknote nav: links flanking the signature monogram ---- */}
+      {!compact && (
+        <header className="absolute inset-x-0 top-0 z-20">
+          <Link
+            href="/"
+            aria-label="Austin Moras — home"
+            className="absolute left-1/2 top-[3.6svh] block h-[6.2svh] min-h-10 -translate-x-1/2"
           >
-            {cfg.headline}
-          </h1>
-          {!compact && cfg.sub && (
-            <p className="mt-5 max-w-sm text-base leading-relaxed text-muted">
-              {cfg.sub}
-            </p>
-          )}
-        </div>
-      </div>
+            <Monogram className="h-full w-auto" />
+          </Link>
+          <nav className="hidden md:block">
+            {navLinks.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="absolute top-[5.9svh] text-[clamp(11px,1.06vw,16px)] font-medium uppercase tracking-[0.02em] transition-opacity hover:opacity-60"
+                style={{ left: l.left, fontFamily: "var(--font-silk)" }}
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+          {/* narrow: two links each side of the monogram */}
+          <nav className="flex items-center justify-between px-5 pt-[4.2svh] md:hidden">
+            <div className="flex gap-4">
+              {navLinks.slice(0, 2).map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className="text-[11px] font-medium uppercase"
+                  style={{ fontFamily: "var(--font-silk)" }}
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+            <div className="flex gap-4">
+              {navLinks.slice(2).map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className="text-[11px] font-medium uppercase"
+                  style={{ fontFamily: "var(--font-silk)" }}
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+          </nav>
+        </header>
+      )}
 
-      {/* Bust, shown until the GL scene has painted (no empty-hero flash) */}
+      {/* ---- portrait layers ---- */}
+      {/* Art, shown until the GL scene has painted (no empty-hero flash) */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         ref={imgARef}
@@ -839,6 +878,54 @@ export function PortraitHero({
       />
 
       <canvas ref={canvasRef} className="absolute inset-0" aria-hidden />
+
+      {/* right-edge paper fade, per the design */}
+      <div
+        ref={fadeRef}
+        aria-hidden
+        className="pointer-events-none absolute"
+        style={{
+          background: `linear-gradient(to right, ${PAPER}00, ${PAPER})`,
+        }}
+      />
+
+      {/* ---- editorial text (real DOM = the LCP element) ---- */}
+      {compact ? (
+        <div className="pointer-events-none absolute inset-x-0 top-4 z-10 px-5">
+          <h1
+            className="text-xl font-bold tracking-[-0.04em]"
+            style={{ fontFamily: "var(--font-silk)" }}
+          >
+            {cfg.headline}
+          </h1>
+        </div>
+      ) : (
+        <>
+          {/* left block — name + role (design: x 6.61%, baselines 466/532) */}
+          <div className="pointer-events-none absolute left-[6.61%] top-[44.4svh] z-10 max-md:left-5 max-md:top-[12svh]">
+            <h1
+              className="text-[clamp(26px,2.65vw,40px)] font-bold leading-none tracking-[-0.04em]"
+              style={{ fontFamily: "var(--font-silk)" }}
+            >
+              {cfg.headline}
+            </h1>
+            <p
+              className="mt-[3.4svh] text-[clamp(24px,2.65vw,40px)] leading-none"
+              style={{ fontFamily: "var(--font-peristiwa)" }}
+            >
+              {cfg.role}
+            </p>
+          </div>
+
+          {/* right block — script tagline (design: x 70.7%, baseline 474) */}
+          <p
+            className="pointer-events-none absolute left-[70.74%] top-[45.2svh] z-10 w-[24.5vw] max-md:w-auto text-[clamp(24px,2.65vw,40px)] leading-[1.175] max-md:hidden"
+            style={{ fontFamily: "var(--font-peristiwa)" }}
+          >
+            {cfg.sub}
+          </p>
+        </>
+      )}
     </section>
   );
 }

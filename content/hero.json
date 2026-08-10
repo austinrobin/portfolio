@@ -1,11 +1,13 @@
 {
-  "headline": "Lead Product Designer.",
-  "sub": "Product, brand and creative direction — mostly in fintech.",
+  "headline": "AUSTIN MORAS",
+  "role": "Lead Product Designer",
+  "sub": "Building products from idea to launch.",
 
-  "slotWidthFrac": 0.46,
-  "portraitScale": 0.92,
-  "anchorX": 0.55,
+  "slotWidthFrac": 0.481,
+  "portraitScale": 1,
+  "anchorX": 0.5,
   "anchorY": 1,
+  "bleedFrac": 0.064,
 
   "brushRadius": 150,
   "trailPersistence": 0.86,
