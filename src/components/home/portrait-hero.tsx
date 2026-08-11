@@ -86,7 +86,6 @@ uniform vec4 uPat1;  // spacingPx, restAlpha, hoverAlpha, phase
 uniform vec4 uPat2;  // fadeIn, fadeOut, wobble, rectness
 uniform vec4 uPatC;  // fade centre px.xy, half-extents px.zw
 uniform vec3 uInk;   // pattern ink (premultiplied against its alpha)
-uniform vec3 uPaper; // page paper — the pattern's resting colour
 
 #define TH        uM1.x
 #define EDGESOFT  uM1.y
@@ -189,11 +188,11 @@ float guillocheLine(vec2 px) {
   return min(s, 1.0);
 }
 
-/* Stroke colour: paper at rest (the lace hides in the page until hovered),
-   inking up to uInk under the torn hover mask. The old radial centre fade
-   is gone — the pattern runs edge-to-edge, portrait included. */
-vec3 guillocheCol(float hoverMask) {
-  return mix(uPaper, uInk, hoverMask);
+/* Resting visibility: 0 near the portrait, full at the edges. The torn
+   hover mask overrides this so strokes ink the pattern even mid-zone. */
+float guillocheVis(vec2 px, float hoverMask) {
+  float fade = smoothstep(uPat2.x, uPat2.y, guillocheR(px));
+  return max(fade, hoverMask * 0.9);
 }
 
 void main() {
@@ -215,8 +214,9 @@ void main() {
     float fieldH = texture2D(uMask, clamp(gUvH, 0.0, 1.0)).r;
     float crumbH = (vnoise(nUvH * CRUMBSC) - 0.5) * CRUMBAMP;
     float mh = smoothstep(TH - EDGESOFT + crumbH, TH + EDGESOFT + crumbH, fieldH);
-    float alpha = guillocheLine(px) * mix(uPat1.y, uPat1.z, mh);
-    gl_FragColor = vec4(guillocheCol(mh) * alpha, alpha);
+    float alpha =
+      guillocheLine(px) * guillocheVis(px, mh) * mix(uPat1.y, uPat1.z, mh);
+    gl_FragColor = vec4(uInk * alpha, alpha);
     return;
   }
 
@@ -292,12 +292,12 @@ void main() {
      same torn hover mask as everywhere else. */
   float mSurf = smoothstep(TH - EDGESOFT + crumb, TH + EDGESOFT + crumb, field);
   float line = guillocheLine(px);
+  float vis = guillocheVis(px, mSurf);
   float ink = mix(uPat1.y, uPat1.z, mSurf);
-  vec3 pcol = guillocheCol(mSurf);
 
   // pattern over the art's paper margins (kept off the face and the reveal)
-  float pOver = line * ink * (1.0 - faceCover);
-  s.rgb = mix(s.rgb, pcol * s.a, pOver);
+  float pOver = line * vis * ink * (1.0 - faceCover);
+  s.rgb = mix(s.rgb, uInk * s.a, pOver);
 
   /* The design's right-edge paper fade, now in-shader and applied to the
      portrait only — no DOM overlay, so the pattern and its hover ink are
@@ -306,8 +306,8 @@ void main() {
   s *= edgeFade;
 
   // where the portrait faded out, the pattern shows through from behind
-  float pUnder = line * ink;
-  s.rgb += pcol * pUnder * (1.0 - s.a);
+  float pUnder = line * vis * ink;
+  s.rgb += uInk * pUnder * (1.0 - s.a);
   s.a += pUnder * (1.0 - s.a);
 
   s.rgb = min(s.rgb, vec3(s.a));
@@ -417,7 +417,6 @@ export function PortraitHero({
     const uPat2 = U("uPat2");
     const uPatC = U("uPatC");
     gl.uniform3f(U("uInk"), 16 / 255, 27 / 255, 188 / 255); // #101BBC
-    gl.uniform3f(U("uPaper"), 249 / 255, 247 / 255, 241 / 255); // #F9F7F1
 
     gl.uniform1i(U("uTexA"), 0);
     gl.uniform1i(U("uTexB"), 1);

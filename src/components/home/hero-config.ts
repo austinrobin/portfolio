@@ -66,8 +66,8 @@ export interface HeroSettings {
   patternSpacing: number; // ring spacing, css px
   patternSpeed: number; // machined phase drift, rad/s (0 = still)
   patternWobble: number; // strand undulation amount
-  patternFadeIn: number; // inert (kept for rollback): old centre-fade start
-  patternFadeOut: number; // inert (kept for rollback): old centre-fade end
+  patternFadeIn: number; // radius where the pattern starts appearing
+  patternFadeOut: number; // radius where it reaches full strength
 
   /* auto-scan */
   autoScan: boolean;
