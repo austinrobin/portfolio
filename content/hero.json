@@ -24,7 +24,7 @@
   "maskSmearMix": 0.5,
   "rgbSplitPx": 5,
   "edgeGlow": 0.18,
-  "patternOpacity": 0.06,
+  "patternOpacity": 0.85,
   "patternHover": 0.33,
   "patternSpacing": 13,
   "patternSpeed": 0.35,
