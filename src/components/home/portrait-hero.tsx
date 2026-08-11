@@ -188,10 +188,11 @@ float guillocheLine(vec2 px) {
   return min(s, 1.0);
 }
 
-/* Resting visibility: 0 near the portrait, full at the edges. The torn
-   hover mask overrides this so strokes ink the pattern even mid-zone. */
+/* Resting visibility: floored at 0.2 near the portrait (the clear zone
+   whispers instead of emptying), full at the edges. The torn hover mask
+   overrides this so strokes ink the pattern even mid-zone. */
 float guillocheVis(vec2 px, float hoverMask) {
-  float fade = smoothstep(uPat2.x, uPat2.y, guillocheR(px));
+  float fade = mix(0.2, 1.0, smoothstep(uPat2.x, uPat2.y, guillocheR(px)));
   return max(fade, hoverMask * 0.9);
 }
 

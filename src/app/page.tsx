@@ -10,17 +10,17 @@ export default function Home() {
     <div>
       <PortraitHero />
 
-      {/* Work — scroll-driven flip deck on a dark stage */}
-      <section id="work" className="scroll-mt-16 bg-[#060906]">
+      {/* Work — scroll-driven flip deck on the site's paper stage */}
+      <section id="work" className="scroll-mt-16 border-t border-border">
         <div className="mx-auto max-w-3xl px-6 pt-16 sm:pt-20">
           <div className="flex items-baseline justify-between">
-            <p className="flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.2em] text-white/50">
-              <span className="size-2 rounded-full bg-[#B6FF3D]" />
+            <p className="flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.2em] text-muted">
+              <span className="size-2 rounded-full bg-[var(--accent)]" />
               Selected work
             </p>
             <Link
               href="/work"
-              className="text-sm text-white/50 underline-offset-4 transition-colors hover:text-white hover:underline"
+              className="text-sm text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
             >
               All projects →
             </Link>

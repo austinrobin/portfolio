@@ -78,7 +78,7 @@ function DeckCard({
       style={{ rotateX, y, z, opacity, transformOrigin: "50% 100%" }}
     >
       <div
-        className="absolute inset-0 cursor-pointer overflow-hidden rounded-lg border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.55)]"
+        className="absolute inset-0 cursor-pointer overflow-hidden rounded-lg border border-border shadow-[0_30px_80px_rgba(26,25,19,0.22)]"
         style={{ background: item.theme.bg }}
         onClick={onActivate}
       >
@@ -162,9 +162,38 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
   return (
     <div ref={wrapRef} style={{ height: `${n * 100}vh` }}>
       <div className="sticky top-0 flex h-svh flex-col items-center justify-center overflow-hidden">
+        {/* Caption row — ABOVE the stage so falling cards never sweep over it */}
+        <div className="relative z-10 mb-12 flex w-[min(92vw,990px)] items-end justify-between">
+          <div className="min-w-0">
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
+              {String(active + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
+            </p>
+            <div className="mt-2 flex items-baseline gap-3">
+              <p className="truncate text-xl font-semibold tracking-tight text-foreground">
+                {current.title}
+              </p>
+              <p className="hidden truncate text-sm text-muted sm:block">
+                {current.subtitle}
+              </p>
+            </div>
+          </div>
+          {current.href ? (
+            <Link
+              href={current.href}
+              className="shrink-0 rounded-full border border-border px-4 py-2 text-sm text-foreground transition-colors hover:bg-subtle"
+            >
+              View case study →
+            </Link>
+          ) : (
+            <span className="shrink-0 rounded-full border border-border px-4 py-2 font-mono text-[11px] uppercase tracking-wider text-muted">
+              Coming soon
+            </span>
+          )}
+        </div>
+
         {/* 3D stage */}
         <div
-          className="w-[min(88vw,760px)]"
+          className="w-[min(92vw,990px)]"
           style={{ perspective: 1300, perspectiveOrigin: "50% 16%" }}
         >
           <div className="relative aspect-[16/10] [transform-style:preserve-3d]">
@@ -173,35 +202,6 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
             ))}
           </div>
         </div>
-
-        {/* Caption row — z-lifted so falling cards sweep behind it */}
-        <div className="relative z-10 mt-10 flex w-[min(88vw,760px)] items-end justify-between">
-          <div className="min-w-0">
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">
-              {String(active + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
-            </p>
-            <div className="mt-2 flex items-baseline gap-3">
-              <p className="truncate text-xl font-semibold tracking-tight text-white">
-                {current.title}
-              </p>
-              <p className="hidden truncate text-sm text-white/50 sm:block">
-                {current.subtitle}
-              </p>
-            </div>
-          </div>
-          {current.href ? (
-            <Link
-              href={current.href}
-              className="shrink-0 rounded-full border border-white/20 px-4 py-2 text-sm text-white transition-colors hover:bg-white/10"
-            >
-              View case study →
-            </Link>
-          ) : (
-            <span className="shrink-0 rounded-full border border-white/10 px-4 py-2 font-mono text-[11px] uppercase tracking-wider text-white/40">
-              Coming soon
-            </span>
-          )}
-        </div>
       </div>
     </div>
   );
@@ -209,7 +209,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
 
 function CardShellStatic({ item }: { item: ShowcaseItem }) {
   const inner = (
-    <div className="overflow-hidden rounded-lg border border-white/10">
+    <div className="overflow-hidden rounded-lg border border-border">
       <div className="relative aspect-[16/10]">
         {item.cover ? (
           <Image src={item.cover} alt={item.title} fill className="object-cover" />
