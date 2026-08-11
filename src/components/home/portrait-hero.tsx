@@ -129,21 +129,31 @@ float fbm(vec2 p) {
   return s * 1.142857;
 }
 
-/* Rectangular guilloché: concentric squircle rings of interleaved strands,
-   undulating with an ordered lathe wobble that drifts with uPat1.w. */
+/* Guilloché: concentric rounded-rectangle rings (smooth p-norm — deep
+   banknote curves, no pointy corners) of interleaved strands. Undulations
+   are mirrored about the vertical centre line so both sides move
+   symmetrically, and the whole lattice turns with an ordered lathe motion:
+   waves travel around the rings while the rings themselves slowly flow
+   outward. Aspect follows the viewport via the uPatC half-extents. */
 float guillocheR(vec2 px) {
-  vec2 q = (px - uPatC.xy) / uPatC.zw;
-  return mix(max(abs(q.x), abs(q.y)), length(q), uPat2.w);
+  vec2 aq = abs((px - uPatC.xy) / uPatC.zw);
+  // p-norm (p=3): rectangular presence, continuously curved corners
+  return pow(aq.x * aq.x * aq.x + aq.y * aq.y * aq.y, 0.33333);
 }
 
 float guillocheLine(vec2 px) {
   vec2 q = (px - uPatC.xy) / uPatC.zw;
   float r = guillocheR(px);
-  float ang = atan(q.y, q.x);
+  // mirrored angle -> left/right symmetric movement
+  float ang = atan(q.y, abs(q.x));
   float ph = uPat1.w;
-  float wob = sin(ang * 9.0 + ph) * uPat2.z
-            + sin(ang * 5.0 - ph * 1.618) * uPat2.z * 0.6;
-  float f = (r * uPatC.z) / max(uPat1.x, 2.0) + wob;
+  float W = uPat2.z;
+  // deep, slow undulations — few lobes, layered harmonics
+  float wob = sin(ang * 3.0 + ph) * W * 1.3
+            + sin(ang * 5.0 - ph * 0.7) * W * 0.55
+            + cos(ang * 2.0 + ph * 0.45) * W * 0.8;
+  // rings flow gently outward as the lathe turns
+  float f = (r * uPatC.z) / max(uPat1.x, 2.0) + wob - ph * 0.55;
   float b1 = abs(fract(f) - 0.5);
   float b2 = abs(fract(f * 1.5 + 0.25 + wob * 0.5) - 0.5);
   float l1 = 1.0 - smoothstep(0.03, 0.15, b1);
@@ -254,9 +264,24 @@ void main() {
      engraved head and the revealed face (faceCover), and inks up under the
      same torn hover mask as everywhere else. */
   float mSurf = smoothstep(TH - EDGESOFT + crumb, TH + EDGESOFT + crumb, field);
-  float pA = guillocheLine(px) * guillocheVis(px, mSurf) *
-             mix(uPat1.y, uPat1.z, mSurf) * (1.0 - faceCover);
-  s.rgb = mix(s.rgb, uInk * s.a, pA);
+  float line = guillocheLine(px);
+  float vis = guillocheVis(px, mSurf);
+  float ink = mix(uPat1.y, uPat1.z, mSurf);
+
+  // pattern over the art's paper margins (kept off the face and the reveal)
+  float pOver = line * vis * ink * (1.0 - faceCover);
+  s.rgb = mix(s.rgb, uInk * s.a, pOver);
+
+  /* The design's right-edge paper fade, now in-shader and applied to the
+     portrait only — no DOM overlay, so the pattern and its hover ink are
+     never washed out by a paper-coloured patch. */
+  float edgeFade = 1.0 - smoothstep(0.851, 1.0, pUv.x);
+  s *= edgeFade;
+
+  // where the portrait faded out, the pattern shows through from behind
+  float pUnder = line * vis * ink;
+  s.rgb += uInk * pUnder * (1.0 - s.a);
+  s.a += pUnder * (1.0 - s.a);
 
   s.rgb = min(s.rgb, vec3(s.a));
 
@@ -283,7 +308,6 @@ export function PortraitHero({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imgARef = useRef<HTMLImageElement>(null);
   const imgBRef = useRef<HTMLImageElement>(null);
-  const fadeRef = useRef<HTMLDivElement>(null);
 
   const cfgRef = useRef(cfg);
   const wakeRef = useRef<(() => void) | null>(null);
@@ -556,14 +580,6 @@ export function PortraitHero({
       imgA.style.top = `${rect.y}px`;
       imgA.style.width = `${rect.w}px`;
       imgA.style.height = `${rect.h}px`;
-      // right-edge paper fade from the design (last ~15% of the portrait)
-      const fade = fadeRef.current;
-      if (fade) {
-        fade.style.left = `${rect.x + rect.w * 0.851}px`;
-        fade.style.top = `${rect.y}px`;
-        fade.style.width = `${rect.w * 0.149}px`;
-        fade.style.height = `${rect.h}px`;
-      }
     };
 
     /* ---------- trail stamping ---------- */
@@ -994,16 +1010,6 @@ export function PortraitHero({
       />
 
       <canvas ref={canvasRef} className="absolute inset-0" aria-hidden />
-
-      {/* right-edge paper fade, per the design */}
-      <div
-        ref={fadeRef}
-        aria-hidden
-        className="pointer-events-none absolute"
-        style={{
-          background: `linear-gradient(to right, ${PAPER}00, ${PAPER})`,
-        }}
-      />
 
       {/* ---- editorial text (real DOM = the LCP element) ---- */}
       {compact ? (

@@ -2,24 +2,20 @@
   "headline": "AUSTIN MORAS",
   "role": "Lead Product Designer",
   "sub": "Building products from idea to launch.",
-
   "slotWidthFrac": 0.481,
   "portraitScale": 1,
   "anchorX": 0.5,
   "anchorY": 1,
   "bleedFrac": 0.064,
-
   "brushRadius": 150,
   "trailPersistence": 0.86,
   "threshold": 0.42,
   "edgeSoft": 0.03,
-
   "tearScale": 3.2,
   "tearAmp": 0.12,
   "tearDrift": 0.05,
   "crumbScale": 26,
   "crumbAmp": 0.14,
-
   "bandPx": 7,
   "bandRate": 14,
   "bandDensity": 0.35,
@@ -28,20 +24,17 @@
   "maskSmearMix": 0.5,
   "rgbSplitPx": 5,
   "edgeGlow": 0.18,
-
   "patternOpacity": 0.06,
-  "patternHover": 0.55,
+  "patternHover": 0.33,
   "patternSpacing": 13,
-  "patternSpeed": 0.12,
-  "patternWobble": 0.35,
+  "patternSpeed": 0.35,
+  "patternWobble": 0.55,
   "patternFadeIn": 0.34,
   "patternFadeOut": 0.85,
-
   "autoScan": true,
   "autoScanDesktop": false,
   "scanSpeed": 1,
   "idleMs": 2500,
-
   "scanCenterX": 0.5,
   "scanCenterY": 0.42,
   "scanRadiusX": 0.26,
