@@ -10,6 +10,7 @@ This file is the log of **locked, approved versions** of the site. The rules:
 | # | Tag | Date | What it locks | Commit |
 |---|-----|------|---------------|--------|
 | 00 | `checkpoint-00-baseline` | 2026-06-01 | Initial scaffold + shell (NOT a locked design — just a restore anchor) | baseline |
+| 01 | `checkpoint-01-banknote-hero` | 2026-08-24 | **LOCKED by Austin.** Banknote hero v1: paper site theme (#F9F7F1, ink #101BBC, no dark mode), currency-engraving portrait w/ movement-gated fluid glitch reveal, Silk/Peristiwa type, AR monogram nav. Do not change without Austin's say-so; restore here if the guilloché iteration doesn't land. | `a8f5359` |
 
 > Checkpoint 00 is the first deployed build. It is a *restore point*, not an
 > approved design. The first real locked checkpoint will be the landing page
