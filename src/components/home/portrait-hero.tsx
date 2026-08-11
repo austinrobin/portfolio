@@ -129,36 +129,63 @@ float fbm(vec2 p) {
   return s * 1.142857;
 }
 
-/* Guilloché: concentric rounded-rectangle rings (smooth p-norm — deep
-   banknote curves, no pointy corners) of interleaved strands. Undulations
-   are mirrored about the vertical centre line so both sides move
-   symmetrically, and the whole lattice turns with an ordered lathe motion:
-   waves travel around the rings while the rings themselves slowly flow
-   outward. Aspect follows the viewport via the uPatC half-extents. */
+/* Guilloché lace — a lightweight spirograph generator, solved implicitly.
+ *
+ * A strand family is rho(theta) = r0 + A*sin(k*theta + phi_i), with N
+ * strands whose phases phi_i are spread evenly over 2pi. Instead of drawing
+ * N curves, invert the family at this fragment: u = (r - r0)/A, and if
+ * |u| <= 1 the strands passing here have phi = asin(u) - k*theta (plus the
+ * pi-asin branch). Distance to the nearest of the N phases draws ALL
+ * strands at once; the two branches cross each other, which is what makes
+ * the woven lens/petal look of banknote lathe-work. Strands widen where
+ * the family runs tangent (sqrt(1-u^2) -> 0), pooling ink at the petal
+ * cusps exactly like a real geometric lathe.
+ */
 float guillocheR(vec2 px) {
   vec2 aq = abs((px - uPatC.xy) / uPatC.zw);
   // p-norm (p=3): rectangular presence, continuously curved corners
   return pow(aq.x * aq.x * aq.x + aq.y * aq.y * aq.y, 0.33333);
 }
 
+float strandSet(float u, float phaseCoord, float N, float wBase) {
+  float au = abs(u);
+  if (au >= 0.995) return 0.0;
+  float a = asin(clamp(u, -0.995, 0.995));
+  float w = wBase / (sqrt(1.0 - u * u) + 0.22);
+  float p1 = (a + phaseCoord) * N * 0.15915494; // /2pi
+  float s = 1.0 - smoothstep(w * 0.55, w, abs(fract(p1) - 0.5));
+  float p2 = (3.14159265 - a + phaseCoord) * N * 0.15915494;
+  s = max(s, 1.0 - smoothstep(w * 0.55, w, abs(fract(p2) - 0.5)));
+  // soften towards the band's envelope so bands blend, not clip
+  return s * (1.0 - smoothstep(0.85, 0.995, au));
+}
+
 float guillocheLine(vec2 px) {
   vec2 q = (px - uPatC.xy) / uPatC.zw;
-  float r = guillocheR(px);
-  // mirrored angle -> left/right symmetric movement
-  float ang = atan(q.y, abs(q.x));
   float ph = uPat1.w;
-  float W = uPat2.z;
-  // deep, slow undulations — few lobes, layered harmonics
-  float wob = sin(ang * 3.0 + ph) * W * 1.3
-            + sin(ang * 5.0 - ph * 0.7) * W * 0.55
-            + cos(ang * 2.0 + ph * 0.45) * W * 0.8;
-  // rings flow gently outward as the lathe turns
-  float f = (r * uPatC.z) / max(uPat1.x, 2.0) + wob - ph * 0.55;
-  float b1 = abs(fract(f) - 0.5);
-  float b2 = abs(fract(f * 1.5 + 0.25 + wob * 0.5) - 0.5);
-  float l1 = 1.0 - smoothstep(0.03, 0.15, b1);
-  float l2 = 1.0 - smoothstep(0.03, 0.13, b2);
-  return max(l1, l2 * 0.85);
+  float W = uPat2.z; // loop depth
+  float dens = 26.0 * 13.0 / max(uPat1.x, 4.0); // strand count from slider
+
+  float s = 0.0;
+
+  /* border weave on the rounded-rect metric — two counter-phased
+     families; waves mirrored about the vertical centre line */
+  float rr = guillocheR(px);
+  float angM = atan(q.y, abs(q.x));
+  float u1 = (rr - 0.92) / (0.14 + 0.10 * W);
+  s = max(s, strandSet(u1, angM * 5.0 + ph * 0.9, dens, 0.085));
+  float u1b = (rr - 0.90) / (0.18 + 0.12 * W);
+  s = max(s, 0.9 * strandSet(u1b, -angM * 7.0 - ph * 0.6, dens * 0.75, 0.08));
+
+  /* inner rosette — a true rotating spirograph around the portrait */
+  float rc = length(q);
+  float th = atan(q.y, q.x);
+  float u2 = (rc - 0.56) / (0.17 + 0.13 * W);
+  s = max(s, strandSet(u2, th * 6.0 + ph * 0.5, dens * 1.15, 0.09));
+  float u3 = (rc - 0.52) / (0.22 + 0.15 * W);
+  s = max(s, 0.85 * strandSet(u3, -th * 4.0 + ph * 0.35, dens * 0.9, 0.085));
+
+  return min(s, 1.0);
 }
 
 /* Resting visibility: 0 near the portrait, full at the edges. The torn
@@ -754,7 +781,8 @@ export function PortraitHero({
 
       // guilloché: ordered lathe drift, still under reduced motion
       const patSpeed = reduced ? 0 : c.patternSpeed;
-      patPhase += patSpeed * dt;
+      // all shader drift rates are k*0.05, so 40pi wraps every term by exactly 2pi*k
+      patPhase = (patPhase + patSpeed * dt) % (40 * Math.PI);
       gl.uniform4f(uPat1, c.patternSpacing, c.patternOpacity, c.patternHover, patPhase);
       gl.uniform4f(uPat2, c.patternFadeIn, c.patternFadeOut, c.patternWobble, 0.3);
 

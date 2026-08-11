@@ -548,11 +548,12 @@ export function StudioClient() {
                 hint="Pattern opacity inside the hover tear."
               />
               <Slider
-                label="Ring spacing"
+                label="Strand density"
                 value={draft.hero.patternSpacing}
                 min={6}
                 max={40}
                 step={1}
+                hint="Lower = more strands in the lace."
                 onChange={(v) =>
                   setDraft({ ...draft, hero: { ...draft.hero, patternSpacing: v } })
                 }
@@ -569,7 +570,7 @@ export function StudioClient() {
                 hint="Machined phase drift. 0 = perfectly still."
               />
               <Slider
-                label="Wobble"
+                label="Loop depth"
                 value={draft.hero.patternWobble}
                 min={0}
                 max={1}
@@ -577,7 +578,7 @@ export function StudioClient() {
                 onChange={(v) =>
                   setDraft({ ...draft, hero: { ...draft.hero, patternWobble: v } })
                 }
-                hint="Strand undulation depth."
+                hint="How far the loops swing — deeper = bigger petals."
               />
               <Slider
                 label="Clear zone"
