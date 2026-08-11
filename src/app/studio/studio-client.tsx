@@ -580,28 +580,9 @@ export function StudioClient() {
                 }
                 hint="How far the loops swing — deeper = bigger petals."
               />
-              <Slider
-                label="Clear zone"
-                value={draft.hero.patternFadeIn}
-                min={0.1}
-                max={0.8}
-                step={0.02}
-                onChange={(v) =>
-                  setDraft({ ...draft, hero: { ...draft.hero, patternFadeIn: v } })
-                }
-                hint="Radius around the portrait kept pattern-free."
-              />
-              <Slider
-                label="Edge reach"
-                value={draft.hero.patternFadeOut}
-                min={0.4}
-                max={1.2}
-                step={0.02}
-                onChange={(v) =>
-                  setDraft({ ...draft, hero: { ...draft.hero, patternFadeOut: v } })
-                }
-                hint="Where the pattern hits full strength."
-              />
+              {/* "Clear zone" / "Edge reach" sliders removed with the centre
+                  fade experiment — patternFadeIn/Out are inert while the
+                  pattern rests paper-on-paper and runs edge-to-edge. */}
             </section>
 
             <section className="space-y-4">
