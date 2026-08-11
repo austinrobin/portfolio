@@ -29,6 +29,14 @@
   "rgbSplitPx": 5,
   "edgeGlow": 0.18,
 
+  "patternOpacity": 0.06,
+  "patternHover": 0.55,
+  "patternSpacing": 13,
+  "patternSpeed": 0.12,
+  "patternWobble": 0.35,
+  "patternFadeIn": 0.34,
+  "patternFadeOut": 0.85,
+
   "autoScan": true,
   "autoScanDesktop": false,
   "scanSpeed": 1,

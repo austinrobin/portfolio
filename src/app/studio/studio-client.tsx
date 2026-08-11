@@ -523,6 +523,88 @@ export function StudioClient() {
 
             <section className="space-y-4">
               <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
+                Hero — pattern
+              </h2>
+              <Slider
+                label="Resting opacity"
+                value={draft.hero.patternOpacity}
+                min={0}
+                max={0.3}
+                step={0.01}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, patternOpacity: v } })
+                }
+                hint="How present the guilloché is before hover."
+              />
+              <Slider
+                label="Hover ink"
+                value={draft.hero.patternHover}
+                min={0}
+                max={1}
+                step={0.05}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, patternHover: v } })
+                }
+                hint="Pattern opacity inside the hover tear."
+              />
+              <Slider
+                label="Ring spacing"
+                value={draft.hero.patternSpacing}
+                min={6}
+                max={40}
+                step={1}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, patternSpacing: v } })
+                }
+              />
+              <Slider
+                label="Drift speed"
+                value={draft.hero.patternSpeed}
+                min={0}
+                max={0.6}
+                step={0.01}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, patternSpeed: v } })
+                }
+                hint="Machined phase drift. 0 = perfectly still."
+              />
+              <Slider
+                label="Wobble"
+                value={draft.hero.patternWobble}
+                min={0}
+                max={1}
+                step={0.05}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, patternWobble: v } })
+                }
+                hint="Strand undulation depth."
+              />
+              <Slider
+                label="Clear zone"
+                value={draft.hero.patternFadeIn}
+                min={0.1}
+                max={0.8}
+                step={0.02}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, patternFadeIn: v } })
+                }
+                hint="Radius around the portrait kept pattern-free."
+              />
+              <Slider
+                label="Edge reach"
+                value={draft.hero.patternFadeOut}
+                min={0.4}
+                max={1.2}
+                step={0.02}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, patternFadeOut: v } })
+                }
+                hint="Where the pattern hits full strength."
+              />
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
                 Hero — datamosh
               </h2>
               <Slider

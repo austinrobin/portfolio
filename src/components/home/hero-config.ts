@@ -60,6 +60,15 @@ export interface HeroSettings {
   rgbSplitPx: number; // 0 skips the chroma fetches
   edgeGlow: number; // bright fringe along the tear
 
+  /* guilloché pattern around the portrait (edge lathe-work; hover inks it) */
+  patternOpacity: number; // resting alpha — very light
+  patternHover: number; // alpha where the torn hover mask colours it
+  patternSpacing: number; // ring spacing, css px
+  patternSpeed: number; // machined phase drift, rad/s (0 = still)
+  patternWobble: number; // strand undulation amount
+  patternFadeIn: number; // radius where the pattern starts appearing
+  patternFadeOut: number; // radius where it reaches full strength
+
   /* auto-scan */
   autoScan: boolean;
   autoScanDesktop: boolean;

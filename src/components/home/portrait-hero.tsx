@@ -42,8 +42,11 @@ const peristiwa = heroFonts.peristiwa;
  * the GL scene (re-uploading the portraits would cost ~15 MB per tick).
  */
 
-const GW = 128; // trail field grid — fixed, in portrait-normalized space
-const GH = 160;
+/* Trail field grid. Since the guilloché iteration the field covers the WHOLE
+   hero (expressed in portrait-uv via uField), not just the portrait rect, so
+   the hover effect reaches the pattern around the portrait too. */
+const GW = 224;
+const GH = 128;
 
 const isTouchDevice = () =>
   typeof navigator !== "undefined" && navigator.maxTouchPoints > 0;
@@ -78,6 +81,11 @@ uniform vec4 uM2; // tearPhase, crumbScale, crumbAmp, time
 uniform vec4 uB1; // bandPx, bandSeed, bandDensity, smearPx
 uniform vec4 uB2; // edgeBand, maskSmearMix, rgbSplitPx, edgeGlow
 uniform vec4 uX;  // velocity, ready, -, -
+uniform vec4 uField; // trail-field rect in portrait-uv: origin.xy, span.zw
+uniform vec4 uPat1;  // spacingPx, restAlpha, hoverAlpha, phase
+uniform vec4 uPat2;  // fadeIn, fadeOut, wobble, rectness
+uniform vec4 uPatC;  // fade centre px.xy, half-extents px.zw
+uniform vec3 uInk;   // pattern ink (premultiplied against its alpha)
 
 #define TH        uM1.x
 #define EDGESOFT  uM1.y
@@ -121,18 +129,59 @@ float fbm(vec2 p) {
   return s * 1.142857;
 }
 
+/* Rectangular guilloché: concentric squircle rings of interleaved strands,
+   undulating with an ordered lathe wobble that drifts with uPat1.w. */
+float guillocheR(vec2 px) {
+  vec2 q = (px - uPatC.xy) / uPatC.zw;
+  return mix(max(abs(q.x), abs(q.y)), length(q), uPat2.w);
+}
+
+float guillocheLine(vec2 px) {
+  vec2 q = (px - uPatC.xy) / uPatC.zw;
+  float r = guillocheR(px);
+  float ang = atan(q.y, q.x);
+  float ph = uPat1.w;
+  float wob = sin(ang * 9.0 + ph) * uPat2.z
+            + sin(ang * 5.0 - ph * 1.618) * uPat2.z * 0.6;
+  float f = (r * uPatC.z) / max(uPat1.x, 2.0) + wob;
+  float b1 = abs(fract(f) - 0.5);
+  float b2 = abs(fract(f * 1.5 + 0.25 + wob * 0.5) - 0.5);
+  float l1 = 1.0 - smoothstep(0.03, 0.15, b1);
+  float l2 = 1.0 - smoothstep(0.03, 0.13, b2);
+  return max(l1, l2 * 0.85);
+}
+
+/* Resting visibility: 0 near the portrait, full at the edges. The torn
+   hover mask overrides this so strokes ink the pattern even mid-zone. */
+float guillocheVis(vec2 px, float hoverMask) {
+  float fade = smoothstep(uPat2.x, uPat2.y, guillocheR(px));
+  return max(fade, hoverMask * 0.9);
+}
+
 void main() {
   vec2 px = vec2(vUv.x, 1.0 - vUv.y) * uRes;   // y-down css px
 
-  /* early-out well outside the portrait (expanded by the smear reach) */
+  vec2 pUv = (px - uPortrait.xy) / uPortrait.zw;   // portrait-local (can exceed 0..1)
+
+  /* ---- outside the portrait: guilloché with the same torn hover mask ---- */
   float pad = SMEARPX + 2.0;
   if (px.x < uPortrait.x - pad || px.x > uPortrait.x + uPortrait.z + pad ||
       px.y < uPortrait.y       || px.y > uPortrait.y + uPortrait.w) {
-    gl_FragColor = vec4(0.0);
+    // noise in the portrait's physical scale so tears match the reveal's
+    vec2 nUvH = px / uPortrait.w;
+    vec2 warpH = vec2(
+      fbm(nUvH * TEARSCALE + vec2(0.0, TEARPHASE)),
+      fbm(nUvH * TEARSCALE + vec2(11.3, -TEARPHASE) + 4.7)
+    ) - 0.5;
+    vec2 gUvH = (pUv + warpH * TEARAMP - uField.xy) / uField.zw;
+    float fieldH = texture2D(uMask, clamp(gUvH, 0.0, 1.0)).r;
+    float crumbH = (vnoise(nUvH * CRUMBSC) - 0.5) * CRUMBAMP;
+    float mh = smoothstep(TH - EDGESOFT + crumbH, TH + EDGESOFT + crumbH, fieldH);
+    float alpha =
+      guillocheLine(px) * guillocheVis(px, mh) * mix(uPat1.y, uPat1.z, mh);
+    gl_FragColor = vec4(uInk * alpha, alpha);
     return;
   }
-
-  vec2 pUv = (px - uPortrait.xy) / uPortrait.zw;   // portrait-local 0..1
 
   /* ---- torn mask ---------------------------------------------------- */
   // aspect-correct the noise domain so tears aren't stretched
@@ -143,7 +192,7 @@ void main() {
     fbm(nUv * TEARSCALE + vec2(11.3, -TEARPHASE) + 4.7)
   ) - 0.5;
 
-  vec2 fUv = pUv + warp * TEARAMP;
+  vec2 fUv = (pUv + warp * TEARAMP - uField.xy) / uField.zw;
   float field0 = texture2D(uMask, clamp(fUv, 0.0, 1.0)).r;
 
   /* ---- datamosh: row-quantized bands near the mask boundary ---------- */
@@ -158,9 +207,13 @@ void main() {
   float off = offPx / uPortrait.z;
 
   // the mask boundary itself smears — this is what makes the rectangular tabs
+  // (offset is portrait-uv, so divide by the field's x-span for grid space)
   float field = field0;
   if (MASKSMEAR > 0.001) {
-    field = texture2D(uMask, clamp(fUv + vec2(off * MASKSMEAR, 0.0), 0.0, 1.0)).r;
+    field = texture2D(
+      uMask,
+      clamp(fUv + vec2(off * MASKSMEAR / uField.z, 0.0), 0.0, 1.0)
+    ).r;
   }
 
   float crumb = (vnoise(nUv * CRUMBSC) - 0.5) * CRUMBAMP;
@@ -187,13 +240,24 @@ void main() {
     B.rgb = min(B.rgb, vec3(B.a));   // keep the premultiplied invariant
   }
 
-  mask *= smoothstep(0.02, 0.35, B.a);
+  float faceCover = smoothstep(0.02, 0.35, B.a);
+  mask *= faceCover;
 
   vec4 s = mix(A, B, mask);
 
   // bright fringe along the tear
   float fringe = (1.0 - smoothstep(0.0, 0.35, abs(mask - 0.5))) * EDGEGLOW * s.a;
   s.rgb += fringe;
+
+  /* Continue the guilloché across the art's paper margins so the pattern
+     never shows a rectangular seam at the art's bounds. It stays off the
+     engraved head and the revealed face (faceCover), and inks up under the
+     same torn hover mask as everywhere else. */
+  float mSurf = smoothstep(TH - EDGESOFT + crumb, TH + EDGESOFT + crumb, field);
+  float pA = guillocheLine(px) * guillocheVis(px, mSurf) *
+             mix(uPat1.y, uPat1.z, mSurf) * (1.0 - faceCover);
+  s.rgb = mix(s.rgb, uInk * s.a, pA);
+
   s.rgb = min(s.rgb, vec3(s.a));
 
   gl_FragColor = s;
@@ -297,6 +361,11 @@ export function PortraitHero({
     const uB1 = U("uB1");
     const uB2 = U("uB2");
     const uX = U("uX");
+    const uField = U("uField");
+    const uPat1 = U("uPat1");
+    const uPat2 = U("uPat2");
+    const uPatC = U("uPatC");
+    gl.uniform3f(U("uInk"), 16 / 255, 27 / 255, 188 / 255); // #101BBC
 
     gl.uniform1i(U("uTexA"), 0);
     gl.uniform1i(U("uTexB"), 1);
@@ -385,6 +454,13 @@ export function PortraitHero({
     let boxW = 0;
     let boxH = 0;
     let rect = { x: 0, y: 0, w: 1, h: 1 };
+    // trail-field rect (portrait-uv): origin + span, kept in sync by resize()
+    let fOx = 0;
+    let fOy = 0;
+    let fSx = 1;
+    let fSy = 1;
+    let patPhase = 0;
+    let idleThrottle = false;
     const dprCap = isTouchDevice() ? 1.5 : 2;
 
     let raf = 0;
@@ -461,6 +537,20 @@ export function PortraitHero({
       gl.uniform2f(uRes, w, h);
       computeRect();
       gl.uniform4f(uPortrait, rect.x, rect.y, rect.w, rect.h);
+      // trail field covers the whole hero, expressed in portrait-uv
+      fOx = -rect.x / rect.w;
+      fOy = -rect.y / rect.h;
+      fSx = w / rect.w;
+      fSy = h / rect.h;
+      gl.uniform4f(uField, fOx, fOy, fSx, fSy);
+      // guilloché fade centre sits on the face, half-extents span the hero
+      gl.uniform4f(
+        uPatC,
+        rect.x + rect.w / 2,
+        rect.y + rect.h * 0.42,
+        w / 2,
+        h / 2,
+      );
       // keep the placeholder <img> exactly where the shader will draw it
       imgA.style.left = `${rect.x}px`;
       imgA.style.top = `${rect.y}px`;
@@ -489,17 +579,20 @@ export function PortraitHero({
       const c = cfgRef.current;
       const rx = (c.brushRadius * widen) / Math.max(rect.w, 1);
       const ry = (c.brushRadius * widen) / Math.max(rect.h, 1);
-      const minX = Math.max(0, Math.floor((Math.min(x0, x1) - rx) * GW));
-      const maxX = Math.min(GW - 1, Math.ceil((Math.max(x0, x1) + rx) * GW));
-      const minY = Math.max(0, Math.floor((Math.min(y0, y1) - ry) * GH));
-      const maxY = Math.min(GH - 1, Math.ceil((Math.max(y0, y1) + ry) * GH));
+      // portrait-uv ↔ extended-field-grid transforms
+      const toGx = (u: number) => ((u - fOx) / fSx) * GW;
+      const toGy = (v: number) => ((v - fOy) / fSy) * GH;
+      const minX = Math.max(0, Math.floor(toGx(Math.min(x0, x1) - rx)));
+      const maxX = Math.min(GW - 1, Math.ceil(toGx(Math.max(x0, x1) + rx)));
+      const minY = Math.max(0, Math.floor(toGy(Math.min(y0, y1) - ry)));
+      const maxY = Math.min(GH - 1, Math.ceil(toGy(Math.max(y0, y1) + ry)));
       const dx = x1 - x0;
       const dy = y1 - y0;
       const len2 = dx * dx + dy * dy;
       for (let gy = minY; gy <= maxY; gy++) {
-        const cy = (gy + 0.5) / GH;
+        const cy = fOy + ((gy + 0.5) / GH) * fSy;
         for (let gx = minX; gx <= maxX; gx++) {
-          const cx = (gx + 0.5) / GW;
+          const cx = fOx + ((gx + 0.5) / GW) * fSx;
           const t =
             len2 > 0
               ? Math.min(
@@ -533,6 +626,11 @@ export function PortraitHero({
         return;
       }
       const now = performance.now();
+      // idle = only the pattern drifting: half the cadence
+      if (idleThrottle && now - last < 30) {
+        raf = requestAnimationFrame(frame);
+        return;
+      }
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
       const c = cfgRef.current;
@@ -638,16 +736,26 @@ export function PortraitHero({
       gl.uniform4f(uB2, c.edgeBand, c.maskSmearMix, c.rgbSplitPx, c.edgeGlow);
       gl.uniform4f(uX, velocity, ready, 0, 0);
 
+      // guilloché: ordered lathe drift, still under reduced motion
+      const patSpeed = reduced ? 0 : c.patternSpeed;
+      patPhase += patSpeed * dt;
+      gl.uniform4f(uPat1, c.patternSpacing, c.patternOpacity, c.patternHover, patPhase);
+      gl.uniform4f(uPat2, c.patternFadeIn, c.patternFadeOut, c.patternWobble, 0.3);
+
       gl.drawArrays(gl.TRIANGLES, 0, 3);
 
       if (ready && !disposed) setPainted(true);
 
       // With movement-gated stamping a resting cursor drains the field to
-      // zero — sleep then, even mid-hover; any pointermove wakes the loop.
-      if (!amb && maxV === 0 && realDist <= 0.0012) {
+      // zero. If the pattern is still (speed 0 / reduced motion) we can
+      // sleep entirely; otherwise keep animating, but drop the idle state
+      // to ~30fps — visibility/intersection gates stop us off-screen.
+      const idle = !amb && maxV === 0 && realDist <= 0.0012;
+      if (idle && patSpeed <= 0.0001) {
         running = false;
         return;
       }
+      idleThrottle = idle;
       raf = requestAnimationFrame(frame);
     };
 
