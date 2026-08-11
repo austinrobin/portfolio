@@ -529,12 +529,12 @@ export function StudioClient() {
                 label="Resting opacity"
                 value={draft.hero.patternOpacity}
                 min={0}
-                max={1}
+                max={0.3}
                 step={0.01}
                 onChange={(v) =>
                   setDraft({ ...draft, hero: { ...draft.hero, patternOpacity: v } })
                 }
-                hint="Stroke strength at rest — the near-paper colour keeps it a watermark even at 1."
+                hint="How present the guilloché is before hover."
               />
               <Slider
                 label="Hover ink"

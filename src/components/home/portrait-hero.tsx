@@ -417,7 +417,7 @@ export function PortraitHero({
     const uPat2 = U("uPat2");
     const uPatC = U("uPatC");
     gl.uniform3f(U("uInk"), 16 / 255, 27 / 255, 188 / 255); // #101BBC
-    gl.uniform3f(U("uPaper"), 249 / 255, 253 / 255, 255 / 255); // #F9FDFF resting strokes
+    gl.uniform3f(U("uPaper"), 249 / 255, 247 / 255, 241 / 255); // #F9F7F1
 
     gl.uniform1i(U("uTexA"), 0);
     gl.uniform1i(U("uTexB"), 1);
