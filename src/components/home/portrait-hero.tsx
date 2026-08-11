@@ -190,10 +190,13 @@ float guillocheLine(vec2 px) {
 
 /* Resting visibility: floored at 0.2 near the portrait (the clear zone
    whispers instead of emptying), full at the edges. The torn hover mask
-   overrides this so strokes ink the pattern even mid-zone. */
+   overrides this so strokes ink the pattern even mid-zone. Everything is
+   dissolved over the hero's last stretch so the lace melts into the paper
+   at the section boundary instead of clipping. */
 float guillocheVis(vec2 px, float hoverMask) {
   float fade = mix(0.2, 1.0, smoothstep(uPat2.x, uPat2.y, guillocheR(px)));
-  return max(fade, hoverMask * 0.9);
+  float bottomFade = 1.0 - smoothstep(uRes.y * 0.80, uRes.y * 0.985, px.y);
+  return max(fade, hoverMask * 0.9) * bottomFade;
 }
 
 void main() {

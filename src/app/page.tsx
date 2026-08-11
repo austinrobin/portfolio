@@ -11,7 +11,7 @@ export default function Home() {
       <PortraitHero />
 
       {/* Work — scroll-driven flip deck on the site's paper stage */}
-      <section id="work" className="scroll-mt-16 border-t border-border">
+      <section id="work" className="scroll-mt-16">
         <div className="mx-auto max-w-3xl px-6 pt-16 sm:pt-20">
           <div className="flex items-baseline justify-between">
             <p className="flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.2em] text-muted">
