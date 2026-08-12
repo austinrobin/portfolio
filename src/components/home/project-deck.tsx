@@ -150,7 +150,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
     target: wrapRef,
     offset: ["start end", "start start"],
   });
-  const titleOpacity = useTransform(approach, [0, 0.8], [1, 0.16]);
+  const titleOpacity = useTransform(approach, [0, 0.8], [1, 0]);
   const deckY = useTransform(approach, [0.35, 0.9], ["26svh", "0svh"]);
   const capOpacity = useTransform(approach, [0.72, 0.92], [0, 1]);
 
@@ -189,7 +189,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
             highlight, recedes behind the folder as it lands. */}
         <motion.p
           aria-hidden
-          className="pointer-events-none absolute left-1/2 top-[27svh] z-0 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[clamp(64px,12.5vw,200px)] leading-none"
+          className="pointer-events-none absolute left-1/2 top-[27svh] z-0 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[clamp(77px,15vw,240px)] leading-none"
           style={{
             fontFamily: "var(--font-peristiwa)",
             color: INK,
@@ -201,18 +201,18 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
 
         {/* Project name + details, inked like the design */}
         <motion.div
-          className="relative z-10 mb-10 flex w-[min(92vw,990px)] items-end justify-between gap-4"
+          className="relative z-10 mb-[60px] flex w-[min(92vw,990px)] items-end justify-between gap-4"
           style={{ opacity: capOpacity, color: INK }}
         >
           <div className="min-w-0">
             <p
-              className="truncate text-[clamp(33px,3.18vw,48px)] font-bold uppercase tracking-[0.04em]"
+              className="truncate text-[clamp(26px,2.54vw,38px)] font-bold uppercase tracking-[0.04em]"
               style={{ fontFamily: "var(--font-silk)" }}
             >
               {current.title}
             </p>
             <p
-              className="mt-1 truncate text-[clamp(33px,3.18vw,48px)] leading-tight"
+              className="mt-1 truncate text-[clamp(26px,2.54vw,38px)] leading-tight"
               style={{ fontFamily: "var(--font-peristiwa)" }}
             >
               {current.subtitle}
