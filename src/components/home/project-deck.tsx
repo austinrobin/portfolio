@@ -151,7 +151,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
     offset: ["start end", "start start"],
   });
   const titleOpacity = useTransform(approach, [0, 0.8], [1, 0.16]);
-  const deckY = useTransform(approach, [0, 0.85], ["16svh", "0svh"]);
+  const deckY = useTransform(approach, [0, 0.85], ["26svh", "0svh"]);
   const capOpacity = useTransform(approach, [0.6, 0.85], [0, 1]);
 
   useMotionValueEvent(p, "change", (v) => {
@@ -189,7 +189,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
             highlight, recedes behind the folder as it lands. */}
         <motion.p
           aria-hidden
-          className="pointer-events-none absolute left-1/2 top-[34svh] z-0 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[clamp(64px,12.5vw,200px)] leading-none"
+          className="pointer-events-none absolute left-1/2 top-[27svh] z-0 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[clamp(64px,12.5vw,200px)] leading-none"
           style={{
             fontFamily: "var(--font-peristiwa)",
             color: INK,
@@ -206,13 +206,13 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
         >
           <div className="min-w-0">
             <p
-              className="truncate text-[clamp(20px,1.85vw,28px)] font-bold uppercase tracking-[0.04em]"
+              className="truncate text-[clamp(22px,2.12vw,32px)] font-bold uppercase tracking-[0.04em]"
               style={{ fontFamily: "var(--font-silk)" }}
             >
               {current.title}
             </p>
             <p
-              className="mt-1 truncate text-[clamp(18px,1.72vw,26px)] leading-tight"
+              className="mt-1 truncate text-[clamp(22px,2.12vw,32px)] leading-tight"
               style={{ fontFamily: "var(--font-peristiwa)" }}
             >
               {current.subtitle}
