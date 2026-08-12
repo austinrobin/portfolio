@@ -151,8 +151,8 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
     offset: ["start end", "start start"],
   });
   const titleOpacity = useTransform(approach, [0, 0.8], [1, 0.16]);
-  const deckY = useTransform(approach, [0, 0.85], ["26svh", "0svh"]);
-  const capOpacity = useTransform(approach, [0.6, 0.85], [0, 1]);
+  const deckY = useTransform(approach, [0.35, 0.9], ["26svh", "0svh"]);
+  const capOpacity = useTransform(approach, [0.72, 0.92], [0, 1]);
 
   useMotionValueEvent(p, "change", (v) => {
     const idx = Math.min(Math.max(Math.round(v), 0), n - 1);
@@ -206,13 +206,13 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
         >
           <div className="min-w-0">
             <p
-              className="truncate text-[clamp(22px,2.12vw,32px)] font-bold uppercase tracking-[0.04em]"
+              className="truncate text-[clamp(33px,3.18vw,48px)] font-bold uppercase tracking-[0.04em]"
               style={{ fontFamily: "var(--font-silk)" }}
             >
               {current.title}
             </p>
             <p
-              className="mt-1 truncate text-[clamp(22px,2.12vw,32px)] leading-tight"
+              className="mt-1 truncate text-[clamp(33px,3.18vw,48px)] leading-tight"
               style={{ fontFamily: "var(--font-peristiwa)" }}
             >
               {current.subtitle}
