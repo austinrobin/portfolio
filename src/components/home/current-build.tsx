@@ -22,15 +22,18 @@ export function CurrentBuild() {
             src="/current-coin.png"
             alt=""
             aria-hidden
-            width={246}
-            height={201}
+            width={655}
+            height={536}
+            sizes="(max-width: 640px) 120px, 229px"
             className="absolute inset-0 scale-105 blur-md opacity-70"
           />
           <Image
             src="/current-coin.png"
             alt="The High Club — 999.9 fine silver coin"
-            width={246}
-            height={201}
+            width={655}
+            height={536}
+            sizes="(max-width: 640px) 120px, 229px"
+            quality={90}
             className="relative"
           />
         </div>

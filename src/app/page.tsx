@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { showcase } from "@/lib/showcase";
 import { PortraitHero } from "@/components/home/portrait-hero";
 import { CurrentBuild } from "@/components/home/current-build";
@@ -14,22 +13,10 @@ export default function Home() {
       {/* Currently building — High (coin + script, per the Figma export) */}
       <CurrentBuild />
 
-      {/* Work — scroll-driven flip deck on the site's paper stage */}
+      {/* Work — scroll-driven flip deck; the giant script leads the section
+          in and recedes behind the folder (design: Select Works) */}
       <section id="work" className="scroll-mt-16">
-        <div className="mx-auto max-w-3xl px-6 pt-16 sm:pt-20">
-          <div className="flex items-baseline justify-between">
-            <p className="flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.2em] text-muted">
-              <span className="size-2 rounded-full bg-[var(--accent)]" />
-              Selected work
-            </p>
-            <Link
-              href="/work"
-              className="text-sm text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline"
-            >
-              All projects →
-            </Link>
-          </div>
-        </div>
+        <h2 className="sr-only">Select Works</h2>
         <ProjectDeck items={showcase} />
       </section>
 

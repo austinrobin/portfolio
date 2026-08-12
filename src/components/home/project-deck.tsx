@@ -12,6 +12,7 @@ import {
   type MotionValue,
 } from "motion/react";
 import type { ShowcaseItem } from "@/lib/showcase";
+import { heroFonts, INK } from "./hero-config";
 
 /* Smoothstep — flat near 0 and 1 so cards dwell in their resting states. */
 const smooth = (x: number) => {
@@ -141,18 +142,40 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
   });
   const p = useTransform(scrollYProgress, (v) => v * (n - 1));
 
+  /* Entrance choreography, complete BEFORE the section top pins: while the
+     section rides up from the viewport bottom, the big script is the
+     highlight; the folder then rises into place over it as the script
+     recedes to 16%, and the project title fades up once the folder lands. */
+  const { scrollYProgress: approach } = useScroll({
+    target: wrapRef,
+    offset: ["start end", "start start"],
+  });
+  const titleOpacity = useTransform(approach, [0, 0.8], [1, 0.16]);
+  const deckY = useTransform(approach, [0, 0.85], ["16svh", "0svh"]);
+  const capOpacity = useTransform(approach, [0.6, 0.85], [0, 1]);
+
   useMotionValueEvent(p, "change", (v) => {
     const idx = Math.min(Math.max(Math.round(v), 0), n - 1);
     if (idx !== active) setActive(idx);
   });
 
+  const fontVars = `${heroFonts.silk.variable} ${heroFonts.peristiwa.variable}`;
+
   /* Reduced motion: a simple, honest list — no pinning, no 3D. */
   if (reduce) {
     return (
-      <div className="space-y-6">
-        {items.map((item) => (
-          <CardShellStatic key={item.id} item={item} />
-        ))}
+      <div className={fontVars}>
+        <p
+          className="px-6 pb-10 text-center text-[clamp(48px,9vw,140px)] leading-none"
+          style={{ fontFamily: "var(--font-peristiwa)", color: INK }}
+        >
+          Select Works
+        </p>
+        <div className="space-y-6">
+          {items.map((item) => (
+            <CardShellStatic key={item.id} item={item} />
+          ))}
+        </div>
       </div>
     );
   }
@@ -160,48 +183,66 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
   const current = items[active];
 
   return (
-    <div ref={wrapRef} style={{ height: `${n * 100}vh` }}>
+    <div ref={wrapRef} className={fontVars} style={{ height: `${n * 100}vh` }}>
       <div className="sticky top-0 flex h-svh flex-col items-center justify-center overflow-hidden">
-        {/* Caption row — ABOVE the stage so falling cards never sweep over it */}
-        <div className="relative z-10 mb-12 flex w-[min(92vw,990px)] items-end justify-between">
+        {/* The section's name — a huge script watermark. Starts as the
+            highlight, recedes behind the folder as it lands. */}
+        <motion.p
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-[34svh] z-0 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[clamp(64px,12.5vw,200px)] leading-none"
+          style={{
+            fontFamily: "var(--font-peristiwa)",
+            color: INK,
+            opacity: titleOpacity,
+          }}
+        >
+          Select Works
+        </motion.p>
+
+        {/* Project name + details, inked like the design */}
+        <motion.div
+          className="relative z-10 mb-10 flex w-[min(92vw,990px)] items-end justify-between gap-4"
+          style={{ opacity: capOpacity, color: INK }}
+        >
           <div className="min-w-0">
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
-              {String(active + 1).padStart(2, "0")} / {String(n).padStart(2, "0")}
+            <p
+              className="truncate text-[clamp(20px,1.85vw,28px)] font-bold uppercase tracking-[0.04em]"
+              style={{ fontFamily: "var(--font-silk)" }}
+            >
+              {current.title}
             </p>
-            <div className="mt-2 flex items-baseline gap-3">
-              <p className="truncate text-xl font-semibold tracking-tight text-foreground">
-                {current.title}
-              </p>
-              <p className="hidden truncate text-sm text-muted sm:block">
-                {current.subtitle}
-              </p>
-            </div>
+            <p
+              className="mt-1 truncate text-[clamp(18px,1.72vw,26px)] leading-tight"
+              style={{ fontFamily: "var(--font-peristiwa)" }}
+            >
+              {current.subtitle}
+            </p>
           </div>
           {current.href ? (
             <Link
               href={current.href}
-              className="shrink-0 rounded-full border border-border px-4 py-2 text-sm text-foreground transition-colors hover:bg-subtle"
+              className="shrink-0 rounded-full border border-[#101BBC]/35 px-4 py-2 text-sm transition-colors hover:bg-[#101BBC]/5"
             >
               View case study →
             </Link>
           ) : (
-            <span className="shrink-0 rounded-full border border-border px-4 py-2 font-mono text-[11px] uppercase tracking-wider text-muted">
+            <span className="shrink-0 rounded-full border border-[#101BBC]/25 px-4 py-2 font-mono text-[11px] uppercase tracking-wider opacity-70">
               Coming soon
             </span>
           )}
-        </div>
+        </motion.div>
 
-        {/* 3D stage */}
-        <div
-          className="w-[min(92vw,990px)]"
-          style={{ perspective: 1300, perspectiveOrigin: "50% 16%" }}
+        {/* 3D stage — the works folder; rises into place over the script */}
+        <motion.div
+          className="z-10 w-[min(92vw,990px)]"
+          style={{ perspective: 1300, perspectiveOrigin: "50% 16%", y: deckY }}
         >
           <div className="relative aspect-[16/10] [transform-style:preserve-3d]">
             {items.map((item, i) => (
               <DeckCard key={item.id} item={item} index={i} p={p} />
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
