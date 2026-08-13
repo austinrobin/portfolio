@@ -3,7 +3,7 @@ import { PortraitHero } from "@/components/home/portrait-hero";
 import { CurrentBuild } from "@/components/home/current-build";
 import { ProjectDeck } from "@/components/home/project-deck";
 import { LabTeaser } from "@/components/home/lab-teaser";
-import { LifeTeaser } from "@/components/home/life-teaser";
+import { LifeCollage } from "@/components/home/life-collage";
 
 export default function Home() {
   return (
@@ -25,10 +25,9 @@ export default function Home() {
         <LabTeaser />
       </div>
 
-      {/* Studio / Life — leadership + personality teaser */}
-      <div className="border-t border-border">
-        <LifeTeaser />
-      </div>
+      {/* Studio / Life — the draggable desk collage (paper continues from
+          the sections above; no divider, the spread is the transition) */}
+      <LifeCollage />
     </div>
   );
 }
