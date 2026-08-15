@@ -7,11 +7,17 @@ import {
   type HeroSettings,
 } from "@/components/home/portrait-hero";
 import { siteConfig, type SiteConfig } from "@/lib/site";
+import {
+  caseStockbee,
+  type CaseMedia,
+  type CaseStudy,
+} from "@/lib/case-studies";
 
 /* ------------------------------------------------------------------ types */
 interface Draft {
   hero: HeroSettings;
   site: SiteConfig;
+  caseStockbee: CaseStudy;
 }
 interface LogEntry {
   at: string;
@@ -19,10 +25,83 @@ interface LogEntry {
   changes: { field: string; from: unknown; to: unknown }[];
 }
 
-const DRAFT_KEY = "studio-draft-v3";
+/** A media upload staged for the next save (kept in memory — not in the
+    localStorage draft, base64 payloads would blow its quota). */
+interface PendingMedia {
+  path: string; // repo path, e.g. public/case/stockbee/engine-1712.webp
+  base64: string;
+  bytes: number;
+}
+
+const DRAFT_KEY = "studio-draft-v4"; // v4: + caseStockbee (stale v3 drafts must not shadow it)
 const KEY_KEY = "studio-key";
 
-const defaults: Draft = { hero: heroConfig, site: siteConfig };
+const defaults: Draft = {
+  hero: heroConfig,
+  site: siteConfig,
+  caseStockbee,
+};
+
+/* --------------------------------------------------- media upload helpers */
+
+/** Downscale + re-encode an image to webp (jpeg fallback) so anything the
+    Studio commits is display-sized and light. Returns base64 (no prefix). */
+async function compressImage(
+  file: File,
+): Promise<{ base64: string; bytes: number; ext: string }> {
+  const bitmap = await createImageBitmap(file);
+  const encode = async (maxW: number, quality: number) => {
+    const scale = Math.min(1, maxW / bitmap.width);
+    const w = Math.round(bitmap.width * scale);
+    const h = Math.round(bitmap.height * scale);
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    canvas.getContext("2d")!.drawImage(bitmap, 0, 0, w, h);
+    const blob = await new Promise<Blob | null>((res) =>
+      canvas.toBlob(res, "image/webp", quality),
+    );
+    return blob;
+  };
+
+  let blob = await encode(1920, 0.82);
+  if (blob && blob.size > 1_500_000) blob = await encode(1600, 0.72);
+  if (!blob) throw new Error("Could not encode the image.");
+  if (blob.size > 2_000_000)
+    throw new Error(
+      `Still ${Math.round(blob.size / 1024)}KB after compression — hand this one to Claude to optimise.`,
+    );
+
+  const buf = await blob.arrayBuffer();
+  let bin = "";
+  const bytes = new Uint8Array(buf);
+  for (let i = 0; i < bytes.length; i += 0x8000) {
+    bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  }
+  return { base64: btoa(bin), bytes: blob.size, ext: "webp" };
+}
+
+async function readVideo(
+  file: File,
+): Promise<{ base64: string; bytes: number; ext: string }> {
+  if (!/\.(mp4|webm)$/i.test(file.name))
+    throw new Error("Videos must be .mp4 or .webm.");
+  if (file.size > 8_000_000)
+    throw new Error(
+      `${Math.round(file.size / 1024 / 1024)}MB is too heavy for the site — hand it to Claude to compress first (target: under 8MB).`,
+    );
+  const buf = await file.arrayBuffer();
+  let bin = "";
+  const bytes = new Uint8Array(buf);
+  for (let i = 0; i < bytes.length; i += 0x8000) {
+    bin += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  }
+  return {
+    base64: btoa(bin),
+    bytes: file.size,
+    ext: file.name.toLowerCase().endsWith(".webm") ? "webm" : "mp4",
+  };
+}
 
 /* ------------------------------------------------------------- utilities */
 function diff(before: Draft, after: Draft) {
@@ -104,6 +183,30 @@ function TextField({
   );
 }
 
+function TextArea({
+  label,
+  value,
+  onChange,
+  rows = 3,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  rows?: number;
+}) {
+  return (
+    <label className="block">
+      <span className="text-sm font-medium">{label}</span>
+      <textarea
+        value={value}
+        rows={rows}
+        onChange={(e) => onChange(e.target.value)}
+        className="mt-1.5 w-full resize-y rounded-lg border border-border bg-background px-3 py-2 text-sm leading-relaxed outline-none focus:border-foreground/40"
+      />
+    </label>
+  );
+}
+
 function Toggle({
   label,
   value,
@@ -151,6 +254,8 @@ export function StudioClient() {
   const [status, setStatus] = useState<string>("");
   const [saving, setSaving] = useState(false);
   const [log, setLog] = useState<LogEntry[]>([]);
+  const [pending, setPending] = useState<PendingMedia[]>([]);
+  const [mediaErr, setMediaErr] = useState("");
 
   /* Restore draft + key. localStorage can't be read during render (it doesn't
      exist on the server), so hydrating from it in an effect is the correct
@@ -175,7 +280,85 @@ export function StudioClient() {
   }, [draft]);
 
   const changes = useMemo(() => diff(defaults, draft), [draft]);
-  const dirty = changes.length > 0;
+  const dirty = changes.length > 0 || pending.length > 0;
+
+  /* -------------------------------------------- case-study edit helpers */
+  const setCase = (patch: Partial<CaseStudy>) =>
+    setDraft({ ...draft, caseStockbee: { ...draft.caseStockbee, ...patch } });
+
+  const setSection = (
+    si: number,
+    patch: Partial<CaseStudy["sections"][number]>,
+  ) => {
+    const sections = [...draft.caseStockbee.sections];
+    sections[si] = { ...sections[si], ...patch };
+    setCase({ sections });
+  };
+
+  const setMedia = (si: number, mi: number, patch: Partial<CaseMedia>) => {
+    const media = [...draft.caseStockbee.sections[si].media];
+    media[mi] = { ...media[mi], ...patch };
+    setSection(si, { media });
+  };
+
+  const moveMedia = (si: number, mi: number, dir: -1 | 1) => {
+    const media = [...draft.caseStockbee.sections[si].media];
+    const [m] = media.splice(mi, 1);
+    media.splice(mi + dir, 0, m);
+    setSection(si, { media });
+  };
+
+  const removeMedia = (si: number, mi: number) => {
+    const gone = draft.caseStockbee.sections[si].media[mi];
+    setSection(si, {
+      media: draft.caseStockbee.sections[si].media.filter((_, j) => j !== mi),
+    });
+    // un-stage its upload if it never shipped
+    if (gone?.src)
+      setPending((p) =>
+        p.filter((f) => `/${f.path.replace(/^public\//, "")}` !== gone.src),
+      );
+  };
+
+  const setStat = (i: number, patch: Partial<{ value: string; label: string }>) => {
+    const stats = [...draft.caseStockbee.impact.stats];
+    stats[i] = { ...stats[i], ...patch };
+    setCase({ impact: { ...draft.caseStockbee.impact, stats } });
+  };
+
+  const pendingBadge = (src: string) =>
+    pending.some((f) => `/${f.path.replace(/^public\//, "")}` === src)
+      ? " · staged"
+      : "";
+
+  async function addMedia(si: number, file: File) {
+    setMediaErr("");
+    try {
+      const isVideo = file.type.startsWith("video/");
+      const out = isVideo ? await readVideo(file) : await compressImage(file);
+      const name = `${draft.caseStockbee.sections[si].id}-${Date.now()}.${out.ext}`;
+      const repoPath = `public/case/stockbee/${name}`;
+      setPending((p) => [
+        ...p,
+        { path: repoPath, base64: out.base64, bytes: out.bytes },
+      ]);
+      const media = [
+        ...draft.caseStockbee.sections[si].media,
+        {
+          kind: isVideo ? ("video" as const) : ("image" as const),
+          src: `/case/stockbee/${name}`,
+          caption: "",
+          aspect: "wide" as const,
+        },
+      ];
+      setSection(si, { media });
+      setStatus(
+        `Staged ${name} at ${Math.round(out.bytes / 1024)}KB — lightweight ✓`,
+      );
+    } catch (e) {
+      setMediaErr(e instanceof Error ? e.message : String(e));
+    }
+  }
 
   async function tryAuth(k: string) {
     setAuthErr("");
@@ -223,6 +406,15 @@ export function StudioClient() {
               path: "content/site.json",
               content: JSON.stringify(draft.site, null, 2) + "\n",
             },
+            {
+              path: "content/case-stockbee.json",
+              content: JSON.stringify(draft.caseStockbee, null, 2) + "\n",
+            },
+            ...pending.map((m) => ({
+              path: m.path,
+              content: m.base64,
+              encoding: "base64" as const,
+            })),
           ],
           summary: `update ${summary}`,
           changes,
@@ -230,6 +422,7 @@ export function StudioClient() {
       });
       const data = await res.json();
       if (res.ok) {
+        setPending([]); // media is committed — nothing staged any more
         setStatus(
           data.mode === "github"
             ? "Saved & committed — deploying, live in ~1 min."
@@ -816,6 +1009,218 @@ export function StudioClient() {
               </button>
             </section>
 
+            <section className="space-y-6">
+              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
+                Case — StockBee
+              </h2>
+              <TextArea
+                label="Tagline"
+                value={draft.caseStockbee.tagline}
+                rows={2}
+                onChange={(v) => setCase({ tagline: v })}
+              />
+              <div className="grid grid-cols-2 gap-2">
+                <TextField
+                  label="Team"
+                  value={draft.caseStockbee.team}
+                  onChange={(v) => setCase({ team: v })}
+                />
+                <TextField
+                  label="Scope"
+                  value={draft.caseStockbee.scope}
+                  onChange={(v) => setCase({ scope: v })}
+                />
+              </div>
+
+              {draft.caseStockbee.sections.map((s, si) => (
+                <details
+                  key={s.id}
+                  className="rounded-xl border border-border p-4"
+                >
+                  <summary className="cursor-pointer text-sm font-medium">
+                    {s.kicker}
+                  </summary>
+                  <div className="mt-4 space-y-3">
+                    <TextField
+                      label="Kicker"
+                      value={s.kicker}
+                      onChange={(v) => setSection(si, { kicker: v })}
+                    />
+                    <TextArea
+                      label="Heading"
+                      value={s.heading}
+                      rows={2}
+                      onChange={(v) => setSection(si, { heading: v })}
+                    />
+                    <TextArea
+                      label="Body (blank line = new paragraph)"
+                      value={s.body.join("\n\n")}
+                      rows={5}
+                      onChange={(v) =>
+                        setSection(si, {
+                          body: v.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean),
+                        })
+                      }
+                    />
+                    <TextField
+                      label="Big statement (optional)"
+                      value={s.statement ?? ""}
+                      onChange={(v) => setSection(si, { statement: v })}
+                    />
+
+                    {/* media slots */}
+                    <div className="space-y-2">
+                      <span className="text-sm font-medium">Media</span>
+                      {s.media.map((m, mi) => (
+                        <div
+                          key={mi}
+                          className="rounded-lg border border-border p-3"
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="truncate font-mono text-[11px] text-muted">
+                              {m.src || "empty slot — upload below"}
+                              {pendingBadge(m.src)}
+                            </span>
+                            <div className="flex shrink-0 gap-1">
+                              <button
+                                aria-label="Move up"
+                                disabled={mi === 0}
+                                onClick={() => moveMedia(si, mi, -1)}
+                                className="rounded border border-border px-2 py-1 text-xs disabled:opacity-30"
+                              >
+                                ↑
+                              </button>
+                              <button
+                                aria-label="Move down"
+                                disabled={mi === s.media.length - 1}
+                                onClick={() => moveMedia(si, mi, 1)}
+                                className="rounded border border-border px-2 py-1 text-xs disabled:opacity-30"
+                              >
+                                ↓
+                              </button>
+                              <button
+                                aria-label="Remove media"
+                                onClick={() => removeMedia(si, mi)}
+                                className="rounded border border-border px-2 py-1 text-xs text-muted hover:text-foreground"
+                              >
+                                ×
+                              </button>
+                            </div>
+                          </div>
+                          <div className="mt-2 grid grid-cols-[1fr_auto] gap-2">
+                            <TextField
+                              label=""
+                              value={m.caption ?? ""}
+                              onChange={(v) =>
+                                setMedia(si, mi, { caption: v })
+                              }
+                            />
+                            <select
+                              aria-label="Aspect"
+                              value={m.aspect ?? "wide"}
+                              onChange={(e) =>
+                                setMedia(si, mi, {
+                                  aspect: e.target
+                                    .value as CaseMedia["aspect"],
+                                })
+                              }
+                              className="self-end rounded-lg border border-border bg-background px-2 py-2 text-sm"
+                            >
+                              <option value="wide">Wide 21:9</option>
+                              <option value="screen">Screen 16:10</option>
+                              <option value="tall">Tall 4:5</option>
+                            </select>
+                          </div>
+                        </div>
+                      ))}
+                      <label className="block cursor-pointer rounded-lg border border-dashed border-border px-3 py-2.5 text-center text-sm text-muted hover:text-foreground">
+                        + Add image or video
+                        <input
+                          type="file"
+                          accept="image/*,video/mp4,video/webm"
+                          className="hidden"
+                          onChange={(e) => {
+                            const f = e.target.files?.[0];
+                            if (f) void addMedia(si, f);
+                            e.target.value = "";
+                          }}
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </details>
+              ))}
+
+              {/* impact + result */}
+              <details className="rounded-xl border border-border p-4">
+                <summary className="cursor-pointer text-sm font-medium">
+                  Impact numbers
+                </summary>
+                <div className="mt-4 space-y-2">
+                  {draft.caseStockbee.impact.stats.map((st, i) => (
+                    <div key={i} className="grid grid-cols-[1fr_2fr] gap-2">
+                      <TextField
+                        label={i === 0 ? "Value" : ""}
+                        value={st.value}
+                        onChange={(v) => setStat(i, { value: v })}
+                      />
+                      <TextField
+                        label={i === 0 ? "Label" : ""}
+                        value={st.label}
+                        onChange={(v) => setStat(i, { label: v })}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </details>
+              <details className="rounded-xl border border-border p-4">
+                <summary className="cursor-pointer text-sm font-medium">
+                  The result
+                </summary>
+                <div className="mt-4 space-y-3">
+                  <TextArea
+                    label="Body"
+                    value={draft.caseStockbee.result.body.join("\n\n")}
+                    rows={3}
+                    onChange={(v) =>
+                      setCase({
+                        result: {
+                          ...draft.caseStockbee.result,
+                          body: v.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean),
+                        },
+                      })
+                    }
+                  />
+                  <TextArea
+                    label="Closing statement"
+                    value={draft.caseStockbee.result.statement}
+                    rows={2}
+                    onChange={(v) =>
+                      setCase({
+                        result: { ...draft.caseStockbee.result, statement: v },
+                      })
+                    }
+                  />
+                </div>
+              </details>
+              {mediaErr && (
+                <p className="text-xs leading-relaxed text-red-700">
+                  {mediaErr}
+                </p>
+              )}
+              {pending.length > 0 && (
+                <p className="text-xs leading-relaxed text-muted">
+                  {pending.length} media file{pending.length > 1 ? "s" : ""}{" "}
+                  staged (
+                  {Math.round(
+                    pending.reduce((n, m) => n + m.bytes, 0) / 1024,
+                  )}
+                  KB) — commits on save. Staged uploads don&rsquo;t survive a
+                  page reload.
+                </p>
+              )}
+            </section>
+
             {/* Save bar */}
             <div className="sticky bottom-4 rounded-xl border border-border bg-background/90 p-4 backdrop-blur">
               <div className="flex items-center gap-3">
@@ -827,7 +1232,11 @@ export function StudioClient() {
                   {saving ? "Saving…" : "Save & publish"}
                 </button>
                 <button
-                  onClick={() => setDraft(defaults)}
+                  onClick={() => {
+                    setDraft(defaults);
+                    setPending([]);
+                    setMediaErr("");
+                  }}
                   disabled={!dirty || saving}
                   className="rounded-full border border-border px-4 py-2.5 text-sm disabled:opacity-40"
                 >

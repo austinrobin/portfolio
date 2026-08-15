@@ -1,51 +1,39 @@
-import { stockbee } from "@/content/case-studies/stockbee";
+import stockbeeJson from "../../content/case-stockbee.json";
+
+/*
+ * Case-study content, Studio-editable.
+ *
+ * Each case study lives in content/case-<slug>.json (text + media slots) so
+ * the Studio can edit copy, add media, and commit the result — the same
+ * git-backed flow as site.json/hero.json. Media files land under
+ * public/case/<slug>/ via the Studio's upload (client-compressed, size-capped).
+ */
+
+export interface CaseMedia {
+  kind: "image" | "video";
+  /** Public path (e.g. /case/stockbee/den.webp). Empty = placeholder slot. */
+  src: string;
+  caption?: string;
+  /** Band shape: wide 21/9, screen 16/10, tall 4/5. */
+  aspect?: "wide" | "screen" | "tall";
+  /** Poster image for videos. */
+  poster?: string;
+}
+
+export interface CaseSection {
+  id: string;
+  kicker: string;
+  heading: string;
+  body: string[];
+  /** Oversized emphasis line rendered after the body ("All signal. No noise."). */
+  statement?: string;
+  media: CaseMedia[];
+}
 
 export interface ImpactStat {
   value: string;
   label: string;
-  placeholder?: boolean;
 }
-
-export interface Block {
-  label: string;
-  desc: string;
-}
-
-export type Section =
-  | {
-      kind: "narrative";
-      id: string;
-      navLabel: string;
-      eyebrow?: string;
-      title?: string;
-      hook: string[];
-      body: string[];
-      blocks?: Block[];
-    }
-  | {
-      kind: "callout";
-      id: string;
-      navLabel?: string;
-      eyebrow?: string;
-      text: string;
-    }
-  | {
-      kind: "image";
-      id: string;
-      navLabel?: string;
-      theme?: "dark" | "light";
-      caption?: string;
-      src?: string;
-      alt?: string;
-    }
-  | {
-      kind: "impact";
-      id: string;
-      navLabel: string;
-      title: string;
-      stats: ImpactStat[];
-    }
-  | { kind: "closing"; id: string; navLabel?: string; hook: string[]; body: string[] };
 
 export interface CaseStudy {
   slug: string;
@@ -55,17 +43,20 @@ export interface CaseStudy {
   year: string;
   tags: string[];
   role: string;
-  team?: string;
-  skills?: string[];
-  timeline?: string;
+  disciplines: string;
+  team: string;
+  scope: string;
   cover?: string;
-  overview: string[];
-  sections: Section[];
+  sections: CaseSection[];
+  impact: { title: string; stats: ImpactStat[] };
+  result: { heading: string; body: string[]; statement: string };
   featured?: boolean;
   order?: number;
 }
 
-const registry: CaseStudy[] = [stockbee];
+export const caseStockbee: CaseStudy = stockbeeJson as CaseStudy;
+
+const registry: CaseStudy[] = [caseStockbee];
 
 export function getCaseStudies(): CaseStudy[] {
   return [...registry].sort((a, b) => {
@@ -80,20 +71,4 @@ export function getCaseStudy(slug: string): CaseStudy | null {
 
 export function getCaseStudySlugs(): string[] {
   return registry.map((c) => c.slug);
-}
-
-/** Sections that should appear in the sticky Contents nav. */
-export function getContents(cs: CaseStudy): { id: string; label: string }[] {
-  const items: { id: string; label: string }[] = [
-    { id: "overview", label: "Overview" },
-  ];
-  for (const s of cs.sections) {
-    if ("navLabel" in s && s.navLabel) {
-      // Avoid duplicate consecutive labels (e.g. callout + narrative share a label)
-      if (items[items.length - 1]?.label !== s.navLabel) {
-        items.push({ id: s.id, label: s.navLabel });
-      }
-    }
-  }
-  return items;
 }

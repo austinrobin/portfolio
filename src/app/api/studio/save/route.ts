@@ -13,13 +13,42 @@ import path from "node:path";
  */
 
 interface SavePayload {
-  files: { path: string; content: string }[];
+  files: { path: string; content: string; encoding?: "base64" }[];
   summary: string;
   changes: { field: string; from: unknown; to: unknown }[];
 }
 
-const ALLOWED = new Set(["content/site.json", "content/hero.json"]);
+const ALLOWED = new Set([
+  "content/site.json",
+  "content/hero.json",
+  "content/case-stockbee.json",
+]);
 const LOG_PATH = "content/updates-log.json";
+
+/* Studio media uploads: committed alongside the content, but only into the
+   case folders, only known formats, and only at sizes the client-side
+   compressor should already have produced. */
+const MEDIA_PREFIX = "public/case/";
+const MEDIA_NAME = /^[a-z0-9][a-z0-9/_-]*\.(webp|jpe?g|png|mp4|webm)$/;
+const MEDIA_MAX_BYTES: Record<string, number> = {
+  webp: 2_000_000,
+  jpg: 2_000_000,
+  jpeg: 2_000_000,
+  png: 2_000_000,
+  mp4: 8_000_000,
+  webm: 8_000_000,
+};
+
+function mediaError(f: { path: string; content: string; encoding?: string }) {
+  const rel = f.path.slice(MEDIA_PREFIX.length);
+  if (f.encoding !== "base64") return "media-needs-base64";
+  if (!MEDIA_NAME.test(rel) || rel.includes("..")) return "bad-media-name";
+  const ext = rel.split(".").pop()!;
+  const bytes = Math.floor(f.content.length * 0.75);
+  if (bytes > (MEDIA_MAX_BYTES[ext] ?? 0))
+    return `media-too-large (${Math.round(bytes / 1024)}KB ${ext})`;
+  return null;
+}
 
 function unauthorized() {
   return NextResponse.json({ error: "unauthorized" }, { status: 401 });
@@ -46,11 +75,21 @@ export async function POST(req: NextRequest) {
   } catch {
     return NextResponse.json({ error: "bad-json" }, { status: 400 });
   }
-  if (
-    !payload.files?.length ||
-    payload.files.some((f) => !ALLOWED.has(f.path))
-  ) {
+  if (!payload.files?.length) {
     return NextResponse.json({ error: "bad-paths" }, { status: 400 });
+  }
+  for (const f of payload.files) {
+    if (ALLOWED.has(f.path)) continue;
+    if (f.path.startsWith(MEDIA_PREFIX)) {
+      const err = mediaError(f);
+      if (err)
+        return NextResponse.json({ error: err, path: f.path }, { status: 400 });
+      continue;
+    }
+    return NextResponse.json(
+      { error: "bad-paths", path: f.path },
+      { status: 400 },
+    );
   }
 
   const entry = {
@@ -63,7 +102,13 @@ export async function POST(req: NextRequest) {
   if (isDev) {
     const root = process.cwd();
     for (const f of payload.files) {
-      fs.writeFileSync(path.join(root, f.path), f.content);
+      const target = path.join(root, f.path);
+      fs.mkdirSync(path.dirname(target), { recursive: true });
+      if (f.encoding === "base64") {
+        fs.writeFileSync(target, Buffer.from(f.content, "base64"));
+      } else {
+        fs.writeFileSync(target, f.content);
+      }
     }
     const logFile = path.join(root, LOG_PATH);
     const log = JSON.parse(fs.readFileSync(logFile, "utf8"));
@@ -119,17 +164,36 @@ export async function POST(req: NextRequest) {
     }
     log.unshift(entry);
 
+    // binary files need a blob each (the Trees API only inlines utf-8 text)
+    const treeItems: Record<string, string>[] = [];
+    for (const f of payload.files) {
+      if (f.encoding === "base64") {
+        const blob = await gh(`/repos/${repo}/git/blobs`, {
+          method: "POST",
+          body: JSON.stringify({ content: f.content, encoding: "base64" }),
+        });
+        treeItems.push({
+          path: f.path,
+          mode: "100644",
+          type: "blob",
+          sha: blob.sha,
+        });
+      } else {
+        treeItems.push({
+          path: f.path,
+          mode: "100644",
+          type: "blob",
+          content: f.content,
+        });
+      }
+    }
+
     const tree = await gh(`/repos/${repo}/git/trees`, {
       method: "POST",
       body: JSON.stringify({
         base_tree: head.tree.sha,
         tree: [
-          ...payload.files.map((f) => ({
-            path: f.path,
-            mode: "100644",
-            type: "blob",
-            content: f.content,
-          })),
+          ...treeItems,
           {
             path: LOG_PATH,
             mode: "100644",
