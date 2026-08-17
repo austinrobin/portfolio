@@ -274,14 +274,10 @@ function StepMedia({
         : [lo - fade, lo, hi - fade, hi],
     index === 0 ? [1, 1, 1, 0] : index === count - 1 ? [0, 1, 1, 1] : [0, 1, 1, 0],
   );
-  const y = useTransform(progress, [lo - 1 / count, hi], ["6%", "-6%"]);
-  const scale = useTransform(progress, [lo - fade, lo + 0.5 / count], [1.04, 1]);
+  const scale = useTransform(progress, [lo - fade, lo + 0.5 / count], [1.06, 1]);
 
   return (
-    <motion.div
-      style={{ opacity, y, scale }}
-      className="absolute inset-0 overflow-hidden rounded-2xl bg-[#0B0F0B]"
-    >
+    <motion.div style={{ opacity, scale }} className="absolute inset-0 bg-[#0B0F0B]">
       {media?.src ? (
         media.kind === "video" ? (
           <video
@@ -354,10 +350,11 @@ function PinnedShowcase({
       data-zone-id={items[0].id}
       style={{ height: `${n * 100 + 40}vh` }}
     >
-      <div className="sticky top-0 flex h-svh items-center overflow-hidden">
-        <div className="mx-auto grid w-[min(94vw,1500px)] items-center gap-10 md:grid-cols-[1.5fr_1fr] md:gap-16">
-          {/* media stage — pinned left, swapping per step */}
-          <div className="relative aspect-[16/11] max-h-[76svh] w-full">
+      <div className="sticky top-0 flex h-svh items-center justify-center overflow-hidden">
+        {/* the asset IS the section: a near-fullscreen inset frame, hero-text
+            wide, media swapping per step behind an overlay */}
+        <div className="relative h-[92svh] w-[min(92vw,1400px)]">
+          <div className="absolute inset-0 overflow-hidden rounded-3xl">
             {items.map((item, i) => (
               <StepMedia
                 key={item.id}
@@ -368,17 +365,20 @@ function PinnedShowcase({
                 progress={scrollYProgress}
               />
             ))}
+            {/* scrim so the overlay text reads on any asset */}
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,transparent_42%,rgba(4,6,4,0.66)_100%)] max-md:bg-[linear-gradient(to_top,rgba(4,6,4,0.78)_0%,rgba(4,6,4,0.25)_45%,transparent_65%)]" />
           </div>
 
-          {/* feature text — right column, swaps with the step */}
-          <div className="relative min-h-[16rem]">
+          {/* feature text — overlays the asset, fades + slides up per step */}
+          <div className="absolute inset-0 flex items-center justify-end max-md:items-end">
             <motion.div
               key={s.id}
-              initial={{ opacity: 0, y: 26 }}
+              initial={{ opacity: 0, y: 56 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, ease: EASE }}
+              transition={{ duration: 0.65, ease: EASE }}
+              className="w-full max-w-md p-8 text-[#EDF3ED] sm:p-14"
             >
-              <p className="font-mono text-xs tracking-[0.25em] text-muted">
+              <p className="font-mono text-xs tracking-[0.25em] text-[#B6FF3D]">
                 {String(startIndex + step + 1).padStart(2, "0")}
               </p>
               <h2 className="mt-4 font-display text-[clamp(26px,2.6vw,40px)] leading-[1.08] tracking-tight">
@@ -386,7 +386,10 @@ function PinnedShowcase({
               </h2>
               <div className="mt-5 space-y-4">
                 {s.body.map((p, i) => (
-                  <p key={i} className="text-[15px] leading-relaxed text-muted">
+                  <p
+                    key={i}
+                    className="text-[15px] leading-relaxed text-[#EDF3ED]/70"
+                  >
                     {p}
                   </p>
                 ))}
@@ -397,26 +400,19 @@ function PinnedShowcase({
                 </p>
               ) : null}
             </motion.div>
-
-            {/* the next step's number peeks, like the reference */}
-            {step < n - 1 && (
-              <p className="absolute -bottom-14 left-0 font-mono text-xs tracking-[0.25em] text-muted/40 max-md:hidden">
-                {String(startIndex + step + 2).padStart(2, "0")}
-              </p>
-            )}
           </div>
-        </div>
 
-        {/* progress rail */}
-        <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 gap-2">
-          {items.map((_, i) => (
-            <span
-              key={i}
-              className={`h-1 rounded-full transition-all duration-500 ${
-                i === step ? "w-8 bg-[#B6FF3D]/80" : "w-3 bg-border"
-              }`}
-            />
-          ))}
+          {/* progress rail — inside the frame's foot */}
+          <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2">
+            {items.map((_, i) => (
+              <span
+                key={i}
+                className={`h-1 rounded-full transition-all duration-500 ${
+                  i === step ? "w-8 bg-[#B6FF3D]/80" : "w-3 bg-white/25"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
