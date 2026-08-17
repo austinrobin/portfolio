@@ -1,20 +1,66 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import {
+  motion,
+  useMotionTemplate,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  type MotionValue,
+} from "motion/react";
 import type { CaseMedia, CaseSection, CaseStudy } from "@/lib/case-studies";
 
 /*
- * Case-study view — the Fantasy layout (reference:
- * fantasy.co/services/product-innovation): sparse oversized statements,
- * media-forward full-width bands with a soft parallax settle, generous
- * vertical rhythm. Text stays left-aligned and brief; the media does the
- * talking. Empty media slots render as styled placeholders until real
- * work lands via /studio.
+ * Case-study view — the Fantasy language (reference:
+ * fantasy.co/services/product-innovation + Austin's interaction capture):
+ *
+ *  · COLOUR ZONES — the page's own background morphs as you cross sections
+ *    (paper → StockBee dark → paper). Implemented by animating the site's
+ *    CSS variables on the article, so every token-driven utility inside
+ *    (text-muted, border-border…) recolours with the zone in one motion.
+ *  · WORD-FILL HEADLINES — big text starts ghosted + blurred and fills
+ *    word by word, scroll-linked (scrub back and it un-fills).
+ *  · Media bands settle with parallax + a slight perspective tilt; in dark
+ *    zones they run edge-to-edge like the reference's immersive chapters.
+ *  · Numbered chapters, sparse type, generous air.
  */
 
 const EASE = [0.16, 1, 0.3, 1] as const;
+
+interface Zone {
+  bg: string;
+  fg: string;
+  muted: string;
+  border: string;
+  subtle: string;
+}
+
+const PAPER: Zone = {
+  bg: "#f9f7f1",
+  fg: "#1a1913",
+  muted: "#6b675c",
+  border: "#e4e0d2",
+  subtle: "#f1eee4",
+};
+
+const STOCKBEE_DARK: Zone = {
+  bg: "#060906",
+  fg: "#E8F2E8",
+  muted: "#93A093",
+  border: "rgba(232,242,232,0.16)",
+  subtle: "rgba(232,242,232,0.07)",
+};
+
+/** Sections that pull the page into StockBee's own environment. */
+const DARK_SECTIONS = new Set(["advantage", "conviction", "engine"]);
+
+function zoneFor(id: string): Zone {
+  return DARK_SECTIONS.has(id) ? STOCKBEE_DARK : PAPER;
+}
+
+/* ------------------------------------------------------------- reveals */
 
 function Rise({
   children,
@@ -39,6 +85,68 @@ function Rise({
   );
 }
 
+/* Scroll-linked word fill: each word ramps opacity + sheds blur across its
+   own slice of the container's entry into the viewport. */
+
+function FillWord({
+  word,
+  progress,
+  from,
+  to,
+}: {
+  word: string;
+  progress: MotionValue<number>;
+  from: number;
+  to: number;
+}) {
+  const opacity = useTransform(progress, [from, to], [0.16, 1]);
+  const b = useTransform(progress, [from, to], [6, 0]);
+  const filter = useMotionTemplate`blur(${b}px)`;
+  return (
+    <motion.span style={{ opacity, filter }} className="inline-block">
+      {word}&nbsp;
+    </motion.span>
+  );
+}
+
+function WordFill({
+  text,
+  className,
+}: {
+  text: string;
+  className?: string;
+}) {
+  const ref = useRef<HTMLParagraphElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.92", "start 0.4"],
+  });
+  const words = text.split(/\s+/).filter(Boolean);
+
+  if (reduce) {
+    return <p className={className}>{text}</p>;
+  }
+  return (
+    <p ref={ref} className={className} aria-label={text}>
+      <span aria-hidden>
+        {words.map((w, i) => {
+          const from = (i / words.length) * 0.85;
+          return (
+            <FillWord
+              key={i}
+              word={w}
+              progress={scrollYProgress}
+              from={from}
+              to={from + 0.15}
+            />
+          );
+        })}
+      </span>
+    </p>
+  );
+}
+
 /* ------------------------------------------------------------ media band */
 
 const ASPECT: Record<NonNullable<CaseMedia["aspect"]>, string> = {
@@ -50,9 +158,11 @@ const ASPECT: Record<NonNullable<CaseMedia["aspect"]>, string> = {
 function MediaBand({
   media,
   sectionKicker,
+  flush,
 }: {
   media: CaseMedia;
   sectionKicker: string;
+  flush: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
@@ -60,16 +170,25 @@ function MediaBand({
     target: ref,
     offset: ["start end", "end start"],
   });
-  const scale = useTransform(scrollYProgress, [0, 0.45], [1.045, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [24, -24]);
+  const scale = useTransform(scrollYProgress, [0, 0.45], [1.05, 1]);
+  const rotateX = useTransform(scrollYProgress, [0, 0.4], [7, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], [28, -28]);
 
   const aspect = ASPECT[media.aspect ?? "wide"];
 
   return (
-    <div ref={ref} className="mx-auto mt-14 w-[min(96vw,1400px)] sm:mt-20">
+    <div
+      ref={ref}
+      className={
+        flush
+          ? "mt-14 w-full sm:mt-20"
+          : "mx-auto mt-14 w-[min(96vw,1400px)] sm:mt-20"
+      }
+      style={{ perspective: 1200 }}
+    >
       <motion.div
-        style={reduce ? undefined : { scale, y }}
-        className={`relative overflow-hidden rounded-2xl ${aspect} bg-[#060906]`}
+        style={reduce ? undefined : { scale, y, rotateX, transformOrigin: "50% 100%" }}
+        className={`relative overflow-hidden ${flush ? "" : "rounded-2xl"} ${aspect} bg-[#0B0F0B]`}
       >
         {media.src ? (
           media.kind === "video" ? (
@@ -94,13 +213,13 @@ function MediaBand({
             />
           )
         ) : (
-          /* Placeholder slot — StockBee's dark stage until real work lands */
+          /* Placeholder slot — StockBee's stage until real work lands */
           <div className="absolute inset-0">
             <div
               className="absolute inset-0"
               style={{
                 background:
-                  "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(182,255,61,0.08) 0%, transparent 60%), #060906",
+                  "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(182,255,61,0.09) 0%, transparent 60%), linear-gradient(180deg, #0B0F0B 0%, #060906 100%)",
               }}
             />
             <div className="absolute inset-x-0 top-0 flex items-center justify-between p-6 font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">
@@ -112,7 +231,9 @@ function MediaBand({
         )}
       </motion.div>
       {media.caption ? (
-        <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
+        <p
+          className={`mt-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted ${flush ? "px-6" : ""}`}
+        >
           {media.caption}
         </p>
       ) : null}
@@ -122,23 +243,26 @@ function MediaBand({
 
 /* --------------------------------------------------------------- section */
 
-function SectionBlock({ s }: { s: CaseSection }) {
+function SectionBlock({ s, index }: { s: CaseSection; index: number }) {
+  const dark = DARK_SECTIONS.has(s.id);
   return (
-    <section id={s.id} className="pt-28 sm:pt-40">
+    <section id={s.id} data-zone-id={s.id} className="pt-28 sm:pt-40">
       <div className="mx-auto w-[min(92vw,1400px)]">
         <div className="max-w-4xl">
           <Rise>
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted">
+            <p className="flex items-baseline gap-3 font-mono text-xs uppercase tracking-[0.25em] text-muted">
+              <span className="text-[10px]">
+                {String(index + 1).padStart(2, "0")}
+              </span>
               {s.kicker}
             </p>
           </Rise>
-          <Rise delay={0.06}>
-            <h2 className="mt-6 font-display text-[clamp(30px,4.6vw,64px)] leading-[1.06] tracking-tight">
-              {s.heading}
-            </h2>
-          </Rise>
+          <WordFill
+            text={s.heading}
+            className="mt-6 font-display text-[clamp(30px,4.6vw,64px)] leading-[1.06] tracking-tight"
+          />
           {s.body.length > 0 && (
-            <Rise delay={0.12}>
+            <Rise delay={0.1}>
               <div className="mt-8 max-w-2xl space-y-5">
                 {s.body.map((p, i) => (
                   <p
@@ -155,15 +279,16 @@ function SectionBlock({ s }: { s: CaseSection }) {
       </div>
 
       {s.media.map((m, i) => (
-        <MediaBand key={i} media={m} sectionKicker={s.kicker} />
+        <MediaBand key={i} media={m} sectionKicker={s.kicker} flush={dark} />
       ))}
 
       {s.statement ? (
-        <Rise className="mx-auto mt-20 w-[min(92vw,1400px)] sm:mt-28">
-          <p className="font-display text-[clamp(34px,6vw,88px)] leading-[1.02] tracking-tight">
-            {s.statement}
-          </p>
-        </Rise>
+        <div className="mx-auto mt-20 w-[min(92vw,1400px)] sm:mt-28">
+          <WordFill
+            text={s.statement}
+            className="font-display text-[clamp(34px,6vw,88px)] leading-[1.02] tracking-tight"
+          />
+        </div>
       ) : null}
     </section>
   );
@@ -172,10 +297,54 @@ function SectionBlock({ s }: { s: CaseSection }) {
 /* ------------------------------------------------------------------ view */
 
 export function CaseStudyView({ cs }: { cs: CaseStudy }) {
+  const reduce = useReducedMotion();
+  const [zone, setZone] = useState<Zone>(PAPER);
+  const rootRef = useRef<HTMLElement>(null);
+
+  /* Colour zones: whichever zone-tagged block owns the viewport's centre
+     sets the palette; the article animates its CSS variables there, and
+     every token-driven utility inside follows. */
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const blocks = root.querySelectorAll<HTMLElement>("[data-zone-id]");
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setZone(zoneFor(e.target.getAttribute("data-zone-id") ?? ""));
+          }
+        }
+      },
+      { rootMargin: "-45% 0px -45% 0px" },
+    );
+    blocks.forEach((b) => io.observe(b));
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <article className="pb-32">
+    <motion.article
+      ref={rootRef}
+      className="pb-32"
+      initial={false}
+      animate={
+        {
+          backgroundColor: zone.bg,
+          "--background": zone.bg,
+          "--foreground": zone.fg,
+          "--muted": zone.muted,
+          "--border": zone.border,
+          "--subtle": zone.subtle,
+          color: zone.fg,
+        } as Record<string, string>
+      }
+      transition={reduce ? { duration: 0 } : { duration: 0.8, ease: "easeInOut" }}
+    >
       {/* ---- hero ---- */}
-      <header className="mx-auto flex min-h-[88svh] w-[min(92vw,1400px)] flex-col justify-end pb-16 pt-28">
+      <header
+        data-zone-id="hero"
+        className="mx-auto flex min-h-[88svh] w-[min(92vw,1400px)] flex-col justify-end pb-16 pt-28"
+      >
         <Rise>
           <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted">
             Case study — {cs.year}
@@ -193,41 +362,32 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
         </Rise>
         <Rise delay={0.18}>
           <dl className="mt-14 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-border pt-8 text-sm sm:grid-cols-4">
-            <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
-                Role
-              </dt>
-              <dd className="mt-2">{cs.role}</dd>
-            </div>
-            <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
-                Disciplines
-              </dt>
-              <dd className="mt-2">{cs.disciplines}</dd>
-            </div>
-            <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
-                Team
-              </dt>
-              <dd className="mt-2">{cs.team}</dd>
-            </div>
-            <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
-                Scope
-              </dt>
-              <dd className="mt-2">{cs.scope}</dd>
-            </div>
+            {(
+              [
+                ["Role", cs.role],
+                ["Disciplines", cs.disciplines],
+                ["Team", cs.team],
+                ["Scope", cs.scope],
+              ] as const
+            ).map(([label, value]) => (
+              <div key={label}>
+                <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
+                  {label}
+                </dt>
+                <dd className="mt-2">{value}</dd>
+              </div>
+            ))}
           </dl>
         </Rise>
       </header>
 
       {/* ---- narrative sections ---- */}
-      {cs.sections.map((s) => (
-        <SectionBlock key={s.id} s={s} />
+      {cs.sections.map((s, i) => (
+        <SectionBlock key={s.id} s={s} index={i} />
       ))}
 
       {/* ---- impact ---- */}
-      <section id="impact" className="pt-28 sm:pt-40">
+      <section id="impact" data-zone-id="impact" className="pt-28 sm:pt-40">
         <div className="mx-auto w-[min(92vw,1400px)]">
           <Rise>
             <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted">
@@ -252,7 +412,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
       </section>
 
       {/* ---- result ---- */}
-      <section id="result" className="pt-28 sm:pt-40">
+      <section id="result" data-zone-id="result" className="pt-28 sm:pt-40">
         <div className="mx-auto w-[min(92vw,1400px)]">
           <Rise>
             <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted">
@@ -266,11 +426,12 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
               </p>
             </Rise>
           ))}
-          <Rise delay={0.12}>
-            <p className="mt-14 max-w-5xl font-display text-[clamp(34px,5.6vw,84px)] leading-[1.04] tracking-tight">
-              {cs.result.statement}
-            </p>
-          </Rise>
+          <div className="mt-14 max-w-5xl">
+            <WordFill
+              text={cs.result.statement}
+              className="font-display text-[clamp(34px,5.6vw,84px)] leading-[1.04] tracking-tight"
+            />
+          </div>
           <Rise delay={0.2}>
             <Link
               href="/work"
@@ -281,6 +442,6 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
           </Rise>
         </div>
       </section>
-    </article>
+    </motion.article>
   );
 }
