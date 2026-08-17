@@ -28,6 +28,10 @@ export interface CaseSection {
   /** Oversized emphasis line rendered after the body ("All signal. No noise."). */
   statement?: string;
   media: CaseMedia[];
+  /** Consecutive showcase sections merge into one pinned feature sequence:
+      the section sticks to the top, media swaps per step, text rides the
+      right column (the Fantasy 01/02/03 chapter pattern). */
+  showcase?: boolean;
 }
 
 export interface ImpactStat {

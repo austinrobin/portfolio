@@ -49,7 +49,8 @@
           "caption": "",
           "aspect": "wide"
         }
-      ]
+      ],
+      "showcase": true
     },
     {
       "id": "conviction",
@@ -67,7 +68,8 @@
           "caption": "",
           "aspect": "wide"
         }
-      ]
+      ],
+      "showcase": true
     },
     {
       "id": "engine",
@@ -85,7 +87,8 @@
           "caption": "",
           "aspect": "wide"
         }
-      ]
+      ],
+      "showcase": true
     },
     {
       "id": "trust",

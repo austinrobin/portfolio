@@ -241,6 +241,188 @@ function MediaBand({
   );
 }
 
+/* ----------------------------------------------------- pinned showcase */
+/*
+ * The reference's 01/02/03 feature chapter (video @6-9s): the section pins
+ * to the viewport, the media stage holds the left and swaps per step, and
+ * the numbered feature text rides the right column. Scroll drives both —
+ * scrub back and the sequence rewinds.
+ */
+
+function StepMedia({
+  media,
+  kicker,
+  index,
+  count,
+  progress,
+}: {
+  media?: CaseMedia;
+  kicker: string;
+  index: number;
+  count: number;
+  progress: MotionValue<number>;
+}) {
+  const lo = index / count;
+  const hi = (index + 1) / count;
+  const fade = 0.18 / count;
+  const opacity = useTransform(
+    progress,
+    index === 0
+      ? [lo, lo, hi - fade, hi]
+      : index === count - 1
+        ? [lo - fade, lo, hi, hi]
+        : [lo - fade, lo, hi - fade, hi],
+    index === 0 ? [1, 1, 1, 0] : index === count - 1 ? [0, 1, 1, 1] : [0, 1, 1, 0],
+  );
+  const y = useTransform(progress, [lo - 1 / count, hi], ["6%", "-6%"]);
+  const scale = useTransform(progress, [lo - fade, lo + 0.5 / count], [1.04, 1]);
+
+  return (
+    <motion.div
+      style={{ opacity, y, scale }}
+      className="absolute inset-0 overflow-hidden rounded-2xl bg-[#0B0F0B]"
+    >
+      {media?.src ? (
+        media.kind === "video" ? (
+          <video
+            className="absolute inset-0 h-full w-full object-cover"
+            src={media.src}
+            poster={media.poster}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+          />
+        ) : (
+          /* eslint-disable-next-line @next/next/no-img-element -- studio
+             uploads are pre-compressed to their display size */
+          <img
+            src={media.src}
+            alt={media.caption || kicker}
+            loading="lazy"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        )
+      ) : (
+        <div className="absolute inset-0">
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(182,255,61,0.09) 0%, transparent 60%), linear-gradient(180deg, #0B0F0B 0%, #060906 100%)",
+            }}
+          />
+          <div className="absolute inset-x-0 top-0 flex items-center justify-between p-6 font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">
+            <span>{kicker}</span>
+            <span>media slot — add in studio</span>
+          </div>
+          <div className="absolute bottom-6 left-6 h-1 w-14 rounded-full bg-[#B6FF3D]/70" />
+        </div>
+      )}
+    </motion.div>
+  );
+}
+
+function PinnedShowcase({
+  items,
+  startIndex,
+}: {
+  items: CaseSection[];
+  startIndex: number;
+}) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [step, setStep] = useState(0);
+  const n = items.length;
+  const { scrollYProgress } = useScroll({
+    target: wrapRef,
+    offset: ["start start", "end end"],
+  });
+
+  useEffect(() => {
+    return scrollYProgress.on("change", (v) => {
+      const idx = Math.min(n - 1, Math.max(0, Math.floor(v * n)));
+      setStep(idx);
+    });
+  }, [scrollYProgress, n]);
+
+  const s = items[step];
+
+  return (
+    <div
+      ref={wrapRef}
+      data-zone-id={items[0].id}
+      style={{ height: `${n * 100 + 40}vh` }}
+    >
+      <div className="sticky top-0 flex h-svh items-center overflow-hidden">
+        <div className="mx-auto grid w-[min(94vw,1500px)] items-center gap-10 md:grid-cols-[1.5fr_1fr] md:gap-16">
+          {/* media stage — pinned left, swapping per step */}
+          <div className="relative aspect-[16/11] max-h-[76svh] w-full">
+            {items.map((item, i) => (
+              <StepMedia
+                key={item.id}
+                media={item.media[0]}
+                kicker={item.kicker}
+                index={i}
+                count={n}
+                progress={scrollYProgress}
+              />
+            ))}
+          </div>
+
+          {/* feature text — right column, swaps with the step */}
+          <div className="relative min-h-[16rem]">
+            <motion.div
+              key={s.id}
+              initial={{ opacity: 0, y: 26 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, ease: EASE }}
+            >
+              <p className="font-mono text-xs tracking-[0.25em] text-muted">
+                {String(startIndex + step + 1).padStart(2, "0")}
+              </p>
+              <h2 className="mt-4 font-display text-[clamp(26px,2.6vw,40px)] leading-[1.08] tracking-tight">
+                {s.heading}
+              </h2>
+              <div className="mt-5 space-y-4">
+                {s.body.map((p, i) => (
+                  <p key={i} className="text-[15px] leading-relaxed text-muted">
+                    {p}
+                  </p>
+                ))}
+              </div>
+              {s.statement ? (
+                <p className="mt-6 font-display text-[clamp(20px,1.8vw,28px)] leading-snug tracking-tight">
+                  {s.statement}
+                </p>
+              ) : null}
+            </motion.div>
+
+            {/* the next step's number peeks, like the reference */}
+            {step < n - 1 && (
+              <p className="absolute -bottom-14 left-0 font-mono text-xs tracking-[0.25em] text-muted/40 max-md:hidden">
+                {String(startIndex + step + 2).padStart(2, "0")}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* progress rail */}
+        <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 gap-2">
+          {items.map((_, i) => (
+            <span
+              key={i}
+              className={`h-1 rounded-full transition-all duration-500 ${
+                i === step ? "w-8 bg-[#B6FF3D]/80" : "w-3 bg-border"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* --------------------------------------------------------------- section */
 
 function SectionBlock({ s, index }: { s: CaseSection; index: number }) {
@@ -381,10 +563,40 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
         </Rise>
       </header>
 
-      {/* ---- narrative sections ---- */}
-      {cs.sections.map((s, i) => (
-        <SectionBlock key={s.id} s={s} index={i} />
-      ))}
+      {/* ---- narrative sections (consecutive showcase sections merge into
+             one pinned feature sequence; reduced motion unrolls them) ---- */}
+      {(() => {
+        type Group =
+          | { kind: "single"; s: CaseSection; index: number }
+          | { kind: "showcase"; items: CaseSection[]; startIndex: number };
+        const groups: Group[] = [];
+        cs.sections.forEach((s, i) => {
+          const last = groups[groups.length - 1];
+          if (s.showcase && !reduce) {
+            if (
+              last?.kind === "showcase" &&
+              last.startIndex + last.items.length === i
+            ) {
+              last.items.push(s);
+            } else {
+              groups.push({ kind: "showcase", items: [s], startIndex: i });
+            }
+          } else {
+            groups.push({ kind: "single", s, index: i });
+          }
+        });
+        return groups.map((g) =>
+          g.kind === "showcase" ? (
+            <PinnedShowcase
+              key={g.items[0].id}
+              items={g.items}
+              startIndex={g.startIndex}
+            />
+          ) : (
+            <SectionBlock key={g.s.id} s={g.s} index={g.index} />
+          ),
+        );
+      })()}
 
       {/* ---- impact ---- */}
       <section id="impact" data-zone-id="impact" className="pt-28 sm:pt-40">
