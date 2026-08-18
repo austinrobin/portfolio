@@ -264,7 +264,9 @@ function StepMedia({
 }) {
   const lo = index / count;
   const hi = (index + 1) / count;
-  const fade = 0.18 / count;
+  /* a long cross-dissolve — the assets blend over half a step so the swap
+     reads as a fade-through, never a cut */
+  const fade = 0.5 / count;
   const opacity = useTransform(
     progress,
     index === 0
@@ -320,6 +322,115 @@ function StepMedia({
   );
 }
 
+/* Each feature's text is a pure function of scroll: it rides up from below,
+   dwells while its media is on, and keeps rising as the next one arrives.
+   No state, no swap — scrub the wheel and the stack tracks it exactly. */
+function StepText({
+  s,
+  label,
+  index,
+  count,
+  progress,
+}: {
+  s: CaseSection;
+  label: string;
+  index: number;
+  count: number;
+  progress: MotionValue<number>;
+}) {
+  const span = 1 / count;
+  const centre = (index + 0.5) * span;
+  const first = index === 0;
+  const last = index === count - 1;
+
+  /* Travel exceeds a block's own height (~440px) so that at the hand-over
+     the outgoing and incoming blocks are clear of each other — otherwise
+     they cross-dissolve on top of one another and read as mush. */
+  const TRAVEL = 460;
+
+  const y = useTransform(
+    progress,
+    first
+      ? [0, centre, centre + span]
+      : last
+        ? [centre - span, centre, 1]
+        : [centre - span, centre, centre + span],
+    first
+      ? [0, 0, -TRAVEL]
+      : last
+        ? [TRAVEL, 0, 0]
+        : [TRAVEL, 0, -TRAVEL],
+  );
+
+  const opacity = useTransform(
+    progress,
+    first
+      ? [0, centre + 0.32 * span, centre + 0.62 * span]
+      : last
+        ? [centre - 0.62 * span, centre - 0.32 * span, 1]
+        : [
+            centre - 0.62 * span,
+            centre - 0.32 * span,
+            centre + 0.32 * span,
+            centre + 0.62 * span,
+          ],
+    first ? [1, 1, 0] : last ? [0, 1, 1] : [0, 1, 1, 0],
+  );
+
+  return (
+    <div className="pointer-events-none absolute inset-0 flex items-center justify-end max-md:items-end">
+      <motion.div
+        style={{ y, opacity }}
+        className="w-full max-w-md p-8 text-[#EDF3ED] sm:p-14"
+      >
+        <p className="font-mono text-xs tracking-[0.25em] text-[#B6FF3D]">
+          {label}
+        </p>
+        <h2 className="mt-4 font-display text-[clamp(26px,2.6vw,40px)] leading-[1.08] tracking-tight">
+          {s.heading}
+        </h2>
+        <div className="mt-5 space-y-4">
+          {s.body.map((p, i) => (
+            <p key={i} className="text-[15px] leading-relaxed text-[#EDF3ED]/70">
+              {p}
+            </p>
+          ))}
+        </div>
+        {s.statement ? (
+          <p className="mt-6 font-display text-[clamp(20px,1.8vw,28px)] leading-snug tracking-tight">
+            {s.statement}
+          </p>
+        ) : null}
+      </motion.div>
+    </div>
+  );
+}
+
+function RailSegment({
+  index,
+  count,
+  progress,
+}: {
+  index: number;
+  count: number;
+  progress: MotionValue<number>;
+}) {
+  const span = 1 / count;
+  const scaleX = useTransform(
+    progress,
+    [index * span, (index + 1) * span],
+    [0, 1],
+  );
+  return (
+    <span className="relative h-1 w-8 overflow-hidden rounded-full bg-white/25">
+      <motion.span
+        style={{ scaleX }}
+        className="absolute inset-0 origin-left rounded-full bg-[#B6FF3D]/80"
+      />
+    </span>
+  );
+}
+
 function PinnedShowcase({
   items,
   startIndex,
@@ -328,27 +439,20 @@ function PinnedShowcase({
   startIndex: number;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const [step, setStep] = useState(0);
   const n = items.length;
   const { scrollYProgress } = useScroll({
     target: wrapRef,
     offset: ["start start", "end end"],
   });
 
-  useEffect(() => {
-    return scrollYProgress.on("change", (v) => {
-      const idx = Math.min(n - 1, Math.max(0, Math.floor(v * n)));
-      setStep(idx);
-    });
-  }, [scrollYProgress, n]);
-
-  const s = items[step];
+  /* No React state anywhere in here — every moving part reads scroll
+     directly, so there is nothing to re-render and nothing to snap. */
 
   return (
     <div
       ref={wrapRef}
       data-zone-id={items[0].id}
-      style={{ height: `${n * 100 + 40}vh` }}
+      style={{ height: `${n * 118 + 30}vh` }}
     >
       <div className="sticky top-0 flex h-svh items-center justify-center overflow-hidden">
         {/* the asset IS the section: a near-fullscreen inset frame, hero-text
@@ -369,47 +473,26 @@ function PinnedShowcase({
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,transparent_42%,rgba(4,6,4,0.66)_100%)] max-md:bg-[linear-gradient(to_top,rgba(4,6,4,0.78)_0%,rgba(4,6,4,0.25)_45%,transparent_65%)]" />
           </div>
 
-          {/* feature text — overlays the asset, fades + slides up per step */}
-          <div className="absolute inset-0 flex items-center justify-end max-md:items-end">
-            <motion.div
-              key={s.id}
-              initial={{ opacity: 0, y: 56 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, ease: EASE }}
-              className="w-full max-w-md p-8 text-[#EDF3ED] sm:p-14"
-            >
-              <p className="font-mono text-xs tracking-[0.25em] text-[#B6FF3D]">
-                {String(startIndex + step + 1).padStart(2, "0")}
-              </p>
-              <h2 className="mt-4 font-display text-[clamp(26px,2.6vw,40px)] leading-[1.08] tracking-tight">
-                {s.heading}
-              </h2>
-              <div className="mt-5 space-y-4">
-                {s.body.map((p, i) => (
-                  <p
-                    key={i}
-                    className="text-[15px] leading-relaxed text-[#EDF3ED]/70"
-                  >
-                    {p}
-                  </p>
-                ))}
-              </div>
-              {s.statement ? (
-                <p className="mt-6 font-display text-[clamp(20px,1.8vw,28px)] leading-snug tracking-tight">
-                  {s.statement}
-                </p>
-              ) : null}
-            </motion.div>
-          </div>
+          {/* feature text — scroll-linked stack, each block riding up */}
+          {items.map((item, i) => (
+            <StepText
+              key={item.id}
+              s={item}
+              label={String(startIndex + i + 1).padStart(2, "0")}
+              index={i}
+              count={n}
+              progress={scrollYProgress}
+            />
+          ))}
 
-          {/* progress rail — inside the frame's foot */}
+          {/* progress rail — each segment fills with its own step */}
           <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2">
-            {items.map((_, i) => (
-              <span
-                key={i}
-                className={`h-1 rounded-full transition-all duration-500 ${
-                  i === step ? "w-8 bg-[#B6FF3D]/80" : "w-3 bg-white/25"
-                }`}
+            {items.map((item, i) => (
+              <RailSegment
+                key={item.id}
+                index={i}
+                count={n}
+                progress={scrollYProgress}
               />
             ))}
           </div>
