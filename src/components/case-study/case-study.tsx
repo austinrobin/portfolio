@@ -11,6 +11,7 @@ import {
   type MotionValue,
 } from "motion/react";
 import type { CaseMedia, CaseSection, CaseStudy } from "@/lib/case-studies";
+import { heroFonts } from "@/components/home/hero-config";
 
 /*
  * Case-study view — the Fantasy language (reference:
@@ -386,7 +387,7 @@ function StepText({
         <p className="font-mono text-xs tracking-[0.25em] text-[#B6FF3D]">
           {label}
         </p>
-        <h2 className="mt-4 font-display text-[clamp(26px,2.6vw,40px)] leading-[1.08] tracking-tight">
+        <h2 className="mt-4 font-[family-name:var(--font-peristiwa)] text-[clamp(26px,2.6vw,40px)] leading-[1.14]">
           {s.heading}
         </h2>
         <div className="mt-5 space-y-4">
@@ -397,7 +398,7 @@ function StepText({
           ))}
         </div>
         {s.statement ? (
-          <p className="mt-6 font-display text-[clamp(20px,1.8vw,28px)] leading-snug tracking-tight">
+          <p className="mt-6 font-[family-name:var(--font-peristiwa)] text-[clamp(20px,1.8vw,28px)] leading-snug">
             {s.statement}
           </p>
         ) : null}
@@ -520,7 +521,7 @@ function SectionBlock({ s, index }: { s: CaseSection; index: number }) {
           </Rise>
           <WordFill
             text={s.heading}
-            className="mt-6 font-display text-[clamp(30px,4.6vw,64px)] leading-[1.06] tracking-tight"
+            className="mt-6 font-[family-name:var(--font-peristiwa)] text-[clamp(30px,4.6vw,64px)] leading-[1.12]"
           />
           {s.body.length > 0 && (
             <Rise delay={0.1}>
@@ -547,7 +548,7 @@ function SectionBlock({ s, index }: { s: CaseSection; index: number }) {
         <div className="mx-auto mt-20 w-[min(92vw,1400px)] sm:mt-28">
           <WordFill
             text={s.statement}
-            className="font-display text-[clamp(34px,6vw,88px)] leading-[1.02] tracking-tight"
+            className="font-[family-name:var(--font-peristiwa)] text-[clamp(34px,6vw,88px)] leading-[1.1]"
           />
         </div>
       ) : null}
@@ -586,7 +587,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
   return (
     <motion.article
       ref={rootRef}
-      className="pb-32"
+      className={`pb-32 ${heroFonts.silk.variable} ${heroFonts.peristiwa.variable}`}
       initial={false}
       animate={
         {
@@ -612,12 +613,12 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
           </p>
         </Rise>
         <Rise delay={0.05}>
-          <h1 className="mt-4 font-display text-[clamp(64px,13vw,200px)] leading-[0.92] tracking-tight">
+          <h1 className="mt-4 font-[family-name:var(--font-peristiwa)] text-[clamp(64px,13vw,200px)] leading-[1.0]">
             {cs.title}
           </h1>
         </Rise>
         <Rise delay={0.12}>
-          <p className="mt-8 max-w-3xl font-display text-[clamp(22px,2.6vw,38px)] leading-[1.18] tracking-tight">
+          <p className="mt-8 max-w-3xl font-[family-name:var(--font-peristiwa)] text-[clamp(22px,2.6vw,38px)] leading-[1.18]">
             {cs.tagline}
           </p>
         </Rise>
@@ -689,7 +690,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
             {cs.impact.stats.map((stat, i) => (
               <Rise key={stat.label} delay={(i % 3) * 0.07}>
                 <p
-                  className={`font-display text-[clamp(44px,6.5vw,104px)] leading-none tracking-tight ${
+                  className={`font-[family-name:var(--font-peristiwa)] text-[clamp(44px,6.5vw,104px)] leading-[1.05] ${
                     stat.value.includes("X") ? "text-muted/50" : ""
                   }`}
                 >
@@ -720,7 +721,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
           <div className="mt-14 max-w-5xl">
             <WordFill
               text={cs.result.statement}
-              className="font-display text-[clamp(34px,5.6vw,84px)] leading-[1.04] tracking-tight"
+              className="font-[family-name:var(--font-peristiwa)] text-[clamp(34px,5.6vw,84px)] leading-[1.1]"
             />
           </div>
           <Rise delay={0.2}>
