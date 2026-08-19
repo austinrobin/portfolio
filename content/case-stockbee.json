@@ -18,13 +18,29 @@
   "order": 1,
   "sections": [
     {
-      "id": "idea",
-      "kicker": "The idea",
-      "heading": "Markets move in seconds. Information doesn't always keep up.",
+      "id": "problem",
+      "kicker": "The problem",
+      "heading": "Markets move fast. Information moves faster.",
       "body": [
-        "StockBee turns market-moving information into real-time intelligence, delivered through WhatsApp and a live command centre built for traders."
+        "The challenge isn't finding information. It's knowing what matters, when it matters, and what to do with it.",
+        "News, filings, research, and market tools are scattered across platforms. By the time traders piece together the story, the opportunity may already be gone."
       ],
-      "statement": "",
+      "statement": "StockBee was built to close that gap.",
+      "media": [
+        {
+          "kind": "image",
+          "src": "",
+          "caption": "",
+          "aspect": "wide"
+        }
+      ]
+    },
+    {
+      "id": "product",
+      "kicker": "The product",
+      "heading": "StockBee turns market events into real-time intelligence through WhatsApp alerts, AI-powered summaries, deep-dive analysis, and a live market command centre.",
+      "body": [],
+      "statement": "The goal: reduce the distance between information and understanding.",
       "media": [
         {
           "kind": "image",
@@ -37,9 +53,10 @@
     {
       "id": "advantage",
       "kicker": "The five-second advantage",
-      "heading": "Traders don't have time to read reports. They need to know what matters.",
+      "heading": "Traders don't have time to read reports.",
       "body": [
-        "StockBee turns raw market events into concise signals combining price movement, sentiment, context, and AI-generated summaries."
+        "StockBee turns raw market events into concise signals, combining price movement, sentiment, context, and AI-generated summaries.",
+        "Reveal just enough to create awareness. Go deeper when the decision calls for it."
       ],
       "statement": "All signal. No noise.",
       "media": [
@@ -55,12 +72,12 @@
     {
       "id": "conviction",
       "kicker": "From signal to conviction",
-      "heading": "An alert is only the beginning.",
+      "heading": "A fast alert creates awareness. A confident decision needs context.",
       "body": [
-        "Each signal opens into a deeper view of financial performance, market impact, sentiment, source attribution, and AI-generated analysis.",
-        "The experience moves from signal → context → understanding, without overwhelming the user along the way."
+        "Each signal expands into financial performance, market impact, sentiment, source attribution, and AI-generated analysis.",
+        "The challenge was finding the right depth without slowing the experience down."
       ],
-      "statement": "",
+      "statement": "Signal → Context → Understanding",
       "media": [
         {
           "kind": "image",
@@ -74,12 +91,12 @@
     {
       "id": "engine",
       "kicker": "The opportunity engine",
-      "heading": "StockBee isn't only built to help traders react. It's built to help them discover.",
+      "heading": "StockBee couldn't only help traders react. It needed to help them discover what was happening across the market.",
       "body": [
-        "Trader's Den brings momentum, breakouts, sector movements, derivatives activity, and market signals into one real-time command centre.",
-        "The design challenge was to make dense information easy to scan while giving the right signals visual priority."
+        "Trader's Den brings momentum, breakouts, sector movements, derivatives activity, and market-wide signals into one real-time command centre.",
+        "The design challenge was simple:"
       ],
-      "statement": "",
+      "statement": "Create hierarchy inside the noise.",
       "media": [
         {
           "kind": "image",
@@ -93,12 +110,11 @@
     {
       "id": "trust",
       "kicker": "Designing for trust",
-      "heading": "Financial products demand clarity.",
+      "heading": "In financial products, speed without confidence isn't enough.",
       "body": [
-        "Source attribution, sentiment, market impact, and information hierarchy were designed to help traders move quickly without losing context or confidence.",
-        "Every element needed to communicate information without creating unnecessary noise or false certainty."
+        "Source attribution, sentiment, market impact, hierarchy, and visual cues help users move quickly without losing context."
       ],
-      "statement": "",
+      "statement": "Fast, without feeling careless.",
       "media": [
         {
           "kind": "image",
@@ -110,11 +126,11 @@
     },
     {
       "id": "system",
-      "kicker": "One system, many surfaces",
-      "heading": "The product extended beyond a single interface.",
+      "kicker": "One product, many surfaces",
+      "heading": "StockBee needed to feel like one product everywhere.",
       "body": [
-        "I shaped the visual direction across StockBee's product, WhatsApp experience, marketing surfaces, and brand identity, creating a consistent system that could scale as the product expanded.",
-        "The visual language combines a dark, high-contrast environment with vibrant signal colours and restrained typography to create an experience that feels immediate, focused, and distinctive."
+        "I shaped the visual direction across the product, WhatsApp experience, marketing, and brand identity, creating a system that could scale with the platform.",
+        "A dark, high-contrast foundation, vibrant signal colours, restrained typography, and data-led visual cues give StockBee a distinct and consistent character."
       ],
       "statement": "",
       "media": [
@@ -127,14 +143,13 @@
       ]
     },
     {
-      "id": "launch",
-      "kicker": "From concept to launch",
-      "heading": "Strategy, interaction, visual design, and brand — operating as one system.",
+      "id": "scale",
+      "kicker": "Scaling the idea",
+      "heading": "As StockBee grew from concept into a full product, the work expanded beyond individual screens.",
       "body": [
-        "Starting from an early product idea, I worked across product strategy, experience design, visual direction, and design systems throughout the build.",
-        "Working alongside product, engineering, and a five-person design team, I helped shape feature direction, prioritise complexity, establish interaction principles, review and evolve the work, and maintain a consistent product vision through launch."
+        "I helped shape feature direction, experience principles, design systems, and visual consistency across the team, while working closely with product and engineering through launch."
       ],
-      "statement": "",
+      "statement": "The goal was to make the whole product make sense together.",
       "media": [
         {
           "kind": "image",
@@ -177,7 +192,8 @@
   "result": {
     "heading": "The result",
     "body": [
-      "StockBee turns fragmented market information into a faster, more connected intelligence experience."
+      "StockBee turns fragmented market information into a faster, more connected intelligence experience.",
+      "It moves the trader from “What happened?” to “Why does it matter?”"
     ],
     "statement": "Less time finding information. More time understanding what matters."
   }
