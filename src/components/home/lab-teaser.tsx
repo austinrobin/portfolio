@@ -37,9 +37,14 @@ const experiments = [
   },
 ];
 
-/* Diagonal layout: even steps along an up-right axis, later cards behind. */
-const STEP_X = 220;
-const STEP_Y = -96;
+/* Diagonal layout in container-relative terms: panes are 56% of the
+   spread's width, stepped 22% along the up-right diagonal, so the group
+   fills the same width as the Select Works stage. */
+const POS = [
+  { left: "0%", top: "40%" },
+  { left: "22%", top: "20%" },
+  { left: "44%", top: "0%" },
+];
 const TILT = { rotateY: -34, rotateX: 7 };
 
 export function LabTeaser() {
@@ -67,35 +72,26 @@ export function LabTeaser() {
         </Reveal>
       </div>
 
-      {/* ---- the cascade ---- */}
-      <div className="mt-4 flex justify-center">
+      {/* ---- the cascade — sized to the works stage ---- */}
+      <div className="mt-10 flex justify-center">
         <div
-          className="relative h-[440px] w-full max-w-4xl scale-[0.52] sm:scale-75 lg:scale-100"
-          style={{ perspective: 1300 }}
+          className="relative aspect-[16/10] w-[min(92vw,990px)] max-md:aspect-[16/13]"
+          style={{ perspective: 1400 }}
         >
           {experiments.map((x, i) => {
-            const c = (n - 1) / 2;
-            const dx = (i - c) * STEP_X;
-            const dy = (i - c) * STEP_Y;
             const isHover = hovered === i;
             return (
               <motion.div
                 key={x.tag}
-                className="absolute left-1/2 top-1/2 w-[320px] cursor-pointer"
+                className="absolute w-[56%] cursor-pointer max-md:w-[64%]"
                 style={{
-                  marginLeft: -160,
-                  marginTop: -110,
-                  x: dx,
-                  y: dy,
-                  zIndex: isHover ? 40 : n - i,
+                  left: POS[i].left,
+                  top: POS[i].top,
+                  zIndex: n - i,
                   transformStyle: "preserve-3d",
                 }}
-                initial={
-                  reduce
-                    ? false
-                    : { opacity: 0, x: dx + 160, y: dy - 120 }
-                }
-                whileInView={{ opacity: 1, x: dx, y: dy }}
+                initial={reduce ? false : { opacity: 0, x: "30%", y: -60 }}
+                whileInView={{ opacity: 1, x: "0%", y: 0 }}
                 viewport={{ once: true, margin: "-15%" }}
                 transition={{
                   duration: 0.8,
@@ -109,51 +105,50 @@ export function LabTeaser() {
                 tabIndex={0}
               >
                 <motion.div
-                  className="aspect-[16/11] w-full overflow-hidden rounded-xl"
+                  className="aspect-[16/11] w-full overflow-hidden rounded-2xl"
                   animate={
                     reduce
                       ? undefined
                       : isHover
                         ? {
-                            rotateY: -4,
-                            rotateX: 1,
-                            scale: 1.16,
-                            boxShadow: "0 42px 90px rgba(16,27,188,0.42)",
+                            x: "30%",
+                            scale: 1.02,
+                            boxShadow: "0 42px 90px rgba(16,27,188,0.4)",
                           }
                         : {
-                            ...TILT,
+                            x: "0%",
                             scale: 1,
-                            boxShadow: "0 24px 60px rgba(26,25,19,0.22)",
+                            boxShadow: "0 26px 64px rgba(26,25,19,0.24)",
                           }
                   }
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
                   style={{
+                    ...(reduce ? {} : TILT),
                     background: `radial-gradient(ellipse 90% 80% at ${x.glow}, rgba(249,247,241,0.16) 0%, transparent 55%), ${INK}`,
                     color: PAPER,
-                    ...(reduce ? {} : TILT),
                   }}
                 >
-                  <div className="flex h-full flex-col justify-between p-6">
-                    <span className="font-mono text-[10px] uppercase tracking-[0.25em] opacity-70">
+                  <div className="flex h-full flex-col justify-between p-6 sm:p-9">
+                    <span className="font-mono text-[clamp(9px,0.8vw,11px)] uppercase tracking-[0.25em] opacity-70">
                       {x.tag}
                     </span>
                     <div>
                       <p
-                        className="text-[26px] leading-tight"
+                        className="text-[clamp(22px,2.6vw,34px)] leading-tight"
                         style={{ fontFamily: "var(--font-peristiwa)" }}
                       >
                         {x.title}
                       </p>
-                      {/* blurb + status reveal on pop, like the reference */}
+                      {/* the slide uncovers the rest of the card; blurb fades up */}
                       <motion.div
                         animate={{ opacity: isHover ? 1 : 0 }}
                         transition={{ duration: 0.35 }}
-                        className="mt-3"
+                        className="mt-3 max-w-[80%]"
                       >
-                        <p className="text-[13px] leading-relaxed opacity-80">
+                        <p className="text-[clamp(12px,1.05vw,15px)] leading-relaxed opacity-80">
                           {x.blurb}
                         </p>
-                        <span className="mt-3 inline-block font-mono text-[9px] uppercase tracking-[0.3em] opacity-60">
+                        <span className="mt-3 inline-block font-mono text-[clamp(8px,0.7vw,10px)] uppercase tracking-[0.3em] opacity-60">
                           Coming soon
                         </span>
                       </motion.div>
@@ -165,6 +160,7 @@ export function LabTeaser() {
           })}
         </div>
       </div>
+
     </section>
   );
 }
