@@ -4,14 +4,15 @@ import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/motion";
 import { heroFonts, INK, PAPER } from "./hero-config";
+import { labConfig, type LabCascadeSettings } from "./lab-config";
 
 /*
- * The Lab — teaser cards as a diagonal 3D cascade (reference: stellium's
- * project wall, 4-7s of Austin's capture). The panes share one strong
- * perspective tilt and step up the diagonal, overlapping like standing
- * glass. Hovering a pane pops it toward the camera: it straightens,
- * scales, takes the top of the stack and reveals its blurb. With three
- * products the spread stays centred and deliberate.
+ * The Lab — teaser cards as a diagonal cover cascade (stellium reference).
+ * Every number that shapes the spread lives in content/lab.json and is
+ * tunable from /studio: placement (pane size, diagonal steps), angle
+ * (rotY/rotX/perspective), surface (radius, shadows) and the active state
+ * (slide, scale, angle). Hover slides a cover out of the stack to reveal
+ * its face; the tilt is held unless activeRotY says otherwise.
  */
 
 const experiments = [
@@ -19,7 +20,6 @@ const experiments = [
     tag: "The Gift",
     title: "Something you take with you",
     blurb: "A genuinely useful tool anyone who lands here can pick up and keep.",
-    /** highlight position for the pane's sheen */
     glow: "20% 15%",
   },
   {
@@ -37,25 +37,26 @@ const experiments = [
   },
 ];
 
-/* Diagonal layout in container-relative terms: panes are 56% of the
-   spread's width, stepped 22% along the up-right diagonal, so the group
-   fills the same width as the Select Works stage. */
-const POS = [
-  { left: "0%", top: "26%" },
-  { left: "27%", top: "13%" },
-  { left: "54%", top: "0%" },
-];
-/* Pure Y rotation — verticals stay vertical, like a PlayStation cover. */
-const TILT = { rotateY: -30, rotateX: 0 };
-
-export function LabTeaser() {
+export function LabTeaser({
+  overrides,
+}: {
+  overrides?: Partial<LabCascadeSettings>;
+}) {
+  const cfg: LabCascadeSettings = { ...labConfig, ...overrides };
   const reduce = useReducedMotion();
   const [hovered, setHovered] = useState<number | null>(null);
   const n = experiments.length;
 
+  /* geometry, all in % of the stage width */
+  const paneH = cfg.paneWidth * cfg.paneAspect;
+  const groupW = cfg.paneWidth + (n - 1) * cfg.stepX;
+  const offsetX = Math.max(0, (100 - groupW) / 2);
+  const totalH = paneH + (n - 1) * cfg.stepY;
+  const tilt = reduce ? {} : { rotateY: cfg.rotY, rotateX: cfg.rotX };
+
   return (
     <section
-      className={`mx-auto max-w-5xl overflow-hidden px-6 py-20 ${heroFonts.silk.variable} ${heroFonts.peristiwa.variable}`}
+      className={`mx-auto max-w-6xl overflow-hidden px-6 py-20 ${heroFonts.silk.variable} ${heroFonts.peristiwa.variable}`}
     >
       <div className="mx-auto max-w-3xl">
         <Reveal>
@@ -76,18 +77,19 @@ export function LabTeaser() {
       {/* ---- the cascade — sized to the works stage ---- */}
       <div className="mt-10 flex justify-center">
         <div
-          className="relative aspect-[10/7] w-[min(92vw,990px)] max-md:aspect-[5/6]"
-          style={{ perspective: 1400 }}
+          className="relative w-[min(92vw,990px)]"
+          style={{ perspective: cfg.perspective, aspectRatio: `100 / ${totalH}` }}
         >
           {experiments.map((x, i) => {
             const isHover = hovered === i;
             return (
               <motion.div
                 key={x.tag}
-                className="absolute w-[46%] cursor-pointer max-md:w-[58%]"
+                className="absolute cursor-pointer"
                 style={{
-                  left: POS[i].left,
-                  top: POS[i].top,
+                  width: `${cfg.paneWidth}%`,
+                  left: `${offsetX + i * cfg.stepX}%`,
+                  top: `${(n - 1 - i) * cfg.stepY}%`,
                   zIndex: n - i,
                   transformStyle: "preserve-3d",
                 }}
@@ -106,25 +108,31 @@ export function LabTeaser() {
                 tabIndex={0}
               >
                 <motion.div
-                  className="aspect-square w-full overflow-hidden rounded-md"
+                  className="w-full overflow-hidden"
                   animate={
                     reduce
                       ? undefined
                       : isHover
                         ? {
-                            x: "30%",
-                            scale: 1.02,
-                            boxShadow: "0 18px 44px rgba(26,25,19,0.16)",
+                            x: `${cfg.slide}%`,
+                            scale: cfg.activeScale,
+                            rotateY: cfg.activeRotY,
+                            rotateX: cfg.rotX,
+                            boxShadow: `0 18px 44px rgba(26,25,19,${cfg.shadowHover})`,
                           }
                         : {
                             x: "0%",
                             scale: 1,
-                            boxShadow: "0 10px 30px rgba(26,25,19,0.1)",
+                            rotateY: cfg.rotY,
+                            rotateX: cfg.rotX,
+                            boxShadow: `0 12px 32px rgba(26,25,19,${cfg.shadowRest})`,
                           }
                   }
                   transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
                   style={{
-                    ...(reduce ? {} : TILT),
+                    aspectRatio: `1 / ${cfg.paneAspect}`,
+                    borderRadius: cfg.radius,
+                    ...tilt,
                     background: `radial-gradient(ellipse 90% 80% at ${x.glow}, rgba(249,247,241,0.16) 0%, transparent 55%), ${INK}`,
                     color: PAPER,
                   }}
@@ -140,7 +148,6 @@ export function LabTeaser() {
                       >
                         {x.title}
                       </p>
-                      {/* the slide uncovers the rest of the card; blurb fades up */}
                       <motion.div
                         animate={{ opacity: isHover ? 1 : 0 }}
                         transition={{ duration: 0.35 }}
@@ -161,7 +168,6 @@ export function LabTeaser() {
           })}
         </div>
       </div>
-
     </section>
   );
 }

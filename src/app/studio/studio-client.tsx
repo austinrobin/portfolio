@@ -12,12 +12,18 @@ import {
   type CaseMedia,
   type CaseStudy,
 } from "@/lib/case-studies";
+import { LabTeaser } from "@/components/home/lab-teaser";
+import {
+  labConfig,
+  type LabCascadeSettings,
+} from "@/components/home/lab-config";
 
 /* ------------------------------------------------------------------ types */
 interface Draft {
   hero: HeroSettings;
   site: SiteConfig;
   caseStockbee: CaseStudy;
+  lab: LabCascadeSettings;
 }
 interface LogEntry {
   at: string;
@@ -33,13 +39,14 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v4"; // v4: + caseStockbee (stale v3 drafts must not shadow it)
+const DRAFT_KEY = "studio-draft-v5"; // v5: + lab cascade (stale drafts must not shadow new shapes)
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {
   hero: heroConfig,
   site: siteConfig,
   caseStockbee,
+  lab: labConfig,
 };
 
 /* --------------------------------------------------- media upload helpers */
@@ -282,6 +289,9 @@ export function StudioClient() {
   const changes = useMemo(() => diff(defaults, draft), [draft]);
   const dirty = changes.length > 0 || pending.length > 0;
 
+  const setLab = (patch: Partial<LabCascadeSettings>) =>
+    setDraft({ ...draft, lab: { ...draft.lab, ...patch } });
+
   /* -------------------------------------------- case-study edit helpers */
   const setCase = (patch: Partial<CaseStudy>) =>
     setDraft({ ...draft, caseStockbee: { ...draft.caseStockbee, ...patch } });
@@ -409,6 +419,10 @@ export function StudioClient() {
             {
               path: "content/case-stockbee.json",
               content: JSON.stringify(draft.caseStockbee, null, 2) + "\n",
+            },
+            {
+              path: "content/lab.json",
+              content: JSON.stringify(draft.lab, null, 2) + "\n",
             },
             ...pending.map((m) => ({
               path: m.path,
@@ -1007,6 +1021,69 @@ export function StudioClient() {
               >
                 + Add social
               </button>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
+                Lab — cascade
+              </h2>
+              {/* live spread — hover it to feel the active state */}
+              <div className="overflow-hidden rounded-xl border border-border">
+                <div className="origin-top-left scale-[0.55] [width:181%]">
+                  <LabTeaser overrides={draft.lab} />
+                </div>
+              </div>
+
+              <p className="font-mono text-[10px] uppercase tracking-wider text-muted">
+                Placement
+              </p>
+              <Slider label="Cover width" value={draft.lab.paneWidth} min={28} max={64} step={1}
+                onChange={(v) => setLab({ paneWidth: v })}
+                hint="% of the stage each cover takes." />
+              <Slider label="Cover shape" value={draft.lab.paneAspect} min={0.7} max={1.35} step={0.05}
+                onChange={(v) => setLab({ paneAspect: v })}
+                hint="Height ÷ width. 1 = square cover." />
+              <Slider label="Step across" value={draft.lab.stepX} min={8} max={44} step={1}
+                onChange={(v) => setLab({ stepX: v })}
+                hint="How far each cover sits to the right of the last." />
+              <Slider label="Step up" value={draft.lab.stepY} min={0} max={28} step={1}
+                onChange={(v) => setLab({ stepY: v })}
+                hint="How much the diagonal climbs per cover. 0 = flat row." />
+
+              <p className="font-mono text-[10px] uppercase tracking-wider text-muted">
+                Angle
+              </p>
+              <Slider label="Turn (Y)" value={draft.lab.rotY} min={-60} max={0} step={1}
+                onChange={(v) => setLab({ rotY: v })}
+                hint="The cover's standing angle. 0 = facing you." />
+              <Slider label="Lean (X)" value={draft.lab.rotX} min={-20} max={20} step={1}
+                onChange={(v) => setLab({ rotX: v })}
+                hint="Backward/forward lean. 0 keeps verticals vertical." />
+              <Slider label="Perspective" value={draft.lab.perspective} min={500} max={2600} step={50}
+                onChange={(v) => setLab({ perspective: v })}
+                hint="Camera distance — lower is more dramatic." />
+
+              <p className="font-mono text-[10px] uppercase tracking-wider text-muted">
+                Surface
+              </p>
+              <Slider label="Corner radius" value={draft.lab.radius} min={0} max={28} step={1}
+                onChange={(v) => setLab({ radius: v })} />
+              <Slider label="Shadow — rest" value={draft.lab.shadowRest} min={0} max={0.5} step={0.01}
+                onChange={(v) => setLab({ shadowRest: v })} />
+              <Slider label="Shadow — active" value={draft.lab.shadowHover} min={0} max={0.6} step={0.01}
+                onChange={(v) => setLab({ shadowHover: v })} />
+
+              <p className="font-mono text-[10px] uppercase tracking-wider text-muted">
+                Active state
+              </p>
+              <Slider label="Slide out" value={draft.lab.slide} min={0} max={70} step={1}
+                onChange={(v) => setLab({ slide: v })}
+                hint="% of its own width the hovered cover slides right." />
+              <Slider label="Scale" value={draft.lab.activeScale} min={1} max={1.3} step={0.01}
+                onChange={(v) => setLab({ activeScale: v })} />
+              <Slider label="Turn when active" value={draft.lab.activeRotY} min={-60} max={0} step={1}
+                onChange={(v) => setLab({ activeRotY: v })}
+                hint="Same as Turn (Y) = pure slide. 0 = faces you fully." />
             </section>
 
             <section className="space-y-6">

@@ -1,0 +1,15 @@
+{
+  "paneWidth": 46,
+  "paneAspect": 1,
+  "stepX": 27,
+  "stepY": 13,
+  "rotY": -30,
+  "rotX": 0,
+  "perspective": 1400,
+  "radius": 6,
+  "shadowRest": 0.1,
+  "shadowHover": 0.16,
+  "slide": 30,
+  "activeScale": 1.02,
+  "activeRotY": -30
+}
