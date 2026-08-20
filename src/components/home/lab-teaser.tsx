@@ -41,11 +41,12 @@ const experiments = [
    spread's width, stepped 22% along the up-right diagonal, so the group
    fills the same width as the Select Works stage. */
 const POS = [
-  { left: "0%", top: "40%" },
-  { left: "22%", top: "20%" },
-  { left: "44%", top: "0%" },
+  { left: "0%", top: "26%" },
+  { left: "27%", top: "13%" },
+  { left: "54%", top: "0%" },
 ];
-const TILT = { rotateY: -34, rotateX: 7 };
+/* Pure Y rotation — verticals stay vertical, like a PlayStation cover. */
+const TILT = { rotateY: -30, rotateX: 0 };
 
 export function LabTeaser() {
   const reduce = useReducedMotion();
@@ -75,7 +76,7 @@ export function LabTeaser() {
       {/* ---- the cascade — sized to the works stage ---- */}
       <div className="mt-10 flex justify-center">
         <div
-          className="relative aspect-[16/10] w-[min(92vw,990px)] max-md:aspect-[16/13]"
+          className="relative aspect-[10/7] w-[min(92vw,990px)] max-md:aspect-[5/6]"
           style={{ perspective: 1400 }}
         >
           {experiments.map((x, i) => {
@@ -83,7 +84,7 @@ export function LabTeaser() {
             return (
               <motion.div
                 key={x.tag}
-                className="absolute w-[56%] cursor-pointer max-md:w-[64%]"
+                className="absolute w-[46%] cursor-pointer max-md:w-[58%]"
                 style={{
                   left: POS[i].left,
                   top: POS[i].top,
@@ -105,7 +106,7 @@ export function LabTeaser() {
                 tabIndex={0}
               >
                 <motion.div
-                  className="aspect-[16/11] w-full overflow-hidden rounded-2xl"
+                  className="aspect-square w-full overflow-hidden rounded-md"
                   animate={
                     reduce
                       ? undefined
@@ -113,12 +114,12 @@ export function LabTeaser() {
                         ? {
                             x: "30%",
                             scale: 1.02,
-                            boxShadow: "0 42px 90px rgba(16,27,188,0.4)",
+                            boxShadow: "0 18px 44px rgba(26,25,19,0.16)",
                           }
                         : {
                             x: "0%",
                             scale: 1,
-                            boxShadow: "0 26px 64px rgba(26,25,19,0.24)",
+                            boxShadow: "0 10px 30px rgba(26,25,19,0.1)",
                           }
                   }
                   transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
