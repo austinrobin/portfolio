@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
+import { ChromeGate } from "@/components/chrome-gate";
 import { siteConfig } from "@/lib/site";
 
 const geistSans = Geist({
@@ -55,7 +56,9 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <Nav />
         <main className="flex-1">{children}</main>
-        <Footer />
+        <ChromeGate>
+          <Footer />
+        </ChromeGate>
       </body>
     </html>
   );

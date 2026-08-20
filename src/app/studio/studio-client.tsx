@@ -17,6 +17,11 @@ import {
   labConfig,
   type LabCascadeSettings,
 } from "@/components/home/lab-config";
+import { CurrentBuild } from "@/components/home/current-build";
+import { ProjectDeck } from "@/components/home/project-deck";
+import { LifeCollage } from "@/components/home/life-collage";
+import { CaseStudyView } from "@/components/case-study/case-study";
+import { showcase } from "@/lib/showcase";
 
 /* ------------------------------------------------------------------ types */
 interface Draft {
@@ -251,6 +256,38 @@ function Toggle({
   );
 }
 
+function Group({
+  title,
+  open,
+  onToggle,
+  children,
+}: {
+  title: string;
+  open: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="border-b border-border/70">
+      <button
+        onClick={onToggle}
+        aria-expanded={open}
+        className="flex w-full items-center justify-between py-3 text-left"
+      >
+        <span className="font-mono text-[11px] uppercase tracking-wider text-muted">
+          {title}
+        </span>
+        <span
+          className={`text-muted transition-transform ${open ? "rotate-45" : ""}`}
+        >
+          +
+        </span>
+      </button>
+      {open && <div className="space-y-4 pb-6 pt-1">{children}</div>}
+    </div>
+  );
+}
+
 /* ------------------------------------------------------------------ page */
 export function StudioClient() {
   const [key, setKey] = useState("");
@@ -258,6 +295,9 @@ export function StudioClient() {
   const [authErr, setAuthErr] = useState("");
   const [draft, setDraft] = useState<Draft>(defaults);
   const [tab, setTab] = useState<"controls" | "log">("controls");
+  const [open, setOpen] = useState(true);
+  const [group, setGroup] = useState<string | null>("Hero — text");
+  const [target, setTarget] = useState<"home" | "case">("home");
   const [status, setStatus] = useState<string>("");
   const [saving, setSaving] = useState(false);
   const [log, setLog] = useState<LogEntry[]>([]);
@@ -489,55 +529,102 @@ export function StudioClient() {
   }
 
   /* ------------------------------------------------------------ studio */
+  const PANEL = 400;
+
   return (
-    <div className="mx-auto max-w-5xl px-6 py-10">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="font-display text-4xl">Studio</h1>
-          <p className="mt-1 text-sm text-muted">
-            Edit, save, and every change is logged.
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setTab("controls")}
-            className={`rounded-full px-4 py-2 text-sm ${tab === "controls" ? "bg-foreground text-background" : "border border-border"}`}
-          >
-            Controls
-          </button>
-          <button
-            onClick={() => setTab("log")}
-            className={`rounded-full px-4 py-2 text-sm ${tab === "log" ? "bg-foreground text-background" : "border border-border"}`}
-          >
-            Update log
-          </button>
-        </div>
+    <>
+      {/* ---- the actual site, live, underneath ---- */}
+      <div
+        className="transition-[padding] duration-300"
+        style={{ paddingRight: open ? PANEL : 0 }}
+      >
+        {target === "home" ? (
+          <>
+            <PortraitHero overrides={draft.hero} />
+            <CurrentBuild />
+            <section id="work" className="scroll-mt-16">
+              <h2 className="sr-only">Select Works</h2>
+              <ProjectDeck items={showcase} />
+            </section>
+            <LabTeaser overrides={draft.lab} />
+            <LifeCollage />
+          </>
+        ) : (
+          <CaseStudyView cs={draft.caseStockbee} />
+        )}
       </div>
 
-      {tab === "controls" ? (
-        <div className="mt-8 grid gap-8 lg:grid-cols-[1.2fr_1fr]">
-          {/* Live preview */}
-          <div>
-            <p className="mb-2 font-mono text-xs uppercase tracking-wider text-muted">
-              Live preview — hover &amp; hold
-            </p>
-            <div className="h-[420px] overflow-hidden rounded-xl border border-border">
-              <PortraitHero compact overrides={draft.hero} />
-            </div>
-            {dirty && (
-              <p className="mt-3 text-xs text-muted">
-                {changes.length} unsaved change{changes.length > 1 ? "s" : ""} —
-                drafts persist in this browser until saved.
-              </p>
-            )}
+      {/* ---- collapsed handle ---- */}
+      {!open && (
+        <button
+          onClick={() => setOpen(true)}
+          className="fixed right-0 top-1/2 z-[120] -translate-y-1/2 rounded-l-xl border border-r-0 border-border bg-background/95 px-3 py-5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted shadow-lg backdrop-blur hover:text-foreground"
+        >
+          <span className="[writing-mode:vertical-rl]">Studio</span>
+        </button>
+      )}
+
+      {/* ---- the panel ---- */}
+      <aside
+        className={`fixed right-0 top-0 z-[110] flex h-svh flex-col border-l border-border bg-background/95 shadow-2xl backdrop-blur transition-transform duration-300 ${
+          open ? "translate-x-0" : "translate-x-full"
+        }`}
+        style={{ width: PANEL }}
+      >
+        {/* header */}
+        <div className="shrink-0 border-b border-border px-5 pb-3 pt-4">
+          <div className="flex items-center justify-between">
+            <h1 className="font-display text-2xl leading-none">Studio</h1>
+            <button
+              onClick={() => setOpen(false)}
+              aria-label="Collapse panel"
+              className="rounded-full border border-border px-2.5 py-1 text-xs text-muted hover:text-foreground"
+            >
+              ›
+            </button>
           </div>
 
-          {/* Controls */}
-          <div className="space-y-8">
-            <section className="space-y-4">
-              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
-                Hero — text
-              </h2>
+          {/* what am I editing */}
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {(
+              [
+                ["home", "Home"],
+                ["case", "StockBee"],
+              ] as const
+            ).map(([k, label]) => (
+              <button
+                key={k}
+                onClick={() => {
+                  setTarget(k);
+                  setTab("controls");
+                }}
+                className={`rounded-full px-3 py-1.5 text-xs ${
+                  target === k && tab === "controls"
+                    ? "bg-foreground text-background"
+                    : "border border-border text-muted"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+            <button
+              onClick={() => setTab(tab === "log" ? "controls" : "log")}
+              className={`rounded-full px-3 py-1.5 text-xs ${
+                tab === "log"
+                  ? "bg-foreground text-background"
+                  : "border border-border text-muted"
+              }`}
+            >
+              Log
+            </button>
+          </div>
+        </div>
+
+        {/* body */}
+        <div className="flex-1 overflow-y-auto overscroll-contain px-5">
+          {tab === "controls" ? (
+            <div>
+            <Group title={"Hero — text"} open={group === "Hero — text"} onToggle={() => setGroup(group === "Hero — text" ? null : "Hero — text")}>
               <TextField
                 label="Name"
                 value={draft.hero.headline}
@@ -559,12 +646,9 @@ export function StudioClient() {
                   setDraft({ ...draft, hero: { ...draft.hero, sub: v } })
                 }
               />
-            </section>
+            </Group>
 
-            <section className="space-y-4">
-              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
-                Hero — layout
-              </h2>
+            <Group title={"Hero — layout"} open={group === "Hero — layout"} onToggle={() => setGroup(group === "Hero — layout" ? null : "Hero — layout")}>
               <Slider
                 label="Portrait width"
                 value={draft.hero.slotWidthFrac}
@@ -618,12 +702,9 @@ export function StudioClient() {
                 }
                 hint="How much of the portrait sinks below the fold."
               />
-            </section>
+            </Group>
 
-            <section className="space-y-4">
-              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
-                Hero — reveal
-              </h2>
+            <Group title={"Hero — reveal"} open={group === "Hero — reveal"} onToggle={() => setGroup(group === "Hero — reveal" ? null : "Hero — reveal")}>
               <Slider
                 label="Brush radius"
                 value={draft.hero.brushRadius}
@@ -667,12 +748,9 @@ export function StudioClient() {
                   setDraft({ ...draft, hero: { ...draft.hero, edgeSoft: v } })
                 }
               />
-            </section>
+            </Group>
 
-            <section className="space-y-4">
-              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
-                Hero — torn edge
-              </h2>
+            <Group title={"Hero — torn edge"} open={group === "Hero — torn edge"} onToggle={() => setGroup(group === "Hero — torn edge" ? null : "Hero — torn edge")}>
               <Slider
                 label="Tear scale"
                 value={draft.hero.tearScale}
@@ -726,12 +804,9 @@ export function StudioClient() {
                   setDraft({ ...draft, hero: { ...draft.hero, crumbAmp: v } })
                 }
               />
-            </section>
+            </Group>
 
-            <section className="space-y-4">
-              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
-                Hero — pattern
-              </h2>
+            <Group title={"Hero — pattern"} open={group === "Hero — pattern"} onToggle={() => setGroup(group === "Hero — pattern" ? null : "Hero — pattern")}>
               <Slider
                 label="Resting opacity"
                 value={draft.hero.patternOpacity}
@@ -809,12 +884,9 @@ export function StudioClient() {
                 }
                 hint="Where the pattern hits full strength."
               />
-            </section>
+            </Group>
 
-            <section className="space-y-4">
-              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
-                Hero — datamosh
-              </h2>
+            <Group title={"Hero — datamosh"} open={group === "Hero — datamosh"} onToggle={() => setGroup(group === "Hero — datamosh" ? null : "Hero — datamosh")}>
               <Slider
                 label="Band height"
                 value={draft.hero.bandPx}
@@ -900,12 +972,9 @@ export function StudioClient() {
                   setDraft({ ...draft, hero: { ...draft.hero, edgeGlow: v } })
                 }
               />
-            </section>
+            </Group>
 
-            <section className="space-y-4">
-              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
-                Hero — auto-scan
-              </h2>
+            <Group title={"Hero — auto-scan"} open={group === "Hero — auto-scan"} onToggle={() => setGroup(group === "Hero — auto-scan" ? null : "Hero — auto-scan")}>
               <Toggle
                 label="Auto-scan"
                 value={draft.hero.autoScan}
@@ -943,12 +1012,9 @@ export function StudioClient() {
                 }
                 hint="How long after the cursor stops before auto-scan resumes."
               />
-            </section>
+            </Group>
 
-            <section className="space-y-4">
-              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
-                Site
-              </h2>
+            <Group title={"Site"} open={group === "Site"} onToggle={() => setGroup(group === "Site" ? null : "Site")}>
               <TextField
                 label="Name"
                 value={draft.site.name}
@@ -1021,19 +1087,9 @@ export function StudioClient() {
               >
                 + Add social
               </button>
-            </section>
+            </Group>
 
-            <section className="space-y-4">
-              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
-                Lab — cascade
-              </h2>
-              {/* live spread — hover it to feel the active state */}
-              <div className="overflow-hidden rounded-xl border border-border">
-                <div className="origin-top-left scale-[0.55] [width:181%]">
-                  <LabTeaser overrides={draft.lab} />
-                </div>
-              </div>
-
+            <Group title={"Lab — cascade"} open={group === "Lab — cascade"} onToggle={() => setGroup(group === "Lab — cascade" ? null : "Lab — cascade")}>
               <p className="font-mono text-[10px] uppercase tracking-wider text-muted">
                 Placement
               </p>
@@ -1084,12 +1140,9 @@ export function StudioClient() {
               <Slider label="Turn when active" value={draft.lab.activeRotY} min={-60} max={0} step={1}
                 onChange={(v) => setLab({ activeRotY: v })}
                 hint="Same as Turn (Y) = pure slide. 0 = faces you fully." />
-            </section>
+            </Group>
 
-            <section className="space-y-6">
-              <h2 className="font-mono text-xs uppercase tracking-wider text-muted">
-                Case — StockBee
-              </h2>
+            <Group title={"Case — StockBee"} open={group === "Case — StockBee"} onToggle={() => setGroup(group === "Case — StockBee" ? null : "Case — StockBee")}>
               <TextArea
                 label="Tagline"
                 value={draft.caseStockbee.tagline}
@@ -1296,40 +1349,11 @@ export function StudioClient() {
                   page reload.
                 </p>
               )}
-            </section>
+            </Group>
 
-            {/* Save bar */}
-            <div className="sticky bottom-4 rounded-xl border border-border bg-background/90 p-4 backdrop-blur">
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={save}
-                  disabled={!dirty || saving}
-                  className="rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background disabled:opacity-40"
-                >
-                  {saving ? "Saving…" : "Save & publish"}
-                </button>
-                <button
-                  onClick={() => {
-                    setDraft(defaults);
-                    setPending([]);
-                    setMediaErr("");
-                  }}
-                  disabled={!dirty || saving}
-                  className="rounded-full border border-border px-4 py-2.5 text-sm disabled:opacity-40"
-                >
-                  Reset
-                </button>
-              </div>
-              {status && (
-                <p className="mt-2 text-xs leading-relaxed text-muted">
-                  {status}
-                </p>
-              )}
             </div>
-          </div>
-        </div>
-      ) : (
-        /* ------------------------------------------------------- log tab */
+          ) : (
+            /* --------------------------------------------------- log tab */
         <div className="mt-8">
           {log.length === 0 ? (
             <p className="text-sm text-muted">
@@ -1360,8 +1384,44 @@ export function StudioClient() {
               ))}
             </ol>
           )}
+            </div>
+          )}
         </div>
-      )}
-    </div>
+
+        {/* save */}
+        <div className="shrink-0 border-t border-border px-5 py-4">
+          <div className="flex items-center gap-2">
+            <button
+              onClick={save}
+              disabled={!dirty || saving}
+              className="flex-1 rounded-full bg-foreground px-4 py-2.5 text-sm font-medium text-background disabled:opacity-40"
+            >
+              {saving ? "Saving…" : "Save & publish"}
+            </button>
+            <button
+              onClick={() => {
+                setDraft(defaults);
+                setPending([]);
+                setMediaErr("");
+              }}
+              disabled={!dirty || saving}
+              className="rounded-full border border-border px-4 py-2.5 text-sm disabled:opacity-40"
+            >
+              Reset
+            </button>
+          </div>
+          {dirty && (
+            <p className="mt-2 text-xs text-muted">
+              {changes.length} unsaved change{changes.length === 1 ? "" : "s"}
+              {pending.length > 0 && ` · ${pending.length} media`} — drafts
+              persist in this browser until saved.
+            </p>
+          )}
+          {status && (
+            <p className="mt-2 text-xs leading-relaxed text-muted">{status}</p>
+          )}
+        </div>
+      </aside>
+    </>
   );
 }
