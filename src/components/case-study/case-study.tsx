@@ -618,7 +618,6 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
                 src={cs.heroMedia.src}
                 autoPlay
                 muted
-                loop
                 playsInline
                 preload="metadata"
                 aria-hidden
