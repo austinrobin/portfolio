@@ -158,12 +158,13 @@ const ASPECT: Record<NonNullable<CaseMedia["aspect"]>, string> = {
 function MediaBand({
   media,
   sectionKicker,
-  flush,
+  variant,
 }: {
   media: CaseMedia;
   sectionKicker: string;
-  flush: boolean;
+  variant: "contained" | "flush" | "pair";
 }) {
+  const flush = variant !== "contained";
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({
@@ -174,15 +175,18 @@ function MediaBand({
   const rotateX = useTransform(scrollYProgress, [0, 0.4], [7, 0]);
   const y = useTransform(scrollYProgress, [0, 1], [28, -28]);
 
-  const aspect = ASPECT[media.aspect ?? "wide"];
+  const aspect =
+    variant === "pair" ? "aspect-[4/3]" : ASPECT[media.aspect ?? "wide"];
 
   return (
     <div
       ref={ref}
       className={
-        flush
-          ? "mt-14 w-full sm:mt-20"
-          : "mx-auto mt-14 w-[min(96vw,1500px)] sm:mt-20"
+        variant === "pair"
+          ? "w-full"
+          : variant === "flush"
+            ? "mt-14 w-full sm:mt-20"
+            : "mx-auto mt-14 w-[min(96vw,1500px)] sm:mt-20"
       }
       style={{ perspective: 1200 }}
     >
@@ -506,10 +510,13 @@ function PinnedShowcase({
 
 function SectionBlock({ s, index }: { s: CaseSection; index: number }) {
   const dark = DARK_SECTIONS.has(s.id);
+  const pair = s.media.length >= 2;
   return (
     <section id={s.id} data-zone-id={s.id} className="pt-28 sm:pt-40">
+      {/* Reference rhythm: a small label held hard left, the heading and body
+         set in a column beginning at the midline. */}
       <div className="mx-auto w-[min(92vw,1400px)]">
-        <div className="max-w-4xl">
+        <div className="grid gap-8 md:grid-cols-2 md:gap-16">
           <Rise>
             <p className="flex items-baseline gap-3 font-mono text-xs uppercase tracking-[0.25em] text-muted">
               <span className="text-[10px]">
@@ -518,30 +525,51 @@ function SectionBlock({ s, index }: { s: CaseSection; index: number }) {
               {s.kicker}
             </p>
           </Rise>
-          <WordFill
-            text={s.heading}
-            className="mt-6 font-[family-name:var(--font-peristiwa)] text-[clamp(30px,4.6vw,64px)] leading-[1.12]"
-          />
-          {s.body.length > 0 && (
-            <Rise delay={0.1}>
-              <div className="mt-8 max-w-2xl space-y-5">
-                {s.body.map((p, i) => (
-                  <p
-                    key={i}
-                    className="text-[17px] leading-relaxed text-muted sm:text-lg"
-                  >
-                    {p}
-                  </p>
-                ))}
-              </div>
-            </Rise>
-          )}
+          <div>
+            <WordFill
+              text={s.heading}
+              className="font-[family-name:var(--font-peristiwa)] text-[clamp(28px,3.4vw,52px)] leading-[1.14]"
+            />
+            {s.body.length > 0 && (
+              <Rise delay={0.1}>
+                <div className="mt-12 max-w-[54ch] space-y-5">
+                  {s.body.map((p, i) => (
+                    <p
+                      key={i}
+                      className="text-[17px] leading-relaxed text-muted sm:text-lg"
+                    >
+                      {p}
+                    </p>
+                  ))}
+                </div>
+              </Rise>
+            )}
+          </div>
         </div>
       </div>
 
-      {s.media.map((m, i) => (
-        <MediaBand key={i} media={m} sectionKicker={s.kicker} flush={dark} />
-      ))}
+      {/* Two assets sit as an edge-to-edge pair; one runs as a band. */}
+      {pair ? (
+        <div className="mt-14 grid grid-cols-1 sm:mt-20 md:grid-cols-2">
+          {s.media.map((m, i) => (
+            <MediaBand
+              key={i}
+              media={m}
+              sectionKicker={s.kicker}
+              variant="pair"
+            />
+          ))}
+        </div>
+      ) : (
+        s.media.map((m, i) => (
+          <MediaBand
+            key={i}
+            media={m}
+            sectionKicker={s.kicker}
+            variant={dark ? "flush" : "contained"}
+          />
+        ))
+      )}
 
       {s.statement ? (
         <div className="mx-auto mt-20 w-[min(92vw,1400px)] sm:mt-28">
