@@ -147,12 +147,12 @@ function WordFill({
 
 /* ------------------------------------------------------------ media band */
 
-/* Each is its namesake ratio with 30% of the height taken out, so bands
-   read as cinematic strips rather than blocks (21:9 -> 10:3 etc). */
+/* Each is its namesake ratio with ~15% of the height taken out — enough to
+   read as a band rather than a block, without slicing the subject. */
 const ASPECT: Record<NonNullable<CaseMedia["aspect"]>, string> = {
-  wide: "aspect-[10/3]",
-  screen: "aspect-[16/7]",
-  tall: "aspect-[8/7]",
+  wide: "aspect-[11/4]",
+  screen: "aspect-[17/9]",
+  tall: "aspect-[17/18]",
 };
 
 function MediaBand({
@@ -182,7 +182,7 @@ function MediaBand({
       className={
         flush
           ? "mt-14 w-full sm:mt-20"
-          : "mx-auto mt-14 w-[min(96vw,1800px)] sm:mt-20"
+          : "mx-auto mt-14 w-[min(96vw,1500px)] sm:mt-20"
       }
       style={{ perspective: 1200 }}
     >
