@@ -1256,9 +1256,9 @@ export function StudioClient() {
                               }
                               className="self-end rounded-lg border border-border bg-background px-2 py-2 text-sm"
                             >
-                              <option value="wide">Wide 21:9</option>
-                              <option value="screen">Screen 16:10</option>
-                              <option value="tall">Tall 4:5</option>
+                              <option value="wide">Wide 10:3</option>
+                              <option value="screen">Screen 16:7</option>
+                              <option value="tall">Tall 8:7</option>
                             </select>
                           </div>
                         </div>

@@ -147,10 +147,12 @@ function WordFill({
 
 /* ------------------------------------------------------------ media band */
 
+/* Each is its namesake ratio with 30% of the height taken out, so bands
+   read as cinematic strips rather than blocks (21:9 -> 10:3 etc). */
 const ASPECT: Record<NonNullable<CaseMedia["aspect"]>, string> = {
-  wide: "aspect-[21/9]",
-  screen: "aspect-[16/10]",
-  tall: "aspect-[4/5]",
+  wide: "aspect-[10/3]",
+  screen: "aspect-[16/7]",
+  tall: "aspect-[8/7]",
 };
 
 function MediaBand({
