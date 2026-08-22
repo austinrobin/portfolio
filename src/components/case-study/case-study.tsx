@@ -12,6 +12,7 @@ import {
 } from "motion/react";
 import type { CaseMedia, CaseSection, CaseStudy } from "@/lib/case-studies";
 import { BanknoteNav } from "@/components/banknote-nav";
+import { caseFont } from "./case-font";
 import { heroFonts } from "@/components/home/hero-config";
 
 /*
@@ -409,7 +410,7 @@ function StepText({
         <p className="font-mono text-xs tracking-[0.25em] text-[#B6FF3D]">
           {label}
         </p>
-        <h2 className="mt-4 font-[family-name:var(--font-peristiwa)] text-[clamp(26px,2.6vw,40px)] leading-[1.14]">
+        <h2 className="mt-4 font-[family-name:var(--font-case)] text-[clamp(26px,2.6vw,40px)] font-bold leading-[1.06] tracking-[-0.02em]">
           {s.heading}
         </h2>
         <div className="mt-5 space-y-4">
@@ -420,7 +421,7 @@ function StepText({
           ))}
         </div>
         {s.statement ? (
-          <p className="mt-6 font-[family-name:var(--font-peristiwa)] text-[clamp(20px,1.8vw,28px)] leading-snug">
+          <p className="mt-6 font-[family-name:var(--font-case)] text-[clamp(20px,1.8vw,28px)] font-semibold leading-snug tracking-[-0.015em]">
             {s.statement}
           </p>
         ) : null}
@@ -547,7 +548,7 @@ function SectionBlock({ s, index }: { s: CaseSection; index: number }) {
           <div>
             <WordFill
               text={s.heading}
-              className="font-[family-name:var(--font-peristiwa)] text-[clamp(28px,3.4vw,52px)] leading-[1.14]"
+              className="font-[family-name:var(--font-case)] text-[clamp(28px,3.4vw,52px)] font-bold leading-[1.08] tracking-[-0.022em]"
             />
             {s.body.length > 0 && (
               <Rise delay={0.1}>
@@ -594,7 +595,7 @@ function SectionBlock({ s, index }: { s: CaseSection; index: number }) {
         <div className="mx-auto mt-20 w-[min(92vw,1400px)] sm:mt-28">
           <WordFill
             text={s.statement}
-            className="font-[family-name:var(--font-peristiwa)] text-[clamp(34px,6vw,88px)] leading-[1.1]"
+            className="font-[family-name:var(--font-case)] text-[clamp(34px,6vw,88px)] font-bold leading-[1.02] tracking-[-0.03em]"
           />
         </div>
       ) : null}
@@ -639,7 +640,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
   return (
     <motion.article
       ref={rootRef}
-      className={`pb-32 ${heroFonts.silk.variable} ${heroFonts.peristiwa.variable}`}
+      className={`pb-32 ${caseFont.variable} ${heroFonts.silk.variable} font-[family-name:var(--font-case)]`}
       initial={false}
       animate={
         {
@@ -691,12 +692,12 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
             </p>
           </Rise>
           <Rise delay={0.05}>
-            <h1 className="mt-4 font-[family-name:var(--font-peristiwa)] text-[clamp(64px,13vw,200px)] leading-[1.0]">
+            <h1 className="mt-4 font-[family-name:var(--font-case)] text-[clamp(64px,13vw,200px)] font-bold leading-[0.92] tracking-[-0.04em]">
               {cs.title}
             </h1>
           </Rise>
           <Rise delay={0.12}>
-            <p className="mt-8 max-w-3xl font-[family-name:var(--font-peristiwa)] text-[clamp(22px,2.6vw,38px)] leading-[1.18]">
+            <p className="mt-8 max-w-3xl font-[family-name:var(--font-case)] text-[clamp(22px,2.6vw,38px)] font-medium leading-[1.2] tracking-[-0.015em]">
               {cs.tagline}
             </p>
           </Rise>
@@ -769,7 +770,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
             {cs.impact.stats.map((stat, i) => (
               <Rise key={stat.label} delay={(i % 3) * 0.07}>
                 <p
-                  className={`font-[family-name:var(--font-peristiwa)] text-[clamp(44px,6.5vw,104px)] leading-[1.05] ${
+                  className={`font-[family-name:var(--font-case)] text-[clamp(44px,6.5vw,104px)] font-bold leading-none tracking-[-0.035em] ${
                     stat.value.includes("X") ? "text-muted/50" : ""
                   }`}
                 >
@@ -800,7 +801,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
           <div className="mt-14 max-w-5xl">
             <WordFill
               text={cs.result.statement}
-              className="font-[family-name:var(--font-peristiwa)] text-[clamp(34px,5.6vw,84px)] leading-[1.1]"
+              className="font-[family-name:var(--font-case)] text-[clamp(34px,5.6vw,84px)] font-bold leading-[1.02] tracking-[-0.03em]"
             />
           </div>
           <Rise delay={0.2}>
