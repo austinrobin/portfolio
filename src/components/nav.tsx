@@ -12,7 +12,12 @@ export function Nav() {
   // The landing hero carries its own banknote-style nav (per the Figma
   // design) — the global bar would double it. The Studio is a layer over
   // the live site and brings its own chrome.
-  if (pathname === "/" || pathname.startsWith("/studio")) return null;
+  if (
+    pathname === "/" ||
+    pathname.startsWith("/studio") ||
+    pathname.startsWith("/work/")
+  )
+    return null;
 
   function isActive(href: string) {
     return href === "/" ? pathname === "/" : pathname.startsWith(href);

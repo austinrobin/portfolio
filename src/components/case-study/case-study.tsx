@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
   motion,
@@ -11,6 +11,7 @@ import {
   type MotionValue,
 } from "motion/react";
 import type { CaseMedia, CaseSection, CaseStudy } from "@/lib/case-studies";
+import { BanknoteNav } from "@/components/banknote-nav";
 import { heroFonts } from "@/components/home/hero-config";
 
 /*
@@ -56,10 +57,6 @@ const STOCKBEE_DARK: Zone = {
 
 /** Sections that pull the page into StockBee's own environment. */
 const DARK_SECTIONS = new Set(["advantage", "conviction", "engine"]);
-
-function zoneFor(id: string): Zone {
-  return DARK_SECTIONS.has(id) ? STOCKBEE_DARK : PAPER;
-}
 
 /* ------------------------------------------------------------- reveals */
 
@@ -560,7 +557,12 @@ function SectionBlock({ s, index }: { s: CaseSection; index: number }) {
 
 export function CaseStudyView({ cs }: { cs: CaseStudy }) {
   const reduce = useReducedMotion();
-  const [zone, setZone] = useState<Zone>(PAPER);
+  const heroSrc = cs.heroMedia?.src;
+  const darkIds = useMemo(
+    () => (heroSrc ? new Set([...DARK_SECTIONS, "hero"]) : DARK_SECTIONS),
+    [heroSrc],
+  );
+  const [zone, setZone] = useState<Zone>(cs.heroMedia ? STOCKBEE_DARK : PAPER);
   const rootRef = useRef<HTMLElement>(null);
 
   /* Colour zones: whichever zone-tagged block owns the viewport's centre
@@ -574,7 +576,8 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
       (entries) => {
         for (const e of entries) {
           if (e.isIntersecting) {
-            setZone(zoneFor(e.target.getAttribute("data-zone-id") ?? ""));
+            const id = e.target.getAttribute("data-zone-id") ?? "";
+            setZone(darkIds.has(id) ? STOCKBEE_DARK : PAPER);
           }
         }
       },
@@ -582,7 +585,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
     );
     blocks.forEach((b) => io.observe(b));
     return () => io.disconnect();
-  }, []);
+  }, [darkIds]);
 
   return (
     <motion.article
@@ -605,42 +608,74 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
       {/* ---- hero ---- */}
       <header
         data-zone-id="hero"
-        className="mx-auto flex min-h-[88svh] w-[min(92vw,1400px)] flex-col justify-end pb-16 pt-28"
+        className="relative flex min-h-[92svh] flex-col justify-end overflow-hidden pb-16 pt-28"
       >
-        <Rise>
-          <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted">
-            Case study — {cs.year}
-          </p>
-        </Rise>
-        <Rise delay={0.05}>
-          <h1 className="mt-4 font-[family-name:var(--font-peristiwa)] text-[clamp(64px,13vw,200px)] leading-[1.0]">
-            {cs.title}
-          </h1>
-        </Rise>
-        <Rise delay={0.12}>
-          <p className="mt-8 max-w-3xl font-[family-name:var(--font-peristiwa)] text-[clamp(22px,2.6vw,38px)] leading-[1.18]">
-            {cs.tagline}
-          </p>
-        </Rise>
-        <Rise delay={0.18}>
-          <dl className="mt-14 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-border pt-8 text-sm sm:grid-cols-4">
-            {(
-              [
-                ["Role", cs.role],
-                ["Disciplines", cs.disciplines],
-                ["Team", cs.team],
-                ["Scope", cs.scope],
-              ] as const
-            ).map(([label, value]) => (
-              <div key={label}>
-                <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
-                  {label}
-                </dt>
-                <dd className="mt-2">{value}</dd>
-              </div>
-            ))}
-          </dl>
-        </Rise>
+        {cs.heroMedia?.src ? (
+          <>
+            {cs.heroMedia.kind === "video" ? (
+              <video
+                className="absolute inset-0 h-full w-full object-cover"
+                src={cs.heroMedia.src}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                aria-hidden
+              />
+            ) : (
+              /* eslint-disable-next-line @next/next/no-img-element -- full-bleed
+                 hero art, already compressed to its display size */
+              <img
+                src={cs.heroMedia.src}
+                alt=""
+                aria-hidden
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            )}
+            {/* the subject sits right; this keeps the left readable */}
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(4,6,4,0.94)_0%,rgba(4,6,4,0.78)_34%,rgba(4,6,4,0.3)_68%,rgba(4,6,4,0.08)_100%)] max-md:bg-[linear-gradient(to_top,rgba(4,6,4,0.94)_0%,rgba(4,6,4,0.6)_55%,rgba(4,6,4,0.2)_100%)]" />
+          </>
+        ) : null}
+
+        {cs.heroMedia?.src ? <BanknoteNav /> : null}
+
+        <div className="relative z-10 mx-auto w-[min(92vw,1400px)]">
+          <Rise>
+            <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted">
+              Case study — {cs.year}
+            </p>
+          </Rise>
+          <Rise delay={0.05}>
+            <h1 className="mt-4 font-[family-name:var(--font-peristiwa)] text-[clamp(64px,13vw,200px)] leading-[1.0]">
+              {cs.title}
+            </h1>
+          </Rise>
+          <Rise delay={0.12}>
+            <p className="mt-8 max-w-3xl font-[family-name:var(--font-peristiwa)] text-[clamp(22px,2.6vw,38px)] leading-[1.18]">
+              {cs.tagline}
+            </p>
+          </Rise>
+          <Rise delay={0.18}>
+            <dl className="mt-14 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-border pt-8 text-sm sm:grid-cols-4">
+              {(
+                [
+                  ["Role", cs.role],
+                  ["Disciplines", cs.disciplines],
+                  ["Team", cs.team],
+                  ["Scope", cs.scope],
+                ] as const
+              ).map(([label, value]) => (
+                <div key={label}>
+                  <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
+                    {label}
+                  </dt>
+                  <dd className="mt-2">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </Rise>
+        </div>
       </header>
 
       {/* ---- narrative sections (consecutive showcase sections merge into

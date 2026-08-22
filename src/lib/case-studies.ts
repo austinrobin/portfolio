@@ -51,6 +51,8 @@ export interface CaseStudy {
   team: string;
   scope: string;
   cover?: string;
+  /** Full-bleed hero background — the case study opens in its own world. */
+  heroMedia?: CaseMedia;
   sections: CaseSection[];
   impact: { title: string; stats: ImpactStat[] };
   result: { heading: string; body: string[]; statement: string };

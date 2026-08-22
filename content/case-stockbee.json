@@ -16,6 +16,12 @@
   "scope": "Concept → Product → Brand → Launch",
   "featured": true,
   "order": 1,
+  "heroMedia": {
+    "kind": "video",
+    "src": "/case/stockbee/perspective-mock.mp4",
+    "caption": "",
+    "aspect": "wide"
+  },
   "sections": [
     {
       "id": "problem",
