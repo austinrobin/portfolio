@@ -180,7 +180,7 @@ function MediaBand({
       className={
         flush
           ? "mt-14 w-full sm:mt-20"
-          : "mx-auto mt-14 w-[min(96vw,1400px)] sm:mt-20"
+          : "mx-auto mt-14 w-[min(96vw,1800px)] sm:mt-20"
       }
       style={{ perspective: 1200 }}
     >
