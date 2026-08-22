@@ -145,6 +145,37 @@ function WordFill({
   );
 }
 
+/* One video, two sources: WebM/VP9 where supported, H.264 everywhere else
+   (notably iOS Safari before 17.4). Falls back to a plain src when the
+   media only carries one file. */
+function VideoSources({
+  media,
+  className,
+  loop = true,
+}: {
+  media: CaseMedia;
+  className: string;
+  loop?: boolean;
+}) {
+  const common = {
+    className,
+    poster: media.poster,
+    autoPlay: true,
+    muted: true,
+    playsInline: true,
+    preload: "metadata" as const,
+  };
+  if (!media.srcFallback) {
+    return <video {...common} src={media.src} loop={loop} />;
+  }
+  return (
+    <video {...common} loop={loop}>
+      <source src={media.src} type="video/webm" />
+      <source src={media.srcFallback} type="video/mp4" />
+    </video>
+  );
+}
+
 /* ------------------------------------------------------------ media band */
 
 /* Each is its namesake ratio with ~15% of the height taken out — enough to
@@ -196,15 +227,9 @@ function MediaBand({
       >
         {media.src ? (
           media.kind === "video" ? (
-            <video
+            <VideoSources
+              media={media}
               className="absolute inset-0 h-full w-full object-cover"
-              src={media.src}
-              poster={media.poster}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
             />
           ) : (
             /* eslint-disable-next-line @next/next/no-img-element -- studio
@@ -286,15 +311,9 @@ function StepMedia({
     <motion.div style={{ opacity, scale }} className="absolute inset-0 bg-[#0B0F0B]">
       {media?.src ? (
         media.kind === "video" ? (
-          <video
+          <VideoSources
+            media={media}
             className="absolute inset-0 h-full w-full object-cover"
-            src={media.src}
-            poster={media.poster}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
           />
         ) : (
           /* eslint-disable-next-line @next/next/no-img-element -- studio
@@ -643,14 +662,10 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
         {cs.heroMedia?.src ? (
           <>
             {cs.heroMedia.kind === "video" ? (
-              <video
+              <VideoSources
+                media={cs.heroMedia}
+                loop={false}
                 className="absolute inset-0 h-full w-full object-cover"
-                src={cs.heroMedia.src}
-                autoPlay
-                muted
-                playsInline
-                preload="metadata"
-                aria-hidden
               />
             ) : (
               /* eslint-disable-next-line @next/next/no-img-element -- full-bleed

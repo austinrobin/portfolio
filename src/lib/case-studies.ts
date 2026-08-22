@@ -18,6 +18,8 @@ export interface CaseMedia {
   aspect?: "wide" | "screen" | "tall";
   /** Poster image for videos. */
   poster?: string;
+  /** Fallback video source (H.264) for browsers without VP9/WebM. */
+  srcFallback?: string;
 }
 
 export interface CaseSection {

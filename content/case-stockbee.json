@@ -49,8 +49,10 @@
       "statement": "The goal: reduce the distance between information and understanding.",
       "media": [
         {
-          "kind": "image",
-          "src": "/case/stockbee/product-workspace.jpg",
+          "kind": "video",
+          "src": "/case/stockbee/product-workspace.webm",
+          "srcFallback": "/case/stockbee/product-workspace.mp4",
+          "poster": "/case/stockbee/product-workspace-poster.jpg",
           "caption": "",
           "aspect": "screen"
         }
