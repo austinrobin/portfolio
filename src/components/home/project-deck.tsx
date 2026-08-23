@@ -27,8 +27,8 @@ const smooth = (x: number) => {
  */
 const stackYPct = (d: number) => {
   const dd = Math.min(d, 6);
-  if (dd <= 1) return -58 * smooth(dd);
-  return -(58 + 5 * (dd - 1));
+  if (dd <= 1) return -72 * smooth(dd);
+  return -(72 + 6.5 * (dd - 1));
 };
 
 /* Deeper sheets lean flatter: 62° for the next card, approaching ~86°. */
