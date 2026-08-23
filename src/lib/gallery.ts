@@ -1,50 +1,72 @@
 /*
- * The Gallery — an endless wandering canvas of art, design and photographs.
+ * The Gallery — beauty in chaos: a dense, overlapping field of work on an
+ * endless canvas.
  *
- * Items live in one WORLD block (coordinates in px of a 3200x2200 field);
- * the canvas renders a 3x3 tiling of that block and the camera wraps, so
- * the field never ends. Positions are hand-scattered into loose clusters
- * with breathing room, like the reference.
+ * Items live in one WORLD block; the canvas tiles it 3x3 and the camera
+ * wraps, so the field never ends. `depth` sorts items into three parallax
+ * bands (far 0.82 / mid 1.0 / near 1.22): while panning, near items move
+ * faster than far ones, which is what gives the field its depth.
  *
- * Swapping in real work later: put optimised files in public/gallery/
- * (<=1200px longest edge — the largest tile renders ~360px wide, so that
- * covers 2x displays with margin), keep kind "image" for photos/art
- * exports, and update src/w here. SVG dummies are placeholders.
+ * Swapping in real work later: optimised files into public/gallery/
+ * (<=1200px longest edge), then place them here. Big pieces read as near
+ * (depth 1.22, w 300+), small ones as far (depth 0.82, w <=170).
  */
 
-export const WORLD = { w: 3200, h: 2200 } as const;
+export const WORLD = { w: 2300, h: 1650 } as const;
 
 export interface GalleryItem {
   src: string;
-  /** display width in world px (height follows the file's aspect) */
+  /** display width in world px */
   w: number;
   x: number;
   y: number;
+  /** parallax band: 0.82 far · 1.0 mid · 1.22 near */
+  depth: number;
   alt?: string;
 }
 
+const d = (i: number) => `/gallery/dummy-${String(i).padStart(2, "0")}.svg`;
+
 export const galleryItems: GalleryItem[] = [
-  // cluster: top-left
-  { src: "/gallery/dummy-01.svg", w: 220, x: 260, y: 240 },
-  { src: "/gallery/dummy-02.svg", w: 170, x: 560, y: 150 },
-  { src: "/gallery/dummy-03.svg", w: 260, x: 480, y: 480 },
-  { src: "/gallery/dummy-04.svg", w: 150, x: 820, y: 360 },
-  // drift: top-right
-  { src: "/gallery/dummy-05.svg", w: 240, x: 1750, y: 220 },
-  { src: "/gallery/dummy-06.svg", w: 165, x: 2080, y: 420 },
-  { src: "/gallery/dummy-07.svg", w: 210, x: 2420, y: 180 },
-  { src: "/gallery/dummy-08.svg", w: 185, x: 2760, y: 520 },
-  // heart of the field
-  { src: "/gallery/dummy-09.svg", w: 300, x: 1280, y: 900 },
-  { src: "/gallery/dummy-10.svg", w: 180, x: 1640, y: 1120 },
-  { src: "/gallery/dummy-11.svg", w: 225, x: 980, y: 1240 },
-  { src: "/gallery/dummy-12.svg", w: 160, x: 1520, y: 700 },
-  // lower-left cluster
-  { src: "/gallery/dummy-13.svg", w: 250, x: 340, y: 1500 },
-  { src: "/gallery/dummy-14.svg", w: 170, x: 660, y: 1760 },
-  { src: "/gallery/dummy-15.svg", w: 205, x: 180, y: 1900 },
-  // lower-right drift
-  { src: "/gallery/dummy-16.svg", w: 235, x: 2280, y: 1500 },
-  { src: "/gallery/dummy-17.svg", w: 155, x: 2650, y: 1780 },
-  { src: "/gallery/dummy-18.svg", w: 275, x: 1980, y: 1920 },
+  /* ---- cluster A (top-left) ---- */
+  { src: d(1), w: 210, x: 180, y: 160, depth: 1.0 },
+  { src: d(2), w: 150, x: 360, y: 90, depth: 0.82 },
+  { src: d(3), w: 300, x: 330, y: 300, depth: 1.22 },
+  { src: d(4), w: 130, x: 600, y: 200, depth: 0.82 },
+  { src: d(5), w: 190, x: 560, y: 430, depth: 1.0 },
+  /* ---- drift between A and B ---- */
+  { src: d(6), w: 140, x: 900, y: 120, depth: 0.82 },
+  { src: d(7), w: 230, x: 1060, y: 300, depth: 1.0 },
+  /* ---- cluster B (top-right) ---- */
+  { src: d(8), w: 170, x: 1450, y: 180, depth: 1.0 },
+  { src: d(9), w: 330, x: 1630, y: 330, depth: 1.22 },
+  { src: d(10), w: 150, x: 1930, y: 150, depth: 0.82 },
+  { src: d(11), w: 200, x: 2050, y: 420, depth: 1.0 },
+  { src: d(12), w: 135, x: 1350, y: 480, depth: 0.82 },
+  /* ---- heart (centre) ---- */
+  { src: d(13), w: 360, x: 1000, y: 720, depth: 1.22 },
+  { src: d(14), w: 170, x: 1330, y: 850, depth: 1.0 },
+  { src: d(15), w: 145, x: 860, y: 620, depth: 0.82 },
+  { src: d(16), w: 250, x: 1480, y: 1050, depth: 1.22 },
+  { src: d(17), w: 155, x: 700, y: 950, depth: 0.82 },
+  { src: d(18), w: 205, x: 1180, y: 1120, depth: 1.0 },
+  /* ---- cluster C (bottom-left) ---- */
+  { src: d(3), w: 160, x: 260, y: 1180, depth: 0.82 },
+  { src: d(7), w: 290, x: 420, y: 1290, depth: 1.22 },
+  { src: d(11), w: 180, x: 180, y: 1440, depth: 1.0 },
+  { src: d(15), w: 220, x: 640, y: 1490, depth: 1.0 },
+  { src: d(1), w: 130, x: 480, y: 1080, depth: 0.82 },
+  /* ---- cluster D (bottom-right) ---- */
+  { src: d(9), w: 165, x: 1780, y: 1240, depth: 0.82 },
+  { src: d(5), w: 310, x: 1930, y: 1380, depth: 1.22 },
+  { src: d(13), w: 175, x: 2140, y: 1180, depth: 1.0 },
+  { src: d(2), w: 225, x: 1620, y: 1470, depth: 1.0 },
+  /* ---- connective scatter ---- */
+  { src: d(16), w: 140, x: 60, y: 700, depth: 0.82 },
+  { src: d(8), w: 235, x: 130, y: 880, depth: 1.22 },
+  { src: d(12), w: 200, x: 2180, y: 800, depth: 1.0 },
+  { src: d(17), w: 260, x: 1980, y: 640, depth: 1.22 },
+  { src: d(4), w: 150, x: 850, y: 1350, depth: 0.82 },
+  { src: d(14), w: 240, x: 1100, y: 1440, depth: 1.22 },
+  { src: d(6), w: 185, x: 1620, y: 700, depth: 1.0 },
 ];
