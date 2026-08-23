@@ -21,16 +21,18 @@ const smooth = (x: number) => {
 };
 
 /*
- * Stack offset in % of card height. A card leaning back 62° projects to
- * ~cos(62°) ≈ 47% of its height, so to make each queued card peek above the
- * one in front of it, its bottom edge must rise by ~(1 - cos62°) of a card
- * plus a visible strip (~5%) per extra depth.
+ * Stack offset in % of card height. Reference (Beeyond rolodex): the queued
+ * sheets fan up and back behind the featured card — each deeper sheet sits
+ * a tight strip higher AND leans flatter, like pages draped over a bar.
  */
 const stackYPct = (d: number) => {
   const dd = Math.min(d, 6);
   if (dd <= 1) return -58 * smooth(dd);
-  return -(58 + 5.5 * (dd - 1));
+  return -(58 + 5 * (dd - 1));
 };
+
+/* Deeper sheets lean flatter: 62° for the next card, approaching ~86°. */
+const stackAngle = (d: number) => Math.min(62 + Math.max(d - 1, 0) * 8, 86);
 
 function DeckCard({
   item,
@@ -43,33 +45,40 @@ function DeckCard({
   p: MotionValue<number>;
   onActivate?: () => void;
 }) {
-  // t < 0: waiting in the stack · t 0→1: falling to the floor · t > 1: on the floor
+  // t < 0: waiting in the fan · t 0→1: falling flat · t > 1: the mirrored floor
   const t = useTransform(p, (v) => v - index);
 
   const rotateX = useTransform(t, (v) => {
-    if (v <= -1) return 62;
-    if (v < 0) return 62 * smooth(-v);
-    if (v <= 1) return -95 * smooth(v);
-    return -95 - Math.min((v - 1) * 4, 6);
+    if (v < 0) {
+      const d = -v;
+      // unfolds 62 -> 0 on approach; deeper sheets fan flatter behind
+      return d <= 1 ? 62 * smooth(d) : stackAngle(d);
+    }
+    if (v <= 1) return -96 * smooth(v);
+    return -96 - Math.min((v - 1) * 3, 4);
   });
 
   const y = useTransform(t, (v) => {
     if (v < 0) return `${stackYPct(-v)}%`;
-    if (v <= 1) return `${9 * smooth(v)}%`;
-    return `${9 + (v - 1) * 7}%`;
+    if (v <= 1) return `${8 * smooth(v)}%`;
+    return `${8 + (v - 1) * 6}%`;
   });
 
+  /* After landing the flat card keeps coming TOWARD the camera — that is
+     what projects it down into the lower third as the mirrored floor
+     (pushing y instead just shoves it out of the stage). */
   const z = useTransform(t, (v) => {
     if (v < 0) return -60 * Math.min(-v, 6);
-    if (v <= 1) return 36 * smooth(v);
-    return 36 - (v - 1) * 60;
+    if (v <= 1) return 60 * smooth(v);
+    return 60 + (v - 1) * 70;
   });
 
   const opacity = useTransform(t, (v) => {
     if (v <= -5.5) return 0;
-    if (v < -4.5) return v + 5.5; // fade in deep stack
-    if (v <= 1.15) return 1;
-    if (v < 2.2) return 1 - (v - 1.15) / 1.05; // fade out on the floor
+    if (v < -4.5) return v + 5.5; // fade in deep in the fan
+    // the mirrored floor HOLDS for a full step, then yields to the next
+    if (v <= 1.9) return 1;
+    if (v < 2.35) return 1 - (v - 1.9) / 0.45;
     return 0;
   });
 
@@ -235,7 +244,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
         {/* 3D stage — the works folder; rises into place over the script */}
         <motion.div
           className="z-10 w-[min(92vw,990px)]"
-          style={{ perspective: 1300, perspectiveOrigin: "50% 16%", y: deckY }}
+          style={{ perspective: 1050, perspectiveOrigin: "50% 16%", y: deckY }}
         >
           <div className="relative aspect-[16/10] [transform-style:preserve-3d]">
             {items.map((item, i) => (
