@@ -3,6 +3,8 @@
 import { useEffect, useRef } from "react";
 import { useReducedMotion } from "motion/react";
 import { galleryItems } from "@/lib/gallery";
+import { BanknoteNav } from "@/components/banknote-nav";
+import { heroFonts } from "@/components/home/hero-config";
 
 /*
  * The Gallery — a flight through the work (reference: Gufram's SPACE mode).
@@ -65,9 +67,14 @@ export function GalleryCanvas() {
     let lastShutter = 0;
 
     const armAudio = () => {
-      if (ctx) return;
+      if (ctx) {
+        // wheel isn't "user activation" in Chrome — resume whenever we can
+        if (ctx.state === "suspended") void ctx.resume();
+        return;
+      }
       try {
         ctx = new AudioContext();
+        if (ctx.state === "suspended") void ctx.resume();
         // woosh: looped noise through a low bandpass, gain rides speed
         const len = ctx.sampleRate * 2;
         const buf = ctx.createBuffer(1, len, ctx.sampleRate);
@@ -78,7 +85,7 @@ export function GalleryCanvas() {
         src.loop = true;
         const bp = ctx.createBiquadFilter();
         bp.type = "bandpass";
-        bp.frequency.value = 320;
+        bp.frequency.value = 380;
         bp.Q.value = 0.6;
         wooshGain = ctx.createGain();
         wooshGain.gain.value = 0;
@@ -126,6 +133,7 @@ export function GalleryCanvas() {
       );
     };
     const onPointerDown = () => armAudio();
+    const onKey = () => armAudio();
 
     /* ---------------- frame ---------------- */
     const frame = (now: number) => {
@@ -146,7 +154,7 @@ export function GalleryCanvas() {
         z[i] -= v * dt;
         if (z[i] < 0.12) {
           z[i] += ZSPAN; // recycle to the far end
-          if (speedNorm > 0.3) shutter(speedNorm);
+          if (speedNorm > 0.22) shutter(speedNorm);
         } else if (z[i] > ZSPAN) {
           z[i] -= ZSPAN; // (reverse travel)
         }
@@ -174,7 +182,7 @@ export function GalleryCanvas() {
 
       if (wooshGain && ctx) {
         wooshGain.gain.setTargetAtTime(
-          mutedRef.current ? 0 : speedNorm * 0.14,
+          mutedRef.current ? 0 : speedNorm * 0.26,
           ctx.currentTime,
           0.08,
         );
@@ -183,15 +191,18 @@ export function GalleryCanvas() {
       raf = requestAnimationFrame(frame);
     };
 
+    (wrap as HTMLDivElement & { __armAudio?: () => void }).__armAudio = armAudio;
     wrap.addEventListener("wheel", onWheel, { passive: false });
     wrap.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("keydown", onKey);
     raf = requestAnimationFrame(frame);
 
     return () => {
       cancelAnimationFrame(raf);
       wrap.removeEventListener("wheel", onWheel);
       wrap.removeEventListener("pointerdown", onPointerDown);
-      ctx?.close();
+      window.removeEventListener("keydown", onKey);
+      void ctx?.close();
     };
   }, [reduce]);
 
@@ -215,8 +226,12 @@ export function GalleryCanvas() {
   return (
     <div
       ref={wrapRef}
-      className="fixed inset-0 z-10 touch-none overflow-hidden bg-background"
+      className={`fixed inset-0 z-10 touch-none overflow-hidden bg-background ${heroFonts.silk.variable}`}
     >
+      {/* the home page's banknote nav, above the whole field */}
+      <div className="absolute inset-x-0 top-0 z-[1200]">
+        <BanknoteNav />
+      </div>
       {galleryItems.map((it, i) => (
         <div
           key={`${it.src}${i}`}
@@ -236,19 +251,24 @@ export function GalleryCanvas() {
         </div>
       ))}
 
-      <p className="pointer-events-none absolute bottom-6 left-6 z-20 font-mono text-[10px] uppercase tracking-[0.25em] text-muted">
+      <p className="pointer-events-none absolute bottom-6 left-6 z-[1200] font-mono text-[10px] uppercase tracking-[0.25em] text-muted">
         Gallery — scroll to fly
       </p>
       <button
         ref={muteBtnRef}
         onClick={() => {
+          (
+            wrapRef.current as
+              | (HTMLDivElement & { __armAudio?: () => void })
+              | null
+          )?.__armAudio?.();
           mutedRef.current = !mutedRef.current;
           if (muteBtnRef.current)
             muteBtnRef.current.textContent = mutedRef.current
               ? "sound off"
               : "sound on";
         }}
-        className="absolute bottom-6 right-6 z-20 font-mono text-[10px] uppercase tracking-[0.25em] text-muted transition-colors hover:text-foreground"
+        className="absolute bottom-6 right-6 z-[1200] font-mono text-[10px] uppercase tracking-[0.25em] text-muted transition-colors hover:text-foreground"
       >
         sound on
       </button>

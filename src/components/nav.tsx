@@ -15,7 +15,8 @@ export function Nav() {
   if (
     pathname === "/" ||
     pathname.startsWith("/studio") ||
-    pathname.startsWith("/work/")
+    pathname.startsWith("/work/") ||
+    pathname.startsWith("/gallery")
   )
     return null;
 
