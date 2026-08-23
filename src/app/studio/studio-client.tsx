@@ -44,7 +44,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v5"; // v5: + lab cascade (stale drafts must not shadow new shapes)
+const DRAFT_KEY = "studio-draft-v6"; // v6: site nav gained Gallery (stale drafts must not revert it)
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {
