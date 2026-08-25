@@ -86,6 +86,7 @@ uniform vec4 uPat1;  // spacingPx, restAlpha, hoverAlpha, phase
 uniform vec4 uPat2;  // fadeIn, fadeOut, wobble, rectness
 uniform vec4 uPatC;  // fade centre px.xy, half-extents px.zw
 uniform vec3 uInk;   // pattern ink (premultiplied against its alpha)
+uniform vec3 uGold;  // hover ink — the strokes gild where the trail touches
 
 #define TH        uM1.x
 #define EDGESOFT  uM1.y
@@ -220,7 +221,8 @@ void main() {
     float mh = smoothstep(TH - EDGESOFT + crumbH, TH + EDGESOFT + crumbH, fieldH);
     float alpha =
       guillocheLine(px) * guillocheVis(px, mh) * mix(uPat1.y, uPat1.z, mh);
-    gl_FragColor = vec4(uInk * alpha, alpha);
+    vec3 pcol = mix(uInk, uGold, mh);
+    gl_FragColor = vec4(pcol * alpha, alpha);
     return;
   }
 
@@ -300,8 +302,9 @@ void main() {
   float ink = mix(uPat1.y, uPat1.z, mSurf);
 
   // pattern over the art's paper margins (kept off the face and the reveal)
+  vec3 pcol = mix(uInk, uGold, mSurf);
   float pOver = line * vis * ink * (1.0 - faceCover);
-  s.rgb = mix(s.rgb, uInk * s.a, pOver);
+  s.rgb = mix(s.rgb, pcol * s.a, pOver);
 
   /* The design's right-edge paper fade, now in-shader and applied to the
      portrait only — no DOM overlay, so the pattern and its hover ink are
@@ -311,7 +314,7 @@ void main() {
 
   // where the portrait faded out, the pattern shows through from behind
   float pUnder = line * vis * ink;
-  s.rgb += uInk * pUnder * (1.0 - s.a);
+  s.rgb += pcol * pUnder * (1.0 - s.a);
   s.a += pUnder * (1.0 - s.a);
 
   s.rgb = min(s.rgb, vec3(s.a));
@@ -421,6 +424,7 @@ export function PortraitHero({
     const uPat2 = U("uPat2");
     const uPatC = U("uPatC");
     gl.uniform3f(U("uInk"), 16 / 255, 27 / 255, 188 / 255); // #101BBC
+    gl.uniform3f(U("uGold"), 161 / 255, 98 / 255, 7 / 255); // #A16207 hover gold
 
     gl.uniform1i(U("uTexA"), 0);
     gl.uniform1i(U("uTexB"), 1);
