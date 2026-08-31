@@ -7,7 +7,8 @@ import { BanknoteNav } from "@/components/banknote-nav";
 import { heroFonts } from "@/components/home/hero-config";
 
 /*
- * The Gallery — a flight through the work (reference: Gufram's SPACE mode).
+ * The Gallery — a flight through the work (reference: Gufram's SPACE mode,
+ * card treatment: curved ad-reel reference).
  *
  *  · Pieces float in a depth field. The camera drifts forward on its own —
  *    work slowly appears far off, comes in, scales up and sweeps past.
@@ -15,16 +16,19 @@ import { heroFonts } from "@/components/home/hero-config";
  *  · Passing the camera recycles a piece to the far end, so the stream
  *    never runs out. Fade-in at the far edge, fade-out just before the
  *    pass, so nothing pops.
- *  · PAPER FLUTTER: as speed rises each piece sways and shears on its own
- *    phase — paper caught in the slipstream.
+ *  · CURVED SURFACES (WebGL): every piece is a subdivided plane bent by a
+ *    vertex shader — a standing cylindrical bow per card (axis + direction
+ *    dealt deterministically), aimed inward at the camera like the inside
+ *    of a sphere, drawn with true perspective foreshortening, rounded
+ *    corners and curvature shading. Speed feeds a travelling ripple on
+ *    top — paper caught in the slipstream.
  *  · SOUND (WebAudio, synthesised — zero assets): a filtered-noise woosh
  *    whose volume follows speed, and a two-blade shutter click when a
  *    piece passes the camera at speed. Audio can only start after a user
- *    gesture, so it arms on the first wheel/drag; a quiet toggle sits
- *    bottom-right.
+ *    gesture, so it arms on click/key; a quiet toggle sits bottom-right.
  *
  * All rAF + refs; React renders once. Reduced motion gets a plain grid
- * (and no audio).
+ * (and no audio, no GL).
  */
 
 const ZSPAN = 14; // depth of the field, arbitrary units
@@ -34,6 +38,16 @@ const BOOST_DECAY = 1.6; // /s
 const MAX_BOOST = 6;
 const FOV = 1.9;
 
+/* card material — the curved-reel treatment */
+const BASE_BEND = 0.24; // standing bow, fraction of card width
+const SPEED_BEND = 0.1; // extra bow at full speed
+const FLUTTER = 0.055; // travelling ripple amp at full speed, × width
+const AIM_X = 0.5; // rad of inward yaw at the viewport edge
+const AIM_Y = 0.38; // rad of inward pitch at the viewport edge
+const FOCAL = 900; // perspective focal length, css px
+const RADIUS_FRAC = 0.045; // corner radius, fraction of card width
+const TAU = Math.PI * 2;
+
 /* deterministic lane per slot — golden-angle spread, centre kept clear */
 function lane(i: number) {
   const a = i * 2.39996; // golden angle
@@ -41,25 +55,226 @@ function lane(i: number) {
   return { sx: Math.cos(a) * r, sy: Math.sin(a) * r * 0.72 };
 }
 
+/* deterministic per-card hash in [0,1) — CPU-seeded, never raw time */
+const hash = (i: number, s: number) => ((i * 12.9898 + s * 78.233) * 43758.5453) % 1;
+
+const VERT = `
+attribute vec2 aPos;
+uniform vec2 uRes;
+uniform vec2 uCenter;
+uniform vec2 uSize;
+uniform float uRoll;
+uniform vec2 uAim;
+uniform float uCurve;
+uniform float uAxis;
+uniform float uPhase;
+uniform float uFlut;
+varying vec2 vUv;
+varying float vShade;
+void main() {
+  vUv = aPos + 0.5;
+  vec3 p = vec3(aPos * uSize, 0.0);
+  // bend axis frame
+  float ca = cos(uAxis), sa = sin(uAxis);
+  float nx = (ca * p.x + sa * p.y) / max(uSize.x, 1.0); // -0.5..0.5 along bend
+  // standing cylindrical bow (parabolic arc) + travelling ripple
+  p.z += uCurve * (0.5 - 2.0 * nx * nx);
+  p.z += uFlut * sin(nx * 6.2831 + uPhase);
+  // curvature shading from the surface slope
+  float slope = (-4.0 * uCurve * nx + uFlut * 6.2831 * cos(nx * 6.2831 + uPhase)) / max(uSize.x, 1.0);
+  vShade = 1.0 - clamp(abs(slope), 0.0, 1.0) * 0.16;
+  // roll
+  float cr = cos(uRoll), sr = sin(uRoll);
+  p = vec3(cr * p.x - sr * p.y, sr * p.x + cr * p.y, p.z);
+  // aim inward at the camera (yaw then pitch)
+  float cy = cos(uAim.x), sy = sin(uAim.x);
+  p = vec3(cy * p.x + sy * p.z, p.y, -sy * p.x + cy * p.z);
+  float cx = cos(uAim.y), sx = sin(uAim.y);
+  p = vec3(p.x, cx * p.y - sx * p.z, sx * p.y + cx * p.z);
+  // perspective toward the viewer
+  float w = ${FOCAL.toFixed(1)} / max(${FOCAL.toFixed(1)} - p.z, 1.0);
+  vec2 s = uCenter + p.xy * w;
+  vec2 ndc = (s / uRes) * 2.0 - 1.0;
+  gl_Position = vec4(ndc.x, -ndc.y, 0.0, 1.0);
+}
+`;
+
+const FRAG = `
+precision mediump float;
+varying vec2 vUv;
+varying float vShade;
+uniform sampler2D uTex;
+uniform float uAlpha;
+uniform highp vec2 uSize;
+uniform float uHasTex;
+float sdRoundRect(vec2 p, vec2 b, float r) {
+  vec2 d = abs(p) - b + r;
+  return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0) - r;
+}
+void main() {
+  vec2 p = (vUv - 0.5) * uSize;
+  float r = uSize.x * ${RADIUS_FRAC.toFixed(3)};
+  float d = sdRoundRect(p, uSize * 0.5, r);
+  float mask = 1.0 - smoothstep(-1.2, 0.3, d);
+  float edge = smoothstep(-2.6, -1.2, d); // lit rim = card thickness
+  vec4 tex = texture2D(uTex, vUv);
+  vec3 card = mix(vec3(0.937, 0.929, 0.902), tex.rgb, uHasTex); // paper until loaded
+  vec3 col = card * vShade;
+  col = mix(col, vec3(0.985, 0.978, 0.955), edge * 0.5);
+  float a = uAlpha * mask;
+  gl_FragColor = vec4(col * a, a);
+}
+`;
+
+function compile(gl: WebGLRenderingContext, type: number, src: string) {
+  const sh = gl.createShader(type);
+  if (!sh) return null;
+  gl.shaderSource(sh, src);
+  gl.compileShader(sh);
+  if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
+    console.error("gallery shader:", gl.getShaderInfoLog(sh));
+    return null;
+  }
+  return sh;
+}
+
 export function GalleryCanvas() {
   const reduce = useReducedMotion();
   const wrapRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const mutedRef = useRef(false);
   const muteBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (reduce) return;
     const wrap = wrapRef.current;
-    if (!wrap) return;
-    const tiles = [...wrap.querySelectorAll<HTMLElement>("[data-tile]")];
-    const n = tiles.length;
+    const canvas = canvasRef.current;
+    if (!wrap || !canvas) return;
+    const gl = canvas.getContext("webgl", {
+      alpha: true,
+      antialias: true,
+      premultipliedAlpha: true,
+    });
+    if (!gl) return; // fallback: nav + hint still render; grid below covers it
+
+    /* ---------------- geometry: one subdivided unit plane ---------------- */
+    const SEG_X = 32;
+    const SEG_Y = 20;
+    const verts: number[] = [];
+    for (let yi = 0; yi < SEG_Y; yi++) {
+      for (let xi = 0; xi < SEG_X; xi++) {
+        const x0 = xi / SEG_X - 0.5;
+        const x1 = (xi + 1) / SEG_X - 0.5;
+        const y0 = yi / SEG_Y - 0.5;
+        const y1 = (yi + 1) / SEG_Y - 0.5;
+        verts.push(x0, y0, x1, y0, x1, y1, x0, y0, x1, y1, x0, y1);
+      }
+    }
+    const vertCount = verts.length / 2;
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
+
+    const vs = compile(gl, gl.VERTEX_SHADER, VERT);
+    const fs = compile(gl, gl.FRAGMENT_SHADER, FRAG);
+    if (!vs || !fs) return;
+    const prog = gl.createProgram();
+    if (!prog) return;
+    gl.attachShader(prog, vs);
+    gl.attachShader(prog, fs);
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      console.error("gallery link:", gl.getProgramInfoLog(prog));
+      return;
+    }
+    gl.useProgram(prog);
+    const aPos = gl.getAttribLocation(prog, "aPos");
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+    const U = (n: string) => gl.getUniformLocation(prog, n);
+    const uRes = U("uRes");
+    const uCenter = U("uCenter");
+    const uSize = U("uSize");
+    const uRoll = U("uRoll");
+    const uAim = U("uAim");
+    const uCurve = U("uCurve");
+    const uAxis = U("uAxis");
+    const uPhase = U("uPhase");
+    const uFlut = U("uFlut");
+    const uAlpha = U("uAlpha");
+    const uHasTex = U("uHasTex");
+    gl.uniform1i(U("uTex"), 0);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    gl.clearColor(0, 0, 0, 0);
+
+    /* ---------------- textures: rasterise each piece once ---------------- */
+    const n = galleryItems.length;
+    const textures: (WebGLTexture | null)[] = new Array(n).fill(null);
+    const aspects: number[] = new Array(n).fill(4 / 3);
+    let disposed = false;
+    galleryItems.forEach((it, i) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.onload = () => {
+        if (disposed) return;
+        const iw = img.naturalWidth || 800;
+        const ih = img.naturalHeight || 600;
+        aspects[i] = iw / ih;
+        // draw through 2D canvas (SVG-safe), capped for texture weight
+        const tw = Math.min(1024, iw * 2);
+        const th = Math.round(tw * (ih / iw));
+        const c = document.createElement("canvas");
+        c.width = tw;
+        c.height = th;
+        const ctx2 = c.getContext("2d");
+        if (!ctx2) return;
+        ctx2.drawImage(img, 0, 0, tw, th);
+        const tex = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, tex);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, c);
+        // NPOT-safe: clamp + linear, no mips
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        textures[i] = tex;
+        drawFrame(performance.now()); // eager repaint as pieces arrive
+      };
+      img.src = it.src;
+    });
+
+    /* ---------------- per-card character (deterministic) ---------------- */
+    const bendDir = galleryItems.map((_, i) => (hash(i, 1) < 0.5 ? -1 : 1));
+    const bendAxis = galleryItems.map(
+      (_, i) => (hash(i, 2) - 0.5) * 1.2, // mostly vertical-axis bows, ±35°
+    );
+    const rollBase = galleryItems.map((_, i) => (hash(i, 3) - 0.5) * 0.2);
+    const phase = galleryItems.map((_, i) => hash(i, 4) * TAU);
 
     /* ---------------- state ---------------- */
-    const z = tiles.map((_, i) => ((i + 0.5) / n) * ZSPAN); // depth slots
+    const z = galleryItems.map((_, i) => ((i + 0.5) / n) * ZSPAN);
+    const order = galleryItems.map((_, i) => i);
     let boost = 0;
     let speedNorm = 0;
+    let flutPhase = 0;
     let last = performance.now();
     let raf = 0;
+    let vw = 0;
+    let vh = 0;
+
+    const resize = () => {
+      vw = wrap.clientWidth;
+      vh = wrap.clientHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(vw * dpr);
+      canvas.height = Math.round(vh * dpr);
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.uniform2f(uRes, vw, vh);
+    };
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(wrap);
 
     /* ---------------- audio ---------------- */
     let ctx: AudioContext | null = null;
@@ -77,11 +292,11 @@ export function GalleryCanvas() {
         if (ctx.state === "suspended") void ctx.resume();
         // woosh: looped noise through a low bandpass, gain rides speed
         const len = ctx.sampleRate * 2;
-        const buf = ctx.createBuffer(1, len, ctx.sampleRate);
-        const data = buf.getChannelData(0);
+        const buf2 = ctx.createBuffer(1, len, ctx.sampleRate);
+        const data = buf2.getChannelData(0);
         for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
         const src = ctx.createBufferSource();
-        src.buffer = buf;
+        src.buffer = buf2;
         src.loop = true;
         const bp = ctx.createBiquadFilter();
         bp.type = "bandpass";
@@ -127,37 +342,21 @@ export function GalleryCanvas() {
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
       armAudio();
-      boost = Math.min(
-        MAX_BOOST,
-        Math.max(-2, boost + e.deltaY * SCROLL_GAIN),
-      );
+      boost = Math.min(MAX_BOOST, Math.max(-2, boost + e.deltaY * SCROLL_GAIN));
     };
     const onPointerDown = () => armAudio();
     const onKey = () => armAudio();
 
     /* ---------------- frame ---------------- */
-    const frame = (now: number) => {
-      const dt = Math.min((now - last) / 1000, 0.05);
-      last = now;
-
-      const v = IDLE_SPEED + boost;
-      boost *= Math.exp(-BOOST_DECAY * dt);
-      speedNorm += (Math.min(Math.abs(boost) / MAX_BOOST, 1) - speedNorm) * 0.08;
-
-      const vw = wrap.clientWidth;
-      const vh = wrap.clientHeight;
+    const drawFrame = (now: number) => {
+      const t = now / 1000;
       const cx = vw / 2;
       const cy = vh / 2;
-      const t = now / 1000;
+      gl.clear(gl.COLOR_BUFFER_BIT);
 
-      for (let i = 0; i < n; i++) {
-        z[i] -= v * dt;
-        if (z[i] < 0.12) {
-          z[i] += ZSPAN; // recycle to the far end
-          if (speedNorm > 0.22) shutter(speedNorm);
-        } else if (z[i] > ZSPAN) {
-          z[i] -= ZSPAN; // (reverse travel)
-        }
+      // painter's order: far first
+      order.sort((a, b) => z[b] - z[a]);
+      for (const i of order) {
         const d = z[i];
         const k = FOV / d;
         const { sx, sy } = lane(i);
@@ -168,17 +367,59 @@ export function GalleryCanvas() {
         const fadeIn = Math.min(1, Math.max(0, (ZSPAN - d) / (ZSPAN * 0.25)));
         const fadeOut = Math.min(1, Math.max(0, (d - 0.12) / 0.5));
         const o = Math.min(fadeIn, fadeOut);
+        if (o <= 0.004) continue;
 
-        // paper flutter in the slipstream
-        const ph = i * 1.7;
-        const sway = Math.sin(t * 2.6 + ph) * 8 * speedNorm;
-        const shear = Math.sin(t * 3.4 + ph * 1.3) * 7 * speedNorm;
+        const w = galleryItems[i].w * k;
+        const h = w / aspects[i];
 
-        const el = tiles[i];
-        el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) scale(${k}) rotate(${sway}deg) skewY(${shear}deg)`;
-        el.style.opacity = o.toFixed(3);
-        el.style.zIndex = String(1000 - Math.round(d * 60));
+        // standing bow + speed bow; ripple only in the slipstream
+        const bow = Math.max(
+          -FOCAL * 0.4,
+          Math.min(w * (BASE_BEND + SPEED_BEND * speedNorm) * bendDir[i], FOCAL * 0.4),
+        );
+        const flut = w * FLUTTER * speedNorm;
+        const roll =
+          rollBase[i] + Math.sin(t * 2.6 + phase[i]) * 0.06 * speedNorm;
+
+        gl.uniform2f(uCenter, x, y);
+        gl.uniform2f(uSize, w, h);
+        gl.uniform1f(uRoll, roll);
+        gl.uniform2f(
+          uAim,
+          -((x - cx) / cx) * AIM_X,
+          ((y - cy) / cy) * AIM_Y,
+        );
+        gl.uniform1f(uCurve, bow);
+        gl.uniform1f(uAxis, bendAxis[i]);
+        gl.uniform1f(uPhase, (flutPhase + phase[i]) % TAU);
+        gl.uniform1f(uFlut, flut);
+        gl.uniform1f(uAlpha, o);
+        gl.uniform1f(uHasTex, textures[i] ? 1 : 0);
+        gl.bindTexture(gl.TEXTURE_2D, textures[i]);
+        gl.drawArrays(gl.TRIANGLES, 0, vertCount);
       }
+    };
+
+    const frame = (now: number) => {
+      const dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+
+      const v = IDLE_SPEED + boost;
+      boost *= Math.exp(-BOOST_DECAY * dt);
+      speedNorm += (Math.min(Math.abs(boost) / MAX_BOOST, 1) - speedNorm) * 0.08;
+      flutPhase = (flutPhase + dt * 3.4) % TAU; // wrapped — mediump-safe
+
+      for (let i = 0; i < n; i++) {
+        z[i] -= v * dt;
+        if (z[i] < 0.12) {
+          z[i] += ZSPAN; // recycle to the far end
+          if (speedNorm > 0.22) shutter(speedNorm);
+        } else if (z[i] > ZSPAN) {
+          z[i] -= ZSPAN; // (reverse travel)
+        }
+      }
+
+      drawFrame(now);
 
       if (wooshGain && ctx) {
         wooshGain.gain.setTargetAtTime(
@@ -191,6 +432,7 @@ export function GalleryCanvas() {
       raf = requestAnimationFrame(frame);
     };
 
+    drawFrame(last); // eager first paint — no blank flash before rAF
     (wrap as HTMLDivElement & { __armAudio?: () => void }).__armAudio = armAudio;
     wrap.addEventListener("wheel", onWheel, { passive: false });
     wrap.addEventListener("pointerdown", onPointerDown);
@@ -198,10 +440,13 @@ export function GalleryCanvas() {
     raf = requestAnimationFrame(frame);
 
     return () => {
+      disposed = true;
       cancelAnimationFrame(raf);
+      ro.disconnect();
       wrap.removeEventListener("wheel", onWheel);
       wrap.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("keydown", onKey);
+      for (const tx of textures) if (tx) gl.deleteTexture(tx);
       void ctx?.close();
     };
   }, [reduce]);
@@ -228,28 +473,12 @@ export function GalleryCanvas() {
       ref={wrapRef}
       className={`fixed inset-0 z-10 touch-none overflow-hidden bg-background ${heroFonts.silk.variable}`}
     >
+      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+
       {/* the home page's banknote nav, above the whole field */}
       <div className="absolute inset-x-0 top-0 z-[1200]">
         <BanknoteNav />
       </div>
-      {galleryItems.map((it, i) => (
-        <div
-          key={`${it.src}${i}`}
-          data-tile
-          className="absolute left-0 top-0 opacity-0 will-change-transform"
-          style={{ width: it.w }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element -- engine tiles */}
-          <img
-            src={it.src}
-            alt={it.alt ?? ""}
-            draggable={false}
-            loading="eager"
-            decoding="async"
-            className="w-full max-w-none select-none shadow-[0_18px_50px_rgba(26,25,19,0.18)]"
-          />
-        </div>
-      ))}
 
       <p className="pointer-events-none absolute bottom-6 left-6 z-[1200] font-mono text-[10px] uppercase tracking-[0.25em] text-muted">
         Gallery — scroll to fly
