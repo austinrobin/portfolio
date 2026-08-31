@@ -48,12 +48,15 @@ const FOCAL = 900; // perspective focal length, css px
 const RADIUS_FRAC = 0.045; // corner radius, fraction of card width
 const TAU = Math.PI * 2;
 
-/* deterministic lane per slot — golden-angle spread, centre kept clear */
-function lane(i: number) {
-  const a = i * 2.39996; // golden angle
-  const r = 0.42 + 0.5 * ((i * 0.618034) % 1);
-  return { sx: Math.cos(a) * r, sy: Math.sin(a) * r * 0.72 };
-}
+/* radial formation — even spokes on one fixed ring; depth follows angle,
+   so the field reads as a clean helix tunnel, not a random scatter. The
+   whole formation swirls collectively as it travels. */
+const RING_R = 0.6;
+const TURNS = 5; // helix windings across the depth field — fills the circle
+const RECYCLE_AT = 0.85; // depth where a passed card jumps to the far end
+const ROT_IDLE = 0.045; // rad/s of collective swirl at rest
+const ROT_SPEED = 0.11; // extra swirl per unit of travel speed
+const ROLL_LEAN = 0.3; // bounded lean into the swirl — never flips a card
 
 /* deterministic per-card hash in [0,1) — CPU-seeded, never raw time */
 const hash = (i: number, s: number) => ((i * 12.9898 + s * 78.233) * 43758.5453) % 1;
@@ -222,8 +225,11 @@ export function GalleryCanvas() {
         const ih = img.naturalHeight || 600;
         aspects[i] = iw / ih;
         // draw through 2D canvas (SVG-safe), capped for texture weight
-        const tw = Math.min(1024, iw * 2);
-        const th = Math.round(tw * (ih / iw));
+        // power-of-two rasterisation so mipmaps can kill minification shimmer
+        const pot = (v: number) =>
+          Math.pow(2, Math.max(6, Math.min(10, Math.round(Math.log2(v)))));
+        const tw = pot(iw * 2);
+        const th = pot((tw * ih) / iw);
         const c = document.createElement("canvas");
         c.width = tw;
         c.height = th;
@@ -233,11 +239,18 @@ export function GalleryCanvas() {
         const tex = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_2D, tex);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, c);
-        // NPOT-safe: clamp + linear, no mips
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.generateMipmap(gl.TEXTURE_2D);
+        const aniso = gl.getExtension("EXT_texture_filter_anisotropic");
+        if (aniso)
+          gl.texParameterf(
+            gl.TEXTURE_2D,
+            aniso.TEXTURE_MAX_ANISOTROPY_EXT,
+            Math.min(8, gl.getParameter(aniso.MAX_TEXTURE_MAX_ANISOTROPY_EXT)),
+          );
         textures[i] = tex;
         drawFrame(performance.now()); // eager repaint as pieces arrive
       };
@@ -258,6 +271,7 @@ export function GalleryCanvas() {
     let boost = 0;
     let speedNorm = 0;
     let flutPhase = 0;
+    let worldAngle = 0;
     let last = performance.now();
     let raf = 0;
     let vw = 0;
@@ -355,17 +369,20 @@ export function GalleryCanvas() {
       gl.clear(gl.COLOR_BUFFER_BIT);
 
       // painter's order: far first
-      order.sort((a, b) => z[b] - z[a]);
+      order.sort((p, q) => z[q] - z[p] || p - q);
       for (const i of order) {
         const d = z[i];
         const k = FOV / d;
-        const { sx, sy } = lane(i);
-        const x = cx + sx * cx * k * 1.15;
-        const y = cy + sy * cy * k * 1.3;
+        const a = ((i * TURNS) / n) * TAU + worldAngle;
+        const x = cx + Math.cos(a) * RING_R * cx * k * 1.15;
+        const y = cy + Math.sin(a) * RING_R * cy * k * 1.3;
 
-        // far fade-in, near fade-out
-        const fadeIn = Math.min(1, Math.max(0, (ZSPAN - d) / (ZSPAN * 0.25)));
-        const fadeOut = Math.min(1, Math.max(0, (d - 0.12) / 0.5));
+        // far fade-in, near fade-out (gone before it can flash the screen)
+        const fadeIn = Math.min(
+          1,
+          Math.max(0, (ZSPAN + RECYCLE_AT - d) / (ZSPAN * 0.25)),
+        );
+        const fadeOut = Math.min(1, Math.max(0, (d - 0.9) / 1.1));
         const o = Math.min(fadeIn, fadeOut);
         if (o <= 0.004) continue;
 
@@ -379,7 +396,9 @@ export function GalleryCanvas() {
         );
         const flut = w * FLUTTER * speedNorm;
         const roll =
-          rollBase[i] + Math.sin(t * 2.6 + phase[i]) * 0.06 * speedNorm;
+          rollBase[i] * 0.5 +
+          ROLL_LEAN * Math.sin(a) +
+          Math.sin(t * 2.6 + phase[i]) * 0.06 * speedNorm;
 
         gl.uniform2f(uCenter, x, y);
         gl.uniform2f(uSize, w, h);
@@ -409,12 +428,16 @@ export function GalleryCanvas() {
       speedNorm += (Math.min(Math.abs(boost) / MAX_BOOST, 1) - speedNorm) * 0.08;
       flutPhase = (flutPhase + dt * 3.4) % TAU; // wrapped — mediump-safe
 
+      worldAngle = (worldAngle + (ROT_IDLE + v * ROT_SPEED) * dt) % TAU;
       for (let i = 0; i < n; i++) {
         z[i] -= v * dt;
-        if (z[i] < 0.12) {
-          z[i] += ZSPAN; // recycle to the far end
+        if (z[i] < RECYCLE_AT) {
+          // one clean jump past ZSPAN — spawn depth sits BELOW the reverse
+          // wrap threshold, so a recycled card can never ping-pong (the old
+          // 0.12/ZSPAN pair trapped cards in an invisible flicker loop)
+          z[i] += ZSPAN;
           if (speedNorm > 0.22) shutter(speedNorm);
-        } else if (z[i] > ZSPAN) {
+        } else if (z[i] > ZSPAN + RECYCLE_AT) {
           z[i] -= ZSPAN; // (reverse travel)
         }
       }
