@@ -7,10 +7,10 @@ import {
   motion,
   useMotionValueEvent,
   useReducedMotion,
-  useScroll,
   useTransform,
   type MotionValue,
 } from "motion/react";
+import { usePinned, useScrollProgress } from "@/lib/scroll-progress";
 import type { ShowcaseItem } from "@/lib/showcase";
 import { heroFonts, INK } from "./hero-config";
 
@@ -141,24 +141,23 @@ function PlaceholderCover({ item }: { item: ShowcaseItem }) {
 
 export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
   const wrapRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const reduce = useReducedMotion();
   const n = items.length;
 
-  const { scrollYProgress } = useScroll({
-    target: wrapRef,
-    offset: ["start start", "end end"],
-  });
+  /* GSAP spine (ScrollTrigger progress + pin) — CSS sticky and motion's
+     useScroll both break under ScrollSmoother; the choreography below is
+     unchanged, it just reads a GSAP-fed MotionValue now. */
+  const scrollYProgress = useScrollProgress(wrapRef, "top top", "bottom bottom");
+  usePinned(wrapRef, stageRef);
   const p = useTransform(scrollYProgress, (v) => v * (n - 1));
 
   /* Entrance choreography, complete BEFORE the section top pins: while the
      section rides up from the viewport bottom, the big script is the
      highlight; the folder then rises into place over it as the script
      recedes to 16%, and the project title fades up once the folder lands. */
-  const { scrollYProgress: approach } = useScroll({
-    target: wrapRef,
-    offset: ["start end", "start start"],
-  });
+  const approach = useScrollProgress(wrapRef, "top bottom", "top top");
   const titleOpacity = useTransform(approach, [0, 0.8], [1, 0]);
   const deckY = useTransform(approach, [0.35, 0.9], ["26svh", "0svh"]);
   const capOpacity = useTransform(approach, [0.72, 0.92], [0, 1]);
@@ -193,7 +192,10 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
 
   return (
     <div ref={wrapRef} className={fontVars} style={{ height: `${n * 100}vh` }}>
-      <div className="sticky top-0 flex h-svh flex-col items-center justify-center overflow-hidden">
+      <div
+        ref={stageRef}
+        className="flex h-svh flex-col items-center justify-center overflow-hidden"
+      >
         {/* The section's name — a huge script watermark. Starts as the
             highlight, recedes behind the folder as it lands. */}
         <motion.p

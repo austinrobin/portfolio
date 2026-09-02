@@ -4,6 +4,7 @@ import "./globals.css";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { ChromeGate } from "@/components/chrome-gate";
+import { SmoothScroll } from "@/components/smooth-scroll";
 import { siteConfig } from "@/lib/site";
 
 const geistSans = Geist({
@@ -55,10 +56,12 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <Nav />
-        <main className="flex-1">{children}</main>
-        <ChromeGate>
-          <Footer />
-        </ChromeGate>
+        <SmoothScroll>
+          <main className="flex-1">{children}</main>
+          <ChromeGate>
+            <Footer />
+          </ChromeGate>
+        </SmoothScroll>
       </body>
     </html>
   );

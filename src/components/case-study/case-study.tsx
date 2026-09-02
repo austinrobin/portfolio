@@ -6,10 +6,10 @@ import {
   motion,
   useMotionTemplate,
   useReducedMotion,
-  useScroll,
   useTransform,
   type MotionValue,
 } from "motion/react";
+import { usePinned, useScrollProgress } from "@/lib/scroll-progress";
 import type { CaseMedia, CaseSection, CaseStudy } from "@/lib/case-studies";
 import { BanknoteNav } from "@/components/banknote-nav";
 import { caseFont } from "./case-font";
@@ -117,10 +117,7 @@ function WordFill({
 }) {
   const ref = useRef<HTMLParagraphElement>(null);
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 0.92", "start 0.4"],
-  });
+  const scrollYProgress = useScrollProgress(ref, "top 92%", "top 40%");
   const words = text.split(/\s+/).filter(Boolean);
 
   if (reduce) {
@@ -199,10 +196,7 @@ function MediaBand({
   const flush = variant !== "contained";
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
+  const scrollYProgress = useScrollProgress(ref, "top bottom", "bottom top");
   const scale = useTransform(scrollYProgress, [0, 0.45], [1.05, 1]);
   const rotateX = useTransform(scrollYProgress, [0, 0.4], [7, 0]);
   const y = useTransform(scrollYProgress, [0, 1], [28, -28]);
@@ -463,11 +457,10 @@ function PinnedShowcase({
   startIndex: number;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
   const n = items.length;
-  const { scrollYProgress } = useScroll({
-    target: wrapRef,
-    offset: ["start start", "end end"],
-  });
+  const scrollYProgress = useScrollProgress(wrapRef, "top top", "bottom bottom");
+  usePinned(wrapRef, pinRef);
 
   /* No React state anywhere in here — every moving part reads scroll
      directly, so there is nothing to re-render and nothing to snap. */
@@ -478,7 +471,10 @@ function PinnedShowcase({
       data-zone-id={items[0].id}
       style={{ height: `${n * 118 + 30}vh` }}
     >
-      <div className="sticky top-0 flex h-svh items-center justify-center overflow-hidden">
+      <div
+        ref={pinRef}
+        className="flex h-svh items-center justify-center overflow-hidden"
+      >
         {/* the asset IS the section: a near-fullscreen inset frame, hero-text
             wide, media swapping per step behind an overlay */}
         <div className="relative h-[92svh] w-[min(92vw,1400px)]">
