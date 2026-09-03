@@ -18,25 +18,27 @@ export interface GalleryItem {
   alt?: string;
 }
 
-const d = (i: number) => `/gallery/dummy-${String(i).padStart(2, "0")}.svg`;
-
+/* Real work, encoded to ≤1200px WebP (24–162 KB each). Widths are the
+   base size at arm's length: squares and the one landscape run wider,
+   portraits narrower, mixed for rhythm in the stream. */
 export const galleryItems: GalleryItem[] = [
-  { src: d(1), w: 300 },
-  { src: d(2), w: 230 },
-  { src: d(3), w: 340 },
-  { src: d(4), w: 210 },
-  { src: d(5), w: 280 },
-  { src: d(6), w: 240 },
-  { src: d(7), w: 320 },
-  { src: d(8), w: 220 },
-  { src: d(9), w: 360 },
-  { src: d(10), w: 230 },
-  { src: d(11), w: 290 },
-  { src: d(12), w: 210 },
-  { src: d(13), w: 350 },
-  { src: d(14), w: 250 },
-  { src: d(15), w: 220 },
-  { src: d(16), w: 310 },
-  { src: d(17), w: 230 },
-  { src: d(18), w: 330 },
+  { src: "/gallery/main-frame.webp", w: 260 },
+  { src: "/gallery/bloomalgo-deployed.webp", w: 320 },
+  { src: "/gallery/ig-post-29.webp", w: 230 },
+  { src: "/gallery/signup.webp", w: 360 },
+  { src: "/gallery/company-infographic.webp", w: 240 },
+  { src: "/gallery/in-app.webp", w: 300 },
+  { src: "/gallery/frame-5921.webp", w: 220 },
+  { src: "/gallery/art-01.webp", w: 310 },
+  { src: "/gallery/inactive-day2-push.webp", w: 250 },
+  { src: "/gallery/ig-post-4.webp", w: 290 },
+  { src: "/gallery/company-infographic-1.webp", w: 240 },
+  { src: "/gallery/subscription-plan.webp", w: 280 },
+  { src: "/gallery/frame-2697.webp", w: 230 },
+  { src: "/gallery/ig-post-5.webp", w: 330 },
+  { src: "/gallery/wtp.webp", w: 220 },
+  { src: "/gallery/art-02.webp", w: 270 },
+  { src: "/gallery/bloomalgo-percentage-loss.webp", w: 210 },
+  { src: "/gallery/inactive-day2-push-1.webp", w: 250 },
+  { src: "/gallery/ig-post-55.webp", w: 240 },
 ];
