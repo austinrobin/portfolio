@@ -290,7 +290,7 @@ function Chapter({
     <section
       id={id}
       data-chapter={id}
-      className="mt-3.5 scroll-mt-[12svh] border-t border-border pt-2 sm:mt-[18px] sm:pt-2.5"
+      className="mt-2 scroll-mt-[12svh] border-t border-border pt-1.5 sm:mt-2 sm:pt-1.5"
     >
       {/* a hairline opens the chapter; only its name sits on the left — the
           heading and copy are one block pushed to the viewport's right edge */}
@@ -337,7 +337,7 @@ function ChapterIndex({
   return (
     <nav
       aria-label="Chapters"
-      className={horizontal ? "flex gap-x-5 overflow-x-auto pb-1" : "flex flex-col gap-y-3"}
+      className={horizontal ? "flex gap-x-5 overflow-x-auto pb-1" : "flex flex-col gap-y-[18px]"}
     >
       {chapters.map((c) => {
         const on = c.id === active;
@@ -497,7 +497,10 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
             >
               <Monogram className="h-full w-auto" />
             </Link>
-            <h1 className="text-[24px] font-light leading-[1.2] tracking-[-0.01em]">
+            <h1
+              className="text-[26px] font-medium uppercase leading-none tracking-[0.02em]"
+              style={{ fontFamily: "var(--font-silk)" }}
+            >
               {cs.title}
             </h1>
             <p className="mt-1 text-[24px] font-light leading-[1.2] tracking-[-0.01em] text-muted">
@@ -516,7 +519,12 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
         <div className="min-w-0 flex-1">
           {/* narrow screens: identity + index above the river */}
           <div className="mb-8 pt-[12svh] md:hidden">
-            <h1 className="text-[22px] font-light leading-[1.2]">{cs.title}</h1>
+            <h1
+              className="text-[22px] font-medium uppercase leading-none tracking-[0.02em]"
+              style={{ fontFamily: "var(--font-silk)" }}
+            >
+              {cs.title}
+            </h1>
             <p className="mt-1 text-[22px] font-light leading-[1.2] text-muted">
               {cs.tagline}
             </p>
