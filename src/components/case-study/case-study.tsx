@@ -1,154 +1,69 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
-import {
-  motion,
-  useMotionTemplate,
-  useReducedMotion,
-  useTransform,
-  type MotionValue,
-} from "motion/react";
-import { usePinned, useScrollProgress } from "@/lib/scroll-progress";
-import type { CaseMedia, CaseSection, CaseStudy } from "@/lib/case-studies";
+import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import type { CaseMedia, CaseStudy } from "@/lib/case-studies";
 import { BanknoteNav } from "@/components/banknote-nav";
+import { ScrollSmoother } from "@/lib/gsap";
 import { caseFont } from "./case-font";
 import { heroFonts } from "@/components/home/hero-config";
 
 /*
- * Case-study view — the Fantasy language (reference:
- * fantasy.co/services/product-innovation + Austin's interaction capture):
+ * Case-study view — the Koto model (reference: koto.com/projects/amazon):
  *
- *  · COLOUR ZONES — the page's own background morphs as you cross sections
- *    (paper → StockBee dark → paper). Implemented by animating the site's
- *    CSS variables on the article, so every token-driven utility inside
- *    (text-muted, border-border…) recolours with the zone in one motion.
- *  · WORD-FILL HEADLINES — big text starts ghosted + blurred and fills
- *    word by word, scroll-linked (scrub back and it un-fills).
- *  · Media bands settle with parallax + a slight perspective tilt; in dark
- *    zones they run edge-to-edge like the reference's immersive chapters.
- *  · Numbered chapters, sparse type, generous air.
+ *  · A fixed LEFT PANEL carries the project's identity — title, one-line
+ *    tagline, meta — and a chapter index that tracks the scroll (the
+ *    active chapter lights up with a dot) and jumps on click.
+ *  · The RIGHT COLUMN is a continuous river of media: full-width tiles
+ *    and paired halves on a 12-column grid with tight gaps, each asset at
+ *    its own aspect. Chapter copy sits in the flow — a small uppercase
+ *    kicker, a light heading, quiet grey body — never a hero headline.
+ *  · Dark page, uniformly: the media do the talking. The site's tokens are
+ *    overridden on the article, so the banknote nav and every utility
+ *    inside recolour for the dark ground.
+ *
+ * Content is untouched: sections / media / impact / result from the
+ * Studio-edited JSON; `span` + `w/h` shape the river, `showcase`/`layout`
+ * are ignored here (the previous Fantasy layout is tagged
+ * checkpoint-case-fantasy).
  */
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-interface Zone {
-  bg: string;
-  fg: string;
-  muted: string;
-  border: string;
-  subtle: string;
-}
+/* the page's own tokens — Koto's near-black, warm-grey type */
+const DARK = {
+  "--background": "#0c0c0c",
+  "--foreground": "#f2f0ea",
+  "--muted": "#9a9892",
+  "--border": "rgba(242,240,234,0.14)",
+  "--subtle": "rgba(242,240,234,0.06)",
+} as React.CSSProperties;
 
-const PAPER: Zone = {
-  bg: "#f9f7f1",
-  fg: "#1a1913",
-  muted: "#6b675c",
-  border: "#e4e0d2",
-  subtle: "#f1eee4",
-};
-
-const STOCKBEE_DARK: Zone = {
-  bg: "#060906",
-  fg: "#E8F2E8",
-  muted: "#93A093",
-  border: "rgba(232,242,232,0.16)",
-  subtle: "rgba(232,242,232,0.07)",
-};
-
-/** Sections that pull the page into StockBee's own environment. */
-/* Dark zones are the pinned-showcase chapters — derived per case study,
-   never hardcoded to one project's section ids. */
-const darkSectionIds = (cs: CaseStudy) =>
-  new Set(cs.sections.filter((s) => s.showcase).map((s) => s.id));
-
-/* ------------------------------------------------------------- reveals */
+/* ------------------------------------------------------------- helpers */
 
 function Rise({
   children,
-  delay = 0,
   className,
+  delay = 0,
 }: {
   children: React.ReactNode;
-  delay?: number;
   className?: string;
+  delay?: number;
 }) {
   const reduce = useReducedMotion();
   return (
     <motion.div
       className={className}
-      initial={reduce ? false : { opacity: 0, y: 32 }}
+      initial={reduce ? false : { opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-12%" }}
-      transition={{ duration: 0.9, delay, ease: EASE }}
+      viewport={{ once: true, margin: "-8%" }}
+      transition={{ duration: 0.8, delay, ease: EASE }}
     >
       {children}
     </motion.div>
   );
 }
 
-/* Scroll-linked word fill: each word ramps opacity + sheds blur across its
-   own slice of the container's entry into the viewport. */
-
-function FillWord({
-  word,
-  progress,
-  from,
-  to,
-}: {
-  word: string;
-  progress: MotionValue<number>;
-  from: number;
-  to: number;
-}) {
-  const opacity = useTransform(progress, [from, to], [0.16, 1]);
-  const b = useTransform(progress, [from, to], [6, 0]);
-  const filter = useMotionTemplate`blur(${b}px)`;
-  return (
-    <motion.span style={{ opacity, filter }} className="inline-block">
-      {word}&nbsp;
-    </motion.span>
-  );
-}
-
-function WordFill({
-  text,
-  className,
-}: {
-  text: string;
-  className?: string;
-}) {
-  const ref = useRef<HTMLParagraphElement>(null);
-  const reduce = useReducedMotion();
-  const scrollYProgress = useScrollProgress(ref, "top 92%", "top 40%");
-  const words = text.split(/\s+/).filter(Boolean);
-
-  if (reduce) {
-    return <p className={className}>{text}</p>;
-  }
-  return (
-    <p ref={ref} className={className} aria-label={text}>
-      <span aria-hidden>
-        {words.map((w, i) => {
-          const from = (i / words.length) * 0.85;
-          return (
-            <FillWord
-              key={i}
-              word={w}
-              progress={scrollYProgress}
-              from={from}
-              to={from + 0.15}
-            />
-          );
-        })}
-      </span>
-    </p>
-  );
-}
-
-/* One video, two sources: WebM/VP9 where supported, H.264 everywhere else
-   (notably iOS Safari before 17.4). Falls back to a plain src when the
-   media only carries one file. */
 function VideoSources({
   media,
   className,
@@ -177,146 +92,72 @@ function VideoSources({
   );
 }
 
-/* ------------------------------------------------------------ media band */
+/* ---------------------------------------------------------- media river */
 
-/* Each is its namesake ratio with ~15% of the height taken out — enough to
-   read as a band rather than a block, without slicing the subject. */
-const ASPECT: Record<NonNullable<CaseMedia["aspect"]>, string> = {
-  wide: "aspect-[11/4]",
-  screen: "aspect-[17/9]",
-  tall: "aspect-[17/18]",
-};
+/* spans apply from md up; below that portraits pair as halves and
+   landscapes stack full-width */
+const SPAN_CSS = `@media (min-width: 768px) { ${[3, 4, 5, 6, 7, 8, 9, 12]
+  .map((n) => `[data-span="${n}"] { grid-column: span ${n} / span ${n}; }`)
+  .join(" ")} }`;
 
-function MediaBand({
+function ratioOf(media: CaseMedia) {
+  if (media.w && media.h) return media.w / media.h;
+  return media.aspect === "tall" ? 4 / 5 : media.aspect === "screen" ? 16 / 10 : 16 / 9;
+}
+
+function Tile({
   media,
-  sectionKicker,
-  variant,
+  alt,
+  loop = true,
+  eager = false,
 }: {
   media: CaseMedia;
-  sectionKicker: string;
-  variant: "contained" | "flush" | "pair";
+  alt: string;
+  loop?: boolean;
+  eager?: boolean;
 }) {
-  const flush = variant !== "contained";
-  const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
-  const scrollYProgress = useScrollProgress(ref, "top bottom", "bottom top");
-  const scale = useTransform(scrollYProgress, [0, 0.45], [1.05, 1]);
-  const rotateX = useTransform(scrollYProgress, [0, 0.4], [7, 0]);
-  const y = useTransform(scrollYProgress, [0, 1], [28, -28]);
-
-  const aspect =
-    variant === "pair" ? "aspect-[4/3]" : ASPECT[media.aspect ?? "wide"];
-
+  const span = Math.min(12, Math.max(3, media.span ?? 12));
+  const portrait = media.aspect === "tall";
   return (
-    <div
-      ref={ref}
-      className={
-        variant === "pair"
-          ? "w-full"
-          : variant === "flush"
-            ? "mt-14 w-full sm:mt-20"
-            : "mx-auto mt-14 w-[min(96vw,1500px)] sm:mt-20"
-      }
-      style={{ perspective: 1200 }}
+    <motion.div
+      data-span={span}
+      className={portrait && span <= 6 ? "col-span-6" : "col-span-12"}
+      initial={reduce ? false : { opacity: 0, y: 22 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-6%" }}
+      transition={{ duration: 0.85, ease: EASE }}
     >
-      <motion.div
-        style={reduce ? undefined : { scale, y, rotateX, transformOrigin: "50% 100%" }}
-        className={`relative overflow-hidden ${flush ? "" : "rounded-2xl"} ${aspect} bg-[#0B0F0B]`}
+      <div
+        className="relative w-full overflow-hidden rounded-[10px] bg-[var(--subtle)]"
+        style={{ aspectRatio: ratioOf(media) }}
       >
         {media.src ? (
           media.kind === "video" ? (
             <VideoSources
               media={media}
+              loop={loop}
               className="absolute inset-0 h-full w-full object-cover"
             />
           ) : (
-            /* eslint-disable-next-line @next/next/no-img-element -- studio
-               uploads are pre-compressed to their display size */
+            /* eslint-disable-next-line @next/next/no-img-element -- assets are
+               optimised on entry (studio-compressed or hand-encoded) */
             <img
               src={media.src}
-              alt={media.caption || sectionKicker}
-              loading="lazy"
+              alt={alt}
+              loading={eager ? "eager" : "lazy"}
               className="absolute inset-0 h-full w-full object-cover"
             />
           )
         ) : (
-          /* Placeholder slot — StockBee's stage until real work lands */
-          <div className="absolute inset-0">
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(182,255,61,0.09) 0%, transparent 60%), linear-gradient(180deg, #0B0F0B 0%, #060906 100%)",
-              }}
-            />
-            <div className="absolute inset-x-0 top-0 flex items-center justify-between p-6 font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">
-              <span>{sectionKicker}</span>
-              <span>media slot — add in studio</span>
-            </div>
-            <div className="absolute bottom-6 left-6 h-1 w-14 rounded-full bg-[#B6FF3D]/70" />
+          <div className="absolute inset-x-0 top-0 flex items-center justify-between p-5 font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--muted)]">
+            <span>{alt}</span>
+            <span>media slot — add in studio</span>
           </div>
         )}
-      </motion.div>
+      </div>
       {media.caption ? (
-        <p
-          className={`mt-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted ${flush ? "px-6" : ""}`}
-        >
-          {media.caption}
-        </p>
-      ) : null}
-    </div>
-  );
-}
-
-/* ------------------------------------------------------- media grid */
-/*
- * The branding layout (reference: Gander's project pages): assets sit on a
- * 12-column grid at their own aspect — a full-width landscape, two portraits
- * as equal columns, a portrait beside a landscape as 5 + 7, three across as
- * 4s — with generous gutters and nothing cropped. Rows align at the top; a
- * gutter of paper separates everything.
- */
-
-function GridCell({ media, sectionKicker }: { media: CaseMedia; sectionKicker: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-  const progress = useScrollProgress(ref, "top bottom", "bottom top");
-  const y = useTransform(progress, [0, 1], [18, -18]);
-  const span = Math.min(12, Math.max(3, media.span ?? 12));
-  const portrait = media.aspect === "tall";
-  /* reserve the exact aspect so lazy images never shift the page */
-  const ratio =
-    media.w && media.h ? media.w / media.h : portrait ? 12 / 17 : media.aspect === "screen" ? 17 / 13 : 16 / 9;
-  return (
-    <motion.div
-      ref={ref}
-      initial={reduce ? false : { opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10%" }}
-      transition={{ duration: 0.9, ease: EASE }}
-      data-span={span}
-      className={portrait && span <= 6 ? "col-span-6" : "col-span-12"}
-    >
-      <motion.div
-        style={reduce ? { aspectRatio: ratio } : { y, aspectRatio: ratio }}
-        className="relative overflow-hidden rounded-2xl bg-[#0B0F0B]"
-      >
-        {media.src ? (
-          media.kind === "video" ? (
-            <VideoSources media={media} className="absolute inset-0 h-full w-full object-cover" />
-          ) : (
-            /* eslint-disable-next-line @next/next/no-img-element -- optimised on entry */
-            <img
-              src={media.src}
-              alt={media.caption || sectionKicker}
-              loading="lazy"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-          )
-        ) : null}
-      </motion.div>
-      {media.caption ? (
-        <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
+        <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--muted)]">
           {media.caption}
         </p>
       ) : null}
@@ -324,572 +165,242 @@ function GridCell({ media, sectionKicker }: { media: CaseMedia; sectionKicker: s
   );
 }
 
-/* spans apply from md up; below that portraits pair as halves and
-   landscapes stack full-width (see GridCell's base classes) */
-const SPAN_CSS = `@media (min-width: 768px) { ${[3, 4, 5, 6, 7, 8, 9, 12]
-  .map((n) => `[data-span="${n}"] { grid-column: span ${n} / span ${n}; }`)
-  .join(" ")} }`;
-
-function MediaGrid({ media, sectionKicker }: { media: CaseMedia[]; sectionKicker: string }) {
+function River({ media, alt }: { media: CaseMedia[]; alt: string }) {
+  if (!media.length) return null;
   return (
-    <div className="mx-auto mt-14 grid w-[min(92vw,1500px)] grid-cols-12 items-start gap-[clamp(10px,1.6vw,28px)] sm:mt-20">
-      <style>{SPAN_CSS}</style>
+    <div className="mt-10 grid grid-cols-12 items-start gap-[9px] sm:mt-12">
       {media.map((m, i) => (
-        <GridCell key={i} media={m} sectionKicker={sectionKicker} />
+        <Tile key={i} media={m} alt={m.caption || alt} />
       ))}
     </div>
   );
 }
 
-/* ----------------------------------------------------- pinned showcase */
-/*
- * The reference's 01/02/03 feature chapter (video @6-9s): the section pins
- * to the viewport, the media stage holds the left and swaps per step, and
- * the numbered feature text rides the right column. Scroll drives both —
- * scrub back and the sequence rewinds.
- */
+/* -------------------------------------------------------------- chapter */
 
-function StepMedia({
-  media,
+function Chapter({
+  id,
   kicker,
-  index,
-  count,
-  progress,
+  heading,
+  body,
+  statement,
+  children,
 }: {
-  media?: CaseMedia;
+  id: string;
   kicker: string;
-  index: number;
-  count: number;
-  progress: MotionValue<number>;
+  heading: string;
+  body?: string[];
+  statement?: string;
+  children?: React.ReactNode;
 }) {
-  const lo = index / count;
-  const hi = (index + 1) / count;
-  /* a long cross-dissolve — the assets blend over half a step so the swap
-     reads as a fade-through, never a cut */
-  const fade = 0.5 / count;
-  const opacity = useTransform(
-    progress,
-    index === 0
-      ? [lo, lo, hi - fade, hi]
-      : index === count - 1
-        ? [lo - fade, lo, hi, hi]
-        : [lo - fade, lo, hi - fade, hi],
-    index === 0 ? [1, 1, 1, 0] : index === count - 1 ? [0, 1, 1, 1] : [0, 1, 1, 0],
-  );
-  const scale = useTransform(progress, [lo - fade, lo + 0.5 / count], [1.06, 1]);
-
   return (
-    <motion.div style={{ opacity, scale }} className="absolute inset-0 bg-[#0B0F0B]">
-      {media?.src ? (
-        media.kind === "video" ? (
-          <VideoSources
-            media={media}
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-        ) : (
-          /* eslint-disable-next-line @next/next/no-img-element -- studio
-             uploads are pre-compressed to their display size */
-          <img
-            src={media.src}
-            alt={media.caption || kicker}
-            loading="lazy"
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-        )
-      ) : (
-        <div className="absolute inset-0">
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(182,255,61,0.09) 0%, transparent 60%), linear-gradient(180deg, #0B0F0B 0%, #060906 100%)",
-            }}
-          />
-          <div className="absolute inset-x-0 top-0 flex items-center justify-between p-6 font-mono text-[10px] uppercase tracking-[0.25em] text-white/30">
-            <span>{kicker}</span>
-            <span>media slot — add in studio</span>
-          </div>
-          <div className="absolute bottom-6 left-6 h-1 w-14 rounded-full bg-[#B6FF3D]/70" />
-        </div>
-      )}
-    </motion.div>
-  );
-}
-
-/* Each feature's text is a pure function of scroll: it rides up from below,
-   dwells while its media is on, and keeps rising as the next one arrives.
-   No state, no swap — scrub the wheel and the stack tracks it exactly. */
-function StepText({
-  s,
-  label,
-  index,
-  count,
-  progress,
-}: {
-  s: CaseSection;
-  label: string;
-  index: number;
-  count: number;
-  progress: MotionValue<number>;
-}) {
-  const span = 1 / count;
-  const centre = (index + 0.5) * span;
-  const first = index === 0;
-  const last = index === count - 1;
-
-  /* Travel exceeds a block's own height (~440px) so that at the hand-over
-     the outgoing and incoming blocks are clear of each other — otherwise
-     they cross-dissolve on top of one another and read as mush. */
-  const TRAVEL = 460;
-
-  const y = useTransform(
-    progress,
-    first
-      ? [0, centre, centre + span]
-      : last
-        ? [centre - span, centre, 1]
-        : [centre - span, centre, centre + span],
-    first
-      ? [0, 0, -TRAVEL]
-      : last
-        ? [TRAVEL, 0, 0]
-        : [TRAVEL, 0, -TRAVEL],
-  );
-
-  const opacity = useTransform(
-    progress,
-    first
-      ? [0, centre + 0.32 * span, centre + 0.62 * span]
-      : last
-        ? [centre - 0.62 * span, centre - 0.32 * span, 1]
-        : [
-            centre - 0.62 * span,
-            centre - 0.32 * span,
-            centre + 0.32 * span,
-            centre + 0.62 * span,
-          ],
-    first ? [1, 1, 0] : last ? [0, 1, 1] : [0, 1, 1, 0],
-  );
-
-  return (
-    <div className="pointer-events-none absolute inset-0 flex items-center justify-end max-md:items-end">
-      <motion.div
-        style={{ y, opacity }}
-        className="w-full max-w-md p-8 text-[#EDF3ED] sm:p-14"
-      >
-        <p className="font-mono text-xs tracking-[0.25em] text-[#B6FF3D]">
-          {label}
+    <section id={id} data-chapter={id} className="scroll-mt-[12svh] pt-20 sm:pt-28">
+      <Rise className="max-w-[62ch]">
+        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-[var(--muted)]">
+          {kicker}
         </p>
-        <h2 className="mt-4 font-[family-name:var(--font-case)] text-[clamp(26px,2.6vw,40px)] font-bold leading-[1.06] tracking-[-0.02em]">
-          {s.heading}
+        <h2 className="mt-3 text-[clamp(22px,2vw,28px)] font-light leading-[1.2] tracking-[-0.01em]">
+          {heading}
         </h2>
-        <div className="mt-5 space-y-4">
-          {s.body.map((p, i) => (
-            <p key={i} className="text-[15px] leading-relaxed text-[#EDF3ED]/70">
-              {p}
-            </p>
-          ))}
-        </div>
-        {s.statement ? (
-          <p className="mt-6 font-[family-name:var(--font-case)] text-[clamp(20px,1.8vw,28px)] font-semibold leading-snug tracking-[-0.015em]">
-            {s.statement}
+        {body?.length ? (
+          <div className="mt-6 space-y-4 text-[16px] leading-[1.6] text-[var(--muted)] sm:text-[17px]">
+            {body.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </div>
+        ) : null}
+        {statement ? (
+          <p className="mt-8 text-[clamp(20px,1.7vw,26px)] font-light leading-[1.3] tracking-[-0.01em]">
+            {statement}
           </p>
         ) : null}
-      </motion.div>
-    </div>
-  );
-}
-
-function RailSegment({
-  index,
-  count,
-  progress,
-}: {
-  index: number;
-  count: number;
-  progress: MotionValue<number>;
-}) {
-  const span = 1 / count;
-  const scaleX = useTransform(
-    progress,
-    [index * span, (index + 1) * span],
-    [0, 1],
-  );
-  return (
-    <span className="relative h-1 w-8 overflow-hidden rounded-full bg-white/25">
-      <motion.span
-        style={{ scaleX }}
-        className="absolute inset-0 origin-left rounded-full bg-[#B6FF3D]/80"
-      />
-    </span>
-  );
-}
-
-function PinnedShowcase({
-  items,
-  startIndex,
-}: {
-  items: CaseSection[];
-  startIndex: number;
-}) {
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const pinRef = useRef<HTMLDivElement>(null);
-  const n = items.length;
-  const scrollYProgress = useScrollProgress(wrapRef, "top top", "bottom bottom");
-  usePinned(wrapRef, pinRef);
-
-  /* No React state anywhere in here — every moving part reads scroll
-     directly, so there is nothing to re-render and nothing to snap. */
-
-  return (
-    <div
-      ref={wrapRef}
-      data-zone-id={items[0].id}
-      style={{ height: `${n * 118 + 30}vh` }}
-    >
-      <div
-        ref={pinRef}
-        className="flex h-svh items-center justify-center overflow-hidden"
-      >
-        {/* the asset IS the section: a near-fullscreen inset frame, hero-text
-            wide, media swapping per step behind an overlay */}
-        <div className="relative h-[92svh] w-[min(92vw,1400px)]">
-          <div className="absolute inset-0 overflow-hidden rounded-3xl">
-            {items.map((item, i) => (
-              <StepMedia
-                key={item.id}
-                media={item.media[0]}
-                kicker={item.kicker}
-                index={i}
-                count={n}
-                progress={scrollYProgress}
-              />
-            ))}
-            {/* scrim so the overlay text reads on any asset */}
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,transparent_42%,rgba(4,6,4,0.66)_100%)] max-md:bg-[linear-gradient(to_top,rgba(4,6,4,0.78)_0%,rgba(4,6,4,0.25)_45%,transparent_65%)]" />
-          </div>
-
-          {/* feature text — scroll-linked stack, each block riding up */}
-          {items.map((item, i) => (
-            <StepText
-              key={item.id}
-              s={item}
-              label={String(startIndex + i + 1).padStart(2, "0")}
-              index={i}
-              count={n}
-              progress={scrollYProgress}
-            />
-          ))}
-
-          {/* progress rail — each segment fills with its own step */}
-          <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2">
-            {items.map((item, i) => (
-              <RailSegment
-                key={item.id}
-                index={i}
-                count={n}
-                progress={scrollYProgress}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* --------------------------------------------------------------- section */
-
-function SectionBlock({ s, index }: { s: CaseSection; index: number }) {
-  const dark = !!s.showcase;
-  const pair = s.media.length >= 2;
-  return (
-    <section id={s.id} data-zone-id={s.id} className="pt-28 sm:pt-40">
-      {/* Reference rhythm: a small label held hard left, the heading and body
-         set in a column beginning at the midline. */}
-      <div className="mx-auto w-[min(92vw,1400px)]">
-        <div className="grid gap-8 md:grid-cols-2 md:gap-16">
-          <Rise>
-            <p className="flex items-baseline gap-3 font-mono text-xs uppercase tracking-[0.25em] text-muted">
-              <span className="text-[10px]">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              {s.kicker}
-            </p>
-          </Rise>
-          <div>
-            <WordFill
-              text={s.heading}
-              className="font-[family-name:var(--font-case)] text-[clamp(28px,3.4vw,52px)] font-bold leading-[1.08] tracking-[-0.022em]"
-            />
-            {s.body.length > 0 && (
-              <Rise delay={0.1}>
-                <div className="mt-12 max-w-[54ch] space-y-5">
-                  {s.body.map((p, i) => (
-                    <p
-                      key={i}
-                      className="text-[17px] leading-relaxed text-muted sm:text-lg"
-                    >
-                      {p}
-                    </p>
-                  ))}
-                </div>
-              </Rise>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Grid sections lay out on 12 columns at natural aspect; otherwise
-          two assets sit as an edge-to-edge pair and one runs as a band. */}
-      {s.layout === "grid" && s.media.length > 0 ? (
-        <MediaGrid media={s.media} sectionKicker={s.kicker} />
-      ) : pair ? (
-        <div className="mt-14 grid grid-cols-1 sm:mt-20 md:grid-cols-2">
-          {s.media.map((m, i) => (
-            <MediaBand
-              key={i}
-              media={m}
-              sectionKicker={s.kicker}
-              variant="pair"
-            />
-          ))}
-        </div>
-      ) : (
-        s.media.map((m, i) => (
-          <MediaBand
-            key={i}
-            media={m}
-            sectionKicker={s.kicker}
-            variant={dark ? "flush" : "contained"}
-          />
-        ))
-      )}
-
-      {s.statement ? (
-        <div className="mx-auto mt-20 w-[min(92vw,1400px)] sm:mt-28">
-          <WordFill
-            text={s.statement}
-            className="font-[family-name:var(--font-case)] text-[clamp(34px,6vw,88px)] font-bold leading-[1.02] tracking-[-0.03em]"
-          />
-        </div>
-      ) : null}
+      </Rise>
+      {children}
     </section>
   );
 }
 
-/* ------------------------------------------------------------------ view */
+/* --------------------------------------------------------- chapter index */
+
+function ChapterIndex({
+  chapters,
+  active,
+  onJump,
+  horizontal = false,
+}: {
+  chapters: { id: string; label: string }[];
+  active: string;
+  onJump: (id: string) => void;
+  horizontal?: boolean;
+}) {
+  return (
+    <nav
+      aria-label="Chapters"
+      className={horizontal ? "flex gap-x-5 overflow-x-auto pb-1" : "flex flex-col gap-y-3"}
+    >
+      {chapters.map((c) => {
+        const on = c.id === active;
+        return (
+          <button
+            key={c.id}
+            type="button"
+            onClick={() => onJump(c.id)}
+            className={`group relative whitespace-nowrap text-left text-[15px] font-light leading-none transition-colors sm:text-[16px] ${
+              on ? "text-[var(--foreground)]" : "text-[var(--muted)] hover:text-[var(--foreground)]"
+            }`}
+          >
+            {!horizontal ? (
+              <span
+                aria-hidden
+                className={`absolute -left-3.5 top-1/2 size-1 -translate-y-1/2 rounded-full bg-[var(--foreground)] transition-opacity ${
+                  on ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            ) : null}
+            {c.label}
+          </button>
+        );
+      })}
+    </nav>
+  );
+}
+
+/* ----------------------------------------------------------------- view */
 
 export function CaseStudyView({ cs }: { cs: CaseStudy }) {
-  const reduce = useReducedMotion();
-  const heroSrc = cs.heroMedia?.src;
-  const darkIds = useMemo(
-    () =>
-      heroSrc ? new Set([...darkSectionIds(cs), "hero"]) : darkSectionIds(cs),
-    [heroSrc, cs],
-  );
-  const [zone, setZone] = useState<Zone>(cs.heroMedia ? STOCKBEE_DARK : PAPER);
   const rootRef = useRef<HTMLElement>(null);
+  const [active, setActive] = useState<string>(cs.sections[0]?.id ?? "");
 
-  /* Colour zones: whichever zone-tagged block owns the viewport's centre
-     sets the palette; the article animates its CSS variables there, and
-     every token-driven utility inside follows. */
+  const chapters = [
+    ...cs.sections.map((s) => ({ id: s.id, label: s.kicker })),
+    { id: "impact", label: "In numbers" },
+    { id: "result", label: "Outcome" },
+  ];
+
+  /* the index follows the scroll: whichever chapter owns the upper third
+     of the viewport is the active one */
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    const blocks = root.querySelectorAll<HTMLElement>("[data-zone-id]");
+    const blocks = root.querySelectorAll<HTMLElement>("[data-chapter]");
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          if (e.isIntersecting) {
-            const id = e.target.getAttribute("data-zone-id") ?? "";
-            setZone(darkIds.has(id) ? STOCKBEE_DARK : PAPER);
-          }
+          if (e.isIntersecting) setActive(e.target.getAttribute("data-chapter") ?? "");
         }
       },
-      { rootMargin: "-45% 0px -45% 0px" },
+      { rootMargin: "-30% 0px -60% 0px" },
     );
     blocks.forEach((b) => io.observe(b));
     return () => io.disconnect();
-  }, [darkIds]);
+  }, [cs.slug]);
+
+  const jump = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const smoother = ScrollSmoother.get();
+    if (smoother) smoother.scrollTo(el, true, "top 12%");
+    else el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const meta = [cs.tags[0], cs.year].filter(Boolean).join(" · ");
 
   return (
-    <motion.article
+    <article
       ref={rootRef}
-      className={`pb-32 ${caseFont.variable} ${heroFonts.silk.variable} font-[family-name:var(--font-case)]`}
-      initial={false}
-      animate={
-        {
-          backgroundColor: zone.bg,
-          "--background": zone.bg,
-          "--foreground": zone.fg,
-          "--muted": zone.muted,
-          "--border": zone.border,
-          "--subtle": zone.subtle,
-          color: zone.fg,
-        } as Record<string, string>
-      }
-      transition={reduce ? { duration: 0 } : { duration: 0.8, ease: "easeInOut" }}
+      style={{ ...DARK, backgroundColor: "var(--background)", color: "var(--foreground)" }}
+      className={`relative min-h-screen ${caseFont.variable} ${heroFonts.silk.variable} font-[family-name:var(--font-case)]`}
     >
-      {/* ---- hero ---- */}
-      <header
-        data-zone-id="hero"
-        className="relative flex min-h-[92svh] flex-col justify-end overflow-hidden pb-16 pt-28"
-      >
-        {cs.heroMedia?.src ? (
-          <>
-            {cs.heroMedia.kind === "video" ? (
-              <VideoSources
-                media={cs.heroMedia}
-                loop={false}
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            ) : (
-              /* eslint-disable-next-line @next/next/no-img-element -- full-bleed
-                 hero art, already compressed to its display size */
-              <img
-                src={cs.heroMedia.src}
-                alt=""
-                aria-hidden
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            )}
-            {/* the subject sits right; this keeps the left readable */}
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(4,6,4,0.94)_0%,rgba(4,6,4,0.78)_34%,rgba(4,6,4,0.3)_68%,rgba(4,6,4,0.08)_100%)] max-md:bg-[linear-gradient(to_top,rgba(4,6,4,0.94)_0%,rgba(4,6,4,0.6)_55%,rgba(4,6,4,0.2)_100%)]" />
-          </>
-        ) : null}
+      <style>{SPAN_CSS}</style>
+      <BanknoteNav />
 
-        <BanknoteNav />
-
-        <div className="relative z-10 mx-auto w-[min(92vw,1400px)]">
-          <Rise>
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted">
-              Case study — {cs.year}
-            </p>
-          </Rise>
-          <Rise delay={0.05}>
-            <h1 className="mt-4 font-[family-name:var(--font-case)] text-[clamp(64px,13vw,200px)] font-bold leading-[0.92] tracking-[-0.04em]">
+      <div className="flex gap-x-[clamp(16px,2.2vw,44px)] px-[clamp(16px,2.2vw,44px)] pb-28 pt-[13svh]">
+        {/* ---- left panel ---- */}
+        <aside className="hidden w-[280px] shrink-0 md:block lg:w-[300px]">
+          <div className="sticky top-[12svh]">
+            <h1 className="text-[24px] font-light leading-[1.2] tracking-[-0.01em]">
               {cs.title}
             </h1>
-          </Rise>
-          <Rise delay={0.12}>
-            <p className="mt-8 max-w-3xl font-[family-name:var(--font-case)] text-[clamp(22px,2.6vw,38px)] font-medium leading-[1.2] tracking-[-0.015em]">
+            <p className="mt-1 text-[24px] font-light leading-[1.2] tracking-[-0.01em] text-[var(--muted)]">
               {cs.tagline}
             </p>
-          </Rise>
-          <Rise delay={0.18}>
-            <dl className="mt-14 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-border pt-8 text-sm sm:grid-cols-4">
-              {(
-                [
-                  ["Role", cs.role],
-                  ["Disciplines", cs.disciplines],
-                  ["Team", cs.team],
-                  ["Scope", cs.scope],
-                ] as const
-              ).map(([label, value]) => (
-                <div key={label}>
-                  <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
-                    {label}
-                  </dt>
-                  <dd className="mt-2">{value}</dd>
-                </div>
-              ))}
-            </dl>
-          </Rise>
-        </div>
-      </header>
-
-      {/* ---- narrative sections (consecutive showcase sections merge into
-             one pinned feature sequence; reduced motion unrolls them) ---- */}
-      {(() => {
-        type Group =
-          | { kind: "single"; s: CaseSection; index: number }
-          | { kind: "showcase"; items: CaseSection[]; startIndex: number };
-        const groups: Group[] = [];
-        cs.sections.forEach((s, i) => {
-          const last = groups[groups.length - 1];
-          if (s.showcase && !reduce) {
-            if (
-              last?.kind === "showcase" &&
-              last.startIndex + last.items.length === i
-            ) {
-              last.items.push(s);
-            } else {
-              groups.push({ kind: "showcase", items: [s], startIndex: i });
-            }
-          } else {
-            groups.push({ kind: "single", s, index: i });
-          }
-        });
-        return groups.map((g) =>
-          g.kind === "showcase" ? (
-            <PinnedShowcase
-              key={g.items[0].id}
-              items={g.items}
-              startIndex={g.startIndex}
-            />
-          ) : (
-            <SectionBlock key={g.s.id} s={g.s} index={g.index} />
-          ),
-        );
-      })()}
-
-      {/* ---- impact ---- */}
-      <section id="impact" data-zone-id="impact" className="pt-28 sm:pt-40">
-        <div className="mx-auto w-[min(92vw,1400px)]">
-          <Rise>
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted">
-              {cs.impact.title}
+            <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--muted)]">
+              {meta}
             </p>
-          </Rise>
-          <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-14 border-t border-border pt-12 lg:grid-cols-3">
-            {cs.impact.stats.map((stat, i) => (
-              <Rise key={stat.label} delay={(i % 3) * 0.07}>
-                <p
-                  className={`font-[family-name:var(--font-case)] text-[clamp(44px,6.5vw,104px)] font-bold leading-none tracking-[-0.035em] ${
-                    stat.value.includes("X") ? "text-muted/50" : ""
-                  }`}
-                >
-                  {stat.value}
-                </p>
-                <p className="mt-3 text-sm text-muted">{stat.label}</p>
-              </Rise>
-            ))}
+            <div className="mt-12 pl-3.5">
+              <ChapterIndex chapters={chapters} active={active} onJump={jump} />
+            </div>
           </div>
-        </div>
-      </section>
+        </aside>
 
-      {/* ---- result ---- */}
-      <section id="result" data-zone-id="result" className="pt-28 sm:pt-40">
-        <div className="mx-auto w-[min(92vw,1400px)]">
-          <Rise>
-            <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted">
-              {cs.result.heading}
+        {/* ---- media river ---- */}
+        <div className="min-w-0 flex-1">
+          {/* narrow screens: identity + index above the river */}
+          <div className="mb-8 md:hidden">
+            <h1 className="text-[22px] font-light leading-[1.2]">{cs.title}</h1>
+            <p className="mt-1 text-[22px] font-light leading-[1.2] text-[var(--muted)]">
+              {cs.tagline}
             </p>
-          </Rise>
-          {cs.result.body.map((p, i) => (
-            <Rise key={i} delay={0.06}>
-              <p className="mt-8 max-w-3xl text-lg leading-relaxed text-muted">
-                {p}
-              </p>
-            </Rise>
-          ))}
-          <div className="mt-14 max-w-5xl">
-            <WordFill
-              text={cs.result.statement}
-              className="font-[family-name:var(--font-case)] text-[clamp(34px,5.6vw,84px)] font-bold leading-[1.02] tracking-[-0.03em]"
-            />
+            <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--muted)]">
+              {meta}
+            </p>
+            <div className="mt-6">
+              <ChapterIndex chapters={chapters} active={active} onJump={jump} horizontal />
+            </div>
           </div>
-          <Rise delay={0.2}>
-            <Link
-              href="/work"
-              className="mt-20 inline-block rounded-full border border-border px-6 py-3 text-sm transition-colors hover:bg-subtle"
+
+          {cs.heroMedia?.src ? (
+            <div className="grid grid-cols-12 gap-[9px]">
+              <Tile media={{ ...cs.heroMedia, span: 12 }} alt={cs.title} loop={false} eager />
+            </div>
+          ) : null}
+
+          {cs.sections.map((s) => (
+            <Chapter
+              key={s.id}
+              id={s.id}
+              kicker={s.kicker}
+              heading={s.heading}
+              body={s.body}
+              statement={s.statement}
             >
-              ← All work
-            </Link>
-          </Rise>
+              <River media={s.media} alt={s.kicker} />
+            </Chapter>
+          ))}
+
+          {/* ---- in numbers ---- */}
+          <Chapter id="impact" kicker="In numbers" heading={cs.impact.title}>
+            <Rise className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-[var(--border)] pt-10 sm:mt-12 md:grid-cols-3">
+              {cs.impact.stats.map((stat, i) => {
+                const placeholder = /^x+$/i.test(stat.value.replace(/[^a-z]/gi, ""));
+                return (
+                  <div key={i}>
+                    <p
+                      className={`text-[clamp(40px,4.2vw,64px)] font-light leading-none tracking-[-0.03em] ${
+                        placeholder ? "text-[var(--muted)]" : ""
+                      }`}
+                    >
+                      {stat.value}
+                    </p>
+                    <p className="mt-3 max-w-[26ch] text-[14px] leading-snug text-[var(--muted)]">
+                      {stat.label}
+                    </p>
+                  </div>
+                );
+              })}
+            </Rise>
+          </Chapter>
+
+          {/* ---- outcome ---- */}
+          <Chapter
+            id="result"
+            kicker="Outcome"
+            heading={cs.result.heading}
+            body={cs.result.body}
+            statement={cs.result.statement}
+          />
         </div>
-      </section>
-    </motion.article>
+      </div>
+    </article>
   );
 }
