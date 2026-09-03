@@ -13,7 +13,8 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { SplitText } from "gsap/SplitText";
+import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText);
+gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText, DrawSVGPlugin);
 
-export { gsap, useGSAP, ScrollTrigger, ScrollSmoother, SplitText };
+export { gsap, useGSAP, ScrollTrigger, ScrollSmoother, SplitText, DrawSVGPlugin };
