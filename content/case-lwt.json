@@ -38,25 +38,11 @@
       "media": [
         {
           "kind": "image",
-          "src": "/case/lwt/meter.webp",
-          "block": "secondary",
-          "aspect": "tall",
-          "w": 1190,
-          "h": 1684
-        },
-        {
-          "kind": "image",
-          "src": "/case/lwt/awards.webp",
-          "block": "secondary",
-          "aspect": "tall",
-          "w": 1190,
-          "h": 1684
-        },
-        {
-          "kind": "image",
-          "src": "/case/lwt/outgrown-1788464284292.webp",
-          "caption": "",
-          "aspect": "wide"
+          "src": "/case/lwt/stage-screen.webp",
+          "block": "primary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
         }
       ]
     },
@@ -72,9 +58,11 @@
       "media": [
         {
           "kind": "image",
-          "src": "/case/lwt/chapter-1788464346751.webp",
-          "caption": "",
-          "aspect": "wide"
+          "src": "/case/lwt/poster-family.webp",
+          "block": "primary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
         },
         {
           "kind": "image",
@@ -82,7 +70,8 @@
           "block": "secondary",
           "aspect": "tall",
           "w": 1190,
-          "h": 1684
+          "h": 1684,
+          "focusX": 50
         },
         {
           "kind": "image",
@@ -115,8 +104,16 @@
       "media": [
         {
           "kind": "image",
-          "src": "/case/lwt/poster-family.webp",
-          "block": "primary",
+          "src": "/case/lwt/product-display.webp",
+          "block": "secondary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/lightbox.webp",
+          "block": "secondary",
           "aspect": "wide",
           "w": 1920,
           "h": 1080
@@ -140,6 +137,14 @@
           "aspect": "wide",
           "w": 1920,
           "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/mark-construction.webp",
+          "block": "primary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
         }
       ]
     },
@@ -156,7 +161,7 @@
       "media": [
         {
           "kind": "image",
-          "src": "/case/lwt/mark-construction.webp",
+          "src": "/case/lwt/building-sign.webp",
           "block": "primary",
           "aspect": "wide",
           "w": 1920,
@@ -177,7 +182,15 @@
       "media": [
         {
           "kind": "image",
-          "src": "/case/lwt/envelope.webp",
+          "src": "/case/lwt/hoarding.webp",
+          "block": "primary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/flags.webp",
           "block": "primary",
           "aspect": "wide",
           "w": 1920,
@@ -215,7 +228,15 @@
         {
           "kind": "image",
           "src": "/case/lwt/business-cards.webp",
-          "block": "primary",
+          "block": "secondary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/envelope.webp",
+          "block": "secondary",
           "aspect": "wide",
           "w": 1920,
           "h": 1080
@@ -234,32 +255,8 @@
       "media": [
         {
           "kind": "image",
-          "src": "/case/lwt/flags.webp",
-          "block": "primary",
-          "aspect": "wide",
-          "w": 1920,
-          "h": 1080
-        },
-        {
-          "kind": "image",
-          "src": "/case/lwt/stage-screen.webp",
-          "block": "tertiary",
-          "aspect": "wide",
-          "w": 1920,
-          "h": 1080
-        },
-        {
-          "kind": "image",
           "src": "/case/lwt/auditorium.webp",
-          "block": "tertiary",
-          "aspect": "wide",
-          "w": 1920,
-          "h": 1080
-        },
-        {
-          "kind": "image",
-          "src": "/case/lwt/product-display.webp",
-          "block": "secondary",
+          "block": "primary",
           "aspect": "wide",
           "w": 1920,
           "h": 1080
@@ -274,27 +271,11 @@
         },
         {
           "kind": "image",
-          "src": "/case/lwt/building-sign.webp",
-          "block": "tertiary",
-          "aspect": "wide",
-          "w": 1920,
-          "h": 1080
-        },
-        {
-          "kind": "image",
-          "src": "/case/lwt/lightbox.webp",
-          "block": "tertiary",
-          "aspect": "wide",
-          "w": 1920,
-          "h": 1080
-        },
-        {
-          "kind": "image",
-          "src": "/case/lwt/hoarding.webp",
-          "block": "primary",
-          "aspect": "wide",
-          "w": 1920,
-          "h": 1080
+          "src": "/case/lwt/meter.webp",
+          "block": "secondary",
+          "aspect": "tall",
+          "w": 1190,
+          "h": 1684
         }
       ]
     },
@@ -312,10 +293,20 @@
         {
           "kind": "image",
           "src": "/case/lwt/office-poster.webp",
-          "block": "primary",
+          "block": "secondary",
           "aspect": "wide",
           "w": 1920,
-          "h": 1080
+          "h": 1080,
+          "focusY": 50,
+          "focusX": 56
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/awards.webp",
+          "block": "secondary",
+          "aspect": "tall",
+          "w": 1190,
+          "h": 1684
         }
       ]
     },

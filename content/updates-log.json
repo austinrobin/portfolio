@@ -1,5 +1,269 @@
 [
   {
+    "at": "2026-09-03T20:00:59.449Z",
+    "summary": "update src, block, aspect +36 more",
+    "changes": [
+      {
+        "field": "caseLwt.sections.0.media.0.src",
+        "from": "/case/lwt/meter.webp",
+        "to": "/case/lwt/stage-screen.webp"
+      },
+      {
+        "field": "caseLwt.sections.0.media.0.block",
+        "from": "secondary",
+        "to": "primary"
+      },
+      {
+        "field": "caseLwt.sections.0.media.0.aspect",
+        "from": "tall",
+        "to": "wide"
+      },
+      {
+        "field": "caseLwt.sections.0.media.0.w",
+        "from": 1190,
+        "to": 1920
+      },
+      {
+        "field": "caseLwt.sections.0.media.0.h",
+        "from": 1684,
+        "to": 1080
+      },
+      {
+        "field": "caseLwt.sections.0.media.1",
+        "from": {
+          "kind": "image",
+          "src": "/case/lwt/awards.webp",
+          "block": "secondary",
+          "aspect": "tall",
+          "w": 1190,
+          "h": 1684
+        }
+      },
+      {
+        "field": "caseLwt.sections.0.media.2",
+        "from": {
+          "kind": "image",
+          "src": "/case/lwt/outgrown-1788464284292.webp",
+          "caption": "",
+          "aspect": "wide"
+        }
+      },
+      {
+        "field": "caseLwt.sections.1.media.0.src",
+        "from": "/case/lwt/chapter-1788464346751.webp",
+        "to": "/case/lwt/poster-family.webp"
+      },
+      {
+        "field": "caseLwt.sections.1.media.0.caption",
+        "from": ""
+      },
+      {
+        "field": "caseLwt.sections.1.media.0.block",
+        "to": "primary"
+      },
+      {
+        "field": "caseLwt.sections.1.media.0.w",
+        "to": 1920
+      },
+      {
+        "field": "caseLwt.sections.1.media.0.h",
+        "to": 1080
+      },
+      {
+        "field": "caseLwt.sections.1.media.1.focusX",
+        "to": 50
+      },
+      {
+        "field": "caseLwt.sections.2.media.0.src",
+        "from": "/case/lwt/poster-family.webp",
+        "to": "/case/lwt/product-display.webp"
+      },
+      {
+        "field": "caseLwt.sections.2.media.0.block",
+        "from": "primary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseLwt.sections.2.media.1",
+        "to": {
+          "kind": "image",
+          "src": "/case/lwt/lightbox.webp",
+          "block": "secondary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
+      },
+      {
+        "field": "caseLwt.sections.3.media.1",
+        "to": {
+          "kind": "image",
+          "src": "/case/lwt/mark-construction.webp",
+          "block": "primary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
+      },
+      {
+        "field": "caseLwt.sections.4.media.0.src",
+        "from": "/case/lwt/mark-construction.webp",
+        "to": "/case/lwt/building-sign.webp"
+      },
+      {
+        "field": "caseLwt.sections.5.media.0.src",
+        "from": "/case/lwt/envelope.webp",
+        "to": "/case/lwt/hoarding.webp"
+      },
+      {
+        "field": "caseLwt.sections.5.media.1",
+        "to": {
+          "kind": "image",
+          "src": "/case/lwt/flags.webp",
+          "block": "primary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
+      },
+      {
+        "field": "caseLwt.sections.6.media.2.block",
+        "from": "primary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseLwt.sections.6.media.3",
+        "to": {
+          "kind": "image",
+          "src": "/case/lwt/envelope.webp",
+          "block": "secondary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
+      },
+      {
+        "field": "caseLwt.sections.7.media.0.src",
+        "from": "/case/lwt/flags.webp",
+        "to": "/case/lwt/auditorium.webp"
+      },
+      {
+        "field": "caseLwt.sections.7.media.1.src",
+        "from": "/case/lwt/stage-screen.webp",
+        "to": "/case/lwt/poster-mountain.webp"
+      },
+      {
+        "field": "caseLwt.sections.7.media.1.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseLwt.sections.7.media.2.src",
+        "from": "/case/lwt/auditorium.webp",
+        "to": "/case/lwt/meter.webp"
+      },
+      {
+        "field": "caseLwt.sections.7.media.2.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseLwt.sections.7.media.2.aspect",
+        "from": "wide",
+        "to": "tall"
+      },
+      {
+        "field": "caseLwt.sections.7.media.2.w",
+        "from": 1920,
+        "to": 1190
+      },
+      {
+        "field": "caseLwt.sections.7.media.2.h",
+        "from": 1080,
+        "to": 1684
+      },
+      {
+        "field": "caseLwt.sections.7.media.3",
+        "from": {
+          "kind": "image",
+          "src": "/case/lwt/product-display.webp",
+          "block": "secondary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
+      },
+      {
+        "field": "caseLwt.sections.7.media.4",
+        "from": {
+          "kind": "image",
+          "src": "/case/lwt/poster-mountain.webp",
+          "block": "secondary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
+      },
+      {
+        "field": "caseLwt.sections.7.media.5",
+        "from": {
+          "kind": "image",
+          "src": "/case/lwt/building-sign.webp",
+          "block": "tertiary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
+      },
+      {
+        "field": "caseLwt.sections.7.media.6",
+        "from": {
+          "kind": "image",
+          "src": "/case/lwt/lightbox.webp",
+          "block": "tertiary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
+      },
+      {
+        "field": "caseLwt.sections.7.media.7",
+        "from": {
+          "kind": "image",
+          "src": "/case/lwt/hoarding.webp",
+          "block": "primary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
+      },
+      {
+        "field": "caseLwt.sections.8.media.0.block",
+        "from": "primary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseLwt.sections.8.media.0.focusY",
+        "to": 50
+      },
+      {
+        "field": "caseLwt.sections.8.media.0.focusX",
+        "to": 56
+      },
+      {
+        "field": "caseLwt.sections.8.media.1",
+        "to": {
+          "kind": "image",
+          "src": "/case/lwt/awards.webp",
+          "block": "secondary",
+          "aspect": "tall",
+          "w": 1190,
+          "h": 1684
+        }
+      }
+    ]
+  },
+  {
     "at": "2026-09-03T19:39:26.971Z",
     "summary": "update src, block, aspect +12 more",
     "changes": [
