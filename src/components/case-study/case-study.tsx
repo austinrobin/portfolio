@@ -414,14 +414,14 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
       ref={rootRef}
       className={`relative min-h-screen bg-background text-foreground ${caseFont.variable} ${heroFonts.silk.variable} font-[family-name:var(--font-case)]`}
     >
-      <BanknoteNav />
+      <BanknoteNav blend />
 
       <div
         ref={rowRef}
-        className="flex gap-x-[clamp(12px,1.6vw,32px)] px-[clamp(8px,1.1vw,22px)] pb-28 pt-[13svh]"
+        className="flex gap-x-[clamp(12px,1.6vw,32px)] px-[clamp(8px,1.1vw,22px)] pb-28 pt-[clamp(8px,1.1vw,22px)]"
       >
         {/* ---- left panel (pinned for the article's whole run) ---- */}
-        <aside className="hidden w-[296px] shrink-0 md:block lg:w-[316px]">
+        <aside className="hidden w-[296px] shrink-0 pt-[13svh] md:block lg:w-[316px]">
           <div ref={panelRef}>
             <h1 className="text-[24px] font-light leading-[1.2] tracking-[-0.01em]">
               {cs.title}
@@ -441,7 +441,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
         {/* ---- media river ---- */}
         <div className="min-w-0 flex-1">
           {/* narrow screens: identity + index above the river */}
-          <div className="mb-8 md:hidden">
+          <div className="mb-8 pt-[12svh] md:hidden">
             <h1 className="text-[22px] font-light leading-[1.2]">{cs.title}</h1>
             <p className="mt-1 text-[22px] font-light leading-[1.2] text-muted">
               {cs.tagline}

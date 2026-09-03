@@ -19,9 +19,13 @@ const navLinks = [
   { label: "Contact", href: "/contact", left: "80.4%" },
 ];
 
-export function BanknoteNav() {
+export function BanknoteNav({ blend = false }: { blend?: boolean }) {
+  /* blend: the nav rides over media — white ink in difference mode reads
+     on paper (inverts to near-black) and on any image alike */
   return (
-    <header className="absolute inset-x-0 top-0 z-30">
+    <header
+      className={`absolute inset-x-0 top-0 z-30 ${blend ? "text-white mix-blend-difference" : ""}`}
+    >
       <Link
         href="/"
         aria-label="Austin Moras — home"
