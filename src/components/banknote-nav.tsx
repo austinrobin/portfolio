@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { Monogram } from "@/components/home/monogram";
 
 /*
@@ -19,12 +21,29 @@ const navLinks = [
   { label: "Contact", href: "/contact", left: "80.4%" },
 ];
 
-export function BanknoteNav({ blend = false }: { blend?: boolean }) {
+export function BanknoteNav({
+  blend = false,
+  fixed = false,
+}: {
+  blend?: boolean;
+  /** pin to the viewport through a body portal — position:fixed is dead
+      inside ScrollSmoother's transformed content. Pages animate it via
+      [data-banknote-nav]. */
+  fixed?: boolean;
+}) {
+  // hydration-safe "am I on the client" — false on the server pass, true after
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+  const portal = fixed && mounted;
   /* blend: the nav rides over media — white ink in difference mode reads
      on paper (inverts to near-black) and on any image alike */
-  return (
+  const header = (
     <header
-      className={`absolute inset-x-0 top-0 z-30 ${blend ? "text-white mix-blend-difference" : ""}`}
+      data-banknote-nav
+      className={`${portal ? "fixed z-[60]" : "absolute z-30"} inset-x-0 top-0 ${blend ? "text-white mix-blend-difference" : ""}`}
     >
       <Link
         href="/"
@@ -74,4 +93,5 @@ export function BanknoteNav({ blend = false }: { blend?: boolean }) {
       </nav>
     </header>
   );
+  return portal ? createPortal(header, document.body) : header;
 }

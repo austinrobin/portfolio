@@ -3,7 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import type { CaseMedia, CaseStudy } from "@/lib/case-studies";
+import Link from "next/link";
 import { BanknoteNav } from "@/components/banknote-nav";
+import { Monogram } from "@/components/home/monogram";
 import { gsap, ScrollSmoother, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { caseFont } from "./case-font";
 import { heroFonts } from "@/components/home/hero-config";
@@ -370,6 +372,8 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
   const rootRef = useRef<HTMLElement>(null);
   const rowRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const monoRef = useRef<HTMLAnchorElement>(null);
+  const reduce = useReducedMotion();
   const [active, setActive] = useState<string>(cs.sections[0]?.id ?? "");
 
   /* pin the panel from 12% down the viewport until the river runs out —
@@ -389,10 +393,49 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
           pin: panel,
           pinSpacing: false,
         });
+
+        /* NAV CHOREOGRAPHY — scrolling down: the banknote nav slides up and
+           away while the monogram slides in from the left to sit above the
+           title, at the nav's own level, still the way home. Scrolling up
+           (or back at the top): it all reverses. */
+        const mono = monoRef.current;
+        if (!mono || reduce) return;
+        const nav = () => document.querySelector<HTMLElement>("[data-banknote-nav]");
+        gsap.set(mono, { x: -40, autoAlpha: 0 });
+        let tucked = false;
+        const tuck = () => {
+          if (tucked) return;
+          tucked = true;
+          const n = nav();
+          if (n) gsap.to(n, { yPercent: -110, duration: 0.5, ease: "power2.inOut", overwrite: true });
+          gsap.to(mono, { x: 0, autoAlpha: 1, duration: 0.55, ease: "power3.out", overwrite: true });
+        };
+        const restore = () => {
+          if (!tucked) return;
+          tucked = false;
+          const n = nav();
+          if (n) gsap.to(n, { yPercent: 0, duration: 0.5, ease: "power2.out", overwrite: true });
+          gsap.to(mono, { x: -40, autoAlpha: 0, duration: 0.4, ease: "power2.in", overwrite: true });
+        };
+        ScrollTrigger.create({
+          start: 0,
+          end: "max",
+          onUpdate: (self) => {
+            if (self.scroll() < 40) restore();
+            else if (self.direction === 1) tuck();
+            else if (self.direction === -1) restore();
+          },
+        });
+        if (process.env.NODE_ENV === "development") {
+          (window as Window & { __caseNav?: { tuck: () => void; restore: () => void } }).__caseNav = {
+            tuck,
+            restore,
+          };
+        }
       });
       return () => mm.revert();
     },
-    { dependencies: [cs.slug] },
+    { dependencies: [cs.slug, reduce] },
   );
 
   const chapters = [
@@ -434,7 +477,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
       ref={rootRef}
       className={`relative min-h-screen bg-background text-foreground ${caseFont.variable} ${heroFonts.silk.variable} font-[family-name:var(--font-case)]`}
     >
-      <BanknoteNav blend />
+      <BanknoteNav blend fixed />
 
       <div
         ref={rowRef}
@@ -442,7 +485,16 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
       >
         {/* ---- left panel (pinned for the article's whole run) ---- */}
         <aside className="hidden w-[296px] shrink-0 pt-[13svh] md:block lg:w-[316px]">
-          <div ref={panelRef}>
+          <div ref={panelRef} className="relative">
+            {/* the home monogram, at the nav's level, revealed once the nav tucks away */}
+            <Link
+              ref={monoRef}
+              href="/"
+              aria-label="Austin Moras — home"
+              className="absolute left-0 top-[-8.4svh] block h-[6.2svh] min-h-10 opacity-0"
+            >
+              <Monogram className="h-full w-auto" />
+            </Link>
             <h1 className="text-[24px] font-light leading-[1.2] tracking-[-0.01em]">
               {cs.title}
             </h1>
