@@ -49,6 +49,7 @@ function GuillocheGround({ strength }: { strength: number }) {
             src="/footer/guilloche.webp"
             alt=""
             aria-hidden
+            data-ground
             draggable={false}
             className="pointer-events-none absolute inset-0 h-full w-full select-none object-fill mix-blend-multiply"
             style={{ opacity: o }}
@@ -168,8 +169,11 @@ export function BanknoteFooter({
       const monoPath = mono?.querySelector<SVGPathElement>("path") ?? null;
 
       /* until the draw, the plates are held invisible (they're below the
-         fold at load, so nothing flashes) */
-      gsap.set([...plates, ...scripts, mono].filter(Boolean), { opacity: 0 });
+         fold at load, so nothing flashes). The ground remembers its Studio
+         strength so it can ease back up to exactly that. */
+      const ground = [...section.querySelectorAll<HTMLElement>("[data-ground]")];
+      for (const g of ground) g.dataset.o = g.style.opacity || "1";
+      gsap.set([...plates, ...scripts, mono, ...ground].filter(Boolean), { opacity: 0 });
 
       let tl: gsap.core.Timeline | null = null;
 
@@ -216,6 +220,18 @@ export function BanknoteFooter({
 
         const BUCKETS = 40;
         const SWEEP = 0.85; // s a single plate takes to engrave in
+
+        /* the guilloché surfaces under the marks — a long ease-out, so it is
+           mostly there by the time AUSTIN is cut and settles as the scripts do */
+        tl.to(
+          ground,
+          {
+            opacity: (_i: number, el: Element) => parseFloat((el as HTMLElement).dataset.o ?? "1"),
+            duration: 1.8,
+            ease: "power2.out",
+          },
+          0,
+        );
 
         for (const plate of plates) {
           const at = parseFloat(plate.dataset.at ?? "0");
