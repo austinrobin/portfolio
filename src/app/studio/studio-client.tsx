@@ -52,7 +52,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v10"; // v10: footer gained the flourish pair
+const DRAFT_KEY = "studio-draft-v11"; // v11: footer script sizes are plate-relative (cqw), values converted
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {
@@ -1225,8 +1225,8 @@ export function StudioClient() {
                 onChange={(v) => setFooter({ verseText: v })} />
               <Slider label="Verse from top" value={draft.footer.verseY} min={30} max={80} step={0.5}
                 onChange={(v) => setFooter({ verseY: v })} />
-              <Slider label="Verse size" value={draft.footer.verseSize} min={1} max={5} step={0.1}
-                onChange={(v) => setFooter({ verseSize: v })} hint="vw" />
+              <Slider label="Verse size" value={draft.footer.verseSize} min={1} max={7} step={0.1}
+                onChange={(v) => setFooter({ verseSize: v })} hint="% of the plate width — identical in Studio and live." />
               <Slider label="Monogram from top" value={draft.footer.monogramY} min={55} max={95} step={0.5}
                 onChange={(v) => setFooter({ monogramY: v })} />
               <Slider label="Monogram width" value={draft.footer.monogramW} min={2} max={12} step={0.25}
@@ -1235,7 +1235,7 @@ export function StudioClient() {
                 onChange={(v) => setFooter({ dedicationText: v })} />
               <Slider label="Dedication from top" value={draft.footer.dedicationY} min={60} max={98} step={0.5}
                 onChange={(v) => setFooter({ dedicationY: v })} />
-              <Slider label="Dedication size" value={draft.footer.dedicationSize} min={0.7} max={3} step={0.05}
+              <Slider label="Dedication size" value={draft.footer.dedicationSize} min={0.7} max={4} step={0.05}
                 onChange={(v) => setFooter({ dedicationSize: v })} />
             </Group>
 

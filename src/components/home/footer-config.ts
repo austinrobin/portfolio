@@ -27,12 +27,12 @@ export interface FooterSettings {
   /* scripts */
   verseText: string; // \n = line break
   verseY: number;
-  verseSize: number; // vw
+  verseSize: number; // % of the plate's width (container units — Studio = live)
   monogramY: number;
   monogramW: number;
   dedicationText: string;
   dedicationY: number;
-  dedicationSize: number; // vw
+  dedicationSize: number; // % of the plate's width
 }
 
 export const footerConfig: FooterSettings = footerDefaults;

@@ -158,7 +158,7 @@ export function BanknoteFooter({
       <div
         ref={plateRef}
         className="relative mx-auto w-full max-w-[2000px]"
-        style={{ aspectRatio: `100 / ${cfg.plateHeight}` }}
+        style={{ aspectRatio: `100 / ${cfg.plateHeight}`, containerType: "inline-size" }}
       >
         {cfg.showGuilloche ? (
           <GuillocheGround strength={cfg.guillocheOpacity} />
@@ -221,7 +221,7 @@ export function BanknoteFooter({
           className="bnf-script absolute left-1/2 w-max -translate-x-1/2 text-center leading-[1.3]"
           style={{
             top: `${cfg.verseY}%`,
-            fontSize: `clamp(16px, ${cfg.verseSize}vw, ${cfg.verseSize * 18}px)`,
+            fontSize: `clamp(16px, ${cfg.verseSize}cqw, ${cfg.verseSize * 20}px)`,
             fontFamily: "var(--font-peristiwa)",
           }}
         >
@@ -244,7 +244,7 @@ export function BanknoteFooter({
           className="bnf-script absolute left-1/2 w-max -translate-x-1/2 text-center"
           style={{
             top: `${cfg.dedicationY}%`,
-            fontSize: `clamp(11px, ${cfg.dedicationSize}vw, ${cfg.dedicationSize * 18}px)`,
+            fontSize: `clamp(11px, ${cfg.dedicationSize}cqw, ${cfg.dedicationSize * 20}px)`,
             fontFamily: "var(--font-peristiwa)",
           }}
         >
