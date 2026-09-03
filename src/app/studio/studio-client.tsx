@@ -366,6 +366,16 @@ export function StudioClient() {
     setSection(si, { media });
   };
 
+  /* move an asset into another chapter (appended at its end — the ↑/↓
+     arrows place it from there) */
+  const moveMediaTo = (si: number, mi: number, ti: number) => {
+    if (ti === si) return;
+    const sections = draft[caseKey].sections.map((sec) => ({ ...sec, media: [...sec.media] }));
+    const [m] = sections[si].media.splice(mi, 1);
+    sections[ti].media.push(m);
+    setCase({ sections });
+  };
+
   const moveMedia = (si: number, mi: number, dir: -1 | 1) => {
     const media = [...draft[caseKey].sections[si].media];
     const [m] = media.splice(mi, 1);
@@ -1325,6 +1335,24 @@ export function StudioClient() {
                               >
                                 ↓
                               </button>
+                              <select
+                                aria-label="Move to chapter"
+                                title="Move this block to another chapter"
+                                value=""
+                                onChange={(e) => {
+                                  if (e.target.value !== "") moveMediaTo(si, mi, +e.target.value);
+                                }}
+                                className="max-w-[120px] rounded border border-border bg-background px-1.5 py-1 text-xs"
+                              >
+                                <option value="">Move to…</option>
+                                {draft[caseKey].sections.map((sec, j) =>
+                                  j === si ? null : (
+                                    <option key={sec.id} value={j}>
+                                      {sec.kicker}
+                                    </option>
+                                  ),
+                                )}
+                              </select>
                               <button
                                 aria-label="Remove media"
                                 onClick={() => removeMedia(si, mi)}
