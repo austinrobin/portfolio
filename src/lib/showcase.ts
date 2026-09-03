@@ -39,6 +39,14 @@ export const showcase: ShowcaseItem[] = [
     theme: { bg: "#101010", fg: "#F2EFE9", accent: "#F5C341" },
   },
   {
+    id: "lwt",
+    title: "LWT",
+    subtitle: "Reframing an engineering legacy",
+    year: "2024",
+    href: "/work/lwt",
+    theme: { bg: "#0B0A09", fg: "#F4F0EA", accent: "#FF5A2D" },
+  },
+  {
     id: "playground",
     title: "Playground",
     subtitle: "Brand, type & visual explorations",

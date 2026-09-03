@@ -57,7 +57,10 @@ const STOCKBEE_DARK: Zone = {
 };
 
 /** Sections that pull the page into StockBee's own environment. */
-const DARK_SECTIONS = new Set(["advantage", "conviction", "engine"]);
+/* Dark zones are the pinned-showcase chapters — derived per case study,
+   never hardcoded to one project's section ids. */
+const darkSectionIds = (cs: CaseStudy) =>
+  new Set(cs.sections.filter((s) => s.showcase).map((s) => s.id));
 
 /* ------------------------------------------------------------- reveals */
 
@@ -525,7 +528,7 @@ function PinnedShowcase({
 /* --------------------------------------------------------------- section */
 
 function SectionBlock({ s, index }: { s: CaseSection; index: number }) {
-  const dark = DARK_SECTIONS.has(s.id);
+  const dark = !!s.showcase;
   const pair = s.media.length >= 2;
   return (
     <section id={s.id} data-zone-id={s.id} className="pt-28 sm:pt-40">
@@ -605,8 +608,9 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
   const reduce = useReducedMotion();
   const heroSrc = cs.heroMedia?.src;
   const darkIds = useMemo(
-    () => (heroSrc ? new Set([...DARK_SECTIONS, "hero"]) : DARK_SECTIONS),
-    [heroSrc],
+    () =>
+      heroSrc ? new Set([...darkSectionIds(cs), "hero"]) : darkSectionIds(cs),
+    [heroSrc, cs],
   );
   const [zone, setZone] = useState<Zone>(cs.heroMedia ? STOCKBEE_DARK : PAPER);
   const rootRef = useRef<HTMLElement>(null);
@@ -679,7 +683,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
           </>
         ) : null}
 
-        {cs.heroMedia?.src ? <BanknoteNav /> : null}
+        <BanknoteNav />
 
         <div className="relative z-10 mx-auto w-[min(92vw,1400px)]">
           <Rise>

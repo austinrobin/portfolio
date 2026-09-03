@@ -9,6 +9,7 @@ import {
 import { siteConfig, type SiteConfig } from "@/lib/site";
 import {
   caseStockbee,
+  caseLwt,
   type CaseMedia,
   type CaseStudy,
 } from "@/lib/case-studies";
@@ -28,6 +29,7 @@ interface Draft {
   hero: HeroSettings;
   site: SiteConfig;
   caseStockbee: CaseStudy;
+  caseLwt: CaseStudy;
   lab: LabCascadeSettings;
 }
 interface LogEntry {
@@ -44,13 +46,14 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v6"; // v6: site nav gained Gallery (stale drafts must not revert it)
+const DRAFT_KEY = "studio-draft-v7"; // v7: draft gained caseLwt (stale drafts lack the key)
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {
   hero: heroConfig,
   site: siteConfig,
   caseStockbee,
+  caseLwt,
   lab: labConfig,
 };
 
@@ -297,7 +300,9 @@ export function StudioClient() {
   const [tab, setTab] = useState<"controls" | "log">("controls");
   const [open, setOpen] = useState(true);
   const [group, setGroup] = useState<string | null>("Hero — text");
-  const [target, setTarget] = useState<"home" | "case">("home");
+  const [target, setTarget] = useState<"home" | "case" | "case-lwt">("home");
+  const caseKey = target === "case-lwt" ? ("caseLwt" as const) : ("caseStockbee" as const);
+  const caseLabel = caseKey === "caseLwt" ? "LWT" : "StockBee";
   const [status, setStatus] = useState<string>("");
   const [saving, setSaving] = useState(false);
   const [log, setLog] = useState<LogEntry[]>([]);
@@ -334,34 +339,34 @@ export function StudioClient() {
 
   /* -------------------------------------------- case-study edit helpers */
   const setCase = (patch: Partial<CaseStudy>) =>
-    setDraft({ ...draft, caseStockbee: { ...draft.caseStockbee, ...patch } });
+    setDraft({ ...draft, [caseKey]: { ...draft[caseKey], ...patch } });
 
   const setSection = (
     si: number,
     patch: Partial<CaseStudy["sections"][number]>,
   ) => {
-    const sections = [...draft.caseStockbee.sections];
+    const sections = [...draft[caseKey].sections];
     sections[si] = { ...sections[si], ...patch };
     setCase({ sections });
   };
 
   const setMedia = (si: number, mi: number, patch: Partial<CaseMedia>) => {
-    const media = [...draft.caseStockbee.sections[si].media];
+    const media = [...draft[caseKey].sections[si].media];
     media[mi] = { ...media[mi], ...patch };
     setSection(si, { media });
   };
 
   const moveMedia = (si: number, mi: number, dir: -1 | 1) => {
-    const media = [...draft.caseStockbee.sections[si].media];
+    const media = [...draft[caseKey].sections[si].media];
     const [m] = media.splice(mi, 1);
     media.splice(mi + dir, 0, m);
     setSection(si, { media });
   };
 
   const removeMedia = (si: number, mi: number) => {
-    const gone = draft.caseStockbee.sections[si].media[mi];
+    const gone = draft[caseKey].sections[si].media[mi];
     setSection(si, {
-      media: draft.caseStockbee.sections[si].media.filter((_, j) => j !== mi),
+      media: draft[caseKey].sections[si].media.filter((_, j) => j !== mi),
     });
     // un-stage its upload if it never shipped
     if (gone?.src)
@@ -371,9 +376,9 @@ export function StudioClient() {
   };
 
   const setStat = (i: number, patch: Partial<{ value: string; label: string }>) => {
-    const stats = [...draft.caseStockbee.impact.stats];
+    const stats = [...draft[caseKey].impact.stats];
     stats[i] = { ...stats[i], ...patch };
-    setCase({ impact: { ...draft.caseStockbee.impact, stats } });
+    setCase({ impact: { ...draft[caseKey].impact, stats } });
   };
 
   const pendingBadge = (src: string) =>
@@ -386,17 +391,17 @@ export function StudioClient() {
     try {
       const isVideo = file.type.startsWith("video/");
       const out = isVideo ? await readVideo(file) : await compressImage(file);
-      const name = `${draft.caseStockbee.sections[si].id}-${Date.now()}.${out.ext}`;
-      const repoPath = `public/case/stockbee/${name}`;
+      const name = `${draft[caseKey].sections[si].id}-${Date.now()}.${out.ext}`;
+      const repoPath = `public/case/${draft[caseKey].slug}/${name}`;
       setPending((p) => [
         ...p,
         { path: repoPath, base64: out.base64, bytes: out.bytes },
       ]);
       const media = [
-        ...draft.caseStockbee.sections[si].media,
+        ...draft[caseKey].sections[si].media,
         {
           kind: isVideo ? ("video" as const) : ("image" as const),
-          src: `/case/stockbee/${name}`,
+          src: `/case/${draft[caseKey].slug}/${name}`,
           caption: "",
           aspect: "wide" as const,
         },
@@ -459,6 +464,10 @@ export function StudioClient() {
             {
               path: "content/case-stockbee.json",
               content: JSON.stringify(draft.caseStockbee, null, 2) + "\n",
+            },
+            {
+              path: "content/case-lwt.json",
+              content: JSON.stringify(draft.caseLwt, null, 2) + "\n",
             },
             {
               path: "content/lab.json",
@@ -550,7 +559,7 @@ export function StudioClient() {
             <LifeCollage />
           </>
         ) : (
-          <CaseStudyView cs={draft.caseStockbee} />
+          <CaseStudyView cs={draft[caseKey]} />
         )}
       </div>
 
@@ -590,6 +599,7 @@ export function StudioClient() {
               [
                 ["home", "Home"],
                 ["case", "StockBee"],
+                ["case-lwt", "LWT"],
               ] as const
             ).map(([k, label]) => (
               <button
@@ -1142,27 +1152,27 @@ export function StudioClient() {
                 hint="Same as Turn (Y) = pure slide. 0 = faces you fully." />
             </Group>
 
-            <Group title={"Case — StockBee"} open={group === "Case — StockBee"} onToggle={() => setGroup(group === "Case — StockBee" ? null : "Case — StockBee")}>
+            <Group title={`Case — ${caseLabel}`} open={group === `Case — ${caseLabel}`} onToggle={() => setGroup(group === `Case — ${caseLabel}` ? null : `Case — ${caseLabel}`)}>
               <TextArea
                 label="Tagline"
-                value={draft.caseStockbee.tagline}
+                value={draft[caseKey].tagline}
                 rows={2}
                 onChange={(v) => setCase({ tagline: v })}
               />
               <div className="grid grid-cols-2 gap-2">
                 <TextField
                   label="Team"
-                  value={draft.caseStockbee.team}
+                  value={draft[caseKey].team}
                   onChange={(v) => setCase({ team: v })}
                 />
                 <TextField
                   label="Scope"
-                  value={draft.caseStockbee.scope}
+                  value={draft[caseKey].scope}
                   onChange={(v) => setCase({ scope: v })}
                 />
               </div>
 
-              {draft.caseStockbee.sections.map((s, si) => (
+              {draft[caseKey].sections.map((s, si) => (
                 <details
                   key={s.id}
                   className="rounded-xl border border-border p-4"
@@ -1287,7 +1297,7 @@ export function StudioClient() {
                   Impact numbers
                 </summary>
                 <div className="mt-4 space-y-2">
-                  {draft.caseStockbee.impact.stats.map((st, i) => (
+                  {draft[caseKey].impact.stats.map((st, i) => (
                     <div key={i} className="grid grid-cols-[1fr_2fr] gap-2">
                       <TextField
                         label={i === 0 ? "Value" : ""}
@@ -1310,12 +1320,12 @@ export function StudioClient() {
                 <div className="mt-4 space-y-3">
                   <TextArea
                     label="Body"
-                    value={draft.caseStockbee.result.body.join("\n\n")}
+                    value={draft[caseKey].result.body.join("\n\n")}
                     rows={3}
                     onChange={(v) =>
                       setCase({
                         result: {
-                          ...draft.caseStockbee.result,
+                          ...draft[caseKey].result,
                           body: v.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean),
                         },
                       })
@@ -1323,11 +1333,11 @@ export function StudioClient() {
                   />
                   <TextArea
                     label="Closing statement"
-                    value={draft.caseStockbee.result.statement}
+                    value={draft[caseKey].result.statement}
                     rows={2}
                     onChange={(v) =>
                       setCase({
-                        result: { ...draft.caseStockbee.result, statement: v },
+                        result: { ...draft[caseKey].result, statement: v },
                       })
                     }
                   />

@@ -1,0 +1,136 @@
+{
+  "slug": "lwt",
+  "title": "LWT",
+  "tagline": "Reframing an engineering legacy for what comes next.",
+  "summary": "A scalable group identity for an industrial technology company moving from legacy systems toward new businesses and a larger ambition.",
+  "year": "2024",
+  "tags": ["Brand Strategy", "Identity", "Art Direction", "Digital", "Brand System"],
+  "role": "Brand strategy & identity design",
+  "disciplines": "Brand Strategy · Identity · Art Direction · Digital · Brand System",
+  "team": "With the LWT leadership",
+  "scope": "Strategy, mark, visual language, applications",
+  "featured": false,
+  "order": 2,
+  "sections": [
+    {
+      "id": "outgrown",
+      "kicker": "The starting point",
+      "heading": "When the company outgrows its identity",
+      "body": [
+        "Lotus had spent decades building technology for industries where failure isn't an option. Power. Steel. Railways. Ports. Mining. Defence.",
+        "Its capabilities had grown across engineering, automation, electronics, manufacturing and R&D — but the brand hadn't kept pace.",
+        "The opportunity was not to make Lotus look more modern. It was to make the brand feel as capable as the company behind it."
+      ],
+      "statement": "The company had evolved. The identity hadn't.",
+      "media": []
+    },
+    {
+      "id": "group",
+      "kicker": "The brief",
+      "heading": "From a company to a group",
+      "body": [
+        "The brief evolved as Lotus moved toward LWT — a broader parent identity designed to carry multiple businesses and capabilities.",
+        "That changed the question. Not: how do we make Lotus Wireless look more like a technology company?",
+        "But: how do we build an identity that can grow beyond one company, one product, or one industry?",
+        "The answer needed to preserve the engineering credibility of Lotus while opening space for ambition, scale and movement."
+      ],
+      "statement": "An identity that can grow beyond one company, one product, one industry.",
+      "media": []
+    },
+    {
+      "id": "tension",
+      "kicker": "The idea",
+      "heading": "Advanced on the outside. Human at the core.",
+      "body": [
+        "The brand needed to hold two things that rarely appear together: engineering precision and human connection.",
+        "The technology is complex. The relationship behind it isn't.",
+        "That tension became the foundation for the identity system."
+      ],
+      "statement": "Engineering precision. Human connection.",
+      "media": []
+    },
+    {
+      "id": "lotus",
+      "kicker": "First expression",
+      "heading": "The first expression: Lotus",
+      "body": [
+        "The Lotus identity explored technology through something more human. A lotus, built from multiple forms, becomes a symbol of different capabilities coming together to create something larger.",
+        "Two curved forms around it introduce another layer: an understated gesture of embracing and protection.",
+        "The result was intentionally more human than the visual language typically associated with industrial technology."
+      ],
+      "statement": "Technology, held by humanity.",
+      "showcase": true,
+      "media": [{ "kind": "image", "src": "", "aspect": "screen" }]
+    },
+    {
+      "id": "mark",
+      "kicker": "The mark",
+      "heading": "Then came LWT",
+      "body": [
+        "The identity needed to evolve again. The new mark was designed around Bold Innovation in Motion.",
+        "Its forms are cut, shifted and brought forward, creating a sense of precision, energy and movement. But the structure carries a quieter idea too.",
+        "The ten segments were conceived as a symbolic expression of multiple capabilities and future verticals coming together under one organisation."
+      ],
+      "statement": "Different parts. One whole.",
+      "showcase": true,
+      "media": [{ "kind": "image", "src": "", "aspect": "screen" }]
+    },
+    {
+      "id": "ten",
+      "kicker": "Hidden inside",
+      "heading": "A mark with something hidden inside",
+      "body": [
+        "There is another story in the ten.",
+        "The company was founded in honour of Kamal, whose name means Lotus. Her birthday fell on the 10th.",
+        "That personal connection became a quiet layer within the identity, turning a structural device into something much more human."
+      ],
+      "statement": "A corporate identity with a family story at its centre.",
+      "showcase": true,
+      "media": [{ "kind": "image", "src": "", "aspect": "screen" }]
+    },
+    {
+      "id": "system",
+      "kicker": "The system",
+      "heading": "Making complexity feel clear",
+      "body": [
+        "The identity couldn't stop at the mark. It needed a visual language capable of carrying engineering, products, people and ideas without becoming noisy or overly technical.",
+        "So the system was built around five principles: precision — strong structure and geometry. Motion — directional forms and forward movement. Technology — modular visual language and digital cues. Humanity — warmth, imagery and softer forms. Scale — large type, strong compositions and immersive applications.",
+        "The system was designed to travel: corporate communication, presentations, social, events, physical environments, employee communication and digital experiences."
+      ],
+      "statement": "Not a beautiful logo — a brand that keeps working as the organisation grows.",
+      "media": []
+    },
+    {
+      "id": "language",
+      "kicker": "Visual language",
+      "heading": "The visual system",
+      "body": [
+        "Aeonik — a geometric, contemporary typeface balancing technical precision with approachability.",
+        "Dark foundations for strength, depth and sophistication. Red and orange for energy, ambition and movement. Warm accents as a human counterpoint to the technical foundation.",
+        "Together, the system gives LWT enough structure to feel credible and enough character to feel unmistakable."
+      ],
+      "statement": "Credible enough to trust. Distinct enough to remember.",
+      "media": []
+    }
+  ],
+  "impact": {
+    "title": "The identity, in numbers",
+    "stats": [
+      { "value": "10", "label": "Segments in the mark — capabilities becoming one whole" },
+      { "value": "6", "label": "Industries served, where failure isn't an option" },
+      { "value": "5", "label": "System principles, from precision to humanity" },
+      { "value": "2", "label": "Identities delivered — Lotus, then LWT" },
+      { "value": "1", "label": "Family story at the centre of the mark" },
+      { "value": "2024", "label": "The year the group found its face" }
+    ]
+  },
+  "result": {
+    "heading": "Built to move",
+    "body": [
+      "Before: a capable industrial technology company with a fragmented expression and an identity that no longer reflected its ambition.",
+      "After: a scalable group identity built around innovation, movement, precision and human connection.",
+      "The transformation moved the brand from what the company was known for toward what it could become. LWT was never meant to stand still — the identity was designed to carry a company moving from legacy systems toward new technologies, new businesses and a larger ambition."
+    ],
+    "statement": "Many capabilities. Many relationships. One direction."
+  }
+}

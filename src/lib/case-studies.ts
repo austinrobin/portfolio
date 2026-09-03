@@ -1,4 +1,5 @@
 import stockbeeJson from "../../content/case-stockbee.json";
+import lwtJson from "../../content/case-lwt.json";
 
 /*
  * Case-study content, Studio-editable.
@@ -63,8 +64,9 @@ export interface CaseStudy {
 }
 
 export const caseStockbee: CaseStudy = stockbeeJson as CaseStudy;
+export const caseLwt: CaseStudy = lwtJson as CaseStudy;
 
-const registry: CaseStudy[] = [caseStockbee];
+const registry: CaseStudy[] = [caseStockbee, caseLwt];
 
 export function getCaseStudies(): CaseStudy[] {
   return [...registry].sort((a, b) => {
