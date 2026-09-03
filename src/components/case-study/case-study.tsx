@@ -215,7 +215,7 @@ function River({ media, alt }: { media: CaseMedia[]; alt: string }) {
   if (!media.length) return null;
   const rows = rowsOf(media);
   return (
-    <div className="mt-7 flex flex-col gap-2 sm:mt-8">
+    <div className="mt-[35px] flex flex-col gap-2 sm:mt-10">
       {rows.map((row, r) => {
         if (row.type === "primary") {
           return <Tile key={r} media={row.items[0]} alt={row.items[0].caption || alt} frame="primary" />;
@@ -290,7 +290,7 @@ function Chapter({
     <section
       id={id}
       data-chapter={id}
-      className="mt-9 scroll-mt-[12svh] border-t border-border pt-5 sm:mt-11 sm:pt-6"
+      className="mt-3.5 scroll-mt-[12svh] border-t border-border pt-2 sm:mt-[18px] sm:pt-2.5"
     >
       {/* a hairline opens the chapter; only its name sits on the left — the
           heading and copy are one block pushed to the viewport's right edge */}
@@ -545,7 +545,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
 
           {/* ---- in numbers ---- */}
           <Chapter id="impact" kicker="In numbers" heading={cs.impact.title}>
-            <Rise className="mt-8 grid grid-cols-2 gap-x-6 gap-y-8 sm:mt-10 md:grid-cols-3">
+            <Rise className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 sm:mt-[50px] md:grid-cols-3">
               {cs.impact.stats.map((stat, i) => {
                 const placeholder = /^x+$/i.test(stat.value.replace(/[^a-z]/gi, ""));
                 return (
