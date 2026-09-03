@@ -17,4 +17,10 @@ import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, ScrollSmoother, SplitText, DrawSVGPlugin);
 
+/* dev only: lets a tool drive the ticker / inspect tweens from devtools
+   (window.__gsap.ticker.tick()) when rAF is throttled or paused */
+if (process.env.NODE_ENV === "development" && typeof window !== "undefined") {
+  (window as Window & { __gsap?: typeof gsap }).__gsap = gsap;
+}
+
 export { gsap, useGSAP, ScrollTrigger, ScrollSmoother, SplitText, DrawSVGPlugin };

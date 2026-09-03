@@ -407,14 +407,16 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
           if (tucked) return;
           tucked = true;
           const n = nav();
-          if (n) gsap.to(n, { yPercent: -110, duration: 0.5, ease: "power2.inOut", overwrite: true });
+          /* the header itself is 0px tall (its links are absolute), so a
+             percentage slide moves nothing — travel a viewport distance */
+          if (n) gsap.to(n, { y: "-16vh", duration: 0.5, ease: "power2.inOut", overwrite: true });
           gsap.to(mono, { x: 0, autoAlpha: 1, duration: 0.55, ease: "power3.out", overwrite: true });
         };
         const restore = () => {
           if (!tucked) return;
           tucked = false;
           const n = nav();
-          if (n) gsap.to(n, { yPercent: 0, duration: 0.5, ease: "power2.out", overwrite: true });
+          if (n) gsap.to(n, { y: 0, duration: 0.5, ease: "power2.out", overwrite: true });
           gsap.to(mono, { x: -40, autoAlpha: 0, duration: 0.4, ease: "power2.in", overwrite: true });
         };
         ScrollTrigger.create({
