@@ -41,4 +41,15 @@ export const galleryItems: GalleryItem[] = [
   { src: "/gallery/bloomalgo-percentage-loss.webp", w: 210 },
   { src: "/gallery/inactive-day2-push-1.webp", w: 250 },
   { src: "/gallery/ig-post-55.webp", w: 240 },
+  /* batch 2 */
+  { src: "/gallery/art-03.webp", w: 240 },
+  { src: "/gallery/art-07.webp", w: 300 },
+  { src: "/gallery/art-06.webp", w: 210 },
+  { src: "/gallery/art-11.webp", w: 290 },
+  { src: "/gallery/art-04.webp", w: 250 },
+  { src: "/gallery/art-08.webp", w: 230 },
+  { src: "/gallery/art-05.webp", w: 310 },
+  { src: "/gallery/art-09.webp", w: 220 },
+  { src: "/gallery/art-10.webp", w: 300 },
+  { src: "/gallery/art-12.webp", w: 240 },
 ];
