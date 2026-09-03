@@ -33,6 +33,11 @@ import { footerConfig, type FooterSettings } from "./footer-config";
  */
 
 const GOLD_FILTER = "sepia(1) saturate(2.4) hue-rotate(-12deg) brightness(0.82)";
+/* the ground rises out of the paper across the top of the plate instead of
+   starting on a hard line; the sides soften too for screens wider than the
+   2000px plate */
+const GROUND_FEATHER =
+  "linear-gradient(to bottom, transparent 0%, #000 18%), linear-gradient(to right, transparent 0%, #000 4%, #000 96%, transparent 100%)";
 
 /* ---------------- guilloché ground ------------------------------------ */
 
@@ -52,7 +57,14 @@ function GuillocheGround({ strength }: { strength: number }) {
             data-ground
             draggable={false}
             className="pointer-events-none absolute inset-0 h-full w-full select-none object-fill mix-blend-multiply"
-            style={{ opacity: o }}
+            style={{
+              opacity: o,
+              /* feathered in from bare paper — no seam where the plate begins */
+              WebkitMaskImage: GROUND_FEATHER,
+              maskImage: GROUND_FEATHER,
+              WebkitMaskComposite: "source-in",
+              maskComposite: "intersect",
+            }}
           />
         ) : null,
       )}
