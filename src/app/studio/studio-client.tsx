@@ -21,6 +21,7 @@ import {
 import { CurrentBuild } from "@/components/home/current-build";
 import { ProjectDeck } from "@/components/home/project-deck";
 import { LifeCollage } from "@/components/home/life-collage";
+import { BanknoteFooter } from "@/components/home/banknote-footer";
 import { CaseStudyView } from "@/components/case-study/case-study";
 import { showcase } from "@/lib/showcase";
 
@@ -557,6 +558,7 @@ export function StudioClient() {
             </section>
             <LabTeaser overrides={draft.lab} />
             <LifeCollage />
+            <BanknoteFooter />
           </>
         ) : (
           <CaseStudyView cs={draft[caseKey]} />

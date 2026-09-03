@@ -4,6 +4,7 @@ import { CurrentBuild } from "@/components/home/current-build";
 import { ProjectDeck } from "@/components/home/project-deck";
 import { LabTeaser } from "@/components/home/lab-teaser";
 import { LifeCollage } from "@/components/home/life-collage";
+import { BanknoteFooter } from "@/components/home/banknote-footer";
 
 export default function Home() {
   return (
@@ -28,6 +29,9 @@ export default function Home() {
       {/* Studio / Life — the draggable desk collage (paper continues from
           the sections above; no divider, the spread is the transition) */}
       <LifeCollage />
+
+      {/* Closing plate — the banknote dedication (prints itself in) */}
+      <BanknoteFooter />
     </div>
   );
 }
