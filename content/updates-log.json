@@ -1,1 +1,100 @@
-[]
+[
+  {
+    "at": "2026-09-03T11:07:37.962Z",
+    "summary": "update plateHeight, austinY, colonnadeBottom +6 more",
+    "changes": [
+      {
+        "field": "footer.plateHeight",
+        "from": 60,
+        "to": 64
+      },
+      {
+        "field": "footer.austinY",
+        "from": 16,
+        "to": 17
+      },
+      {
+        "field": "footer.colonnadeBottom",
+        "from": 27.5,
+        "to": 0
+      },
+      {
+        "field": "footer.colonnadeW",
+        "from": 22,
+        "to": 23.5
+      },
+      {
+        "field": "footer.verseY",
+        "from": 52,
+        "to": 47
+      },
+      {
+        "field": "footer.monogramY",
+        "from": 73,
+        "to": 70.5
+      },
+      {
+        "field": "footer.monogramW",
+        "from": 4.5,
+        "to": 4.25
+      },
+      {
+        "field": "footer.dedicationY",
+        "from": 81,
+        "to": 77.5
+      },
+      {
+        "field": "footer.dedicationSize",
+        "from": 1.35,
+        "to": 1.5
+      }
+    ]
+  },
+  {
+    "at": "2026-09-03T11:04:31.777Z",
+    "summary": "update colonnadeBottom",
+    "changes": [
+      {
+        "field": "footer.colonnadeBottom",
+        "from": 3,
+        "to": 27.5
+      }
+    ]
+  },
+  {
+    "at": "2026-09-03T11:03:47.085Z",
+    "summary": "update plateHeight, pegasusX, pegasusY +3 more",
+    "changes": [
+      {
+        "field": "footer.plateHeight",
+        "from": 62,
+        "to": 60
+      },
+      {
+        "field": "footer.pegasusX",
+        "from": 5.5,
+        "to": 1.5
+      },
+      {
+        "field": "footer.pegasusY",
+        "from": 6,
+        "to": 0
+      },
+      {
+        "field": "footer.pegasusW",
+        "from": 25,
+        "to": 29.5
+      },
+      {
+        "field": "footer.austinY",
+        "from": 26,
+        "to": 16
+      },
+      {
+        "field": "footer.austinW",
+        "from": 66,
+        "to": 71
+      }
+    ]
+  }
+]

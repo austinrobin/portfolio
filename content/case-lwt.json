@@ -4,7 +4,13 @@
   "tagline": "Reframing an engineering legacy for what comes next.",
   "summary": "A group identity for an engineering company moving beyond its original wireless business — built to carry multiple capabilities, technologies and future directions.",
   "year": "2024",
-  "tags": ["Brand Strategy", "Identity", "Art Direction", "Digital", "Brand System"],
+  "tags": [
+    "Brand Strategy",
+    "Identity",
+    "Art Direction",
+    "Digital",
+    "Brand System"
+  ],
   "role": "Brand strategy & identity design",
   "disciplines": "Brand Strategy · Identity · Art Direction · Digital · Brand System",
   "team": "With the LWT leadership",
@@ -59,7 +65,13 @@
       ],
       "statement": "A mark that moves forward, not one that sits still.",
       "showcase": true,
-      "media": [{ "kind": "image", "src": "", "aspect": "screen" }]
+      "media": [
+        {
+          "kind": "image",
+          "src": "",
+          "aspect": "screen"
+        }
+      ]
     },
     {
       "id": "whole",
@@ -72,7 +84,13 @@
       ],
       "statement": "Different parts. Different strengths. One direction.",
       "showcase": true,
-      "media": [{ "kind": "image", "src": "", "aspect": "screen" }]
+      "media": [
+        {
+          "kind": "image",
+          "src": "",
+          "aspect": "screen"
+        }
+      ]
     },
     {
       "id": "story",
@@ -85,7 +103,13 @@
       ],
       "statement": "A brand built for growth, with its roots still intact.",
       "showcase": true,
-      "media": [{ "kind": "image", "src": "", "aspect": "screen" }]
+      "media": [
+        {
+          "kind": "image",
+          "src": "",
+          "aspect": "screen"
+        }
+      ]
     },
     {
       "id": "system",
@@ -115,12 +139,30 @@
   "impact": {
     "title": "The identity, in numbers",
     "stats": [
-      { "value": "10", "label": "Segments in the mark — capabilities becoming one whole" },
-      { "value": "6", "label": "Industries served, where failure isn't an option" },
-      { "value": "5", "label": "System principles, from precision to humanity" },
-      { "value": "6", "label": "Environments the identity travels across" },
-      { "value": "1", "label": "Family story hidden inside the ten" },
-      { "value": "2024", "label": "The year the group found its face" }
+      {
+        "value": "10",
+        "label": "Segments in the mark — capabilities becoming one whole"
+      },
+      {
+        "value": "6",
+        "label": "Industries served, where failure isn't an option"
+      },
+      {
+        "value": "5",
+        "label": "System principles, from precision to humanity"
+      },
+      {
+        "value": "6",
+        "label": "Environments the identity travels across"
+      },
+      {
+        "value": "1",
+        "label": "Family story hidden inside the ten"
+      },
+      {
+        "value": "2024",
+        "label": "The year the group found its face"
+      }
     ]
   },
   "result": {
