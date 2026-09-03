@@ -59,13 +59,16 @@ function VideoSources({
   media,
   className,
   loop = true,
+  style,
 }: {
   media: CaseMedia;
   className: string;
   loop?: boolean;
+  style?: React.CSSProperties;
 }) {
   const common = {
     className,
+    style,
     poster: media.poster,
     autoPlay: true,
     muted: true,
@@ -96,6 +99,10 @@ function VideoSources({
 
 type Block = NonNullable<CaseMedia["block"]>;
 const blockOf = (m: CaseMedia): Block => m.block ?? "primary";
+/* a custom block behaves like a primary (full row) or a secondary (half)
+   for row-building, with its own ratio */
+const isFull = (m: CaseMedia) => blockOf(m) === "primary" || (blockOf(m) === "custom" && (m.cols ?? 1) === 1);
+const isHalf = (m: CaseMedia) => blockOf(m) === "secondary" || (blockOf(m) === "custom" && m.cols === 2);
 
 type Row =
   | { type: "primary"; items: [CaseMedia] }
@@ -111,14 +118,14 @@ function rowsOf(media: CaseMedia[]): Row[] {
     const b = blockOf(m);
     const n1 = media[i + 1];
     const n2 = media[i + 2];
-    if (b === "primary") {
+    if (isFull(m)) {
       rows.push({ type: "primary", items: [m] });
       i += 1;
-    } else if (b === "secondary") {
-      if (n1 && blockOf(n1) === "secondary") {
+    } else if (isHalf(m)) {
+      if (n1 && isHalf(n1)) {
         rows.push({ type: "pair", items: [m, n1] });
         i += 2;
-      } else if (n1 && n2 && blockOf(n1) === "tertiary" && blockOf(n2) === "tertiary") {
+      } else if (b === "secondary" && n1 && n2 && blockOf(n1) === "tertiary" && blockOf(n2) === "tertiary") {
         rows.push({ type: "trio", secondary: m, tertiaries: [n1, n2], secondaryLeft: true });
         i += 3;
       } else {
@@ -139,6 +146,12 @@ function rowsOf(media: CaseMedia[]): Row[] {
 }
 
 const FRAME = { primary: 1342 / 755, secondary: 667 / 834, tertiary: 667 / 413 };
+/* the frame an asset takes: its preset, or its own ratio when custom */
+function frameRatio(m: CaseMedia, fallback: keyof typeof FRAME) {
+  if (blockOf(m) === "custom") return m.ratio && m.ratio > 0 ? m.ratio : 1.5; // Studio's default too
+  return FRAME[blockOf(m) as keyof typeof FRAME] ?? FRAME[fallback];
+}
+const focus = (m: CaseMedia) => `${m.focusX ?? 50}% ${m.focusY ?? 50}%`;
 
 function Tile({
   media,
@@ -150,7 +163,8 @@ function Tile({
 }: {
   media: CaseMedia;
   alt: string;
-  /** a fixed frame, or "fill" to take the height the row gives it */
+  /** the role in its row (sets the preset frame), or "fill" to take the
+      height the row gives it; a custom asset overrides the ratio */
   frame: keyof typeof FRAME | "fill";
   loop?: boolean;
   eager?: boolean;
@@ -160,7 +174,7 @@ function Tile({
   return (
     <motion.div
       className={`relative overflow-hidden rounded-[10px] bg-subtle ${frame === "fill" ? "h-full min-h-0" : ""} ${className}`}
-      style={frame === "fill" ? undefined : { aspectRatio: FRAME[frame] }}
+      style={frame === "fill" ? undefined : { aspectRatio: frameRatio(media, frame) }}
       initial={reduce ? false : { opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-6%" }}
@@ -172,6 +186,7 @@ function Tile({
             media={media}
             loop={loop}
             className="absolute inset-0 h-full w-full object-cover"
+            style={{ objectPosition: focus(media) }}
           />
         ) : (
           /* eslint-disable-next-line @next/next/no-img-element -- assets are
@@ -181,6 +196,7 @@ function Tile({
             alt={alt}
             loading={eager ? "eager" : "lazy"}
             className="absolute inset-0 h-full w-full object-cover"
+            style={{ objectPosition: focus(media) }}
           />
         )
       ) : (
@@ -214,7 +230,11 @@ function River({ media, alt }: { media: CaseMedia[]; alt: string }) {
         if (row.type === "half") {
           return (
             <div key={r} className="grid grid-cols-2 gap-2">
-              <Tile media={row.items[0]} alt={row.items[0].caption || alt} frame={blockOf(row.items[0]) === "tertiary" ? "tertiary" : "secondary"} />
+              <Tile
+                media={row.items[0]}
+                alt={row.items[0].caption || alt}
+                frame={blockOf(row.items[0]) === "tertiary" ? "tertiary" : "secondary"}
+              />
             </div>
           );
         }

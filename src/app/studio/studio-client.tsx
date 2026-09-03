@@ -52,7 +52,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v13"; // v13: block system (primary/secondary/tertiary) + LWT copy v3
+const DRAFT_KEY = "studio-draft-v14"; // v14: custom blocks (cols/ratio) + focal point per asset
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {
@@ -1279,19 +1279,6 @@ export function StudioClient() {
                       rows={2}
                       onChange={(v) => setSection(si, { heading: v })}
                     />
-                    <label className="block">
-                      <span className="text-sm font-medium">Media layout</span>
-                      <select
-                        value={s.layout ?? "bands"}
-                        onChange={(e) =>
-                          setSection(si, { layout: e.target.value as "bands" | "grid" })
-                        }
-                        className="mt-1.5 w-full rounded-lg border border-border bg-background px-2 py-2 text-sm"
-                      >
-                        <option value="bands">Bands — fixed-aspect, cropped (StockBee)</option>
-                        <option value="grid">Grid — natural aspect on 12 columns (branding)</option>
-                      </select>
-                    </label>
                     <TextArea
                       label="Body (blank line = new paragraph)"
                       value={s.body.join("\n\n")}
@@ -1356,33 +1343,75 @@ export function StudioClient() {
                               }
                             />
                             <select
-                              aria-label="Aspect"
-                              value={m.aspect ?? "wide"}
-                              onChange={(e) =>
-                                setMedia(si, mi, {
-                                  aspect: e.target
-                                    .value as CaseMedia["aspect"],
-                                })
-                              }
-                              className="self-end rounded-lg border border-border bg-background px-2 py-2 text-sm"
-                            >
-                              <option value="wide">Wide 11:4</option>
-                              <option value="screen">Screen 17:9</option>
-                              <option value="tall">Tall 17:18</option>
-                            </select>
-                            <select
                               aria-label="Block"
-                              title="Primary fills the row; secondary is a half; tertiaries only as a stacked pair beside a secondary"
+                              title="Primary fills the row; secondary is a half; tertiaries only as a stacked pair beside a secondary; custom = your own width and ratio"
                               value={m.block ?? "primary"}
                               onChange={(e) =>
                                 setMedia(si, mi, { block: e.target.value as CaseMedia["block"] })
                               }
-                              className="col-start-2 self-end rounded-lg border border-border bg-background px-2 py-2 text-sm"
+                              className="self-end rounded-lg border border-border bg-background px-2 py-2 text-sm"
                             >
                               <option value="primary">Primary 1342×755</option>
                               <option value="secondary">Secondary 667×834</option>
                               <option value="tertiary">Tertiary 667×413</option>
+                              <option value="custom">Custom…</option>
                             </select>
+                          </div>
+                          {m.block === "custom" ? (
+                            <div className="mt-2 grid grid-cols-[auto_1fr_auto] items-end gap-2">
+                              <select
+                                aria-label="Custom width"
+                                value={m.cols ?? 1}
+                                onChange={(e) =>
+                                  setMedia(si, mi, { cols: +e.target.value as 1 | 2 })
+                                }
+                                className="rounded-lg border border-border bg-background px-2 py-2 text-sm"
+                              >
+                                <option value={1}>Full row</option>
+                                <option value={2}>Half</option>
+                              </select>
+                              <Slider
+                                label="Ratio (w ÷ h)"
+                                value={+(m.ratio ?? 1.5).toFixed(2)}
+                                min={0.4}
+                                max={3}
+                                step={0.01}
+                                onChange={(v) => setMedia(si, mi, { ratio: v })}
+                              />
+                              <input
+                                aria-label="Ratio value"
+                                type="number"
+                                step={0.01}
+                                min={0.4}
+                                max={3}
+                                value={+(m.ratio ?? 1.5).toFixed(2)}
+                                onChange={(e) => {
+                                  const v = parseFloat(e.target.value);
+                                  if (Number.isFinite(v) && v > 0) setMedia(si, mi, { ratio: v });
+                                }}
+                                className="w-[76px] rounded-lg border border-border bg-background px-2 py-2 text-sm"
+                              />
+                            </div>
+                          ) : null}
+                          <div className="mt-2 grid grid-cols-2 gap-3">
+                            <Slider
+                              label="Focus ×"
+                              value={m.focusX ?? 50}
+                              min={0}
+                              max={100}
+                              step={1}
+                              onChange={(v) => setMedia(si, mi, { focusX: v })}
+                              hint="where the crop holds, left → right"
+                            />
+                            <Slider
+                              label="Focus y"
+                              value={m.focusY ?? 50}
+                              min={0}
+                              max={100}
+                              step={1}
+                              onChange={(v) => setMedia(si, mi, { focusY: v })}
+                              hint="top → bottom"
+                            />
                           </div>
                         </div>
                       ))}

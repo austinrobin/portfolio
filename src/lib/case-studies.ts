@@ -26,7 +26,14 @@ export interface CaseMedia {
       ever appears as a stacked pair beside a secondary (left or right).
       Consecutive items group into rows: [S,S] pair · [S,T,T] / [T,T,S] trio ·
       P alone. Default: primary. */
-  block?: "primary" | "secondary" | "tertiary";
+  block?: "primary" | "secondary" | "tertiary" | "custom";
+  /** Custom block only: full row or a half. */
+  cols?: 1 | 2;
+  /** Custom block only: aspect ratio, width / height (e.g. 1.5). */
+  ratio?: number;
+  /** Focal point of the crop, 0–100 % (default 50 / 50). */
+  focusX?: number;
+  focusY?: number;
   /** @deprecated superseded by `block` — ignored. */
   span?: number;
   /** Intrinsic pixel size — lets a grid cell reserve its exact aspect
