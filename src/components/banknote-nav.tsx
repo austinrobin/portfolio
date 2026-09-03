@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { Monogram } from "@/components/home/monogram";
+import { heroFonts, INK } from "@/components/home/hero-config";
 
 /*
  * The banknote nav — links flanking the signature monogram, at the exact
@@ -43,7 +44,11 @@ export function BanknoteNav({
   const header = (
     <header
       data-banknote-nav
-      className={`${portal ? "fixed z-[60]" : "absolute z-30"} inset-x-0 top-0 ${blend ? "text-white mix-blend-difference" : ""}`}
+      /* self-contained: carries the Silk variable and the hero's ink itself,
+         so it matches the home nav wherever it renders — including a body
+         portal, outside any page's font/colour scope */
+      className={`${portal ? "fixed z-[60]" : "absolute z-30"} inset-x-0 top-0 ${heroFonts.silk.variable} ${blend ? "text-white mix-blend-difference" : ""}`}
+      style={blend ? undefined : { color: INK }}
     >
       <Link
         href="/"

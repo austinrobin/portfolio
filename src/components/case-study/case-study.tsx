@@ -162,6 +162,7 @@ function Tile({
   loop = true,
   eager = false,
   className = "",
+  fadeTop = false,
 }: {
   media: CaseMedia;
   alt: string;
@@ -171,6 +172,9 @@ function Tile({
   loop?: boolean;
   eager?: boolean;
   className?: string;
+  /** the hero sits under the nav: its top fades up from paper so the ink
+      links read over any image */
+  fadeTop?: boolean;
 }) {
   const reduce = useReducedMotion();
   return (
@@ -207,6 +211,16 @@ function Tile({
           <span>media slot — add in studio</span>
         </div>
       )}
+      {fadeTop ? (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-[16svh]"
+          style={{
+            background:
+              "linear-gradient(to bottom, var(--background) 0%, color-mix(in srgb, var(--background) 70%, transparent) 45%, transparent 100%)",
+          }}
+        />
+      ) : null}
     </motion.div>
   );
 }
@@ -419,13 +433,32 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
           if (n) gsap.to(n, { y: 0, duration: 0.5, ease: "power2.out", overwrite: true });
           gsap.to(mono, { x: -40, autoAlpha: 0, duration: 0.4, ease: "power2.in", overwrite: true });
         };
+        /* hysteresis: inertia can end with a micro-reversal that would read
+           as "scrolling up" — the nav only reacts to real travel */
+        let lastY = 0;
+        let down = 0;
+        let up = 0;
         ScrollTrigger.create({
           start: 0,
           end: "max",
           onUpdate: (self) => {
-            if (self.scroll() < 40) restore();
-            else if (self.direction === 1) tuck();
-            else if (self.direction === -1) restore();
+            const y = self.scroll();
+            const dy = y - lastY;
+            lastY = y;
+            if (y < 40) {
+              down = up = 0;
+              restore();
+              return;
+            }
+            if (dy > 0) {
+              up = 0;
+              down += dy;
+              if (down > 40) tuck();
+            } else if (dy < 0) {
+              down = 0;
+              up -= dy;
+              if (up > 28) restore();
+            }
           },
         });
         if (process.env.NODE_ENV === "development") {
@@ -479,7 +512,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
       ref={rootRef}
       className={`relative min-h-screen bg-background text-foreground ${caseFont.variable} ${heroFonts.silk.variable} font-[family-name:var(--font-case)]`}
     >
-      <BanknoteNav blend fixed />
+      <BanknoteNav fixed />
 
       <div
         ref={rowRef}
@@ -537,7 +570,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
           </div>
 
           {cs.heroMedia?.src ? (
-            <Tile media={cs.heroMedia} alt={cs.title} frame="primary" loop={false} eager />
+            <Tile media={cs.heroMedia} alt={cs.title} frame="primary" loop={false} eager fadeTop />
           ) : null}
 
           {cs.sections.map((s) => (
