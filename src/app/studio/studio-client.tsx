@@ -632,6 +632,9 @@ export function StudioClient() {
                 onClick={() => {
                   setTarget(k);
                   setTab("controls");
+                  setGroup(
+                    k === "home" ? "Hero — text" : k === "case-lwt" ? "Case — LWT" : "Case — StockBee",
+                  );
                 }}
                 className={`rounded-full px-3 py-1.5 text-xs ${
                   target === k && tab === "controls"
@@ -659,6 +662,8 @@ export function StudioClient() {
         <div className="flex-1 overflow-y-auto overscroll-contain px-5">
           {tab === "controls" ? (
             <div>
+            {target === "home" ? (
+              <>
             <Group title={"Hero — text"} open={group === "Hero — text"} onToggle={() => setGroup(group === "Hero — text" ? null : "Hero — text")}>
               <TextField
                 label="Name"
@@ -1048,6 +1053,8 @@ export function StudioClient() {
                 hint="How long after the cursor stops before auto-scan resumes."
               />
             </Group>
+              </>
+            ) : null}
 
             <Group title={"Site"} open={group === "Site"} onToggle={() => setGroup(group === "Site" ? null : "Site")}>
               <TextField
@@ -1124,6 +1131,8 @@ export function StudioClient() {
               </button>
             </Group>
 
+            {target === "home" ? (
+              <>
             <Group title={"Lab — cascade"} open={group === "Lab — cascade"} onToggle={() => setGroup(group === "Lab — cascade" ? null : "Lab — cascade")}>
               <p className="font-mono text-[10px] uppercase tracking-wider text-muted">
                 Placement
@@ -1248,7 +1257,11 @@ export function StudioClient() {
               <Slider label="Dedication size" value={draft.footer.dedicationSize} min={0.7} max={4} step={0.05}
                 onChange={(v) => setFooter({ dedicationSize: v })} />
             </Group>
+              </>
+            ) : null}
 
+            {target !== "home" ? (
+              <>
             <Group title={`Case — ${caseLabel}`} open={group === `Case — ${caseLabel}`} onToggle={() => setGroup(group === `Case — ${caseLabel}` ? null : `Case — ${caseLabel}`)}>
               <TextArea
                 label="Tagline"
@@ -1530,6 +1543,8 @@ export function StudioClient() {
                 </p>
               )}
             </Group>
+              </>
+            ) : null}
 
             </div>
           ) : (
