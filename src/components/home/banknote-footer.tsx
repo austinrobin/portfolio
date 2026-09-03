@@ -218,7 +218,7 @@ export function BanknoteFooter({
 
         {/* the verse */}
         <p
-          className="bnf-script absolute left-1/2 w-full -translate-x-1/2 text-center leading-[1.3]"
+          className="bnf-script absolute left-1/2 w-max -translate-x-1/2 text-center leading-[1.3]"
           style={{
             top: `${cfg.verseY}%`,
             fontSize: `clamp(16px, ${cfg.verseSize}vw, ${cfg.verseSize * 18}px)`,
@@ -241,7 +241,7 @@ export function BanknoteFooter({
           <Monogram className="h-auto w-full" />
         </div>
         <p
-          className="bnf-script absolute left-1/2 w-full -translate-x-1/2 text-center"
+          className="bnf-script absolute left-1/2 w-max -translate-x-1/2 text-center"
           style={{
             top: `${cfg.dedicationY}%`,
             fontSize: `clamp(11px, ${cfg.dedicationSize}vw, ${cfg.dedicationSize * 18}px)`,
