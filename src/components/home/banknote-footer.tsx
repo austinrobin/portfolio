@@ -21,11 +21,13 @@ import { footerConfig, type FooterSettings } from "./footer-config";
  *    background so the blend always has paper to work against — anything
  *    that isolates the plate (a clip, a container, a transform) would
  *    otherwise leave the image's white ground showing.
- *  · DRAWN IN (2s, once, at "top 50%"): the SVGs are inlined only for the
- *    draw. Long-line plates stroke-draw in their own ink (DrawSVG) then
- *    fill; the hatch-heavy pegasi flick on in random batches; the monogram
- *    draws; scripts settle last. Then every plate is handed back to its
- *    <img> — the vector exactly as supplied, and a light DOM for the scroll.
+ *  · ENGRAVED IN (2s, once, at "top 50%"): the SVGs are inlined only for
+ *    the draw. Every mark keeps its exact fill and appears along a sweep —
+ *    AUSTIN left to right, columns top down, flourishes outward from the
+ *    verse, pegasi outward from the body — in ~40 batches per plate with
+ *    hand-jitter. No strokes are added, so nothing thickens and the
+ *    hand-back to the <img> is invisible. Monogram draws as a line;
+ *    scripts settle last.
  *  · GOLD ON HOVER lives on the AUSTIN lettering only (the hero's gilding
  *    as CSS: dark gradient gold + a travelling sheen masked to the glyphs).
  */
@@ -84,9 +86,11 @@ function namespaceIds(svg: string) {
     .replace(/href="#([^"]+)"/g, (_, id) => `href="#${ns}-${id}"`);
 }
 
-/* how each plate sketches in: true stroke-drawing for the long-line plates,
-   batched appearance for the hatch-heavy pegasi (1,227 marks each) */
-type DrawMode = "draw" | "batch";
+/* how each plate is engraved in: the order its marks appear. Every mark
+   keeps its exact fill (no strokes are ever added, so nothing thickens and
+   nothing jumps when the draw hands back to the <img>) — the "drawing" is
+   the sweep of a hand across the plate. */
+type DrawMode = "x" | "y" | "radial";
 
 function Plate({
   src,
@@ -176,6 +180,7 @@ export function BanknoteFooter({
           const img = plate.querySelector("img");
           if (img) img.style.display = "none";
           plate.insertAdjacentHTML("beforeend", namespaceIds(txt));
+          plate.style.willChange = "transform"; // own layer: repaints stay local to the plate
           const svg = plate.querySelector("svg");
           if (svg) {
             svg.removeAttribute("width");
@@ -189,13 +194,15 @@ export function BanknoteFooter({
       /* the draw finished: hand every plate back to its <img>, untouched */
       const restore = () => {
         for (const plate of plates) {
-          plate.querySelector("svg")?.remove();
           const img = plate.querySelector("img");
           if (img) img.style.display = "";
+          plate.querySelector("svg")?.remove();
+          plate.style.willChange = "";
         }
         if (monoPath) {
           monoPath.style.stroke = "";
           monoPath.style.strokeWidth = "";
+          monoPath.style.strokeOpacity = "";
           monoPath.style.fillOpacity = "";
           monoPath.style.strokeDasharray = "";
           monoPath.style.strokeDashoffset = "";
@@ -207,50 +214,55 @@ export function BanknoteFooter({
         tl = gsap.timeline({ paused: true, onComplete: restore });
         gsap.set(plates, { opacity: 1 });
 
+        const BUCKETS = 40;
+        const SWEEP = 0.85; // s a single plate takes to engrave in
+
         for (const plate of plates) {
           const at = parseFloat(plate.dataset.at ?? "0");
+          const mode = (plate.dataset.mode ?? "x") as DrawMode;
+          const svg = plate.querySelector("svg");
           const paths = [...plate.querySelectorAll<SVGPathElement>("path")].filter(
             (p) => (p.getAttribute("fill") ?? "") !== "none",
           );
-          if (plate.dataset.mode === "batch") {
-            /* hatch marks flick on in ~30 random batches */
-            gsap.set(paths, { opacity: 0 });
-            const per = Math.ceil(paths.length / 30);
-            const batches: SVGPathElement[][] = [];
-            for (let i = 0; i < paths.length; i += per) batches.push(paths.slice(i, i + per));
-            for (const b of batches) {
-              tl.to(b, { opacity: 1, duration: 0.22, ease: "power1.out" }, at + Math.random() * 0.75);
-            }
-          } else {
-            /* true line-drawing: hairline in the path's own ink, fills flood in */
-            for (const p of paths) {
-              const f = p.getAttribute("fill") ?? INK;
-              p.style.stroke = /^(#fff(fff)?|white)$/i.test(f) ? "transparent" : f;
-              p.style.strokeWidth = "0.45";
-              p.style.fillOpacity = "0";
-            }
-            tl.from(
-              paths,
-              { drawSVG: "0%", duration: 0.55, ease: "power1.inOut", stagger: { amount: 0.5, from: "random" } },
-              at,
-            ).to(
-              paths,
-              { fillOpacity: 1, duration: 0.35, ease: "power2.out", stagger: { amount: 0.35, from: "random" } },
-              at + 0.55,
+          if (!svg || !paths.length) continue;
+
+          /* order the marks along the sweep, with a little hand-jitter */
+          const vb = svg.viewBox.baseVal;
+          const cx0 = vb.x + vb.width / 2;
+          const cy0 = vb.y + vb.height / 2;
+          const keyed = paths.map((el) => {
+            const b = el.getBBox();
+            const cx = b.x + b.width / 2;
+            const cy = b.y + b.height / 2;
+            const key =
+              mode === "x" ? (cx - vb.x) / vb.width
+              : mode === "y" ? (cy - vb.y) / vb.height
+              : Math.hypot((cx - cx0) / vb.width, (cy - cy0) / vb.height) * 2;
+            return { el, key: key + (Math.random() - 0.5) * 0.08 };
+          });
+          keyed.sort((a, b) => a.key - b.key);
+          gsap.set(paths, { opacity: 0 });
+          const per = Math.ceil(keyed.length / BUCKETS);
+          for (let i = 0; i * per < keyed.length; i++) {
+            const bucket = keyed.slice(i * per, (i + 1) * per).map((k) => k.el);
+            tl.to(
+              bucket,
+              { opacity: 1, duration: 0.32, ease: "power1.out" },
+              at + (i / BUCKETS) * SWEEP,
             );
           }
         }
 
+        /* the monogram is one hand-drawn line: draw it, ink it, then let the
+           drawing stroke dissolve so nothing snaps when it's cleared */
         if (mono && monoPath) {
           monoPath.style.stroke = "currentColor";
           monoPath.style.strokeWidth = "0.5";
           monoPath.style.fillOpacity = "0";
           gsap.set(mono, { opacity: 1 });
-          tl.from(monoPath, { drawSVG: "0%", duration: 0.7, ease: "power1.inOut" }, 0.95).to(
-            monoPath,
-            { fillOpacity: 1, duration: 0.3 },
-            1.55,
-          );
+          tl.from(monoPath, { drawSVG: "0%", duration: 0.65, ease: "power1.inOut" }, 0.95)
+            .to(monoPath, { fillOpacity: 1, duration: 0.3, ease: "power1.out" }, 1.45)
+            .to(monoPath, { strokeOpacity: 0, duration: 0.25 }, 1.6);
         }
         tl.fromTo(
           scripts,
@@ -322,7 +334,7 @@ export function BanknoteFooter({
         <Plate
           src="/footer/pegasus.svg"
           alt=""
-          mode="batch"
+          mode="radial"
           at={0}
           flip
           style={{ left: `${cfg.pegasusX}%`, top: `${cfg.pegasusY}%`, width: `${cfg.pegasusW}%` }}
@@ -330,14 +342,14 @@ export function BanknoteFooter({
         <Plate
           src="/footer/pegasus.svg"
           alt=""
-          mode="batch"
+          mode="radial"
           at={0}
           style={{ right: `${cfg.pegasusX}%`, top: `${cfg.pegasusY}%`, width: `${cfg.pegasusW}%` }}
         />
         <Plate
           src="/footer/austin.svg"
           alt="Austin"
-          mode="draw"
+          mode="x"
           at={0.3}
           gild
           style={{
@@ -350,14 +362,14 @@ export function BanknoteFooter({
         <Plate
           src="/footer/colonnade.svg"
           alt=""
-          mode="draw"
+          mode="y"
           at={0.1}
           style={{ left: `${cfg.colonnadeX}%`, bottom: `${cfg.colonnadeBottom}%`, width: `${cfg.colonnadeW}%` }}
         />
         <Plate
           src="/footer/colonnade.svg"
           alt=""
-          mode="draw"
+          mode="y"
           at={0.1}
           flip
           style={{ right: `${cfg.colonnadeX}%`, bottom: `${cfg.colonnadeBottom}%`, width: `${cfg.colonnadeW}%` }}
@@ -365,7 +377,7 @@ export function BanknoteFooter({
         <Plate
           src="/footer/flourish.svg"
           alt=""
-          mode="draw"
+          mode="x"
           at={0.6}
           flip
           style={{ left: `${cfg.flourishX}%`, top: `${cfg.flourishY}%`, width: `${cfg.flourishW}%` }}
@@ -373,7 +385,7 @@ export function BanknoteFooter({
         <Plate
           src="/footer/flourish.svg"
           alt=""
-          mode="draw"
+          mode="x"
           at={0.6}
           style={{ right: `${cfg.flourishX}%`, top: `${cfg.flourishY}%`, width: `${cfg.flourishW}%` }}
         />
