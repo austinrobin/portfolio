@@ -21,6 +21,13 @@ export interface CaseMedia {
   poster?: string;
   /** Fallback video source (H.264) for browsers without VP9/WebM. */
   srcFallback?: string;
+  /** Grid layout only: columns of 12 this asset spans (12 = full row,
+      6 = half, 4 = a third, 5/7 = an offset pair). */
+  span?: number;
+  /** Intrinsic pixel size — lets a grid cell reserve its exact aspect
+      before the (lazy) image arrives, so nothing shifts. */
+  w?: number;
+  h?: number;
 }
 
 export interface CaseSection {
@@ -31,6 +38,10 @@ export interface CaseSection {
   /** Oversized emphasis line rendered after the body ("All signal. No noise."). */
   statement?: string;
   media: CaseMedia[];
+  /** "grid" lays the media out Gander-style on a 12-column grid at each
+      asset's natural aspect (portrait and landscape side by side, no crop);
+      default "bands" is the fixed-aspect Fantasy band. */
+  layout?: "bands" | "grid";
   /** Consecutive showcase sections merge into one pinned feature sequence:
       the section sticks to the top, media swaps per step, text rides the
       right column (the Fantasy 01/02/03 chapter pattern). */

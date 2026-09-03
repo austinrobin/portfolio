@@ -268,6 +268,79 @@ function MediaBand({
   );
 }
 
+/* ------------------------------------------------------- media grid */
+/*
+ * The branding layout (reference: Gander's project pages): assets sit on a
+ * 12-column grid at their own aspect — a full-width landscape, two portraits
+ * as equal columns, a portrait beside a landscape as 5 + 7, three across as
+ * 4s — with generous gutters and nothing cropped. Rows align at the top; a
+ * gutter of paper separates everything.
+ */
+
+function GridCell({ media, sectionKicker }: { media: CaseMedia; sectionKicker: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const progress = useScrollProgress(ref, "top bottom", "bottom top");
+  const y = useTransform(progress, [0, 1], [18, -18]);
+  const span = Math.min(12, Math.max(3, media.span ?? 12));
+  const portrait = media.aspect === "tall";
+  /* reserve the exact aspect so lazy images never shift the page */
+  const ratio =
+    media.w && media.h ? media.w / media.h : portrait ? 12 / 17 : media.aspect === "screen" ? 17 / 13 : 16 / 9;
+  return (
+    <motion.div
+      ref={ref}
+      initial={reduce ? false : { opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10%" }}
+      transition={{ duration: 0.9, ease: EASE }}
+      data-span={span}
+      className={portrait && span <= 6 ? "col-span-6" : "col-span-12"}
+    >
+      <motion.div
+        style={reduce ? { aspectRatio: ratio } : { y, aspectRatio: ratio }}
+        className="relative overflow-hidden rounded-2xl bg-[#0B0F0B]"
+      >
+        {media.src ? (
+          media.kind === "video" ? (
+            <VideoSources media={media} className="absolute inset-0 h-full w-full object-cover" />
+          ) : (
+            /* eslint-disable-next-line @next/next/no-img-element -- optimised on entry */
+            <img
+              src={media.src}
+              alt={media.caption || sectionKicker}
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          )
+        ) : null}
+      </motion.div>
+      {media.caption ? (
+        <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
+          {media.caption}
+        </p>
+      ) : null}
+    </motion.div>
+  );
+}
+
+/* spans apply from md up; below that portraits pair as halves and
+   landscapes stack full-width (see GridCell's base classes) */
+const SPAN_CSS = `@media (min-width: 768px) { ${[3, 4, 5, 6, 7, 8, 9, 12]
+  .map((n) => `[data-span="${n}"] { grid-column: span ${n} / span ${n}; }`)
+  .join(" ")} }`;
+
+function MediaGrid({ media, sectionKicker }: { media: CaseMedia[]; sectionKicker: string }) {
+  return (
+    <div className="mx-auto mt-14 grid w-[min(92vw,1500px)] grid-cols-12 items-start gap-[clamp(10px,1.6vw,28px)] sm:mt-20">
+      <style>{SPAN_CSS}</style>
+      {media.map((m, i) => (
+        <GridCell key={i} media={m} sectionKicker={sectionKicker} />
+      ))}
+    </div>
+  );
+}
+
 /* ----------------------------------------------------- pinned showcase */
 /*
  * The reference's 01/02/03 feature chapter (video @6-9s): the section pins
@@ -567,8 +640,11 @@ function SectionBlock({ s, index }: { s: CaseSection; index: number }) {
         </div>
       </div>
 
-      {/* Two assets sit as an edge-to-edge pair; one runs as a band. */}
-      {pair ? (
+      {/* Grid sections lay out on 12 columns at natural aspect; otherwise
+          two assets sit as an edge-to-edge pair and one runs as a band. */}
+      {s.layout === "grid" && s.media.length > 0 ? (
+        <MediaGrid media={s.media} sectionKicker={s.kicker} />
+      ) : pair ? (
         <div className="mt-14 grid grid-cols-1 sm:mt-20 md:grid-cols-2">
           {s.media.map((m, i) => (
             <MediaBand

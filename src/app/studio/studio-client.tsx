@@ -52,7 +52,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v11"; // v11: footer script sizes are plate-relative (cqw), values converted
+const DRAFT_KEY = "studio-draft-v12"; // v12: case media gained span + section layout; LWT assets placed
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {
@@ -1279,6 +1279,19 @@ export function StudioClient() {
                       rows={2}
                       onChange={(v) => setSection(si, { heading: v })}
                     />
+                    <label className="block">
+                      <span className="text-sm font-medium">Media layout</span>
+                      <select
+                        value={s.layout ?? "bands"}
+                        onChange={(e) =>
+                          setSection(si, { layout: e.target.value as "bands" | "grid" })
+                        }
+                        className="mt-1.5 w-full rounded-lg border border-border bg-background px-2 py-2 text-sm"
+                      >
+                        <option value="bands">Bands — fixed-aspect, cropped (StockBee)</option>
+                        <option value="grid">Grid — natural aspect on 12 columns (branding)</option>
+                      </select>
+                    </label>
                     <TextArea
                       label="Body (blank line = new paragraph)"
                       value={s.body.join("\n\n")}
@@ -1356,6 +1369,22 @@ export function StudioClient() {
                               <option value="wide">Wide 11:4</option>
                               <option value="screen">Screen 17:9</option>
                               <option value="tall">Tall 17:18</option>
+                            </select>
+                            <select
+                              aria-label="Grid span"
+                              title="Grid layout: columns of 12 this asset spans"
+                              value={m.span ?? 12}
+                              onChange={(e) =>
+                                setMedia(si, mi, { span: +e.target.value })
+                              }
+                              className="col-start-2 self-end rounded-lg border border-border bg-background px-2 py-2 text-sm"
+                            >
+                              <option value={12}>Full row</option>
+                              <option value={8}>2/3</option>
+                              <option value={7}>7 of 12</option>
+                              <option value={6}>Half</option>
+                              <option value={5}>5 of 12</option>
+                              <option value={4}>Third</option>
                             </select>
                           </div>
                         </div>

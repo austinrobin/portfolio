@@ -17,6 +17,13 @@
   "scope": "Strategy, mark, visual language, applications",
   "featured": false,
   "order": 2,
+  "heroMedia": {
+    "kind": "image",
+    "src": "/case/lwt/mark-gradient.webp",
+    "aspect": "wide",
+    "w": 1920,
+    "h": 1080
+  },
   "sections": [
     {
       "id": "outgrown",
@@ -28,7 +35,25 @@
         "The opportunity was to make the brand feel as capable, ambitious and sophisticated as the company behind it."
       ],
       "statement": "The company had evolved. The identity hadn't.",
-      "media": []
+      "layout": "grid",
+      "media": [
+        {
+          "kind": "image",
+          "src": "/case/lwt/meter.webp",
+          "aspect": "tall",
+          "span": 6,
+          "w": 1190,
+          "h": 1684
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/awards.webp",
+          "aspect": "tall",
+          "span": 6,
+          "w": 1190,
+          "h": 1684
+        }
+      ]
     },
     {
       "id": "chapter",
@@ -40,7 +65,25 @@
         "It needed to create room for multiple businesses, technologies and future directions without being tied to a single industry."
       ],
       "statement": "More than a company — room for everything it could become.",
-      "media": []
+      "layout": "grid",
+      "media": [
+        {
+          "kind": "image",
+          "src": "/case/lwt/brochure-cover.webp",
+          "aspect": "tall",
+          "span": 5,
+          "w": 1190,
+          "h": 1684
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/map-vizag.webp",
+          "aspect": "screen",
+          "span": 7,
+          "w": 1190,
+          "h": 906
+        }
+      ]
     },
     {
       "id": "tension",
@@ -52,7 +95,25 @@
         "That tension became the foundation of the identity."
       ],
       "statement": "Engineering precision. Human connection.",
-      "media": []
+      "layout": "grid",
+      "media": [
+        {
+          "kind": "image",
+          "src": "/case/lwt/lightbox.webp",
+          "aspect": "wide",
+          "span": 6,
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/poster-family.webp",
+          "aspect": "wide",
+          "span": 6,
+          "w": 1920,
+          "h": 1080
+        }
+      ]
     },
     {
       "id": "motion",
@@ -68,8 +129,10 @@
       "media": [
         {
           "kind": "image",
-          "src": "",
-          "aspect": "screen"
+          "src": "/case/lwt/mark-colourways.webp",
+          "aspect": "screen",
+          "w": 1920,
+          "h": 1080
         }
       ]
     },
@@ -87,8 +150,10 @@
       "media": [
         {
           "kind": "image",
-          "src": "",
-          "aspect": "screen"
+          "src": "/case/lwt/mark-construction.webp",
+          "aspect": "screen",
+          "w": 1920,
+          "h": 1080
         }
       ]
     },
@@ -106,8 +171,10 @@
       "media": [
         {
           "kind": "image",
-          "src": "",
-          "aspect": "screen"
+          "src": "/case/lwt/envelope.webp",
+          "aspect": "screen",
+          "w": 1920,
+          "h": 1080
         }
       ]
     },
@@ -121,7 +188,33 @@
         "Typography, composition and imagery follow the same principle."
       ],
       "statement": "Bold creativity on top, strong structure underneath.",
-      "media": []
+      "layout": "grid",
+      "media": [
+        {
+          "kind": "image",
+          "src": "/case/lwt/palette.webp",
+          "aspect": "wide",
+          "span": 12,
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/typeface.webp",
+          "aspect": "wide",
+          "span": 6,
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/business-cards.webp",
+          "aspect": "wide",
+          "span": 6,
+          "w": 1920,
+          "h": 1080
+        }
+      ]
     },
     {
       "id": "ecosystem",
@@ -133,7 +226,81 @@
         "The shift was from “Here is what we do.” to “Here is what we are building.”"
       ],
       "statement": "From “what we do” to “what we are building.”",
-      "media": []
+      "layout": "grid",
+      "media": [
+        {
+          "kind": "image",
+          "src": "/case/lwt/flags.webp",
+          "aspect": "wide",
+          "span": 12,
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/stage-screen.webp",
+          "aspect": "wide",
+          "span": 6,
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/auditorium.webp",
+          "aspect": "wide",
+          "span": 6,
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/building-sign.webp",
+          "aspect": "wide",
+          "span": 4,
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/product-display.webp",
+          "aspect": "wide",
+          "span": 4,
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/brochure-cover-mock.webp",
+          "aspect": "wide",
+          "span": 4,
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/poster-mountain.webp",
+          "aspect": "wide",
+          "span": 6,
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/office-poster.webp",
+          "aspect": "wide",
+          "span": 6,
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/hoarding.webp",
+          "aspect": "wide",
+          "span": 12,
+          "w": 1920,
+          "h": 1080
+        }
+      ]
     }
   ],
   "impact": {
