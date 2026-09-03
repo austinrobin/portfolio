@@ -20,6 +20,10 @@ export interface FooterSettings {
   colonnadeX: number;
   colonnadeBottom: number;
   colonnadeW: number;
+  /* scroll flourishes flanking the verse (mirrored pair; asset curls left) */
+  flourishX: number;
+  flourishY: number;
+  flourishW: number;
   /* scripts */
   verseText: string; // \n = line break
   verseY: number;

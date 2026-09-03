@@ -52,7 +52,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v9"; // v9: draft gained footer (banknote dedication controls)
+const DRAFT_KEY = "studio-draft-v10"; // v10: footer gained the flourish pair
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {
@@ -1207,6 +1207,16 @@ export function StudioClient() {
                 onChange={(v) => setFooter({ colonnadeBottom: v })} />
               <Slider label="Width" value={draft.footer.colonnadeW} min={8} max={35} step={0.5}
                 onChange={(v) => setFooter({ colonnadeW: v })} />
+
+              <p className="mt-2 font-mono text-[10px] uppercase tracking-wider text-muted">
+                Flourishes
+              </p>
+              <Slider label="Inset from edge" value={draft.footer.flourishX} min={5} max={45} step={0.5}
+                onChange={(v) => setFooter({ flourishX: v })} />
+              <Slider label="From top" value={draft.footer.flourishY} min={20} max={80} step={0.5}
+                onChange={(v) => setFooter({ flourishY: v })} />
+              <Slider label="Width" value={draft.footer.flourishW} min={4} max={20} step={0.5}
+                onChange={(v) => setFooter({ flourishW: v })} />
 
               <p className="mt-2 font-mono text-[10px] uppercase tracking-wider text-muted">
                 Scripts

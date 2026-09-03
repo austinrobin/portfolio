@@ -202,6 +202,20 @@ export function BanknoteFooter({
           style={{ right: `${cfg.colonnadeX}%`, bottom: `${cfg.colonnadeBottom}%`, width: `${cfg.colonnadeW}%` }}
         />
 
+        {/* scroll flourishes flanking the verse (asset curls bottom-left, leaf
+            up-right = the right-hand one; the left is its mirror) */}
+        <Plate
+          src="/footer/flourish.svg"
+          alt=""
+          flip
+          style={{ left: `${cfg.flourishX}%`, top: `${cfg.flourishY}%`, width: `${cfg.flourishW}%` }}
+        />
+        <Plate
+          src="/footer/flourish.svg"
+          alt=""
+          style={{ right: `${cfg.flourishX}%`, top: `${cfg.flourishY}%`, width: `${cfg.flourishW}%` }}
+        />
+
         {/* the verse */}
         <p
           className="bnf-script absolute left-1/2 w-full -translate-x-1/2 text-center leading-[1.3]"
