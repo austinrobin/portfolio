@@ -8,7 +8,7 @@ export interface FooterSettings {
   /* plate */
   plateHeight: number; // plate height as % of its width (62 = mock ratio)
   showGuilloche: boolean;
-  guillocheOpacity: number; // multiplier on the ground's whisper strokes
+  guillocheOpacity: number; // 0..1 opacity of the pattern; 1..2 stacks it darker
   /* pegasi (left one is the mirrored copy — the asset faces right) */
   pegasusX: number;
   pegasusY: number;

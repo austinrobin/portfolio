@@ -1176,8 +1176,9 @@ export function StudioClient() {
                 hint="Height as % of the plate's width." />
               <Toggle label="Guilloché ground" value={draft.footer.showGuilloche}
                 onChange={(v) => setFooter({ showGuilloche: v })} />
-              <Slider label="Guilloché strength" value={draft.footer.guillocheOpacity} min={0} max={2.5} step={0.1}
-                onChange={(v) => setFooter({ guillocheOpacity: v })} />
+              <Slider label="Guilloché strength" value={draft.footer.guillocheOpacity} min={0} max={2} step={0.05}
+                onChange={(v) => setFooter({ guillocheOpacity: v })}
+                hint="1 = the pattern as drawn; above 1 inks the lines darker." />
 
               <p className="mt-2 font-mono text-[10px] uppercase tracking-wider text-muted">
                 Pegasi

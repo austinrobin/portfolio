@@ -15,9 +15,8 @@ import { footerConfig, type FooterSettings } from "./footer-config";
  *
  *  · EVERY position/size/script line is Studio-tunable (content/footer.json
  *    → FooterSettings; the Studio passes live overrides).
- *  · The guilloché is GENERATED here (hypotrochoid rosette + border
- *    chain) — a few KB of inline SVG instead of a heavy asset, printed
- *    at whisper opacity.
+ *  · The guilloché ground is Austin's pattern, re-encoded light (see
+ *    GuillocheGround) and multiplied onto the paper.
  *  · PRINT REVEAL: when the section's top reaches the viewport's centre
  *    it prints once, top to bottom — a clip wipe with a bright shine bar
  *    riding the freshly-inked edge (GSAP ScrollTrigger, works under
@@ -29,77 +28,33 @@ import { footerConfig, type FooterSettings } from "./footer-config";
 
 const GOLD_FILTER = "sepia(1) saturate(2.4) hue-rotate(-12deg) brightness(0.82)";
 
-/* ---------------- guilloché ground (deterministic, module-level) ------- */
+/* ---------------- guilloché ground ------------------------------------ */
 
-const VB_W = 2000;
-const VB_H = 1240;
-
-/** closed hypotrochoid ring: k integer lobes, sampled fine, 1dp coords */
-function ring(cx: number, cy: number, Rr: number, r: number, d: number) {
-  const pts: string[] = [];
-  const N = 720;
-  for (let i = 0; i <= N; i++) {
-    const t = (i / N) * Math.PI * 2;
-    const k = Rr / r;
-    const x = cx + Rr * Math.cos(t) + d * Math.cos(k * t);
-    const y = cy + Rr * Math.sin(t) - d * Math.sin(k * t);
-    pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
-  }
-  return `M${pts.join("L")}Z`;
-}
-
-/** sine rail along the top or bottom edge */
-function rail(y: number, amp: number, wave: number, phase: number) {
-  const pts: string[] = [];
-  for (let x = 40; x <= VB_W - 40; x += 12) {
-    const yy = y + Math.sin((x / wave) * Math.PI * 2 + phase) * amp;
-    pts.push(`${x},${yy.toFixed(1)}`);
-  }
-  return `M${pts.join("L")}`;
-}
-
-const ROSETTE = [
-  ring(VB_W / 2, VB_H * 0.52, 360, 30, 96), // 12-lobe lace
-  ring(VB_W / 2, VB_H * 0.52, 280, 35, 120), // 8-lobe
-  ring(VB_W / 2, VB_H * 0.52, 180, 36, 70), // 5-lobe core
-];
-const RAILS = [
-  rail(70, 26, 190, 0),
-  rail(104, 26, 190, Math.PI),
-  rail(VB_H - 70, 26, 190, 0),
-  rail(VB_H - 104, 26, 190, Math.PI),
-];
-/* border chain: overlapping rings marching along the edges */
-const CHAIN: { cx: number; cy: number }[] = [];
-for (let x = 90; x <= VB_W - 90; x += 105) {
-  CHAIN.push({ cx: x, cy: 87 });
-  CHAIN.push({ cx: x, cy: VB_H - 87 });
-}
-for (let y = 200; y <= VB_H - 200; y += 105) {
-  CHAIN.push({ cx: 87, cy: y });
-  CHAIN.push({ cx: VB_W - 87, cy: y });
-}
-
+/* Austin's own pattern (public/footer/guilloche.webp — 6048px source
+   re-encoded to 2560px WebP q90, 28MB -> 211KB, lines verified intact at
+   1:1). It is drawn on a white ground, so it multiplies onto the paper:
+   white vanishes, only the lines ink. Strength 0..1 = opacity; above 1 a
+   second multiply layer stacks the lines darker (multiply is the only
+   filter-free way to deepen lines without tinting the paper). */
 function GuillocheGround({ strength }: { strength: number }) {
+  const layers = [Math.min(1, strength), Math.max(0, Math.min(1, strength - 1))];
   return (
-    <svg
-      viewBox={`0 0 ${VB_W} ${VB_H}`}
-      className="absolute inset-0 h-full w-full"
-      preserveAspectRatio="none"
-      aria-hidden
-    >
-      <g stroke={INK} fill="none" opacity={strength}>
-        <path d={ROSETTE[0]} strokeWidth="1.1" opacity="0.085" />
-        <path d={ROSETTE[1]} strokeWidth="1" opacity="0.07" />
-        <path d={ROSETTE[2]} strokeWidth="1" opacity="0.06" />
-        {RAILS.map((d, i) => (
-          <path key={i} d={d} strokeWidth="1" opacity="0.08" />
-        ))}
-        {CHAIN.map((c, i) => (
-          <circle key={i} cx={c.cx} cy={c.cy} r="33" strokeWidth="0.9" opacity="0.065" />
-        ))}
-      </g>
-    </svg>
+    <>
+      {layers.map((o, i) =>
+        o > 0 ? (
+          /* eslint-disable-next-line @next/next/no-img-element -- static ground plate */
+          <img
+            key={i}
+            src="/footer/guilloche.webp"
+            alt=""
+            aria-hidden
+            draggable={false}
+            className="pointer-events-none absolute inset-0 h-full w-full select-none object-fill mix-blend-multiply"
+            style={{ opacity: o }}
+          />
+        ) : null,
+      )}
+    </>
   );
 }
 
