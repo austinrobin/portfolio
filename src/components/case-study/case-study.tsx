@@ -197,7 +197,7 @@ function River({ media, alt }: { media: CaseMedia[]; alt: string }) {
   if (!media.length) return null;
   const rows = rowsOf(media);
   return (
-    <div className="mt-10 flex flex-col gap-2 sm:mt-12">
+    <div className="mt-7 flex flex-col gap-2 sm:mt-8">
       {rows.map((row, r) => {
         if (row.type === "primary") {
           return <Tile key={r} media={row.items[0]} alt={row.items[0].caption || alt} frame="primary" />;
@@ -265,26 +265,34 @@ function Chapter({
   children?: React.ReactNode;
 }) {
   return (
-    <section id={id} data-chapter={id} className="scroll-mt-[12svh] pt-20 sm:pt-28">
-      <Rise className="max-w-[50ch]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted">
+    <section
+      id={id}
+      data-chapter={id}
+      className="mt-9 scroll-mt-[12svh] border-t border-border pt-5 sm:mt-11 sm:pt-6"
+    >
+      {/* a hairline opens the chapter; its name holds the left column, the
+          heading and copy the right */}
+      <Rise className="grid gap-x-8 gap-y-3 md:grid-cols-[168px_minmax(0,1fr)] lg:grid-cols-[208px_minmax(0,1fr)]">
+        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted md:pt-1.5">
           {kicker}
         </p>
-        <h2 className="mt-2.5 text-[clamp(21px,1.8vw,26px)] font-light leading-[1.18] tracking-[-0.01em]">
-          {heading}
-        </h2>
-        {body?.length ? (
-          <div className="mt-5 space-y-3 text-[14.5px] leading-[1.45] text-muted sm:text-[15px]">
-            {body.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
-          </div>
-        ) : null}
-        {statement ? (
-          <p className="mt-6 text-[clamp(18px,1.45vw,22px)] font-light leading-[1.25] tracking-[-0.01em]">
-            {statement}
-          </p>
-        ) : null}
+        <div className="max-w-[50ch]">
+          <h2 className="text-[clamp(21px,1.8vw,26px)] font-light leading-[1.18] tracking-[-0.01em]">
+            {heading}
+          </h2>
+          {body?.length ? (
+            <div className="mt-4 space-y-2 text-[14.5px] leading-[1.45] text-muted sm:text-[15px]">
+              {body.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+          ) : null}
+          {statement ? (
+            <p className="mt-5 text-[clamp(18px,1.45vw,22px)] font-light leading-[1.25] tracking-[-0.01em]">
+              {statement}
+            </p>
+          ) : null}
+        </div>
       </Rise>
       {children}
     </section>
@@ -465,7 +473,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
 
           {/* ---- in numbers ---- */}
           <Chapter id="impact" kicker="In numbers" heading={cs.impact.title}>
-            <Rise className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-border pt-10 sm:mt-12 md:grid-cols-3">
+            <Rise className="mt-8 grid grid-cols-2 gap-x-6 gap-y-8 sm:mt-10 md:grid-cols-3">
               {cs.impact.stats.map((stat, i) => {
                 const placeholder = /^x+$/i.test(stat.value.replace(/[^a-z]/gi, ""));
                 return (
