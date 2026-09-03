@@ -46,7 +46,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v7"; // v7: draft gained caseLwt (stale drafts lack the key)
+const DRAFT_KEY = "studio-draft-v8"; // v8: LWT copy v2 (stale drafts would revert it on save)
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {
