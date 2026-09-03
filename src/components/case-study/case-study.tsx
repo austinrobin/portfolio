@@ -14,10 +14,10 @@ import { heroFonts } from "@/components/home/hero-config";
  *  · A fixed LEFT PANEL carries the project's identity — title, one-line
  *    tagline, meta — and a chapter index that tracks the scroll (the
  *    active chapter lights up with a dot) and jumps on click.
- *  · The RIGHT COLUMN is a continuous river of media: full-width tiles
- *    and paired halves on a 12-column grid with tight gaps, each asset at
- *    its own aspect. Chapter copy sits in the flow — a small uppercase
- *    kicker, a light heading, quiet grey body — never a hero headline.
+ *  · The RIGHT COLUMN is a continuous river of media on Austin's block
+ *    system (primary full row · secondary half · tertiary halves stacked
+ *    beside a secondary, 8px gutters). Chapter copy sits in the flow — a
+ *    small uppercase kicker, a light heading, quiet grey body.
  *  · On the site's own paper — the home page's canvas — with ink type; the
  *    media do the talking. The left panel is PINNED with ScrollTrigger:
  *    position:sticky is dead under ScrollSmoother's transform.
@@ -85,84 +85,164 @@ function VideoSources({
 
 /* ---------------------------------------------------------- media river */
 
-/* spans apply from md up; below that portraits pair as halves and
-   landscapes stack full-width */
-const SPAN_CSS = `@media (min-width: 768px) { ${[3, 4, 5, 6, 7, 8, 9, 12]
-  .map((n) => `[data-span="${n}"] { grid-column: span ${n} / span ${n}; }`)
-  .join(" ")} }`;
+/* Austin's block system — three blocks, one rule:
+     primary   1342 × 755   full row
+     secondary  667 × 834   half
+     tertiary   667 × 413   half, only as a stacked pair beside a secondary
+   Gutter 8px (667 + 8 + 667 = 1342; 413 + 8 + 413 = 834). Consecutive items
+   group into rows: [S,S] → pair, [S,T,T] → secondary left, [T,T,S] →
+   secondary right, P → alone. Anything that doesn't fit falls back to a
+   lone half so nothing disappears. */
 
-function ratioOf(media: CaseMedia) {
-  if (media.w && media.h) return media.w / media.h;
-  return media.aspect === "tall" ? 4 / 5 : media.aspect === "screen" ? 16 / 10 : 16 / 9;
+type Block = NonNullable<CaseMedia["block"]>;
+const blockOf = (m: CaseMedia): Block => m.block ?? "primary";
+
+type Row =
+  | { type: "primary"; items: [CaseMedia] }
+  | { type: "pair"; items: [CaseMedia, CaseMedia] }
+  | { type: "trio"; secondary: CaseMedia; tertiaries: [CaseMedia, CaseMedia]; secondaryLeft: boolean }
+  | { type: "half"; items: [CaseMedia] };
+
+function rowsOf(media: CaseMedia[]): Row[] {
+  const rows: Row[] = [];
+  let i = 0;
+  while (i < media.length) {
+    const m = media[i];
+    const b = blockOf(m);
+    const n1 = media[i + 1];
+    const n2 = media[i + 2];
+    if (b === "primary") {
+      rows.push({ type: "primary", items: [m] });
+      i += 1;
+    } else if (b === "secondary") {
+      if (n1 && blockOf(n1) === "secondary") {
+        rows.push({ type: "pair", items: [m, n1] });
+        i += 2;
+      } else if (n1 && n2 && blockOf(n1) === "tertiary" && blockOf(n2) === "tertiary") {
+        rows.push({ type: "trio", secondary: m, tertiaries: [n1, n2], secondaryLeft: true });
+        i += 3;
+      } else {
+        rows.push({ type: "half", items: [m] });
+        i += 1;
+      }
+    } else {
+      if (n1 && n2 && blockOf(n1) === "tertiary" && blockOf(n2) === "secondary") {
+        rows.push({ type: "trio", secondary: n2, tertiaries: [m, n1], secondaryLeft: false });
+        i += 3;
+      } else {
+        rows.push({ type: "half", items: [m] });
+        i += 1;
+      }
+    }
+  }
+  return rows;
 }
+
+const FRAME = { primary: 1342 / 755, secondary: 667 / 834, tertiary: 667 / 413 };
 
 function Tile({
   media,
   alt,
+  frame,
   loop = true,
   eager = false,
+  className = "",
 }: {
   media: CaseMedia;
   alt: string;
+  /** a fixed frame, or "fill" to take the height the row gives it */
+  frame: keyof typeof FRAME | "fill";
   loop?: boolean;
   eager?: boolean;
+  className?: string;
 }) {
   const reduce = useReducedMotion();
-  const span = Math.min(12, Math.max(3, media.span ?? 12));
-  const portrait = media.aspect === "tall";
   return (
     <motion.div
-      data-span={span}
-      className={portrait && span <= 6 ? "col-span-6" : "col-span-12"}
+      className={`relative overflow-hidden rounded-[10px] bg-subtle ${frame === "fill" ? "h-full min-h-0" : ""} ${className}`}
+      style={frame === "fill" ? undefined : { aspectRatio: FRAME[frame] }}
       initial={reduce ? false : { opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-6%" }}
       transition={{ duration: 0.85, ease: EASE }}
     >
-      <div
-        className="relative w-full overflow-hidden rounded-[10px] bg-subtle"
-        style={{ aspectRatio: ratioOf(media) }}
-      >
-        {media.src ? (
-          media.kind === "video" ? (
-            <VideoSources
-              media={media}
-              loop={loop}
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-          ) : (
-            /* eslint-disable-next-line @next/next/no-img-element -- assets are
-               optimised on entry (studio-compressed or hand-encoded) */
-            <img
-              src={media.src}
-              alt={alt}
-              loading={eager ? "eager" : "lazy"}
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-          )
+      {media.src ? (
+        media.kind === "video" ? (
+          <VideoSources
+            media={media}
+            loop={loop}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
         ) : (
-          <div className="absolute inset-x-0 top-0 flex items-center justify-between p-5 font-mono text-[10px] uppercase tracking-[0.25em] text-muted">
-            <span>{alt}</span>
-            <span>media slot — add in studio</span>
-          </div>
-        )}
-      </div>
-      {media.caption ? (
-        <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
-          {media.caption}
-        </p>
-      ) : null}
+          /* eslint-disable-next-line @next/next/no-img-element -- assets are
+             optimised on entry (studio-compressed or hand-encoded) */
+          <img
+            src={media.src}
+            alt={alt}
+            loading={eager ? "eager" : "lazy"}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        )
+      ) : (
+        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-5 font-mono text-[10px] uppercase tracking-[0.25em] text-muted">
+          <span>{alt}</span>
+          <span>media slot — add in studio</span>
+        </div>
+      )}
     </motion.div>
   );
 }
 
 function River({ media, alt }: { media: CaseMedia[]; alt: string }) {
   if (!media.length) return null;
+  const rows = rowsOf(media);
   return (
-    <div className="mt-10 grid grid-cols-12 items-start gap-[9px] sm:mt-12">
-      {media.map((m, i) => (
-        <Tile key={i} media={m} alt={m.caption || alt} />
-      ))}
+    <div className="mt-10 flex flex-col gap-2 sm:mt-12">
+      {rows.map((row, r) => {
+        if (row.type === "primary") {
+          return <Tile key={r} media={row.items[0]} alt={row.items[0].caption || alt} frame="primary" />;
+        }
+        if (row.type === "pair") {
+          return (
+            <div key={r} className="grid grid-cols-2 gap-2">
+              {row.items.map((m, i) => (
+                <Tile key={i} media={m} alt={m.caption || alt} frame="secondary" />
+              ))}
+            </div>
+          );
+        }
+        if (row.type === "half") {
+          return (
+            <div key={r} className="grid grid-cols-2 gap-2">
+              <Tile media={row.items[0]} alt={row.items[0].caption || alt} frame={blockOf(row.items[0]) === "tertiary" ? "tertiary" : "secondary"} />
+            </div>
+          );
+        }
+        /* trio: the secondary sets the row's height; the two tertiaries split
+           it with the same 8px gutter, so their edges always meet */
+        return (
+          <div key={r} className="grid grid-cols-2 grid-rows-2 gap-2">
+            {/* every cell is placed explicitly — auto-placement would push
+                the second tertiary into a phantom third row when the
+                secondary sits on the right */}
+            <Tile
+              media={row.secondary}
+              alt={row.secondary.caption || alt}
+              frame="secondary"
+              className={`row-start-1 row-span-2 ${row.secondaryLeft ? "col-start-1" : "col-start-2"}`}
+            />
+            {row.tertiaries.map((m, i) => (
+              <Tile
+                key={i}
+                media={m}
+                alt={m.caption || alt}
+                frame="fill"
+                className={`${i === 0 ? "row-start-1" : "row-start-2"} ${row.secondaryLeft ? "col-start-2" : "col-start-1"}`}
+              />
+            ))}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -326,7 +406,6 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
       ref={rootRef}
       className={`relative min-h-screen bg-background text-foreground ${caseFont.variable} ${heroFonts.silk.variable} font-[family-name:var(--font-case)]`}
     >
-      <style>{SPAN_CSS}</style>
       <BanknoteNav />
 
       <div
@@ -368,9 +447,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
           </div>
 
           {cs.heroMedia?.src ? (
-            <div className="grid grid-cols-12 gap-[9px]">
-              <Tile media={{ ...cs.heroMedia, span: 12 }} alt={cs.title} loop={false} eager />
-            </div>
+            <Tile media={cs.heroMedia} alt={cs.title} frame="primary" loop={false} eager />
           ) : null}
 
           {cs.sections.map((s) => (

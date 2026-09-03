@@ -21,8 +21,13 @@ export interface CaseMedia {
   poster?: string;
   /** Fallback video source (H.264) for browsers without VP9/WebM. */
   srcFallback?: string;
-  /** Grid layout only: columns of 12 this asset spans (12 = full row,
-      6 = half, 4 = a third, 5/7 = an offset pair). */
+  /** The river's block system (Austin's rule): primary 1342×755 fills the
+      row; secondary 667×834 is a half; tertiary 667×413 is a half that only
+      ever appears as a stacked pair beside a secondary (left or right).
+      Consecutive items group into rows: [S,S] pair · [S,T,T] / [T,T,S] trio ·
+      P alone. Default: primary. */
+  block?: "primary" | "secondary" | "tertiary";
+  /** @deprecated superseded by `block` — ignored. */
   span?: number;
   /** Intrinsic pixel size — lets a grid cell reserve its exact aspect
       before the (lazy) image arrives, so nothing shifts. */

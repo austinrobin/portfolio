@@ -52,7 +52,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v12"; // v12: case media gained span + section layout; LWT assets placed
+const DRAFT_KEY = "studio-draft-v13"; // v13: block system (primary/secondary/tertiary) + LWT copy v3
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {
@@ -1371,20 +1371,17 @@ export function StudioClient() {
                               <option value="tall">Tall 17:18</option>
                             </select>
                             <select
-                              aria-label="Grid span"
-                              title="Grid layout: columns of 12 this asset spans"
-                              value={m.span ?? 12}
+                              aria-label="Block"
+                              title="Primary fills the row; secondary is a half; tertiaries only as a stacked pair beside a secondary"
+                              value={m.block ?? "primary"}
                               onChange={(e) =>
-                                setMedia(si, mi, { span: +e.target.value })
+                                setMedia(si, mi, { block: e.target.value as CaseMedia["block"] })
                               }
                               className="col-start-2 self-end rounded-lg border border-border bg-background px-2 py-2 text-sm"
                             >
-                              <option value={12}>Full row</option>
-                              <option value={8}>2/3</option>
-                              <option value={7}>7 of 12</option>
-                              <option value={6}>Half</option>
-                              <option value={5}>5 of 12</option>
-                              <option value={4}>Third</option>
+                              <option value="primary">Primary 1342×755</option>
+                              <option value="secondary">Secondary 667×834</option>
+                              <option value="tertiary">Tertiary 667×413</option>
                             </select>
                           </div>
                         </div>
