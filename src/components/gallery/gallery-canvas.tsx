@@ -150,6 +150,13 @@ export function GalleryCanvas() {
 
   useEffect(() => {
     if (reduce) return;
+    /* one deal per load: Fisher–Yates over a copy, so the stream's sequence
+       is fresh each visit but stays fixed across recycles */
+    const items = [...galleryItems];
+    for (let i = items.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [items[i], items[j]] = [items[j], items[i]];
+    }
     const wrap = wrapRef.current;
     const canvas = canvasRef.current;
     if (!wrap || !canvas) return;
@@ -212,11 +219,11 @@ export function GalleryCanvas() {
     gl.clearColor(0, 0, 0, 0);
 
     /* ---------------- textures: rasterise each piece once ---------------- */
-    const n = galleryItems.length;
+    const n = items.length;
     const textures: (WebGLTexture | null)[] = new Array(n).fill(null);
     const aspects: number[] = new Array(n).fill(4 / 3);
     let disposed = false;
-    galleryItems.forEach((it, i) => {
+    items.forEach((it, i) => {
       const img = new Image();
       img.decoding = "async";
       img.onload = () => {
@@ -258,16 +265,16 @@ export function GalleryCanvas() {
     });
 
     /* ---------------- per-card character (deterministic) ---------------- */
-    const bendDir = galleryItems.map((_, i) => (hash(i, 1) < 0.5 ? -1 : 1));
-    const bendAxis = galleryItems.map(
+    const bendDir = items.map((_, i) => (hash(i, 1) < 0.5 ? -1 : 1));
+    const bendAxis = items.map(
       (_, i) => (hash(i, 2) - 0.5) * 1.2, // mostly vertical-axis bows, ±35°
     );
-    const rollBase = galleryItems.map((_, i) => (hash(i, 3) - 0.5) * 0.2);
-    const phase = galleryItems.map((_, i) => hash(i, 4) * TAU);
+    const rollBase = items.map((_, i) => (hash(i, 3) - 0.5) * 0.2);
+    const phase = items.map((_, i) => hash(i, 4) * TAU);
 
     /* ---------------- state ---------------- */
-    const z = galleryItems.map((_, i) => ((i + 0.5) / n) * ZSPAN);
-    const order = galleryItems.map((_, i) => i);
+    const z = items.map((_, i) => ((i + 0.5) / n) * ZSPAN);
+    const order = items.map((_, i) => i);
     let boost = 0;
     let speedNorm = 0;
     let flutPhase = 0;
@@ -386,7 +393,7 @@ export function GalleryCanvas() {
         const o = Math.min(fadeIn, fadeOut);
         if (o <= 0.004) continue;
 
-        const w = galleryItems[i].w * k;
+        const w = items[i].w * k;
         const h = w / aspects[i];
 
         // standing bow + speed bow; ripple only in the slipstream
