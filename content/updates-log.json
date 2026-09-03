@@ -1,5 +1,103 @@
 [
   {
+    "at": "2026-09-03T19:39:26.971Z",
+    "summary": "update src, block, aspect +12 more",
+    "changes": [
+      {
+        "field": "caseLwt.sections.1.media.0.src",
+        "from": "/case/lwt/brochure-cover.webp",
+        "to": "/case/lwt/chapter-1788464346751.webp"
+      },
+      {
+        "field": "caseLwt.sections.1.media.0.block",
+        "from": "secondary"
+      },
+      {
+        "field": "caseLwt.sections.1.media.0.aspect",
+        "from": "tall",
+        "to": "wide"
+      },
+      {
+        "field": "caseLwt.sections.1.media.0.w",
+        "from": 1190
+      },
+      {
+        "field": "caseLwt.sections.1.media.0.h",
+        "from": 1684
+      },
+      {
+        "field": "caseLwt.sections.1.media.0.caption",
+        "to": ""
+      },
+      {
+        "field": "caseLwt.sections.1.media.1.src",
+        "from": "/case/lwt/map-vizag.webp",
+        "to": "/case/lwt/brochure-cover.webp"
+      },
+      {
+        "field": "caseLwt.sections.1.media.1.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseLwt.sections.1.media.1.aspect",
+        "from": "screen",
+        "to": "tall"
+      },
+      {
+        "field": "caseLwt.sections.1.media.1.h",
+        "from": 906,
+        "to": 1684
+      },
+      {
+        "field": "caseLwt.sections.1.media.2.src",
+        "from": "/case/lwt/brochure-cover-mock.webp",
+        "to": "/case/lwt/map-vizag.webp"
+      },
+      {
+        "field": "caseLwt.sections.1.media.2.aspect",
+        "from": "wide",
+        "to": "screen"
+      },
+      {
+        "field": "caseLwt.sections.1.media.2.w",
+        "from": 1920,
+        "to": 1190
+      },
+      {
+        "field": "caseLwt.sections.1.media.2.h",
+        "from": 1080,
+        "to": 906
+      },
+      {
+        "field": "caseLwt.sections.1.media.3",
+        "to": {
+          "kind": "image",
+          "src": "/case/lwt/brochure-cover-mock.webp",
+          "block": "tertiary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
+      }
+    ]
+  },
+  {
+    "at": "2026-09-03T19:38:27.808Z",
+    "summary": "update 2",
+    "changes": [
+      {
+        "field": "caseLwt.sections.0.media.2",
+        "to": {
+          "kind": "image",
+          "src": "/case/lwt/outgrown-1788464284292.webp",
+          "caption": "",
+          "aspect": "wide"
+        }
+      }
+    ]
+  },
+  {
     "at": "2026-09-03T11:34:17.186Z",
     "summary": "update plateHeight, guillocheOpacity, pegasusX +14 more",
     "changes": [

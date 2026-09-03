@@ -4,14 +4,26 @@
   "tagline": "Reframing an engineering legacy for what comes next.",
   "summary": "A group identity for an engineering company moving beyond its original wireless business — built to hold multiple businesses, technologies and future directions.",
   "year": "2024",
-  "tags": ["Brand Strategy", "Identity", "Art Direction", "Digital", "Brand System"],
+  "tags": [
+    "Brand Strategy",
+    "Identity",
+    "Art Direction",
+    "Digital",
+    "Brand System"
+  ],
   "role": "Brand strategy & identity design",
   "disciplines": "Brand Strategy · Identity · Art Direction · Digital · Brand System",
   "team": "With the LWT leadership",
   "scope": "Strategy, mark, visual language, applications",
   "featured": false,
   "order": 2,
-  "heroMedia": { "kind": "image", "src": "/case/lwt/mark-gradient.webp", "block": "primary", "w": 1920, "h": 1080 },
+  "heroMedia": {
+    "kind": "image",
+    "src": "/case/lwt/mark-gradient.webp",
+    "block": "primary",
+    "w": 1920,
+    "h": 1080
+  },
   "sections": [
     {
       "id": "outgrown",
@@ -24,8 +36,28 @@
       ],
       "statement": "The company had evolved. The identity hadn't.",
       "media": [
-        { "kind": "image", "src": "/case/lwt/meter.webp", "block": "secondary", "aspect": "tall", "w": 1190, "h": 1684 },
-        { "kind": "image", "src": "/case/lwt/awards.webp", "block": "secondary", "aspect": "tall", "w": 1190, "h": 1684 }
+        {
+          "kind": "image",
+          "src": "/case/lwt/meter.webp",
+          "block": "secondary",
+          "aspect": "tall",
+          "w": 1190,
+          "h": 1684
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/awards.webp",
+          "block": "secondary",
+          "aspect": "tall",
+          "w": 1190,
+          "h": 1684
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/outgrown-1788464284292.webp",
+          "caption": "",
+          "aspect": "wide"
+        }
       ]
     },
     {
@@ -38,9 +70,36 @@
       ],
       "statement": "How do we create an identity that can hold multiple businesses, technologies and future directions?",
       "media": [
-        { "kind": "image", "src": "/case/lwt/brochure-cover.webp", "block": "secondary", "aspect": "tall", "w": 1190, "h": 1684 },
-        { "kind": "image", "src": "/case/lwt/map-vizag.webp", "block": "tertiary", "aspect": "screen", "w": 1190, "h": 906 },
-        { "kind": "image", "src": "/case/lwt/brochure-cover-mock.webp", "block": "tertiary", "aspect": "wide", "w": 1920, "h": 1080 }
+        {
+          "kind": "image",
+          "src": "/case/lwt/chapter-1788464346751.webp",
+          "caption": "",
+          "aspect": "wide"
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/brochure-cover.webp",
+          "block": "secondary",
+          "aspect": "tall",
+          "w": 1190,
+          "h": 1684
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/map-vizag.webp",
+          "block": "tertiary",
+          "aspect": "screen",
+          "w": 1190,
+          "h": 906
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/brochure-cover-mock.webp",
+          "block": "tertiary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
       ]
     },
     {
@@ -54,7 +113,14 @@
       ],
       "statement": "Engineering precision. Human connection.",
       "media": [
-        { "kind": "image", "src": "/case/lwt/poster-family.webp", "block": "primary", "aspect": "wide", "w": 1920, "h": 1080 }
+        {
+          "kind": "image",
+          "src": "/case/lwt/poster-family.webp",
+          "block": "primary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
       ]
     },
     {
@@ -67,7 +133,14 @@
       ],
       "statement": "The mark feels like it is moving forward, rather than simply sitting still.",
       "media": [
-        { "kind": "image", "src": "/case/lwt/mark-colourways.webp", "block": "primary", "aspect": "wide", "w": 1920, "h": 1080 }
+        {
+          "kind": "image",
+          "src": "/case/lwt/mark-colourways.webp",
+          "block": "primary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
       ]
     },
     {
@@ -81,7 +154,14 @@
       ],
       "statement": "Different parts. One direction.",
       "media": [
-        { "kind": "image", "src": "/case/lwt/mark-construction.webp", "block": "primary", "aspect": "wide", "w": 1920, "h": 1080 }
+        {
+          "kind": "image",
+          "src": "/case/lwt/mark-construction.webp",
+          "block": "primary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
       ]
     },
     {
@@ -95,7 +175,14 @@
       ],
       "statement": "A brand built for growth, with its roots still intact.",
       "media": [
-        { "kind": "image", "src": "/case/lwt/envelope.webp", "block": "primary", "aspect": "wide", "w": 1920, "h": 1080 }
+        {
+          "kind": "image",
+          "src": "/case/lwt/envelope.webp",
+          "block": "primary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
       ]
     },
     {
@@ -109,9 +196,30 @@
       ],
       "statement": "Bold creativity on top. Strong structure underneath.",
       "media": [
-        { "kind": "image", "src": "/case/lwt/palette.webp", "block": "primary", "aspect": "wide", "w": 1920, "h": 1080 },
-        { "kind": "image", "src": "/case/lwt/typeface.webp", "block": "primary", "aspect": "wide", "w": 1920, "h": 1080 },
-        { "kind": "image", "src": "/case/lwt/business-cards.webp", "block": "primary", "aspect": "wide", "w": 1920, "h": 1080 }
+        {
+          "kind": "image",
+          "src": "/case/lwt/palette.webp",
+          "block": "primary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/typeface.webp",
+          "block": "primary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/business-cards.webp",
+          "block": "primary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
       ]
     },
     {
@@ -124,14 +232,70 @@
       ],
       "statement": "Make the identity recognisable wherever it appears.",
       "media": [
-        { "kind": "image", "src": "/case/lwt/flags.webp", "block": "primary", "aspect": "wide", "w": 1920, "h": 1080 },
-        { "kind": "image", "src": "/case/lwt/stage-screen.webp", "block": "tertiary", "aspect": "wide", "w": 1920, "h": 1080 },
-        { "kind": "image", "src": "/case/lwt/auditorium.webp", "block": "tertiary", "aspect": "wide", "w": 1920, "h": 1080 },
-        { "kind": "image", "src": "/case/lwt/product-display.webp", "block": "secondary", "aspect": "wide", "w": 1920, "h": 1080 },
-        { "kind": "image", "src": "/case/lwt/poster-mountain.webp", "block": "secondary", "aspect": "wide", "w": 1920, "h": 1080 },
-        { "kind": "image", "src": "/case/lwt/building-sign.webp", "block": "tertiary", "aspect": "wide", "w": 1920, "h": 1080 },
-        { "kind": "image", "src": "/case/lwt/lightbox.webp", "block": "tertiary", "aspect": "wide", "w": 1920, "h": 1080 },
-        { "kind": "image", "src": "/case/lwt/hoarding.webp", "block": "primary", "aspect": "wide", "w": 1920, "h": 1080 }
+        {
+          "kind": "image",
+          "src": "/case/lwt/flags.webp",
+          "block": "primary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/stage-screen.webp",
+          "block": "tertiary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/auditorium.webp",
+          "block": "tertiary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/product-display.webp",
+          "block": "secondary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/poster-mountain.webp",
+          "block": "secondary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/building-sign.webp",
+          "block": "tertiary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/lightbox.webp",
+          "block": "tertiary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "image",
+          "src": "/case/lwt/hoarding.webp",
+          "block": "primary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
       ]
     },
     {
@@ -145,7 +309,14 @@
       ],
       "statement": "“Here is what we are building.”",
       "media": [
-        { "kind": "image", "src": "/case/lwt/office-poster.webp", "block": "primary", "aspect": "wide", "w": 1920, "h": 1080 }
+        {
+          "kind": "image",
+          "src": "/case/lwt/office-poster.webp",
+          "block": "primary",
+          "aspect": "wide",
+          "w": 1920,
+          "h": 1080
+        }
       ]
     },
     {
@@ -162,12 +333,30 @@
   "impact": {
     "title": "The identity, in numbers",
     "stats": [
-      { "value": "10", "label": "Segments in the mark — capabilities becoming one whole" },
-      { "value": "6", "label": "Industries served, where failure isn't an option" },
-      { "value": "5", "label": "System principles, from precision to humanity" },
-      { "value": "6", "label": "Environments the identity travels across" },
-      { "value": "1", "label": "Family story hidden inside the ten" },
-      { "value": "2024", "label": "The year the group found its face" }
+      {
+        "value": "10",
+        "label": "Segments in the mark — capabilities becoming one whole"
+      },
+      {
+        "value": "6",
+        "label": "Industries served, where failure isn't an option"
+      },
+      {
+        "value": "5",
+        "label": "System principles, from precision to humanity"
+      },
+      {
+        "value": "6",
+        "label": "Environments the identity travels across"
+      },
+      {
+        "value": "1",
+        "label": "Family story hidden inside the ten"
+      },
+      {
+        "value": "2024",
+        "label": "The year the group found its face"
+      }
     ]
   },
   "result": {
