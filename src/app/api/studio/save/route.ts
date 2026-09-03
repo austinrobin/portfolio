@@ -24,6 +24,7 @@ const ALLOWED = new Set([
   "content/case-stockbee.json",
   "content/case-lwt.json",
   "content/lab.json",
+  "content/footer.json",
 ]);
 const LOG_PATH = "content/updates-log.json";
 

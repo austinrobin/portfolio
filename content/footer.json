@@ -1,0 +1,21 @@
+{
+  "plateHeight": 62,
+  "showGuilloche": true,
+  "guillocheOpacity": 1,
+  "pegasusX": 5.5,
+  "pegasusY": 6,
+  "pegasusW": 25,
+  "austinY": 26,
+  "austinW": 66,
+  "colonnadeX": 2.5,
+  "colonnadeBottom": 3,
+  "colonnadeW": 22,
+  "verseText": "Whatever you do,\ndo it for the Lord.",
+  "verseY": 52,
+  "verseSize": 2.5,
+  "monogramY": 73,
+  "monogramW": 4.5,
+  "dedicationText": "Dedicated to my mother",
+  "dedicationY": 81,
+  "dedicationSize": 1.35
+}

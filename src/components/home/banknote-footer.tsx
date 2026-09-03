@@ -5,6 +5,7 @@ import { useReducedMotion } from "motion/react";
 import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
 import { Monogram } from "./monogram";
 import { heroFonts, INK } from "./hero-config";
+import { footerConfig, type FooterSettings } from "./footer-config";
 
 /*
  * The closing plate — a banknote dedication (from Austin's mock):
@@ -12,6 +13,8 @@ import { heroFonts, INK } from "./hero-config";
  * verse and "Dedicated to my mother" in script, all over a faint
  * guilloché ground.
  *
+ *  · EVERY position/size/script line is Studio-tunable (content/footer.json
+ *    → FooterSettings; the Studio passes live overrides).
  *  · The guilloché is GENERATED here (hypotrochoid rosette + border
  *    chain) — a few KB of inline SVG instead of a heavy asset, printed
  *    at whisper opacity.
@@ -66,7 +69,7 @@ const RAILS = [
   rail(VB_H - 70, 26, 190, 0),
   rail(VB_H - 104, 26, 190, Math.PI),
 ];
-/* border chain: overlapping rings marching along both long edges */
+/* border chain: overlapping rings marching along the edges */
 const CHAIN: { cx: number; cy: number }[] = [];
 for (let x = 90; x <= VB_W - 90; x += 105) {
   CHAIN.push({ cx: x, cy: 87 });
@@ -77,7 +80,7 @@ for (let y = 200; y <= VB_H - 200; y += 105) {
   CHAIN.push({ cx: VB_W - 87, cy: y });
 }
 
-function GuillocheGround() {
+function GuillocheGround({ strength }: { strength: number }) {
   return (
     <svg
       viewBox={`0 0 ${VB_W} ${VB_H}`}
@@ -85,7 +88,7 @@ function GuillocheGround() {
       preserveAspectRatio="none"
       aria-hidden
     >
-      <g stroke={INK} fill="none">
+      <g stroke={INK} fill="none" opacity={strength}>
         <path d={ROSETTE[0]} strokeWidth="1.1" opacity="0.085" />
         <path d={ROSETTE[1]} strokeWidth="1" opacity="0.07" />
         <path d={ROSETTE[2]} strokeWidth="1" opacity="0.06" />
@@ -104,19 +107,19 @@ function GuillocheGround() {
 
 function Plate({
   src,
-  className,
+  style,
   flip,
   alt,
 }: {
   src: string;
-  className: string;
+  style: React.CSSProperties;
   flip?: boolean;
   alt: string;
 }) {
   return (
     <div
-      className={`bnf-piece absolute ${className} ${flip ? "-scale-x-100" : ""}`}
-      style={{ "--mask": `url(${src})` } as React.CSSProperties}
+      className={`bnf-piece absolute ${flip ? "-scale-x-100" : ""}`}
+      style={{ "--mask": `url(${src})`, ...style } as React.CSSProperties}
     >
       {/* eslint-disable-next-line @next/next/no-img-element -- optimised engraving plates */}
       <img src={src} alt={alt} draggable={false} className="h-auto w-full select-none" />
@@ -126,7 +129,12 @@ function Plate({
 
 /* ---------------- section ---------------------------------------------- */
 
-export function BanknoteFooter() {
+export function BanknoteFooter({
+  overrides,
+}: {
+  overrides?: Partial<FooterSettings>;
+}) {
+  const cfg: FooterSettings = { ...footerConfig, ...overrides };
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const plateRef = useRef<HTMLDivElement>(null);
@@ -157,6 +165,8 @@ export function BanknoteFooter() {
       });
     };
   }, []);
+
+  const verseLines = cfg.verseText.split("\n");
 
   return (
     <section
@@ -190,39 +200,86 @@ export function BanknoteFooter() {
       `}</style>
 
       {/* the printed plate — everything inside is revealed by the wipe */}
-      <div ref={plateRef} className="relative mx-auto aspect-[2000/1240] w-full max-w-[2000px]">
-        <GuillocheGround />
+      <div
+        ref={plateRef}
+        className="relative mx-auto w-full max-w-[2000px]"
+        style={{ aspectRatio: `100 / ${cfg.plateHeight}` }}
+      >
+        {cfg.showGuilloche ? (
+          <GuillocheGround strength={cfg.guillocheOpacity} />
+        ) : null}
 
-        {/* pegasi, facing outward from the name */}
-        <Plate src="/footer/pegasus.svg" alt="" flip className="left-[6.5%] top-[9%] w-[22%]" />
-        <Plate src="/footer/pegasus.svg" alt="" className="right-[6.5%] top-[9%] w-[22%]" />
+        {/* pegasi, facing outward from the name (asset faces right) */}
+        <Plate
+          src="/footer/pegasus.svg"
+          alt=""
+          flip
+          style={{ left: `${cfg.pegasusX}%`, top: `${cfg.pegasusY}%`, width: `${cfg.pegasusW}%` }}
+        />
+        <Plate
+          src="/footer/pegasus.svg"
+          alt=""
+          style={{ right: `${cfg.pegasusX}%`, top: `${cfg.pegasusY}%`, width: `${cfg.pegasusW}%` }}
+        />
 
-        {/* AUSTIN — engraved currency lettering */}
-        <Plate src="/footer/austin.svg" alt="Austin" className="left-1/2 top-[25%] w-[60%] -translate-x-1/2" />
+        {/* AUSTIN — engraved currency lettering, always centred */}
+        <Plate
+          src="/footer/austin.svg"
+          alt="Austin"
+          style={{
+            left: "50%",
+            top: `${cfg.austinY}%`,
+            width: `${cfg.austinW}%`,
+            transform: "translateX(-50%)",
+          }}
+        />
 
         {/* colonnades receding at the base */}
-        <Plate src="/footer/colonnade.svg" alt="" className="bottom-[3%] left-[2.5%] w-[17%]" />
-        <Plate src="/footer/colonnade.svg" alt="" flip className="bottom-[3%] right-[2.5%] w-[17%]" />
+        <Plate
+          src="/footer/colonnade.svg"
+          alt=""
+          style={{ left: `${cfg.colonnadeX}%`, bottom: `${cfg.colonnadeBottom}%`, width: `${cfg.colonnadeW}%` }}
+        />
+        <Plate
+          src="/footer/colonnade.svg"
+          alt=""
+          flip
+          style={{ right: `${cfg.colonnadeX}%`, bottom: `${cfg.colonnadeBottom}%`, width: `${cfg.colonnadeW}%` }}
+        />
 
         {/* the verse */}
         <p
-          className="bnf-script absolute left-1/2 top-[53%] w-full -translate-x-1/2 text-center text-[clamp(18px,2.5vw,44px)] leading-[1.3]"
-          style={{ fontFamily: "var(--font-peristiwa)" }}
+          className="bnf-script absolute left-1/2 w-full -translate-x-1/2 text-center leading-[1.3]"
+          style={{
+            top: `${cfg.verseY}%`,
+            fontSize: `clamp(16px, ${cfg.verseSize}vw, ${cfg.verseSize * 18}px)`,
+            fontFamily: "var(--font-peristiwa)",
+          }}
         >
-          Whatever you do,
-          <br />
-          do it for the Lord.
+          {verseLines.map((line, i) => (
+            <span key={i}>
+              {line}
+              {i < verseLines.length - 1 ? <br /> : null}
+            </span>
+          ))}
         </p>
 
         {/* monogram + dedication */}
-        <div className="bnf-script absolute left-1/2 top-[74%] w-[4.5%] min-w-[34px] -translate-x-1/2">
+        <div
+          className="bnf-script absolute left-1/2 min-w-[34px] -translate-x-1/2"
+          style={{ top: `${cfg.monogramY}%`, width: `${cfg.monogramW}%` }}
+        >
           <Monogram className="h-auto w-full" />
         </div>
         <p
-          className="bnf-script absolute left-1/2 top-[83%] w-full -translate-x-1/2 text-center text-[clamp(12px,1.35vw,24px)]"
-          style={{ fontFamily: "var(--font-peristiwa)" }}
+          className="bnf-script absolute left-1/2 w-full -translate-x-1/2 text-center"
+          style={{
+            top: `${cfg.dedicationY}%`,
+            fontSize: `clamp(11px, ${cfg.dedicationSize}vw, ${cfg.dedicationSize * 18}px)`,
+            fontFamily: "var(--font-peristiwa)",
+          }}
         >
-          Dedicated to my mother
+          {cfg.dedicationText}
         </p>
       </div>
 

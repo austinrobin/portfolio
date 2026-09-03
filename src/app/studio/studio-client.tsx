@@ -22,6 +22,10 @@ import { CurrentBuild } from "@/components/home/current-build";
 import { ProjectDeck } from "@/components/home/project-deck";
 import { LifeCollage } from "@/components/home/life-collage";
 import { BanknoteFooter } from "@/components/home/banknote-footer";
+import {
+  footerConfig,
+  type FooterSettings,
+} from "@/components/home/footer-config";
 import { CaseStudyView } from "@/components/case-study/case-study";
 import { showcase } from "@/lib/showcase";
 
@@ -32,6 +36,7 @@ interface Draft {
   caseStockbee: CaseStudy;
   caseLwt: CaseStudy;
   lab: LabCascadeSettings;
+  footer: FooterSettings;
 }
 interface LogEntry {
   at: string;
@@ -47,7 +52,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v8"; // v8: LWT copy v2 (stale drafts would revert it on save)
+const DRAFT_KEY = "studio-draft-v9"; // v9: draft gained footer (banknote dedication controls)
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {
@@ -56,6 +61,7 @@ const defaults: Draft = {
   caseStockbee,
   caseLwt,
   lab: labConfig,
+  footer: footerConfig,
 };
 
 /* --------------------------------------------------- media upload helpers */
@@ -338,6 +344,9 @@ export function StudioClient() {
   const setLab = (patch: Partial<LabCascadeSettings>) =>
     setDraft({ ...draft, lab: { ...draft.lab, ...patch } });
 
+  const setFooter = (patch: Partial<FooterSettings>) =>
+    setDraft({ ...draft, footer: { ...draft.footer, ...patch } });
+
   /* -------------------------------------------- case-study edit helpers */
   const setCase = (patch: Partial<CaseStudy>) =>
     setDraft({ ...draft, [caseKey]: { ...draft[caseKey], ...patch } });
@@ -474,6 +483,10 @@ export function StudioClient() {
               path: "content/lab.json",
               content: JSON.stringify(draft.lab, null, 2) + "\n",
             },
+            {
+              path: "content/footer.json",
+              content: JSON.stringify(draft.footer, null, 2) + "\n",
+            },
             ...pending.map((m) => ({
               path: m.path,
               content: m.base64,
@@ -558,7 +571,7 @@ export function StudioClient() {
             </section>
             <LabTeaser overrides={draft.lab} />
             <LifeCollage />
-            <BanknoteFooter />
+            <BanknoteFooter overrides={draft.footer} />
           </>
         ) : (
           <CaseStudyView cs={draft[caseKey]} />
@@ -1152,6 +1165,67 @@ export function StudioClient() {
               <Slider label="Turn when active" value={draft.lab.activeRotY} min={-60} max={0} step={1}
                 onChange={(v) => setLab({ activeRotY: v })}
                 hint="Same as Turn (Y) = pure slide. 0 = faces you fully." />
+            </Group>
+
+            <Group title={"Footer — dedication"} open={group === "Footer — dedication"} onToggle={() => setGroup(group === "Footer — dedication" ? null : "Footer — dedication")}>
+              <p className="font-mono text-[10px] uppercase tracking-wider text-muted">
+                Plate
+              </p>
+              <Slider label="Plate height" value={draft.footer.plateHeight} min={45} max={85} step={1}
+                onChange={(v) => setFooter({ plateHeight: v })}
+                hint="Height as % of the plate's width." />
+              <Toggle label="Guilloché ground" value={draft.footer.showGuilloche}
+                onChange={(v) => setFooter({ showGuilloche: v })} />
+              <Slider label="Guilloché strength" value={draft.footer.guillocheOpacity} min={0} max={2.5} step={0.1}
+                onChange={(v) => setFooter({ guillocheOpacity: v })} />
+
+              <p className="mt-2 font-mono text-[10px] uppercase tracking-wider text-muted">
+                Pegasi
+              </p>
+              <Slider label="Inset from edge" value={draft.footer.pegasusX} min={0} max={30} step={0.5}
+                onChange={(v) => setFooter({ pegasusX: v })} />
+              <Slider label="From top" value={draft.footer.pegasusY} min={0} max={40} step={0.5}
+                onChange={(v) => setFooter({ pegasusY: v })} />
+              <Slider label="Width" value={draft.footer.pegasusW} min={10} max={40} step={0.5}
+                onChange={(v) => setFooter({ pegasusW: v })} />
+
+              <p className="mt-2 font-mono text-[10px] uppercase tracking-wider text-muted">
+                Austin lettering
+              </p>
+              <Slider label="From top" value={draft.footer.austinY} min={5} max={60} step={0.5}
+                onChange={(v) => setFooter({ austinY: v })} />
+              <Slider label="Width" value={draft.footer.austinW} min={30} max={90} step={1}
+                onChange={(v) => setFooter({ austinW: v })} />
+
+              <p className="mt-2 font-mono text-[10px] uppercase tracking-wider text-muted">
+                Colonnades
+              </p>
+              <Slider label="Inset from edge" value={draft.footer.colonnadeX} min={0} max={25} step={0.5}
+                onChange={(v) => setFooter({ colonnadeX: v })} />
+              <Slider label="From bottom" value={draft.footer.colonnadeBottom} min={0} max={30} step={0.5}
+                onChange={(v) => setFooter({ colonnadeBottom: v })} />
+              <Slider label="Width" value={draft.footer.colonnadeW} min={8} max={35} step={0.5}
+                onChange={(v) => setFooter({ colonnadeW: v })} />
+
+              <p className="mt-2 font-mono text-[10px] uppercase tracking-wider text-muted">
+                Scripts
+              </p>
+              <TextField label="Verse (\n = line break)" value={draft.footer.verseText}
+                onChange={(v) => setFooter({ verseText: v })} />
+              <Slider label="Verse from top" value={draft.footer.verseY} min={30} max={80} step={0.5}
+                onChange={(v) => setFooter({ verseY: v })} />
+              <Slider label="Verse size" value={draft.footer.verseSize} min={1} max={5} step={0.1}
+                onChange={(v) => setFooter({ verseSize: v })} hint="vw" />
+              <Slider label="Monogram from top" value={draft.footer.monogramY} min={55} max={95} step={0.5}
+                onChange={(v) => setFooter({ monogramY: v })} />
+              <Slider label="Monogram width" value={draft.footer.monogramW} min={2} max={12} step={0.25}
+                onChange={(v) => setFooter({ monogramW: v })} />
+              <TextField label="Dedication" value={draft.footer.dedicationText}
+                onChange={(v) => setFooter({ dedicationText: v })} />
+              <Slider label="Dedication from top" value={draft.footer.dedicationY} min={60} max={98} step={0.5}
+                onChange={(v) => setFooter({ dedicationY: v })} />
+              <Slider label="Dedication size" value={draft.footer.dedicationSize} min={0.7} max={3} step={0.05}
+                onChange={(v) => setFooter({ dedicationSize: v })} />
             </Group>
 
             <Group title={`Case — ${caseLabel}`} open={group === `Case — ${caseLabel}`} onToggle={() => setGroup(group === `Case — ${caseLabel}` ? null : `Case — ${caseLabel}`)}>
