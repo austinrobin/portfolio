@@ -304,7 +304,7 @@ function Chapter({
     <section
       id={id}
       data-chapter={id}
-      className="mt-2 scroll-mt-[12svh] border-t border-border pt-1.5 sm:mt-2 sm:pt-1.5"
+      className="mt-2 scroll-mt-[12svh] border-t border-border pt-6 sm:mt-2 sm:pt-6"
     >
       {/* a hairline opens the chapter; only its name sits on the left — the
           heading and copy are one block pushed to the viewport's right edge */}
@@ -512,7 +512,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
       ref={rootRef}
       className={`relative min-h-screen bg-background text-foreground ${caseFont.variable} ${heroFonts.silk.variable} font-[family-name:var(--font-case)]`}
     >
-      <BanknoteNav fixed />
+      <BanknoteNav blend fixed />
 
       <div
         ref={rowRef}
@@ -570,7 +570,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
           </div>
 
           {cs.heroMedia?.src ? (
-            <Tile media={cs.heroMedia} alt={cs.title} frame="primary" loop={false} eager fadeTop />
+            <Tile media={cs.heroMedia} alt={cs.title} frame="primary" loop={false} eager />
           ) : null}
 
           {cs.sections.map((s) => (
