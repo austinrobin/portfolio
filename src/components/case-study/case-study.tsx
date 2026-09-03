@@ -270,13 +270,13 @@ function Chapter({
       data-chapter={id}
       className="mt-9 scroll-mt-[12svh] border-t border-border pt-5 sm:mt-11 sm:pt-6"
     >
-      {/* a hairline opens the chapter; its name holds the left column, the
-          heading and copy the right */}
-      <Rise className="grid gap-x-8 gap-y-3 md:grid-cols-[168px_minmax(0,1fr)] lg:grid-cols-[208px_minmax(0,1fr)]">
+      {/* a hairline opens the chapter; only its name sits on the left — the
+          heading and copy are one block pushed to the viewport's right edge */}
+      <Rise className="grid gap-x-8 gap-y-3 md:grid-cols-2">
         <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted md:pt-1.5">
           {kicker}
         </p>
-        <div className="max-w-[50ch]">
+        <div className="max-w-[50ch] md:justify-self-end">
           <h2 className="text-[clamp(21px,1.8vw,26px)] font-light leading-[1.18] tracking-[-0.01em]">
             {heading}
           </h2>
