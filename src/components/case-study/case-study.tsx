@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import type { CaseMedia, CaseStudy } from "@/lib/case-studies";
 import { BanknoteNav } from "@/components/banknote-nav";
-import { ScrollSmoother } from "@/lib/gsap";
+import { gsap, ScrollSmoother, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { caseFont } from "./case-font";
 import { heroFonts } from "@/components/home/hero-config";
 
@@ -18,9 +18,9 @@ import { heroFonts } from "@/components/home/hero-config";
  *    and paired halves on a 12-column grid with tight gaps, each asset at
  *    its own aspect. Chapter copy sits in the flow — a small uppercase
  *    kicker, a light heading, quiet grey body — never a hero headline.
- *  · Dark page, uniformly: the media do the talking. The site's tokens are
- *    overridden on the article, so the banknote nav and every utility
- *    inside recolour for the dark ground.
+ *  · On the site's own paper — the home page's canvas — with ink type; the
+ *    media do the talking. The left panel is PINNED with ScrollTrigger:
+ *    position:sticky is dead under ScrollSmoother's transform.
  *
  * Content is untouched: sections / media / impact / result from the
  * Studio-edited JSON; `span` + `w/h` shape the river, `showcase`/`layout`
@@ -29,15 +29,6 @@ import { heroFonts } from "@/components/home/hero-config";
  */
 
 const EASE = [0.16, 1, 0.3, 1] as const;
-
-/* the page's own tokens — Koto's near-black, warm-grey type */
-const DARK = {
-  "--background": "#0c0c0c",
-  "--foreground": "#f2f0ea",
-  "--muted": "#9a9892",
-  "--border": "rgba(242,240,234,0.14)",
-  "--subtle": "rgba(242,240,234,0.06)",
-} as React.CSSProperties;
 
 /* ------------------------------------------------------------- helpers */
 
@@ -129,7 +120,7 @@ function Tile({
       transition={{ duration: 0.85, ease: EASE }}
     >
       <div
-        className="relative w-full overflow-hidden rounded-[10px] bg-[var(--subtle)]"
+        className="relative w-full overflow-hidden rounded-[10px] bg-subtle"
         style={{ aspectRatio: ratioOf(media) }}
       >
         {media.src ? (
@@ -150,14 +141,14 @@ function Tile({
             />
           )
         ) : (
-          <div className="absolute inset-x-0 top-0 flex items-center justify-between p-5 font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--muted)]">
+          <div className="absolute inset-x-0 top-0 flex items-center justify-between p-5 font-mono text-[10px] uppercase tracking-[0.25em] text-muted">
             <span>{alt}</span>
             <span>media slot — add in studio</span>
           </div>
         )}
       </div>
       {media.caption ? (
-        <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[var(--muted)]">
+        <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">
           {media.caption}
         </p>
       ) : null}
@@ -195,22 +186,22 @@ function Chapter({
 }) {
   return (
     <section id={id} data-chapter={id} className="scroll-mt-[12svh] pt-20 sm:pt-28">
-      <Rise className="max-w-[62ch]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-[var(--muted)]">
+      <Rise className="max-w-[50ch]">
+        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted">
           {kicker}
         </p>
-        <h2 className="mt-3 text-[clamp(22px,2vw,28px)] font-light leading-[1.2] tracking-[-0.01em]">
+        <h2 className="mt-2.5 text-[clamp(21px,1.8vw,26px)] font-light leading-[1.18] tracking-[-0.01em]">
           {heading}
         </h2>
         {body?.length ? (
-          <div className="mt-6 space-y-4 text-[16px] leading-[1.6] text-[var(--muted)] sm:text-[17px]">
+          <div className="mt-5 space-y-3 text-[14.5px] leading-[1.45] text-muted sm:text-[15px]">
             {body.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
           </div>
         ) : null}
         {statement ? (
-          <p className="mt-8 text-[clamp(20px,1.7vw,26px)] font-light leading-[1.3] tracking-[-0.01em]">
+          <p className="mt-6 text-[clamp(18px,1.45vw,22px)] font-light leading-[1.25] tracking-[-0.01em]">
             {statement}
           </p>
         ) : null}
@@ -246,13 +237,13 @@ function ChapterIndex({
             type="button"
             onClick={() => onJump(c.id)}
             className={`group relative whitespace-nowrap text-left text-[15px] font-light leading-none transition-colors sm:text-[16px] ${
-              on ? "text-[var(--foreground)]" : "text-[var(--muted)] hover:text-[var(--foreground)]"
+              on ? "text-foreground" : "text-muted hover:text-foreground"
             }`}
           >
             {!horizontal ? (
               <span
                 aria-hidden
-                className={`absolute -left-3.5 top-1/2 size-1 -translate-y-1/2 rounded-full bg-[var(--foreground)] transition-opacity ${
+                className={`absolute -left-3.5 top-1/2 size-1 -translate-y-1/2 rounded-full bg-foreground transition-opacity ${
                   on ? "opacity-100" : "opacity-0"
                 }`}
               />
@@ -269,7 +260,32 @@ function ChapterIndex({
 
 export function CaseStudyView({ cs }: { cs: CaseStudy }) {
   const rootRef = useRef<HTMLElement>(null);
+  const rowRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<string>(cs.sections[0]?.id ?? "");
+
+  /* pin the panel from 12% down the viewport until the river runs out —
+     desktop only (the aside is hidden below md) */
+  useGSAP(
+    () => {
+      const row = rowRef.current;
+      const panel = panelRef.current;
+      if (!row || !panel) return;
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 768px)", () => {
+        ScrollTrigger.create({
+          trigger: panel,
+          start: "top 12%",
+          endTrigger: row,
+          end: "bottom bottom",
+          pin: panel,
+          pinSpacing: false,
+        });
+      });
+      return () => mm.revert();
+    },
+    { dependencies: [cs.slug] },
+  );
 
   const chapters = [
     ...cs.sections.map((s) => ({ id: s.id, label: s.kicker })),
@@ -308,23 +324,25 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
   return (
     <article
       ref={rootRef}
-      style={{ ...DARK, backgroundColor: "var(--background)", color: "var(--foreground)" }}
-      className={`relative min-h-screen ${caseFont.variable} ${heroFonts.silk.variable} font-[family-name:var(--font-case)]`}
+      className={`relative min-h-screen bg-background text-foreground ${caseFont.variable} ${heroFonts.silk.variable} font-[family-name:var(--font-case)]`}
     >
       <style>{SPAN_CSS}</style>
       <BanknoteNav />
 
-      <div className="flex gap-x-[clamp(16px,2.2vw,44px)] px-[clamp(16px,2.2vw,44px)] pb-28 pt-[13svh]">
-        {/* ---- left panel ---- */}
-        <aside className="hidden w-[280px] shrink-0 md:block lg:w-[300px]">
-          <div className="sticky top-[12svh]">
+      <div
+        ref={rowRef}
+        className="flex gap-x-[clamp(12px,1.6vw,32px)] px-[clamp(8px,1.1vw,22px)] pb-28 pt-[13svh]"
+      >
+        {/* ---- left panel (pinned for the article's whole run) ---- */}
+        <aside className="hidden w-[296px] shrink-0 md:block lg:w-[316px]">
+          <div ref={panelRef}>
             <h1 className="text-[24px] font-light leading-[1.2] tracking-[-0.01em]">
               {cs.title}
             </h1>
-            <p className="mt-1 text-[24px] font-light leading-[1.2] tracking-[-0.01em] text-[var(--muted)]">
+            <p className="mt-1 text-[24px] font-light leading-[1.2] tracking-[-0.01em] text-muted">
               {cs.tagline}
             </p>
-            <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--muted)]">
+            <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
               {meta}
             </p>
             <div className="mt-12 pl-3.5">
@@ -338,10 +356,10 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
           {/* narrow screens: identity + index above the river */}
           <div className="mb-8 md:hidden">
             <h1 className="text-[22px] font-light leading-[1.2]">{cs.title}</h1>
-            <p className="mt-1 text-[22px] font-light leading-[1.2] text-[var(--muted)]">
+            <p className="mt-1 text-[22px] font-light leading-[1.2] text-muted">
               {cs.tagline}
             </p>
-            <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.22em] text-[var(--muted)]">
+            <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
               {meta}
             </p>
             <div className="mt-6">
@@ -370,19 +388,19 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
 
           {/* ---- in numbers ---- */}
           <Chapter id="impact" kicker="In numbers" heading={cs.impact.title}>
-            <Rise className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-[var(--border)] pt-10 sm:mt-12 md:grid-cols-3">
+            <Rise className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-border pt-10 sm:mt-12 md:grid-cols-3">
               {cs.impact.stats.map((stat, i) => {
                 const placeholder = /^x+$/i.test(stat.value.replace(/[^a-z]/gi, ""));
                 return (
                   <div key={i}>
                     <p
                       className={`text-[clamp(40px,4.2vw,64px)] font-light leading-none tracking-[-0.03em] ${
-                        placeholder ? "text-[var(--muted)]" : ""
+                        placeholder ? "text-muted" : ""
                       }`}
                     >
                       {stat.value}
                     </p>
-                    <p className="mt-3 max-w-[26ch] text-[14px] leading-snug text-[var(--muted)]">
+                    <p className="mt-3 max-w-[26ch] text-[14px] leading-snug text-muted">
                       {stat.label}
                     </p>
                   </div>
