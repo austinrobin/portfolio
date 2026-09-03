@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
 import { Monogram } from "./monogram";
 import { heroFonts, INK } from "./hero-config";
 import { footerConfig, type FooterSettings } from "./footer-config";
@@ -21,10 +21,11 @@ import { footerConfig, type FooterSettings } from "./footer-config";
  *    background so the blend always has paper to work against — anything
  *    that isolates the plate (a clip, a container, a transform) would
  *    otherwise leave the image's white ground showing.
- *  · DRAWN IN: the plates are inlined SVGs. When the section's top reaches
- *    the viewport's centre, every path gets a hairline stroke in its own
- *    colour and draws itself on (DrawSVG) on its own staggered delay, then
- *    the fills ink in behind — an engraving being cut, not a curtain.
+ *  · DRAWN IN (2s, once, at "top 50%"): the SVGs are inlined only for the
+ *    draw. Long-line plates stroke-draw in their own ink (DrawSVG) then
+ *    fill; the hatch-heavy pegasi flick on in random batches; the monogram
+ *    draws; scripts settle last. Then every plate is handed back to its
+ *    <img> — the vector exactly as supplied, and a light DOM for the scroll.
  *  · GOLD ON HOVER lives on the AUSTIN lettering only (the hero's gilding
  *    as CSS: dark gradient gold + a travelling sheen masked to the glyphs).
  */
@@ -56,7 +57,13 @@ function GuillocheGround({ strength }: { strength: number }) {
   );
 }
 
-/* ---------------- inlined plate pieces --------------------------------- */
+/* ---------------- plate pieces ----------------------------------------- */
+
+/* The plates render as plain <img> — the vector exactly as supplied. Only
+   for the ~2s draw are the SVGs inlined (fetched once, ids namespaced so
+   the seven instances can't clip each other), and the moment the draw
+   completes each plate is swapped back to its <img>: no hairline strokes
+   left behind, no 3,000 live paths weighing down the scroll. */
 
 const svgCache = new Map<string, Promise<string>>();
 function loadSvg(src: string) {
@@ -69,8 +76,6 @@ function loadSvg(src: string) {
 }
 
 let uid = 0;
-/* svgo minifies ids to "a", "b"… — seven inlined plates would share them
-   and clip each other, so every instance gets its own namespace */
 function namespaceIds(svg: string) {
   const ns = `p${++uid}`;
   return svg
@@ -79,55 +84,50 @@ function namespaceIds(svg: string) {
     .replace(/href="#([^"]+)"/g, (_, id) => `href="#${ns}-${id}"`);
 }
 
+/* how each plate sketches in: true stroke-drawing for the long-line plates,
+   batched appearance for the hatch-heavy pegasi (1,227 marks each) */
+type DrawMode = "draw" | "batch";
+
 function Plate({
   src,
   style,
   flip,
   gild,
-  label,
-  onReady,
+  alt,
+  mode,
+  at,
 }: {
   src: string;
   style: React.CSSProperties;
   flip?: boolean;
   gild?: boolean;
-  label?: string;
-  onReady: () => void;
+  alt: string;
+  mode: DrawMode;
+  at: number; // timeline start, s
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    let alive = true;
-    loadSvg(src).then((txt) => {
-      if (!alive || !ref.current) return;
-      ref.current.innerHTML = namespaceIds(txt);
-      const svg = ref.current.querySelector("svg");
-      if (svg) {
-        svg.removeAttribute("width");
-        svg.removeAttribute("height");
-        svg.setAttribute("class", "block h-auto w-full");
-        if (label) svg.setAttribute("aria-label", label);
-        else svg.setAttribute("aria-hidden", "true");
-      }
-      onReady();
-    });
-    return () => {
-      alive = false;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- load once per src
-  }, [src]);
   return (
     <div
-      ref={ref}
       data-plate
+      data-src={src}
+      data-mode={mode}
+      data-at={at}
       className={`absolute ${gild ? "bnf-gild" : ""} ${flip ? "-scale-x-100" : ""}`}
       style={{ "--mask": `url(${src})`, ...style } as React.CSSProperties}
-    />
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element -- the plate as supplied */}
+      <img src={src} alt={alt} draggable={false} className="block h-auto w-full select-none" />
+    </div>
   );
 }
 
-/* ---------------- section ---------------------------------------------- */
+const PLATE_SRCS = [
+  "/footer/pegasus.svg",
+  "/footer/austin.svg",
+  "/footer/colonnade.svg",
+  "/footer/flourish.svg",
+];
 
-const PLATE_COUNT = 7;
+/* ---------------- section ---------------------------------------------- */
 
 export function BanknoteFooter({
   overrides,
@@ -138,92 +138,152 @@ export function BanknoteFooter({
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const scriptsRef = useRef<(HTMLElement | null)[]>([]);
-  const [ready, setReady] = useState(0);
-  const allReady = ready >= PLATE_COUNT;
+  const [svgs, setSvgs] = useState<Map<string, string> | null>(null);
+
+  /* fetch the four vectors once, early — the inject happens later */
+  useEffect(() => {
+    if (reduce) return;
+    let alive = true;
+    Promise.all(PLATE_SRCS.map((s) => loadSvg(s).then((t) => [s, t] as const))).then(
+      (pairs) => {
+        if (alive) setSvgs(new Map(pairs));
+      },
+    );
+    return () => {
+      alive = false;
+    };
+  }, [reduce]);
 
   useGSAP(
     () => {
       const section = sectionRef.current;
-      if (!section || !allReady || reduce) return;
+      if (!section || !svgs || reduce) return;
       const plates = [...section.querySelectorAll<HTMLElement>("[data-plate]")];
       const scripts = scriptsRef.current.filter(Boolean) as HTMLElement[];
-      const monoPath = section.querySelector<SVGPathElement>("[data-monogram] path");
+      const mono = section.querySelector<HTMLElement>("[data-monogram]");
+      const monoPath = mono?.querySelector<SVGPathElement>("path") ?? null;
 
-      /* prime: fills hidden, every path stroked in its own colour */
-      const groups = plates.map((plate) => {
-        const paths = [...plate.querySelectorAll<SVGPathElement>("path")].filter(
-          (p) => (p.getAttribute("fill") ?? "") !== "none",
-        );
-        for (const p of paths) {
-          const f = p.getAttribute("fill") ?? INK;
-          const white = /^(#fff(fff)?|white)$/i.test(f);
-          p.style.stroke = white ? "transparent" : f;
-          p.style.strokeWidth = "0.7";
-          p.style.strokeLinejoin = "round";
-          p.style.fillOpacity = "0";
+      /* until the draw, the plates are held invisible (they're below the
+         fold at load, so nothing flashes) */
+      gsap.set([...plates, ...scripts, mono].filter(Boolean), { opacity: 0 });
+
+      let tl: gsap.core.Timeline | null = null;
+
+      const inject = () => {
+        for (const plate of plates) {
+          const txt = svgs.get(plate.dataset.src ?? "");
+          if (!txt || plate.querySelector("svg")) continue;
+          const img = plate.querySelector("img");
+          if (img) img.style.display = "none";
+          plate.insertAdjacentHTML("beforeend", namespaceIds(txt));
+          const svg = plate.querySelector("svg");
+          if (svg) {
+            svg.removeAttribute("width");
+            svg.removeAttribute("height");
+            svg.setAttribute("class", "block h-auto w-full");
+            svg.setAttribute("aria-hidden", "true");
+          }
         }
-        return paths;
-      });
-      gsap.set(scripts, { opacity: 0, y: 10 });
-      if (monoPath) {
-        monoPath.style.stroke = "currentColor";
-        monoPath.style.strokeWidth = "0.6";
-        monoPath.style.fillOpacity = "0";
-      }
+      };
 
-      const tl = gsap.timeline({
-        scrollTrigger: { trigger: section, start: "top 50%", once: true },
-      });
+      /* the draw finished: hand every plate back to its <img>, untouched */
+      const restore = () => {
+        for (const plate of plates) {
+          plate.querySelector("svg")?.remove();
+          const img = plate.querySelector("img");
+          if (img) img.style.display = "";
+        }
+        if (monoPath) {
+          monoPath.style.stroke = "";
+          monoPath.style.strokeWidth = "";
+          monoPath.style.fillOpacity = "";
+          monoPath.style.strokeDasharray = "";
+          monoPath.style.strokeDashoffset = "";
+        }
+      };
 
-      /* each plate is a sketch: strokes appear on their own delays, then
-         the ink floods in. Pegasi + columns lead, the name lands over them,
-         the flourishes flick in, the scripts settle last. */
-      const startAt = [0, 0, 1.1, 0.35, 0.35, 1.9, 1.9]; // = plate order below
-      groups.forEach((paths, i) => {
-        const t0 = startAt[i];
-        tl.from(
-          paths,
-          {
-            drawSVG: "0%",
-            duration: 1.1,
-            ease: "power1.inOut",
-            stagger: { amount: 1.6, from: "random" },
-          },
-          t0,
-        ).to(
-          paths,
-          {
-            fillOpacity: 1,
-            duration: 0.9,
-            ease: "power2.out",
-            stagger: { amount: 1.2, from: "random" },
-          },
-          t0 + 1.2,
+      const build = () => {
+        inject();
+        tl = gsap.timeline({ paused: true, onComplete: restore });
+        gsap.set(plates, { opacity: 1 });
+
+        for (const plate of plates) {
+          const at = parseFloat(plate.dataset.at ?? "0");
+          const paths = [...plate.querySelectorAll<SVGPathElement>("path")].filter(
+            (p) => (p.getAttribute("fill") ?? "") !== "none",
+          );
+          if (plate.dataset.mode === "batch") {
+            /* hatch marks flick on in ~30 random batches */
+            gsap.set(paths, { opacity: 0 });
+            const per = Math.ceil(paths.length / 30);
+            const batches: SVGPathElement[][] = [];
+            for (let i = 0; i < paths.length; i += per) batches.push(paths.slice(i, i + per));
+            for (const b of batches) {
+              tl.to(b, { opacity: 1, duration: 0.22, ease: "power1.out" }, at + Math.random() * 0.75);
+            }
+          } else {
+            /* true line-drawing: hairline in the path's own ink, fills flood in */
+            for (const p of paths) {
+              const f = p.getAttribute("fill") ?? INK;
+              p.style.stroke = /^(#fff(fff)?|white)$/i.test(f) ? "transparent" : f;
+              p.style.strokeWidth = "0.45";
+              p.style.fillOpacity = "0";
+            }
+            tl.from(
+              paths,
+              { drawSVG: "0%", duration: 0.55, ease: "power1.inOut", stagger: { amount: 0.5, from: "random" } },
+              at,
+            ).to(
+              paths,
+              { fillOpacity: 1, duration: 0.35, ease: "power2.out", stagger: { amount: 0.35, from: "random" } },
+              at + 0.55,
+            );
+          }
+        }
+
+        if (mono && monoPath) {
+          monoPath.style.stroke = "currentColor";
+          monoPath.style.strokeWidth = "0.5";
+          monoPath.style.fillOpacity = "0";
+          gsap.set(mono, { opacity: 1 });
+          tl.from(monoPath, { drawSVG: "0%", duration: 0.7, ease: "power1.inOut" }, 0.95).to(
+            monoPath,
+            { fillOpacity: 1, duration: 0.3 },
+            1.55,
+          );
+        }
+        tl.fromTo(
+          scripts,
+          { opacity: 0, y: 8 },
+          { opacity: 1, y: 0, duration: 0.55, ease: "power2.out", stagger: 0.2 },
+          1.25,
         );
-      });
-      if (monoPath) {
-        tl.from(monoPath, { drawSVG: "0%", duration: 1.6, ease: "power1.inOut" }, 2.8).to(
-          monoPath,
-          { fillOpacity: 1, duration: 0.6 },
-          3.9,
-        );
-      }
-      tl.to(
-        scripts,
-        { opacity: 1, y: 0, duration: 1.1, ease: "power2.out", stagger: 0.35 },
-        3.1,
-      );
+        if (process.env.NODE_ENV === "development") {
+          (window as Window & { __bnfTl?: gsap.core.Timeline }).__bnfTl = tl;
+        }
+      };
+
       if (process.env.NODE_ENV === "development") {
-        // dev-only: lets the timeline be scrubbed from devtools (__bnfTl.progress(0.4))
-        (window as Window & { __bnfTl?: gsap.core.Timeline }).__bnfTl = tl;
+        (window as Window & { __bnfBuild?: () => void }).__bnfBuild = build;
       }
+
+      /* inject + measure one viewport early, so the draw starts clean */
+      ScrollTrigger.create({ trigger: section, start: "top 130%", once: true, onEnter: build });
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top 50%",
+        once: true,
+        onEnter: () => {
+          if (!tl) build();
+          tl?.play();
+        },
+      });
     },
-    { dependencies: [allReady, reduce] },
+    { dependencies: [svgs, reduce] },
   );
 
   const verseLines = cfg.verseText.split("\n");
-  const onReady = () => setReady((n) => n + 1);
-
+  
   return (
     <section
       ref={sectionRef}
@@ -261,20 +321,25 @@ export function BanknoteFooter({
         {/* plate order = animation order (see startAt) */}
         <Plate
           src="/footer/pegasus.svg"
+          alt=""
+          mode="batch"
+          at={0}
           flip
-          onReady={onReady}
           style={{ left: `${cfg.pegasusX}%`, top: `${cfg.pegasusY}%`, width: `${cfg.pegasusW}%` }}
         />
         <Plate
           src="/footer/pegasus.svg"
-          onReady={onReady}
+          alt=""
+          mode="batch"
+          at={0}
           style={{ right: `${cfg.pegasusX}%`, top: `${cfg.pegasusY}%`, width: `${cfg.pegasusW}%` }}
         />
         <Plate
           src="/footer/austin.svg"
+          alt="Austin"
+          mode="draw"
+          at={0.3}
           gild
-          label="Austin"
-          onReady={onReady}
           style={{
             left: "50%",
             top: `${cfg.austinY}%`,
@@ -284,24 +349,32 @@ export function BanknoteFooter({
         />
         <Plate
           src="/footer/colonnade.svg"
-          onReady={onReady}
+          alt=""
+          mode="draw"
+          at={0.1}
           style={{ left: `${cfg.colonnadeX}%`, bottom: `${cfg.colonnadeBottom}%`, width: `${cfg.colonnadeW}%` }}
         />
         <Plate
           src="/footer/colonnade.svg"
+          alt=""
+          mode="draw"
+          at={0.1}
           flip
-          onReady={onReady}
           style={{ right: `${cfg.colonnadeX}%`, bottom: `${cfg.colonnadeBottom}%`, width: `${cfg.colonnadeW}%` }}
         />
         <Plate
           src="/footer/flourish.svg"
+          alt=""
+          mode="draw"
+          at={0.6}
           flip
-          onReady={onReady}
           style={{ left: `${cfg.flourishX}%`, top: `${cfg.flourishY}%`, width: `${cfg.flourishW}%` }}
         />
         <Plate
           src="/footer/flourish.svg"
-          onReady={onReady}
+          alt=""
+          mode="draw"
+          at={0.6}
           style={{ right: `${cfg.flourishX}%`, top: `${cfg.flourishY}%`, width: `${cfg.flourishW}%` }}
         />
 
