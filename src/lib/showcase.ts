@@ -47,6 +47,14 @@ export const showcase: ShowcaseItem[] = [
     theme: { bg: "#0B0A09", fg: "#F4F0EA", accent: "#FF5A2D" },
   },
   {
+    id: "mach",
+    title: "MACH",
+    subtitle: "Making the impossible feel production-ready",
+    year: "2025",
+    href: "/work/mach",
+    theme: { bg: "#070708", fg: "#F3F3F1", accent: "#C9CCD1" },
+  },
+  {
     id: "playground",
     title: "Playground",
     subtitle: "Brand, type & visual explorations",

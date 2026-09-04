@@ -1,0 +1,74 @@
+{
+  "slug": "mach",
+  "title": "MACH",
+  "tagline": "Making the impossible feel production-ready.",
+  "summary": "Brand strategy, identity and website for a portable virtual-production studio.",
+  "year": "2025",
+  "tags": [
+    "Brand Strategy",
+    "Identity",
+    "Creative Direction",
+    "Digital"
+  ],
+  "role": "Brand strategy & creative direction",
+  "disciplines": "Brand Strategy · Identity · Creative Direction · Digital",
+  "team": "With the MACH team",
+  "scope": "Strategy, identity, creative direction, website",
+  "featured": false,
+  "order": 3,
+  "sections": [
+    {
+      "id": "problem",
+      "kicker": "The problem",
+      "heading": "Virtual production could do incredible things.",
+      "body": [
+        "But access to it was still expensive, complex, and built around large productions.",
+        "MACH set out to change that."
+      ],
+      "statement": "World-class production, without the usual constraints.",
+      "media": []
+    },
+    {
+      "id": "worlds",
+      "kicker": "Creative × Technology",
+      "heading": "MACH lives between two worlds.",
+      "body": [
+        "The machine. Real-time technology, virtual environments, tracking, motion capture.",
+        "The imagination. Directors, artists, stories, ideas.",
+        "The brand needed to make both feel natural."
+      ],
+      "statement": "Creative enough to excite. Technical enough to trust.",
+      "media": []
+    },
+    {
+      "id": "move",
+      "kicker": "Built to move",
+      "heading": "MACH wasn't built around a studio. It was built around the production.",
+      "body": [
+        "Portable infrastructure means the studio can travel to the project, wherever it is."
+      ],
+      "statement": "Your stage, anywhere.",
+      "media": []
+    },
+    {
+      "id": "identity",
+      "kicker": "The identity",
+      "heading": "Fast, experimental and capable.",
+      "body": [
+        "The visual language combines cinematic imagery, bold typography, motion and technology to create a brand that feels fast, experimental and capable.",
+        "The website extends that language into an experience that shows the work first and explains the technology second."
+      ],
+      "statement": "Don't tell people what MACH can do. Let them imagine what they could make.",
+      "media": []
+    }
+  ],
+  "impact": {
+    "title": "In numbers",
+    "stats": []
+  },
+  "result": {
+    "heading": "MACH",
+    "body": [],
+    "statement": "Possibilities made limitless."
+  }
+}

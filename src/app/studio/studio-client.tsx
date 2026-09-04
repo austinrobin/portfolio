@@ -10,6 +10,7 @@ import { siteConfig, type SiteConfig } from "@/lib/site";
 import {
   caseStockbee,
   caseLwt,
+  caseMach,
   type CaseMedia,
   type CaseStudy,
 } from "@/lib/case-studies";
@@ -35,6 +36,7 @@ interface Draft {
   site: SiteConfig;
   caseStockbee: CaseStudy;
   caseLwt: CaseStudy;
+  caseMach: CaseStudy;
   lab: LabCascadeSettings;
   footer: FooterSettings;
 }
@@ -52,7 +54,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v15"; // v15: StockBee Meet frame + AI section (v14: custom blocks + focal point)
+const DRAFT_KEY = "studio-draft-v16"; // v16: MACH case added (v15: StockBee assets; v14: custom blocks + focal point)
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {
@@ -60,6 +62,7 @@ const defaults: Draft = {
   site: siteConfig,
   caseStockbee,
   caseLwt,
+  caseMach,
   lab: labConfig,
   footer: footerConfig,
 };
@@ -307,9 +310,9 @@ export function StudioClient() {
   const [tab, setTab] = useState<"controls" | "log">("controls");
   const [open, setOpen] = useState(true);
   const [group, setGroup] = useState<string | null>("Hero — text");
-  const [target, setTarget] = useState<"home" | "case" | "case-lwt">("home");
-  const caseKey = target === "case-lwt" ? ("caseLwt" as const) : ("caseStockbee" as const);
-  const caseLabel = caseKey === "caseLwt" ? "LWT" : "StockBee";
+  const [target, setTarget] = useState<"home" | "case" | "case-lwt" | "case-mach">("home");
+  const caseKey = target === "case-lwt" ? ("caseLwt" as const) : target === "case-mach" ? ("caseMach" as const) : ("caseStockbee" as const);
+  const caseLabel = caseKey === "caseLwt" ? "LWT" : caseKey === "caseMach" ? "MACH" : "StockBee";
   const [status, setStatus] = useState<string>("");
   const [saving, setSaving] = useState(false);
   const [log, setLog] = useState<LogEntry[]>([]);
@@ -490,6 +493,10 @@ export function StudioClient() {
               content: JSON.stringify(draft.caseLwt, null, 2) + "\n",
             },
             {
+              path: "content/case-mach.json",
+              content: JSON.stringify(draft.caseMach, null, 2) + "\n",
+            },
+            {
               path: "content/lab.json",
               content: JSON.stringify(draft.lab, null, 2) + "\n",
             },
@@ -625,6 +632,7 @@ export function StudioClient() {
                 ["home", "Home"],
                 ["case", "StockBee"],
                 ["case-lwt", "LWT"],
+                ["case-mach", "MACH"],
               ] as const
             ).map(([k, label]) => (
               <button
@@ -633,7 +641,7 @@ export function StudioClient() {
                   setTarget(k);
                   setTab("controls");
                   setGroup(
-                    k === "home" ? "Hero — text" : k === "case-lwt" ? "Case — LWT" : "Case — StockBee",
+                    k === "home" ? "Hero — text" : k === "case-lwt" ? "Case — LWT" : k === "case-mach" ? "Case — MACH" : "Case — StockBee",
                   );
                 }}
                 className={`rounded-full px-3 py-1.5 text-xs ${

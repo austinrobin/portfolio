@@ -475,7 +475,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
 
   const chapters = [
     ...cs.sections.map((s) => ({ id: s.id, label: s.kicker })),
-    { id: "impact", label: "In numbers" },
+    ...(cs.impact.stats.length > 0 ? [{ id: "impact", label: "In numbers" }] : []),
     { id: "result", label: "Outcome" },
   ];
 
@@ -586,7 +586,8 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
             </Chapter>
           ))}
 
-          {/* ---- in numbers ---- */}
+          {/* ---- in numbers — only when the case has stats ---- */}
+          {cs.impact.stats.length > 0 ? (
           <Chapter id="impact" kicker="In numbers" heading={cs.impact.title}>
             <Rise className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 sm:mt-[50px] md:grid-cols-3">
               {cs.impact.stats.map((stat, i) => {
@@ -608,6 +609,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
               })}
             </Rise>
           </Chapter>
+          ) : null}
 
           {/* ---- outcome ---- */}
           <Chapter
