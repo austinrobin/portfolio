@@ -52,7 +52,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v14"; // v14: custom blocks (cols/ratio) + focal point per asset
+const DRAFT_KEY = "studio-draft-v15"; // v15: StockBee Meet frame + AI section (v14: custom blocks + focal point)
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {

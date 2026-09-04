@@ -35,9 +35,11 @@
       "media": [
         {
           "kind": "image",
-          "src": "",
-          "caption": "",
-          "aspect": "wide"
+          "src": "/case/stockbee/meet-stockbee.webp",
+          "alt": "Meet StockBee — a phone showing a Tata Motors alert up 14% since the news",
+          "block": "primary",
+          "w": 1800,
+          "h": 1025
         }
       ]
     },
@@ -70,9 +72,11 @@
       "media": [
         {
           "kind": "image",
-          "src": "",
-          "caption": "",
-          "aspect": "wide"
+          "src": "/case/stockbee/ai-section.webp",
+          "alt": "Four StockBee capabilities: real-time scanning, lightning-fast WhatsApp delivery, smart summaries and precision filtering",
+          "block": "primary",
+          "w": 1491,
+          "h": 879
         }
       ],
       "showcase": true
