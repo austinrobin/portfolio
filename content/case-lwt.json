@@ -37,6 +37,17 @@
       "statement": "The company had evolved. The identity hadn't.",
       "media": [
         {
+          "kind": "video",
+          "src": "/case/lwt/scale-02.mp4",
+          "poster": "/case/lwt/scale-02.jpg",
+          "block": "primary",
+          "cols": 2,
+          "ratio": 1.7778,
+          "w": 1276,
+          "h": 718,
+          "focusX": 50
+        },
+        {
           "kind": "image",
           "src": "/case/lwt/stage-screen.webp",
           "block": "primary",
@@ -117,6 +128,18 @@
           "aspect": "wide",
           "w": 1920,
           "h": 1080
+        },
+        {
+          "kind": "video",
+          "src": "/case/lwt/scale-05.mp4",
+          "poster": "/case/lwt/scale-05.jpg",
+          "block": "primary",
+          "cols": 2,
+          "ratio": 1.7778,
+          "w": 1276,
+          "h": 718,
+          "focusX": 50,
+          "focusY": 38
         }
       ]
     },
@@ -160,12 +183,33 @@
       "statement": "Different parts. One direction.",
       "media": [
         {
+          "kind": "video",
+          "src": "/case/lwt/scale-08.mp4",
+          "poster": "/case/lwt/scale-08.jpg",
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 1.7778,
+          "w": 1276,
+          "h": 718
+        },
+        {
           "kind": "image",
           "src": "/case/lwt/building-sign.webp",
-          "block": "primary",
+          "block": "secondary",
           "aspect": "wide",
           "w": 1920,
           "h": 1080
+        },
+        {
+          "kind": "video",
+          "src": "/case/lwt/scale-03.webm",
+          "poster": "/case/lwt/scale-03.jpg",
+          "block": "primary",
+          "cols": 2,
+          "ratio": 1.7778,
+          "w": 1276,
+          "h": 718,
+          "srcFallback": "/case/lwt/scale-03.mp4"
         }
       ]
     },
@@ -195,6 +239,16 @@
           "aspect": "wide",
           "w": 1920,
           "h": 1080
+        },
+        {
+          "kind": "video",
+          "src": "/case/lwt/scale-04.mp4",
+          "poster": "/case/lwt/scale-04.jpg",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.7778,
+          "w": 1276,
+          "h": 718
         }
       ]
     },
@@ -262,6 +316,37 @@
           "h": 1080
         },
         {
+          "kind": "video",
+          "src": "/case/lwt/scale-01.webm",
+          "poster": "/case/lwt/scale-01.jpg",
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 1.7778,
+          "w": 1276,
+          "h": 718,
+          "srcFallback": "/case/lwt/scale-01.mp4"
+        },
+        {
+          "kind": "video",
+          "src": "/case/lwt/scale-06.mp4",
+          "poster": "/case/lwt/scale-06.jpg",
+          "block": "tertiary",
+          "cols": 2,
+          "ratio": 1.7778,
+          "w": 1276,
+          "h": 718
+        },
+        {
+          "kind": "video",
+          "src": "/case/lwt/scale-07.mp4",
+          "poster": "/case/lwt/scale-07.jpg",
+          "block": "tertiary",
+          "cols": 2,
+          "ratio": 1.7778,
+          "w": 1276,
+          "h": 718
+        },
+        {
           "kind": "image",
           "src": "/case/lwt/poster-mountain.webp",
           "block": "secondary",
@@ -318,90 +403,7 @@
         "A group identity cannot be designed only around what exists today.",
         "LWT was designed to move beyond a single product, technology or industry, creating a visual foundation for the organisation's next stage of growth."
       ],
-      "media": [
-        {
-          "kind": "video",
-          "src": "/case/lwt/scale-01.webm",
-          "poster": "/case/lwt/scale-01.jpg",
-          "block": "custom",
-          "cols": 2,
-          "ratio": 1.7778,
-          "w": 1276,
-          "h": 718,
-          "srcFallback": "/case/lwt/scale-01.mp4"
-        },
-        {
-          "kind": "video",
-          "src": "/case/lwt/scale-02.mp4",
-          "poster": "/case/lwt/scale-02.jpg",
-          "block": "custom",
-          "cols": 2,
-          "ratio": 1.7778,
-          "w": 1276,
-          "h": 718
-        },
-        {
-          "kind": "video",
-          "src": "/case/lwt/scale-03.webm",
-          "poster": "/case/lwt/scale-03.jpg",
-          "block": "custom",
-          "cols": 2,
-          "ratio": 1.7778,
-          "w": 1276,
-          "h": 718,
-          "srcFallback": "/case/lwt/scale-03.mp4"
-        },
-        {
-          "kind": "video",
-          "src": "/case/lwt/scale-04.mp4",
-          "poster": "/case/lwt/scale-04.jpg",
-          "block": "custom",
-          "cols": 2,
-          "ratio": 1.7778,
-          "w": 1276,
-          "h": 718
-        },
-        {
-          "kind": "video",
-          "src": "/case/lwt/scale-05.mp4",
-          "poster": "/case/lwt/scale-05.jpg",
-          "block": "custom",
-          "cols": 2,
-          "ratio": 1.7778,
-          "w": 1276,
-          "h": 718
-        },
-        {
-          "kind": "video",
-          "src": "/case/lwt/scale-06.mp4",
-          "poster": "/case/lwt/scale-06.jpg",
-          "block": "custom",
-          "cols": 2,
-          "ratio": 1.7778,
-          "w": 1276,
-          "h": 718
-        },
-        {
-          "kind": "video",
-          "src": "/case/lwt/scale-07.mp4",
-          "poster": "/case/lwt/scale-07.jpg",
-          "block": "custom",
-          "cols": 2,
-          "ratio": 1.7778,
-          "w": 1276,
-          "h": 718
-        },
-        {
-          "kind": "video",
-          "src": "/case/lwt/scale-08.mp4",
-          "poster": "/case/lwt/scale-08.jpg",
-          "block": "custom",
-          "cols": 2,
-          "ratio": 1.7778,
-          "w": 1276,
-          "h": 718
-        }
-      ]
+      "media": []
     }
   ],
   "impact": {
