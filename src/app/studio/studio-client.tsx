@@ -54,7 +54,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v17"; // v17: MACH videos placed (v16: MACH case; v14: custom blocks + focal point)
+const DRAFT_KEY = "studio-draft-v18"; // v18: LWT reel in Built to scale (v17: MACH videos; v14: custom blocks + focal point)
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {

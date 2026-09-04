@@ -318,7 +318,16 @@
         "A group identity cannot be designed only around what exists today.",
         "LWT was designed to move beyond a single product, technology or industry, creating a visual foundation for the organisation's next stage of growth."
       ],
-      "media": []
+      "media": [
+        {
+          "kind": "video",
+          "src": "/case/lwt/reel.mp4",
+          "poster": "/case/lwt/reel.jpg",
+          "block": "primary",
+          "w": 1276,
+          "h": 718
+        }
+      ]
     }
   ],
   "impact": {

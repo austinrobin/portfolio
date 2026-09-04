@@ -68,20 +68,52 @@ function VideoSources({
   loop?: boolean;
   style?: React.CSSProperties;
 }) {
+  /* Lazy: a case page can carry 15MB+ of video, and autoplay makes browsers
+     fetch every file on mount regardless of preload. Sources attach only
+     when the tile comes within a viewport of the screen; playback follows
+     visibility so off-screen loops don't burn CPU. */
+  const ref = useRef<HTMLVideoElement>(null);
+  const [near, setNear] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    // synchronous first check — the observer's initial callback waits for a
+    // rendering frame, so a tile already within a viewport attaches at once
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight * 2 && r.bottom > -window.innerHeight) setNear(true);
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) setNear(true);
+          const v = e.target as HTMLVideoElement;
+          if (e.isIntersecting) v.play().catch(() => {});
+          else v.pause();
+        }
+      },
+      { rootMargin: "100% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  useEffect(() => {
+    if (near && ref.current) ref.current.load();
+  }, [near]);
   const common = {
+    ref,
     className,
     style,
     poster: media.poster,
-    autoPlay: true,
     muted: true,
     playsInline: true,
-    preload: "metadata" as const,
+    preload: "none" as const,
+    loop,
   };
+  if (!near) return <video {...common} />;
   if (!media.srcFallback) {
-    return <video {...common} src={media.src} loop={loop} />;
+    return <video {...common} autoPlay src={media.src} />;
   }
   return (
-    <video {...common} loop={loop}>
+    <video {...common} autoPlay>
       <source src={media.src} type="video/webm" />
       <source src={media.srcFallback} type="video/mp4" />
     </video>
