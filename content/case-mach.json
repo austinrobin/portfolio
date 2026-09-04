@@ -26,7 +26,17 @@
         "MACH set out to change that."
       ],
       "statement": "World-class production, without the usual constraints.",
-      "media": []
+      "media": [
+        {
+          "kind": "video",
+          "src": "/case/mach/reveal.webm",
+          "srcFallback": "/case/mach/reveal.mp4",
+          "poster": "/case/mach/reveal.jpg",
+          "block": "primary",
+          "w": 1280,
+          "h": 720
+        }
+      ]
     },
     {
       "id": "worlds",
@@ -38,7 +48,17 @@
         "The brand needed to make both feel natural."
       ],
       "statement": "Creative enough to excite. Technical enough to trust.",
-      "media": []
+      "media": [
+        {
+          "kind": "video",
+          "src": "/case/mach/camera.webm",
+          "srcFallback": "/case/mach/camera.mp4",
+          "poster": "/case/mach/camera.jpg",
+          "block": "secondary",
+          "w": 720,
+          "h": 1280
+        }
+      ]
     },
     {
       "id": "move",
@@ -48,7 +68,17 @@
         "Portable infrastructure means the studio can travel to the project, wherever it is."
       ],
       "statement": "Your stage, anywhere.",
-      "media": []
+      "media": [
+        {
+          "kind": "video",
+          "src": "/case/mach/anywhere.webm",
+          "srcFallback": "/case/mach/anywhere.mp4",
+          "poster": "/case/mach/anywhere.jpg",
+          "block": "primary",
+          "w": 1280,
+          "h": 720
+        }
+      ]
     },
     {
       "id": "identity",
@@ -59,7 +89,19 @@
         "The website extends that language into an experience that shows the work first and explains the technology second."
       ],
       "statement": "Don't tell people what MACH can do. Let them imagine what they could make.",
-      "media": []
+      "media": [
+        {
+          "kind": "video",
+          "src": "/case/mach/mark.webm",
+          "srcFallback": "/case/mach/mark.mp4",
+          "poster": "/case/mach/mark.jpg",
+          "block": "custom",
+          "w": 640,
+          "h": 360,
+          "cols": 2,
+          "ratio": 1.7778
+        }
+      ]
     }
   ],
   "impact": {
@@ -70,5 +112,14 @@
     "heading": "MACH",
     "body": [],
     "statement": "Possibilities made limitless."
+  },
+  "heroMedia": {
+    "kind": "video",
+    "src": "/case/mach/hero.webm",
+    "srcFallback": "/case/mach/hero.mp4",
+    "poster": "/case/mach/hero.jpg",
+    "block": "primary",
+    "w": 1280,
+    "h": 720
   }
 }

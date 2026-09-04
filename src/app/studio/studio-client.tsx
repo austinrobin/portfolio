@@ -54,7 +54,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v16"; // v16: MACH case added (v15: StockBee assets; v14: custom blocks + focal point)
+const DRAFT_KEY = "studio-draft-v17"; // v17: MACH videos placed (v16: MACH case; v14: custom blocks + focal point)
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {
