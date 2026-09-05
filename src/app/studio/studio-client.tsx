@@ -54,7 +54,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v22"; // v22: videos re-cut at CRF 20, mp4 only (v20: zoom; v14: custom blocks + focal point)
+const DRAFT_KEY = "studio-draft-v23"; // v23: per-video sound toggle (v20: zoom; v14: custom blocks + focal point)
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {
@@ -1473,6 +1473,16 @@ export function StudioClient() {
                               hint="1 = cover fit · above zooms in around the focus · below pulls back"
                             />
                           </div>
+                          {m.kind === "video" ? (
+                            <label className="mt-2 flex items-center gap-2 text-sm">
+                              <input
+                                type="checkbox"
+                                checked={!!m.sound}
+                                onChange={(e) => setMedia(si, mi, { sound: e.target.checked })}
+                              />
+                              Sound on click (cursor toggle) — the file must carry audio
+                            </label>
+                          ) : null}
                         </div>
                       ))}
                       <label className="block cursor-pointer rounded-lg border border-dashed border-border px-3 py-2.5 text-center text-sm text-muted hover:text-foreground">

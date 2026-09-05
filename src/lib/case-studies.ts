@@ -38,6 +38,9 @@ export interface CaseMedia {
   /** Zoom of the asset inside its frame: 1 = cover fit, >1 zooms in around
       the focal point, <1 pulls back and shows the frame around it. */
   zoom?: number;
+  /** Video only: the clip carries audio. It still autoplays muted; the tile
+      gets a cursor-following SOUND OFF / ON toggle that unmutes on click. */
+  sound?: boolean;
   /** @deprecated superseded by `block` — ignored. */
   span?: number;
   /** Intrinsic pixel size — lets a grid cell reserve its exact aspect

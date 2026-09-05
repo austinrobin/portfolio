@@ -94,7 +94,8 @@
           "block": "primary",
           "w": 1276,
           "h": 718,
-          "zoom": 1.45
+          "zoom": 1.45,
+          "sound": true
         },
         {
           "kind": "video",

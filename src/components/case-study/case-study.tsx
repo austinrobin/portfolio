@@ -120,6 +120,84 @@ function VideoSources({
   );
 }
 
+
+/* ------------------------------------------------------- sound toggle */
+
+/* A clip that carries audio autoplays muted like every other tile; hovering
+   swaps the cursor for a SOUND OFF / ON pill that follows the pointer, and a
+   click (a real button — keyboard and touch work too) unmutes it. Without a
+   fine pointer the pill sits in the corner instead. */
+function SoundToggle({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [on, setOn] = useState(false);
+  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
+  const [focused, setFocused] = useState(false);
+  const [finePointer, setFinePointer] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const sync = () => setFinePointer(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  const toggle = () => {
+    const v = ref.current?.querySelector("video");
+    if (!v) return;
+    const next = !on;
+    v.muted = !next;
+    if (next) v.play().catch(() => {});
+    setOn(next);
+  };
+  const showPill = pos !== null || !finePointer || focused;
+  const label = `SOUND ${on ? "ON" : "OFF"}`;
+  return (
+    <div
+      ref={ref}
+      className="absolute inset-0"
+      style={finePointer ? { cursor: "none" } : undefined}
+      onMouseMove={(e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        setPos({ x: e.clientX - r.left, y: e.clientY - r.top });
+      }}
+      onMouseLeave={() => setPos(null)}
+    >
+      {children}
+      <button
+        type="button"
+        aria-pressed={on}
+        aria-label={on ? "Turn sound off" : "Turn sound on"}
+        onClick={toggle}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        className="absolute inset-0 h-full w-full bg-transparent focus:outline-none"
+        style={finePointer ? { cursor: "none" } : undefined}
+      />
+      <span
+        aria-hidden
+        className={`pointer-events-none absolute flex items-center gap-2 rounded-[5px] bg-[#1c1c1c]/85 px-3 py-2 font-mono text-[13px] font-semibold uppercase tracking-[0.12em] text-white transition-opacity duration-150 ${showPill ? "opacity-100" : "opacity-0"}`}
+        style={
+          pos && finePointer
+            ? { left: pos.x, top: pos.y, transform: "translate(-50%, -50%)" }
+            : { left: 16, bottom: 16 }
+        }
+      >
+        {label}
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2.5 6.2h2.4L8.6 3v10L4.9 9.8H2.5z" fill="currentColor" stroke="none" />
+          {on ? (
+            <>
+              <path d="M10.6 5.6a3.4 3.4 0 0 1 0 4.8" />
+              <path d="M12.4 3.8a6 6 0 0 1 0 8.4" />
+            </>
+          ) : (
+            <path d="M10.6 6.2l3.4 3.6M14 6.2l-3.4 3.6" />
+          )}
+        </svg>
+      </span>
+    </div>
+  );
+}
+
 /* ---------------------------------------------------------- media river */
 
 /* Austin's block system — three blocks, one rule:
@@ -228,12 +306,23 @@ function Tile({
     >
       {media.src ? (
         media.kind === "video" ? (
-          <VideoSources
-            media={media}
-            loop={loop}
-            className="absolute inset-0 h-full w-full object-cover"
-            style={fit(media)}
-          />
+          media.sound ? (
+            <SoundToggle>
+              <VideoSources
+                media={media}
+                loop={loop}
+                className="absolute inset-0 h-full w-full object-cover"
+                style={fit(media)}
+              />
+            </SoundToggle>
+          ) : (
+            <VideoSources
+              media={media}
+              loop={loop}
+              className="absolute inset-0 h-full w-full object-cover"
+              style={fit(media)}
+            />
+          )
         ) : (
           /* eslint-disable-next-line @next/next/no-img-element -- assets are
              optimised on entry (studio-compressed or hand-encoded) */
@@ -566,7 +655,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
               ref={monoRef}
               href="/"
               aria-label="Austin Moras — home"
-              className="absolute left-0 top-[-8.4svh] block h-[6.2svh] min-h-10 opacity-0"
+              className="absolute left-0 top-[-8.4svh] block h-[4.65svh] min-h-[30px] text-accent opacity-0"
             >
               <Monogram className="h-full w-auto" />
             </Link>
