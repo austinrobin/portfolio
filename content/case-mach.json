@@ -93,7 +93,8 @@
           "poster": "/case/mach/drive.jpg",
           "block": "primary",
           "w": 1276,
-          "h": 718
+          "h": 718,
+          "zoom": 1.45
         },
         {
           "kind": "video",
