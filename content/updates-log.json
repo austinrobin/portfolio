@@ -1,5 +1,58 @@
 [
   {
+    "at": "2026-09-05T06:04:11.072Z",
+    "summary": "update zoom",
+    "changes": [
+      {
+        "field": "caseMach.sections.3.media.0.zoom",
+        "to": 1.35
+      }
+    ]
+  },
+  {
+    "at": "2026-09-05T06:02:12.311Z",
+    "summary": "update zoom, zoom, zoom +6 more",
+    "changes": [
+      {
+        "field": "caseLwt.sections.0.media.0.zoom",
+        "to": 1.1
+      },
+      {
+        "field": "caseLwt.sections.0.media.1.zoom",
+        "to": 1
+      },
+      {
+        "field": "caseLwt.sections.2.media.2.zoom",
+        "to": 1.15
+      },
+      {
+        "field": "caseLwt.sections.4.media.2.zoom",
+        "to": 1.1
+      },
+      {
+        "field": "caseLwt.sections.5.media.2.block",
+        "from": "custom",
+        "to": "primary"
+      },
+      {
+        "field": "caseLwt.sections.5.media.2.zoom",
+        "to": 1.1
+      },
+      {
+        "field": "caseLwt.sections.7.media.1.zoom",
+        "to": 1.1
+      },
+      {
+        "field": "caseLwt.sections.7.media.2.zoom",
+        "to": 1.1
+      },
+      {
+        "field": "caseLwt.sections.7.media.3.zoom",
+        "to": 1.1
+      }
+    ]
+  },
+  {
     "at": "2026-09-04T20:36:55.702Z",
     "summary": "update kind, src, aspect +49 more",
     "changes": [
