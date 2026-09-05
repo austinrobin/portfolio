@@ -174,15 +174,15 @@ function SoundToggle({ children }: { children: React.ReactNode }) {
       />
       <span
         aria-hidden
-        className={`pointer-events-none absolute flex items-center gap-2 rounded-[5px] bg-[#1c1c1c]/85 px-3 py-2 font-mono text-[13px] font-semibold uppercase tracking-[0.12em] text-white transition-opacity duration-150 ${showPill ? "opacity-100" : "opacity-0"}`}
+        className={`pointer-events-none absolute flex items-center gap-[5px] rounded-[4px] bg-white/15 px-[7px] py-[5px] font-mono text-[9px] font-semibold uppercase tracking-[0.12em] text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.18)] backdrop-blur-md transition-opacity duration-150 ${showPill ? "opacity-100" : "opacity-0"}`}
         style={
           pos && finePointer
             ? { left: pos.x, top: pos.y, transform: "translate(-50%, -50%)" }
-            : { left: 16, bottom: 16 }
+            : { left: 12, bottom: 12 }
         }
       >
         {label}
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
           <path d="M2.5 6.2h2.4L8.6 3v10L4.9 9.8H2.5z" fill="currentColor" stroke="none" />
           {on ? (
             <>
