@@ -54,7 +54,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v21"; // v21: MACH drive spot (v20: zoom; v14: custom blocks + focal point)
+const DRAFT_KEY = "studio-draft-v22"; // v22: videos re-cut at CRF 20, mp4 only (v20: zoom; v14: custom blocks + focal point)
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {

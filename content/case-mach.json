@@ -29,8 +29,7 @@
       "media": [
         {
           "kind": "video",
-          "src": "/case/mach/reveal.webm",
-          "srcFallback": "/case/mach/reveal.mp4",
+          "src": "/case/mach/reveal.mp4",
           "poster": "/case/mach/reveal.jpg",
           "block": "primary",
           "w": 1280,
@@ -51,8 +50,7 @@
       "media": [
         {
           "kind": "video",
-          "src": "/case/mach/camera.webm",
-          "srcFallback": "/case/mach/camera.mp4",
+          "src": "/case/mach/camera.mp4",
           "poster": "/case/mach/camera.jpg",
           "block": "secondary",
           "w": 720,
@@ -71,8 +69,7 @@
       "media": [
         {
           "kind": "video",
-          "src": "/case/mach/anywhere.webm",
-          "srcFallback": "/case/mach/anywhere.mp4",
+          "src": "/case/mach/anywhere.mp4",
           "poster": "/case/mach/anywhere.jpg",
           "block": "primary",
           "w": 1280,
@@ -100,8 +97,7 @@
         },
         {
           "kind": "video",
-          "src": "/case/mach/mark.webm",
-          "srcFallback": "/case/mach/mark.mp4",
+          "src": "/case/mach/mark.mp4",
           "poster": "/case/mach/mark.jpg",
           "block": "custom",
           "w": 640,
@@ -124,8 +120,7 @@
   },
   "heroMedia": {
     "kind": "video",
-    "src": "/case/mach/hero.webm",
-    "srcFallback": "/case/mach/hero.mp4",
+    "src": "/case/mach/hero.mp4",
     "poster": "/case/mach/hero.jpg",
     "block": "primary",
     "w": 1280,

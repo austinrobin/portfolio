@@ -205,14 +205,13 @@
         },
         {
           "kind": "video",
-          "src": "/case/lwt/scale-03.webm",
+          "src": "/case/lwt/scale-03.mp4",
           "poster": "/case/lwt/scale-03.jpg",
           "block": "primary",
           "cols": 2,
           "ratio": 1.7778,
           "w": 1276,
           "h": 718,
-          "srcFallback": "/case/lwt/scale-03.mp4",
           "zoom": 1.1
         }
       ]
@@ -322,14 +321,13 @@
         },
         {
           "kind": "video",
-          "src": "/case/lwt/scale-01.webm",
+          "src": "/case/lwt/scale-01.mp4",
           "poster": "/case/lwt/scale-01.jpg",
           "block": "secondary",
           "cols": 2,
           "ratio": 1.7778,
           "w": 1276,
           "h": 718,
-          "srcFallback": "/case/lwt/scale-01.mp4",
           "zoom": 1.1
         },
         {
