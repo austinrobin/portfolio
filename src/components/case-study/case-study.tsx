@@ -634,7 +634,8 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
     else el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const meta = [cs.tags[0], cs.year].filter(Boolean).join(" · ");
+  /* every hat worn on the project, then the year */
+  const meta = [...cs.tags, cs.year].filter(Boolean).join(" · ");
 
   return (
     <article
@@ -660,15 +661,15 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
               <Monogram className="h-full w-auto" />
             </Link>
             <h1
-              className="text-[26px] font-medium uppercase leading-none tracking-[0.02em]"
+              className="text-[26px] font-bold uppercase leading-none tracking-[0.02em]"
               style={{ fontFamily: "var(--font-silk)" }}
             >
               {cs.title}
             </h1>
-            <p className="mt-1 text-[19px] font-medium leading-[1.25] tracking-[-0.01em] text-muted">
+            <p className="mt-3.5 text-[19px] font-medium leading-[1.25] tracking-[-0.01em] text-muted">
               {cs.tagline}
             </p>
-            <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
+            <p className="mt-6 font-mono text-[11px] uppercase leading-[1.9] tracking-[0.18em] text-muted">
               {meta}
             </p>
             <div className="mt-12 pl-3.5">
@@ -682,15 +683,15 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
           {/* narrow screens: identity + index above the river */}
           <div className="mb-8 pt-[12svh] md:hidden">
             <h1
-              className="text-[22px] font-medium uppercase leading-none tracking-[0.02em]"
+              className="text-[22px] font-bold uppercase leading-none tracking-[0.02em]"
               style={{ fontFamily: "var(--font-silk)" }}
             >
               {cs.title}
             </h1>
-            <p className="mt-1 text-[18px] font-medium leading-[1.25] text-muted">
+            <p className="mt-3 text-[18px] font-medium leading-[1.25] text-muted">
               {cs.tagline}
             </p>
-            <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
+            <p className="mt-5 font-mono text-[11px] uppercase leading-[1.9] tracking-[0.18em] text-muted">
               {meta}
             </p>
             <div className="mt-6">
