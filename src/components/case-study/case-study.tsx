@@ -400,7 +400,7 @@ function ChapterIndex({
             key={c.id}
             type="button"
             onClick={() => onJump(c.id)}
-            className={`group relative whitespace-nowrap text-left text-[15px] font-light leading-none transition-colors sm:text-[16px] ${
+            className={`group relative whitespace-nowrap text-left text-[14px] font-medium leading-none transition-colors sm:text-[15px] ${
               on ? "text-foreground" : "text-muted hover:text-foreground"
             }`}
           >
@@ -576,7 +576,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
             >
               {cs.title}
             </h1>
-            <p className="mt-1 text-[24px] font-light leading-[1.2] tracking-[-0.01em] text-muted">
+            <p className="mt-1 text-[19px] font-medium leading-[1.25] tracking-[-0.01em] text-muted">
               {cs.tagline}
             </p>
             <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
@@ -598,7 +598,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
             >
               {cs.title}
             </h1>
-            <p className="mt-1 text-[22px] font-light leading-[1.2] text-muted">
+            <p className="mt-1 text-[18px] font-medium leading-[1.25] text-muted">
               {cs.tagline}
             </p>
             <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.22em] text-muted">
