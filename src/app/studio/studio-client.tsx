@@ -54,7 +54,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v19"; // v19: LWT eight clips in Built to scale (v17: MACH videos; v14: custom blocks + focal point)
+const DRAFT_KEY = "studio-draft-v20"; // v20: per-asset zoom (v19: LWT clips; v14: custom blocks + focal point)
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {
@@ -1460,6 +1460,17 @@ export function StudioClient() {
                               step={1}
                               onChange={(v) => setMedia(si, mi, { focusY: v })}
                               hint="top → bottom"
+                            />
+                          </div>
+                          <div className="mt-2">
+                            <Slider
+                              label="Zoom"
+                              value={m.zoom ?? 1}
+                              min={0.5}
+                              max={3}
+                              step={0.05}
+                              onChange={(v) => setMedia(si, mi, { zoom: v })}
+                              hint="1 = cover fit · above zooms in around the focus · below pulls back"
                             />
                           </div>
                         </div>

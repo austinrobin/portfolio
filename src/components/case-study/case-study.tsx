@@ -186,6 +186,14 @@ function frameRatio(m: CaseMedia, fallback: keyof typeof FRAME) {
   return FRAME[blockOf(m) as keyof typeof FRAME] ?? FRAME[fallback];
 }
 const focus = (m: CaseMedia) => `${m.focusX ?? 50}% ${m.focusY ?? 50}%`;
+/* zoom scales the cover-fit asset around its focal point; the frame clips */
+const fit = (m: CaseMedia): React.CSSProperties => {
+  const z = m.zoom ?? 1;
+  const pos = focus(m);
+  return z === 1
+    ? { objectPosition: pos }
+    : { objectPosition: pos, transform: `scale(${z})`, transformOrigin: pos };
+};
 
 function Tile({
   media,
@@ -224,7 +232,7 @@ function Tile({
             media={media}
             loop={loop}
             className="absolute inset-0 h-full w-full object-cover"
-            style={{ objectPosition: focus(media) }}
+            style={fit(media)}
           />
         ) : (
           /* eslint-disable-next-line @next/next/no-img-element -- assets are
@@ -234,7 +242,7 @@ function Tile({
             alt={alt}
             loading={eager ? "eager" : "lazy"}
             className="absolute inset-0 h-full w-full object-cover"
-            style={{ objectPosition: focus(media) }}
+            style={fit(media)}
           />
         )
       ) : (

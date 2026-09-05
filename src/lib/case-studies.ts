@@ -35,6 +35,9 @@ export interface CaseMedia {
   /** Focal point of the crop, 0–100 % (default 50 / 50). */
   focusX?: number;
   focusY?: number;
+  /** Zoom of the asset inside its frame: 1 = cover fit, >1 zooms in around
+      the focal point, <1 pulls back and shows the frame around it. */
+  zoom?: number;
   /** @deprecated superseded by `block` — ignored. */
   span?: number;
   /** Intrinsic pixel size — lets a grid cell reserve its exact aspect
