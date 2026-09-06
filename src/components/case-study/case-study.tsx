@@ -71,7 +71,8 @@ function VideoSources({
   /* Lazy: a case page can carry 15MB+ of video, and autoplay makes browsers
      fetch every file on mount regardless of preload. Sources attach only
      when the tile comes within a viewport of the screen; playback follows
-     visibility so off-screen loops don't burn CPU. */
+     visibility so off-screen loops don't burn CPU. Sources attach two
+     screens ahead and buffer fully, so a clip is ready the moment it lands. */
   const ref = useRef<HTMLVideoElement>(null);
   const [near, setNear] = useState(false);
   useEffect(() => {
@@ -80,7 +81,7 @@ function VideoSources({
     // synchronous first check — the observer's initial callback waits for a
     // rendering frame, so a tile already within a viewport attaches at once
     const r = el.getBoundingClientRect();
-    if (r.top < window.innerHeight * 2 && r.bottom > -window.innerHeight) setNear(true);
+    if (r.top < window.innerHeight * 3 && r.bottom > -window.innerHeight) setNear(true);
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
@@ -90,7 +91,7 @@ function VideoSources({
           else v.pause();
         }
       },
-      { rootMargin: "100% 0px" },
+      { rootMargin: "200% 0px" },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -105,7 +106,7 @@ function VideoSources({
     poster: media.poster,
     muted: true,
     playsInline: true,
-    preload: "none" as const,
+    preload: (near ? "auto" : "none") as "auto" | "none",
     loop,
   };
   if (!near) return <video {...common} />;
