@@ -56,7 +56,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v24"; // v24: Bloom Algo case (v23: sound toggle; v20: zoom; v14: custom blocks + focal point)
+const DRAFT_KEY = "studio-draft-v25"; // v25: Bloom Algo assets (v23: sound toggle; v20: zoom; v14: custom blocks + focal point)nd toggle; v20: zoom; v14: custom blocks + focal point)
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {

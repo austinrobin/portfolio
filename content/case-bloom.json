@@ -36,7 +36,25 @@
         "The idea was simple:"
       ],
       "statement": "Let the system handle the execution. Keep the trader informed and in control.",
-      "media": []
+      "media": [
+        {
+          "kind": "image",
+          "src": "/case/bloom-algo/features.webp",
+          "block": "primary",
+          "w": 2300,
+          "h": 1294
+        },
+        {
+          "kind": "video",
+          "src": "/case/bloom-algo/strategy.mp4",
+          "poster": "/case/bloom-algo/strategy.jpg",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.963,
+          "w": 1600,
+          "h": 1662
+        }
+      ]
     },
     {
       "id": "manageable",
@@ -48,7 +66,18 @@
         "Strategy selection, deployment, execution status, P&L, and risk events were organised around a clear visual hierarchy so traders could understand what was happening without constantly interpreting the interface."
       ],
       "statement": "Less guesswork. More visibility.",
-      "media": []
+      "media": [
+        {
+          "kind": "video",
+          "src": "/case/bloom-algo/deployed.mp4",
+          "poster": "/case/bloom-algo/deployed.jpg",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.963,
+          "w": 1600,
+          "h": 1662
+        }
+      ]
     },
     {
       "id": "control",
@@ -59,7 +88,28 @@
         "The experience is designed around a simple relationship:"
       ],
       "statement": "Automated underneath. Transparent on top.",
-      "media": []
+      "media": [
+        {
+          "kind": "video",
+          "src": "/case/bloom-algo/trade.mp4",
+          "poster": "/case/bloom-algo/trade.jpg",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.963,
+          "w": 1600,
+          "h": 1662
+        },
+        {
+          "kind": "video",
+          "src": "/case/bloom-algo/alerts.mp4",
+          "poster": "/case/bloom-algo/alerts.jpg",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.963,
+          "w": 1600,
+          "h": 1662
+        }
+      ]
     },
     {
       "id": "language",
@@ -71,7 +121,15 @@
         "The challenge was finding the balance between:"
       ],
       "statement": "Confidence and caution. Technology and humanity.",
-      "media": []
+      "media": [
+        {
+          "kind": "image",
+          "src": "/case/bloom-algo/calm.webp",
+          "block": "primary",
+          "w": 2300,
+          "h": 1293
+        }
+      ]
     },
     {
       "id": "system",
@@ -82,7 +140,18 @@
         "The product was designed as one connected system rather than a collection of trading screens."
       ],
       "statement": "Choose. Deploy. Monitor. Act.",
-      "media": []
+      "media": [
+        {
+          "kind": "video",
+          "src": "/case/bloom-algo/broker.mp4",
+          "poster": "/case/bloom-algo/broker.jpg",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.963,
+          "w": 1600,
+          "h": 1662
+        }
+      ]
     },
     {
       "id": "shaping",
@@ -98,12 +167,30 @@
   "impact": {
     "title": "Impact",
     "stats": [
-      { "value": "XXK+", "label": "Users onboarded" },
-      { "value": "XXK+", "label": "Strategies deployed" },
-      { "value": "XXM+", "label": "Trades executed" },
-      { "value": "XX%", "label": "User retention" },
-      { "value": "XX%", "label": "Reduction in manual monitoring time" },
-      { "value": "XX%", "label": "Increase in active traders" }
+      {
+        "value": "XXK+",
+        "label": "Users onboarded"
+      },
+      {
+        "value": "XXK+",
+        "label": "Strategies deployed"
+      },
+      {
+        "value": "XXM+",
+        "label": "Trades executed"
+      },
+      {
+        "value": "XX%",
+        "label": "User retention"
+      },
+      {
+        "value": "XX%",
+        "label": "Reduction in manual monitoring time"
+      },
+      {
+        "value": "XX%",
+        "label": "Increase in active traders"
+      }
     ]
   },
   "result": {
@@ -113,5 +200,12 @@
       "The product doesn't remove the risk of trading."
     ],
     "statement": "It removes some of the unnecessary friction around it."
+  },
+  "heroMedia": {
+    "kind": "image",
+    "src": "/case/bloom-algo/hero.webp",
+    "block": "primary",
+    "w": 2300,
+    "h": 1293
   }
 }
