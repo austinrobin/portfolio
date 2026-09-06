@@ -55,6 +55,14 @@ export const showcase: ShowcaseItem[] = [
     theme: { bg: "#070708", fg: "#F3F3F1", accent: "#C9CCD1" },
   },
   {
+    id: "bloom-algo",
+    title: "Bloom Algo",
+    subtitle: "Structure for the chaos of options trading",
+    year: "2025",
+    href: "/work/bloom-algo",
+    theme: { bg: "#0F1411", fg: "#ECF3EE", accent: "#7FE0B4" },
+  },
+  {
     id: "playground",
     title: "Playground",
     subtitle: "Brand, type & visual explorations",

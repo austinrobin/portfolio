@@ -1,0 +1,117 @@
+{
+  "slug": "bloom-algo",
+  "title": "Bloom Algo",
+  "tagline": "Bringing structure to the chaos of options trading.",
+  "summary": "Automated options trading for retail buyers, kept transparent over WhatsApp.",
+  "year": "2025",
+  "tags": [
+    "Product Strategy",
+    "Product Design",
+    "Visual Direction",
+    "Fintech"
+  ],
+  "role": "Lead Product Designer",
+  "disciplines": "Product Strategy · Product Design · Visual Direction · Fintech",
+  "team": "With the Bloom Algo product and engineering team",
+  "scope": "Product direction, interaction model, visual language, design system",
+  "featured": false,
+  "order": 4,
+  "sections": [
+    {
+      "id": "problem",
+      "kicker": "The problem",
+      "heading": "Options trading moves fast, but the way many retail traders approach it is still manual.",
+      "body": [
+        "Too much monitoring. Too much emotion. Too many decisions happening in real time."
+      ],
+      "statement": "Bloom Algo was built to give retail option buyers a more structured way to participate, without needing to watch the market all day.",
+      "media": []
+    },
+    {
+      "id": "executing",
+      "kicker": "The product",
+      "heading": "From reacting to executing",
+      "body": [
+        "The product combines pre-built strategies, real-time execution, automated risk controls, and live WhatsApp alerts into one connected experience.",
+        "The idea was simple:"
+      ],
+      "statement": "Let the system handle the execution. Keep the trader informed and in control.",
+      "media": []
+    },
+    {
+      "id": "manageable",
+      "kicker": "The interface",
+      "heading": "Making complexity feel manageable",
+      "body": [
+        "Algo trading can become intimidating very quickly.",
+        "The product needed to make sophisticated strategies feel approachable without hiding the underlying decisions.",
+        "Strategy selection, deployment, execution status, P&L, and risk events were organised around a clear visual hierarchy so traders could understand what was happening without constantly interpreting the interface."
+      ],
+      "statement": "Less guesswork. More visibility.",
+      "media": []
+    },
+    {
+      "id": "control",
+      "kicker": "Built around control",
+      "heading": "Automation doesn't mean handing everything over.",
+      "body": [
+        "Bloom Algo keeps the trader close to the action with live trade updates, strategy status, stop-loss events, and execution feedback delivered directly through WhatsApp.",
+        "The experience is designed around a simple relationship:"
+      ],
+      "statement": "Automated underneath. Transparent on top.",
+      "media": []
+    },
+    {
+      "id": "language",
+      "kicker": "The product language",
+      "heading": "Designing the product language",
+      "body": [
+        "The visual direction intentionally moves away from the aggressive, chart-heavy language common in trading products.",
+        "Soft gradients, a calm palette, rounded surfaces, and a more approachable visual language make a technically complex product feel less intimidating.",
+        "The challenge was finding the balance between:"
+      ],
+      "statement": "Confidence and caution. Technology and humanity.",
+      "media": []
+    },
+    {
+      "id": "system",
+      "kicker": "The system",
+      "heading": "One system, many moments",
+      "body": [
+        "From deploying a strategy to receiving an order confirmation, from a live P&L state to a stop-loss event, the experience had to remain coherent across different levels of urgency.",
+        "The product was designed as one connected system rather than a collection of trading screens."
+      ],
+      "statement": "Choose. Deploy. Monitor. Act.",
+      "media": []
+    },
+    {
+      "id": "shaping",
+      "kicker": "My role",
+      "heading": "Shaping the experience",
+      "body": [
+        "I worked across the product direction, interaction model, visual language, and design system, translating a technically complex trading concept into a product experience that could be understood by retail traders.",
+        "The work involved making decisions about hierarchy, transparency, risk communication, and how much complexity to expose at each stage."
+      ],
+      "media": []
+    }
+  ],
+  "impact": {
+    "title": "Impact",
+    "stats": [
+      { "value": "XXK+", "label": "Users onboarded" },
+      { "value": "XXK+", "label": "Strategies deployed" },
+      { "value": "XXM+", "label": "Trades executed" },
+      { "value": "XX%", "label": "User retention" },
+      { "value": "XX%", "label": "Reduction in manual monitoring time" },
+      { "value": "XX%", "label": "Increase in active traders" }
+    ]
+  },
+  "result": {
+    "heading": "The result",
+    "body": [
+      "Bloom Algo turns a high-speed, high-complexity trading workflow into something more structured, visible, and manageable.",
+      "The product doesn't remove the risk of trading."
+    ],
+    "statement": "It removes some of the unnecessary friction around it."
+  }
+}

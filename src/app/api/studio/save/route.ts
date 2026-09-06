@@ -24,6 +24,7 @@ const ALLOWED = new Set([
   "content/case-stockbee.json",
   "content/case-lwt.json",
   "content/case-mach.json",
+  "content/case-bloom.json",
   "content/lab.json",
   "content/footer.json",
 ]);
