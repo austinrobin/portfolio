@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { motion, useReducedMotion } from "motion/react";
 import type { CaseMedia, CaseStudy } from "@/lib/case-studies";
 import Link from "next/link";
@@ -199,6 +200,89 @@ function SoundToggle({ children }: { children: React.ReactNode }) {
   );
 }
 
+
+/* ------------------------------------------------------- chapter pill */
+
+/* Phones have no room for the pinned index, so the chapters live in a pill
+   at the thumb: project · current chapter · +. The plus opens the list;
+   picking a chapter jumps and closes. Portaled to body — fixed is dead inside
+   the smoother's transform — and kept clear of the home indicator. */
+function ChapterPill({
+  title,
+  chapters,
+  active,
+  onJump,
+}: {
+  title: string;
+  chapters: { id: string; label: string }[];
+  active: string;
+  onJump: (id: string) => void;
+}) {
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+  const [open, setOpen] = useState(false);
+  if (!mounted) return null;
+  const current = chapters.find((c) => c.id === active) ?? chapters[0];
+  return createPortal(
+    <div
+      className="fixed inset-x-4 z-[70] md:hidden"
+      style={{ bottom: "calc(14px + env(safe-area-inset-bottom))" }}
+    >
+      {open ? (
+        <div
+          id="chapter-sheet"
+          className="mb-2 overflow-hidden rounded-[14px] bg-[#1a1913]/95 text-[#F9F7F1] shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur-md"
+        >
+          <ul className="max-h-[60svh] overflow-y-auto py-1.5">
+            {chapters.map((c) => {
+              const on = c.id === active;
+              return (
+                <li key={c.id}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onJump(c.id);
+                      setOpen(false);
+                    }}
+                    className={`flex min-h-[44px] w-full items-center justify-between gap-4 px-5 text-left font-mono text-[12px] uppercase tracking-[0.18em] ${on ? "text-[#F9F7F1]" : "text-[#F9F7F1]/55"}`}
+                  >
+                    {c.label}
+                    {on ? <span aria-hidden className="size-1.5 shrink-0 rounded-full bg-[#F9F7F1]" /> : null}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ) : null}
+      <div className="flex h-14 items-stretch overflow-hidden rounded-[14px] bg-[#1a1913]/92 text-[#F9F7F1] shadow-[0_18px_50px_rgba(0,0,0,0.3)] backdrop-blur-md">
+        <div className="flex shrink-0 items-center border-r border-white/10 px-4 font-mono text-[11px] uppercase tracking-[0.18em] text-[#F9F7F1]/60">
+          {title}
+        </div>
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-controls="chapter-sheet"
+          className="flex min-w-0 flex-1 items-center justify-between gap-3 px-4 text-left font-mono text-[12px] uppercase tracking-[0.18em]"
+        >
+          <span className="truncate">{current?.label}</span>
+          <span
+            aria-hidden
+            className={`text-[22px] font-light leading-none transition-transform duration-200 ${open ? "rotate-45" : ""}`}
+          >
+            +
+          </span>
+        </button>
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
 /* ---------------------------------------------------------- media river */
 
 /* Austin's block system — three blocks, one rule:
@@ -282,6 +366,7 @@ function Tile({
   eager = false,
   className = "",
   fadeTop = false,
+  bleed = false,
 }: {
   media: CaseMedia;
   alt: string;
@@ -294,11 +379,13 @@ function Tile({
   /** the hero sits under the nav: its top fades up from paper so the ink
       links read over any image */
   fadeTop?: boolean;
+  /** phones: edge to edge, no radius — the frame is the screen */
+  bleed?: boolean;
 }) {
   const reduce = useReducedMotion();
   return (
     <motion.div
-      className={`relative overflow-hidden rounded-[10px] bg-subtle ${frame === "fill" ? "h-full min-h-0" : ""} ${className}`}
+      className={`relative overflow-hidden bg-subtle ${bleed ? "rounded-none md:rounded-[10px]" : "rounded-[10px]"} ${frame === "fill" ? "h-full min-h-0" : ""} ${className}`}
       style={frame === "fill" ? undefined : { aspectRatio: frameRatio(media, frame) }}
       initial={reduce ? false : { opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -434,27 +521,27 @@ function Chapter({
     <section
       id={id}
       data-chapter={id}
-      className="mt-2 scroll-mt-[12svh] border-t border-border pt-6 sm:mt-2 sm:pt-6"
+      className="mx-5 mt-2 scroll-mt-[12svh] border-t border-border pt-6 sm:mt-2 sm:pt-6 md:mx-0"
     >
       {/* a hairline opens the chapter; only its name sits on the left — the
           heading and copy are one block pushed to the viewport's right edge */}
       <Rise className="grid gap-x-8 gap-y-3 md:grid-cols-2">
-        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted md:pt-1.5">
+        <p className="font-mono text-[12px] uppercase tracking-[0.25em] text-muted md:pt-1.5 md:text-[11px]">
           {kicker}
         </p>
         <div className="max-w-[50ch] md:justify-self-end">
-          <h2 className="text-[clamp(21px,1.8vw,26px)] font-light leading-[1.18] tracking-[-0.01em]">
+          <h2 className="text-[24px] font-light leading-[1.18] tracking-[-0.01em] md:text-[clamp(21px,1.8vw,26px)]">
             {heading}
           </h2>
           {body?.length ? (
-            <div className="mt-4 space-y-2 text-[14.5px] leading-[1.45] text-muted sm:text-[15px]">
+            <div className="mt-4 space-y-2 text-[16px] leading-[1.5] text-muted md:text-[15px] md:leading-[1.45]">
               {body.map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
             </div>
           ) : null}
           {statement ? (
-            <p className="mt-5 text-[clamp(18px,1.45vw,22px)] font-light leading-[1.25] tracking-[-0.01em]">
+            <p className="mt-5 text-[20px] font-light leading-[1.25] tracking-[-0.01em] md:text-[clamp(18px,1.45vw,22px)]">
               {statement}
             </p>
           ) : null}
@@ -644,10 +731,11 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
       className={`relative min-h-screen bg-background text-foreground ${caseFont.variable} ${heroFonts.silk.variable} font-[family-name:var(--font-case)]`}
     >
       <BanknoteNav blend fixed />
+      <ChapterPill title={cs.title} chapters={chapters} active={active} onJump={jump} />
 
       <div
         ref={rowRef}
-        className="flex gap-x-[clamp(12px,1.6vw,32px)] px-[clamp(8px,1.1vw,22px)] pb-28 pt-[clamp(8px,1.1vw,22px)]"
+        className="flex gap-x-[clamp(12px,1.6vw,32px)] px-0 pb-32 pt-0 md:px-[clamp(8px,1.1vw,22px)] md:pb-28 md:pt-[clamp(8px,1.1vw,22px)]"
       >
         {/* ---- left panel (pinned for the article's whole run) ---- */}
         <aside className="hidden w-[296px] shrink-0 pt-[13svh] md:block lg:w-[316px]">
@@ -681,8 +769,12 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
 
         {/* ---- media river ---- */}
         <div className="min-w-0 flex-1">
-          {/* narrow screens: identity + index above the river */}
-          <div className="mb-8 pt-[12svh] md:hidden">
+          {cs.heroMedia?.src ? (
+            <Tile media={cs.heroMedia} alt={cs.title} frame="primary" loop={false} eager bleed />
+          ) : null}
+
+          {/* phones: identity under the hero; the bottom pill owns the chapters */}
+          <div className="mb-2 px-5 pt-7 md:hidden">
             <h1
               className="text-[22px] font-bold uppercase leading-none tracking-[0.02em]"
               style={{ fontFamily: "var(--font-silk)" }}
@@ -695,14 +787,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
             <p className="mt-5 font-mono text-[11px] uppercase leading-[1.9] tracking-[0.18em] text-muted">
               {meta}
             </p>
-            <div className="mt-6">
-              <ChapterIndex chapters={chapters} active={active} onJump={jump} horizontal />
-            </div>
           </div>
-
-          {cs.heroMedia?.src ? (
-            <Tile media={cs.heroMedia} alt={cs.title} frame="primary" loop={false} eager />
-          ) : null}
 
           {cs.sections.map((s) => (
             <Chapter
