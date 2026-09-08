@@ -203,6 +203,9 @@ function SoundToggle({ children }: { children: React.ReactNode }) {
 
 /* ------------------------------------------------------- chapter pill */
 
+const RING_R = 15.25;
+const RING_C = 2 * Math.PI * RING_R;
+
 /* Phones have no room for the pinned index, so the chapters live in a pill
    at the thumb: project · current chapter · +. The plus opens the list;
    picking a chapter jumps and closes. Portaled to body — fixed is dead inside
@@ -224,6 +227,39 @@ function ChapterPill({
     () => false,
   );
   const [open, setOpen] = useState(false);
+  const ringRef = useRef<SVGCircleElement>(null);
+  const activeRef = useRef(active);
+  useEffect(() => {
+    activeRef.current = active;
+  }, [active]);
+  /* the ring fills as the active chapter passes the same 30% line the index
+     uses to pick it — read straight from the element every frame, no state */
+  useEffect(() => {
+    const el = ringRef.current;
+    if (!el) return;
+    const C = RING_C;
+    const update = () => {
+      if (window.innerWidth >= 768) return 0;
+      const sec = document.getElementById(activeRef.current);
+      if (!sec) return 0;
+      const r = sec.getBoundingClientRect();
+      const marker = window.innerHeight * 0.3;
+      const p = Math.min(1, Math.max(0, (marker - r.top) / Math.max(1, r.height)));
+      el.style.strokeDashoffset = String(C * (1 - p));
+      return p;
+    };
+    update();
+    const tick = () => {
+      update();
+    };
+    gsap.ticker.add(tick);
+    if (process.env.NODE_ENV === "development") {
+      (window as Window & { __pillProgress?: () => number }).__pillProgress = update;
+    }
+    return () => {
+      gsap.ticker.remove(tick);
+    };
+  }, [mounted]);
   if (!mounted) return null;
   const current = chapters.find((c) => c.id === active) ?? chapters[0];
   return createPortal(
@@ -270,11 +306,27 @@ function ChapterPill({
           className="flex min-w-0 flex-1 items-center justify-between gap-3 px-4 text-left font-mono text-[12px] uppercase tracking-[0.18em]"
         >
           <span className="truncate">{current?.label}</span>
-          <span
-            aria-hidden
-            className={`text-[22px] font-light leading-none transition-transform duration-200 ${open ? "rotate-45" : ""}`}
-          >
-            +
+          <span aria-hidden className="relative block size-[34px] shrink-0">
+            <svg viewBox="0 0 34 34" className="absolute inset-0 -rotate-90">
+              <circle cx="17" cy="17" r={RING_R} fill="none" stroke="currentColor" strokeOpacity="0.18" strokeWidth="1.5" />
+              <circle
+                ref={ringRef}
+                cx="17"
+                cy="17"
+                r={RING_R}
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeDasharray={RING_C}
+                strokeDashoffset={RING_C}
+              />
+            </svg>
+            <span
+              className={`absolute inset-0 flex items-center justify-center text-[20px] font-light leading-none transition-transform duration-200 ${open ? "rotate-45" : ""}`}
+            >
+              +
+            </span>
           </span>
         </button>
       </div>
