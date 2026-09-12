@@ -63,3 +63,24 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Monogram hover sheen: a light band writes across the signature, left → right */
+.monogram-sheen {
+  transform-box: fill-box;
+  transform: translateX(-110%);
+  opacity: 0;
+  pointer-events: none;
+}
+.monogram:hover .monogram-sheen,
+a:hover > .monogram .monogram-sheen,
+.group:hover .monogram-sheen {
+  opacity: 1;
+  animation: monogramSheen 1.4s ease-in-out infinite;
+}
+@keyframes monogramSheen {
+  from { transform: translateX(-110%); }
+  to { transform: translateX(110%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .monogram-sheen { animation: none !important; opacity: 0 !important; }
+}
