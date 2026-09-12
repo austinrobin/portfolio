@@ -1,8 +1,8 @@
 {
   "slug": "bloom-algo",
   "title": "Bloom Algo",
-  "tagline": "Bringing structure to the chaos of options trading.",
-  "summary": "Automated options trading for retail buyers, kept transparent over WhatsApp.",
+  "tagline": "Making algo trading feel less like an algorithm.",
+  "summary": "Plug-and-play algo trading. Choose a strategy, deploy in two clicks.",
   "year": "2025",
   "tags": [
     "Product Strategy",
@@ -20,22 +20,23 @@
     {
       "id": "problem",
       "kicker": "The problem",
-      "heading": "Options trading moves fast, but the way many retail traders approach it is still manual.",
+      "heading": "Algo trading promises speed and discipline.",
       "body": [
-        "Too much monitoring. Too much emotion. Too many decisions happening in real time."
+        "But for many retail traders, getting started still means dealing with coding, configuration, backtesting and broker APIs.",
+        "Bloom started with a simpler question:"
       ],
-      "statement": "Bloom Algo was built to give retail option buyers a more structured way to participate, without needing to watch the market all day.",
+      "statement": "What if using an algo felt as easy as using an app?",
       "media": []
     },
     {
-      "id": "executing",
+      "id": "deploy",
       "kicker": "The product",
-      "heading": "From reacting to executing",
+      "heading": "Choose. Deploy. Trade.",
       "body": [
-        "The product combines pre-built strategies, real-time execution, automated risk controls, and live WhatsApp alerts into one connected experience.",
-        "The idea was simple:"
+        "Bloom is a plug-and-play platform built around pre-configured trading strategies.",
+        "Connect a broker, choose a strategy, and deploy without configuring entry, exit or risk parameters."
       ],
-      "statement": "Let the system handle the execution. Keep the trader informed and in control.",
+      "statement": "Two clicks from strategy to live deployment.",
       "media": [
         {
           "kind": "image",
@@ -46,27 +47,14 @@
         },
         {
           "kind": "video",
-          "src": "/case/bloom-algo/strategy.mp4",
-          "poster": "/case/bloom-algo/strategy.jpg",
+          "src": "/case/bloom-algo/broker.mp4",
+          "poster": "/case/bloom-algo/broker.jpg",
           "block": "custom",
           "cols": 2,
           "ratio": 0.963,
           "w": 1600,
           "h": 1662
-        }
-      ]
-    },
-    {
-      "id": "manageable",
-      "kicker": "The interface",
-      "heading": "Making complexity feel manageable",
-      "body": [
-        "Algo trading can become intimidating very quickly.",
-        "The product needed to make sophisticated strategies feel approachable without hiding the underlying decisions.",
-        "Strategy selection, deployment, execution status, P&L, and risk events were organised around a clear visual hierarchy so traders could understand what was happening without constantly interpreting the interface."
-      ],
-      "statement": "Less guesswork. More visibility.",
-      "media": [
+        },
         {
           "kind": "video",
           "src": "/case/bloom-algo/deployed.mp4",
@@ -80,14 +68,36 @@
       ]
     },
     {
-      "id": "control",
-      "kicker": "Built around control",
-      "heading": "Automation doesn't mean handing everything over.",
+      "id": "marketplace",
+      "kicker": "The model",
+      "heading": "A marketplace, not a builder",
       "body": [
-        "Bloom Algo keeps the trader close to the action with live trade updates, strategy status, stop-loss events, and execution feedback delivered directly through WhatsApp.",
-        "The experience is designed around a simple relationship:"
+        "Instead of asking traders to build strategies, Bloom presents a curated marketplace of ready-to-use systems with clear strategy, market and performance context.",
+        "The decision becomes simpler:"
       ],
-      "statement": "Automated underneath. Transparent on top.",
+      "statement": "Find a strategy that fits.",
+      "media": [
+        {
+          "kind": "video",
+          "src": "/case/bloom-algo/strategy.mp4",
+          "poster": "/case/bloom-algo/strategy.jpg",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.963,
+          "w": 1600,
+          "h": 1662
+        }
+      ]
+    },
+    {
+      "id": "visibility",
+      "kicker": "Built around control",
+      "heading": "Automation without the black box",
+      "body": [
+        "Removing complexity shouldn't mean removing visibility.",
+        "Bloom keeps traders connected through live P&L, positions, execution status and WhatsApp alerts."
+      ],
+      "statement": "Automated underneath. Visible on top.",
       "media": [
         {
           "kind": "video",
@@ -112,15 +122,15 @@
       ]
     },
     {
-      "id": "language",
+      "id": "confidence",
       "kicker": "The product language",
-      "heading": "Designing the product language",
+      "heading": "Designed around confidence",
       "body": [
-        "The visual direction intentionally moves away from the aggressive, chart-heavy language common in trading products.",
-        "Soft gradients, a calm palette, rounded surfaces, and a more approachable visual language make a technically complex product feel less intimidating.",
-        "The challenge was finding the balance between:"
+        "Trading products often communicate through dense charts and high-intensity interfaces.",
+        "Bloom takes a calmer approach.",
+        "Clear hierarchy, approachable surfaces and a softer visual language make the product easier to enter without making it feel lightweight."
       ],
-      "statement": "Confidence and caution. Technology and humanity.",
+      "statement": "Simple to use. Serious underneath.",
       "media": [
         {
           "kind": "image",
@@ -132,35 +142,24 @@
       ]
     },
     {
-      "id": "system",
+      "id": "continuous",
       "kicker": "The system",
-      "heading": "One system, many moments",
+      "heading": "One continuous experience",
       "body": [
-        "From deploying a strategy to receiving an order confirmation, from a live P&L state to a stop-loss event, the experience had to remain coherent across different levels of urgency.",
-        "The product was designed as one connected system rather than a collection of trading screens."
+        "From broker connection to strategy selection, deployment, monitoring and risk events, every touchpoint belongs to the same system."
       ],
-      "statement": "Choose. Deploy. Monitor. Act.",
-      "media": [
-        {
-          "kind": "video",
-          "src": "/case/bloom-algo/broker.mp4",
-          "poster": "/case/bloom-algo/broker.jpg",
-          "block": "custom",
-          "cols": 2,
-          "ratio": 0.963,
-          "w": 1600,
-          "h": 1662
-        }
-      ]
+      "statement": "Connect → Choose → Deploy → Monitor → Manage",
+      "media": []
     },
     {
-      "id": "shaping",
+      "id": "system",
       "kicker": "My role",
-      "heading": "Shaping the experience",
+      "heading": "Designing the system",
       "body": [
-        "I worked across the product direction, interaction model, visual language, and design system, translating a technically complex trading concept into a product experience that could be understood by retail traders.",
-        "The work involved making decisions about hierarchy, transparency, risk communication, and how much complexity to expose at each stage."
+        "My work spanned the product experience, interaction model, visual direction and the system connecting them.",
+        "The focus was on reducing unnecessary configuration, making strategy selection clearer, and keeping risk and performance visible throughout the experience."
       ],
+      "statement": "The complexity still exists. It just doesn't need to sit in front of the user.",
       "media": []
     }
   ],
@@ -168,38 +167,37 @@
     "title": "Impact",
     "stats": [
       {
-        "value": "XXK+",
-        "label": "Users onboarded"
+        "value": "10+",
+        "label": "Pre-built strategies"
       },
       {
-        "value": "XXK+",
-        "label": "Strategies deployed"
+        "value": "2 clicks",
+        "label": "To deploy"
       },
       {
-        "value": "XXM+",
-        "label": "Trades executed"
+        "value": "Real-time",
+        "label": "P&L & execution"
       },
       {
-        "value": "XX%",
-        "label": "User retention"
-      },
-      {
-        "value": "XX%",
-        "label": "Reduction in manual monitoring time"
+        "value": "Multiple",
+        "label": "Broker integrations"
       },
       {
         "value": "XX%",
-        "label": "Increase in active traders"
+        "label": "Activation"
+      },
+      {
+        "value": "XX%",
+        "label": "Retention"
       }
     ]
   },
   "result": {
     "heading": "The result",
     "body": [
-      "Bloom Algo turns a high-speed, high-complexity trading workflow into something more structured, visible, and manageable.",
-      "The product doesn't remove the risk of trading."
+      "Bloom turns algorithmic trading from something users have to build into something they can simply choose and deploy."
     ],
-    "statement": "It removes some of the unnecessary friction around it."
+    "statement": "Less configuration. More control."
   },
   "heroMedia": {
     "kind": "image",
