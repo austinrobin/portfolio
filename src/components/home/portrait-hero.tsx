@@ -86,6 +86,21 @@ uniform vec4 uPat1;  // spacingPx, restAlpha, hoverAlpha, phase
 uniform vec4 uPat2;  // fadeIn, fadeOut, wobble, rectness
 uniform vec4 uPatC;  // fade centre px.xy, half-extents px.zw
 uniform vec3 uInk;   // pattern ink (premultiplied against its alpha)
+uniform vec3 uGold;  // hover ink base — the strokes gild where the trail touches
+
+/* Currency gilding: a dark bronze-to-gold gradient across the sheet, with a
+   slow band of light traveling the diagonal — foil catching the light. The
+   sheen rides the pattern phase (uPat1.w, wraps at 40pi; x1.6 keeps the wrap
+   seamless since 64pi is a whole number of turns) so it never degrades on
+   mediump and stills under reduced motion. */
+vec3 gilded(vec2 px) {
+  float t = (px.x + px.y) / (uRes.x + uRes.y);
+  vec3 col = mix(uGold * 0.58, uGold * 1.08, t);
+  float band = sin((px.x - px.y) * 0.0045 + uPat1.w * 1.6);
+  float sheen = smoothstep(0.80, 0.985, band);
+  col += vec3(0.50, 0.38, 0.14) * sheen;
+  return col;
+}
 
 #define TH        uM1.x
 #define EDGESOFT  uM1.y
@@ -220,7 +235,8 @@ void main() {
     float mh = smoothstep(TH - EDGESOFT + crumbH, TH + EDGESOFT + crumbH, fieldH);
     float alpha =
       guillocheLine(px) * guillocheVis(px, mh) * mix(uPat1.y, uPat1.z, mh);
-    gl_FragColor = vec4(uInk * alpha, alpha);
+    vec3 pcol = mix(uInk, gilded(px), mh);
+    gl_FragColor = vec4(pcol * alpha, alpha);
     return;
   }
 
@@ -300,8 +316,9 @@ void main() {
   float ink = mix(uPat1.y, uPat1.z, mSurf);
 
   // pattern over the art's paper margins (kept off the face and the reveal)
+  vec3 pcol = mix(uInk, gilded(px), mSurf);
   float pOver = line * vis * ink * (1.0 - faceCover);
-  s.rgb = mix(s.rgb, uInk * s.a, pOver);
+  s.rgb = mix(s.rgb, pcol * s.a, pOver);
 
   /* The design's right-edge paper fade, now in-shader and applied to the
      portrait only — no DOM overlay, so the pattern and its hover ink are
@@ -311,7 +328,7 @@ void main() {
 
   // where the portrait faded out, the pattern shows through from behind
   float pUnder = line * vis * ink;
-  s.rgb += uInk * pUnder * (1.0 - s.a);
+  s.rgb += pcol * pUnder * (1.0 - s.a);
   s.a += pUnder * (1.0 - s.a);
 
   s.rgb = min(s.rgb, vec3(s.a));
@@ -421,6 +438,7 @@ export function PortraitHero({
     const uPat2 = U("uPat2");
     const uPatC = U("uPatC");
     gl.uniform3f(U("uInk"), 16 / 255, 27 / 255, 188 / 255); // #101BBC
+    gl.uniform3f(U("uGold"), 143 / 255, 91 / 255, 8 / 255); // #8F5B08 — darker gilding base
 
     gl.uniform1i(U("uTexA"), 0);
     gl.uniform1i(U("uTexB"), 1);
