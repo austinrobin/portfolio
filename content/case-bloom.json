@@ -79,6 +79,14 @@
       "media": [
         {
           "kind": "video",
+          "src": "/case/bloom-algo/marketplace.mp4",
+          "poster": "/case/bloom-algo/marketplace.jpg",
+          "block": "primary",
+          "w": 2560,
+          "h": 1440
+        },
+        {
+          "kind": "video",
           "src": "/case/bloom-algo/strategy.mp4",
           "poster": "/case/bloom-algo/strategy.jpg",
           "block": "custom",
@@ -99,6 +107,14 @@
       ],
       "statement": "Automated underneath. Visible on top.",
       "media": [
+        {
+          "kind": "image",
+          "src": "/case/bloom-algo/dashboard.webp",
+          "alt": "Bloom Algo dashboard on a MacBook: account P&L, deployed algos and an 'Algo has been deployed' toast",
+          "block": "primary",
+          "w": 1550,
+          "h": 872
+        },
         {
           "kind": "video",
           "src": "/case/bloom-algo/trade.mp4",
@@ -149,7 +165,16 @@
         "From broker connection to strategy selection, deployment, monitoring and risk events, every touchpoint belongs to the same system."
       ],
       "statement": "Connect → Choose → Deploy → Monitor → Manage",
-      "media": []
+      "media": [
+        {
+          "kind": "image",
+          "src": "/case/bloom-algo/plug-play.webp",
+          "alt": "Plug. Play. Execute. — select a strategy, set multiplier and amount, execute with precision",
+          "block": "primary",
+          "w": 1764,
+          "h": 993
+        }
+      ]
     },
     {
       "id": "system",
