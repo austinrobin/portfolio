@@ -582,7 +582,7 @@ function Chapter({
           {kicker}
         </p>
         <div className="max-w-[50ch] md:justify-self-end">
-          <h2 className="text-[24px] font-light leading-[1.18] tracking-[-0.01em] md:text-[clamp(21px,1.8vw,26px)]">
+          <h2 className="text-[22.4px] font-medium leading-[1.1] tracking-[-0.02em] text-black/60">
             {heading}
           </h2>
           {body?.length ? (
