@@ -30,7 +30,7 @@
         {
           "kind": "video",
           "src": "/case/mach/reveal.mp4",
-          "poster": "/case/mach/reveal.jpg",
+          "poster": "/case/mach/reveal.poster.webp",
           "block": "primary",
           "w": 1280,
           "h": 720
@@ -51,7 +51,7 @@
         {
           "kind": "video",
           "src": "/case/mach/camera.mp4",
-          "poster": "/case/mach/camera.jpg",
+          "poster": "/case/mach/camera.poster.webp",
           "block": "secondary",
           "w": 720,
           "h": 1280
@@ -70,7 +70,7 @@
         {
           "kind": "video",
           "src": "/case/mach/anywhere.mp4",
-          "poster": "/case/mach/anywhere.jpg",
+          "poster": "/case/mach/anywhere.poster.webp",
           "block": "primary",
           "w": 1280,
           "h": 720
@@ -90,7 +90,7 @@
         {
           "kind": "video",
           "src": "/case/mach/drive.mp4",
-          "poster": "/case/mach/drive.jpg",
+          "poster": "/case/mach/drive.poster.webp",
           "block": "primary",
           "w": 1276,
           "h": 718,
@@ -100,7 +100,7 @@
         {
           "kind": "video",
           "src": "/case/mach/mark.mp4",
-          "poster": "/case/mach/mark.jpg",
+          "poster": "/case/mach/mark.poster.webp",
           "block": "custom",
           "w": 640,
           "h": 360,
@@ -123,7 +123,7 @@
   "heroMedia": {
     "kind": "video",
     "src": "/case/mach/hero.mp4",
-    "poster": "/case/mach/hero.jpg",
+    "poster": "/case/mach/hero.poster.webp",
     "block": "primary",
     "w": 1280,
     "h": 720

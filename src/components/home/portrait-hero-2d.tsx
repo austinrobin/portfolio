@@ -95,14 +95,14 @@ export function PortraitHero2D({
 
       <div ref={wrapRef} className="absolute inset-0" style={{ ["--mo" as string]: "0" }}>
         <img
-          src="/hero-art.png"
+          src="/hero-art.webp"
           alt=""
           aria-hidden
           className="absolute bottom-[-5.6%] left-1/2 h-[88.3%] w-auto -translate-x-1/2"
         />
         {canMask && (
           <img
-            src="/hero-face.png"
+            src="/hero-face.webp"
             alt=""
             aria-hidden
             className="absolute bottom-[-5.6%] left-1/2 h-[88.3%] w-auto -translate-x-1/2 opacity-[var(--mo)] transition-opacity duration-300"

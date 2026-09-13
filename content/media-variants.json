@@ -1,0 +1,510 @@
+{
+  "stills": {
+    "/case/bloom-algo/account-pl.webp": {
+      "w": 667,
+      "widths": [
+        640
+      ]
+    },
+    "/case/bloom-algo/banner.webp": {
+      "w": 1051,
+      "widths": [
+        640,
+        960
+      ]
+    },
+    "/case/bloom-algo/brand-board.webp": {
+      "w": 1533,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/bloom-algo/butterfly.webp": {
+      "w": 2464,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/bloom-algo/calm.webp": {
+      "w": 2300,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/bloom-algo/connect-broker.webp": {
+      "w": 794,
+      "widths": [
+        640
+      ]
+    },
+    "/case/bloom-algo/dashboard.webp": {
+      "w": 1550,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/bloom-algo/deploy-settings.webp": {
+      "w": 1533,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/bloom-algo/features.webp": {
+      "w": 2300,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/bloom-algo/flowers.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/bloom-algo/future-instances.webp": {
+      "w": 1533,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/bloom-algo/goldfish.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/bloom-algo/hero.webp": {
+      "w": 2300,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/bloom-algo/instances.webp": {
+      "w": 620,
+      "widths": []
+    },
+    "/case/bloom-algo/landing.webp": {
+      "w": 1729,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/bloom-algo/mtm.webp": {
+      "w": 667,
+      "widths": [
+        640
+      ]
+    },
+    "/case/bloom-algo/notifications.webp": {
+      "w": 794,
+      "widths": [
+        640
+      ]
+    },
+    "/case/bloom-algo/pl-card.webp": {
+      "w": 1586,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/bloom-algo/plug-play.webp": {
+      "w": 1764,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/bloom-algo/pricing.webp": {
+      "w": 1482,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/bloom-algo/splash.webp": {
+      "w": 700,
+      "widths": [
+        640
+      ]
+    },
+    "/case/bloom-algo/strategy-cards.webp": {
+      "w": 794,
+      "widths": [
+        640
+      ]
+    },
+    "/case/bloom-algo/ticker.webp": {
+      "w": 1728,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/bloom-algo/top-performers.webp": {
+      "w": 1533,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/auditorium.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/awards.webp": {
+      "w": 1190,
+      "widths": [
+        640,
+        960
+      ]
+    },
+    "/case/lwt/brochure-cover-mock.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/brochure-cover.webp": {
+      "w": 1190,
+      "widths": [
+        640,
+        960
+      ]
+    },
+    "/case/lwt/building-sign.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/business-cards.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/chapter-1788464346751.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/envelope.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/flags.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/hoarding.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/lightbox.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/map-vizag.webp": {
+      "w": 1190,
+      "widths": [
+        640,
+        960
+      ]
+    },
+    "/case/lwt/mark-colourways.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/mark-construction.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/mark-gradient.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/meter.webp": {
+      "w": 1190,
+      "widths": [
+        640,
+        960
+      ]
+    },
+    "/case/lwt/office-poster.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/outgrown-1788464284292.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/palette.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/poster-family.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/poster-mountain.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/product-display.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/stage-screen.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/lwt/typeface.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/stockbee/ai-section.webp": {
+      "w": 1491,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/stockbee/meet-stockbee.webp": {
+      "w": 1800,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    }
+  },
+  "posters": {},
+  "videos": {
+    "/case/bloom-algo/alerts.mp4": {
+      "av1": true,
+      "hevc": true,
+      "p1080": {
+        "h264": true,
+        "hevc": true
+      }
+    },
+    "/case/bloom-algo/baskets.mp4": {
+      "av1": true,
+      "p1080": {
+        "h264": true
+      }
+    },
+    "/case/bloom-algo/broker.mp4": {
+      "av1": true,
+      "hevc": true,
+      "p1080": {
+        "h264": true,
+        "hevc": true
+      }
+    },
+    "/case/bloom-algo/deploy-flow.mp4": {
+      "av1": true,
+      "hevc": true,
+      "p1080": {
+        "h264": true
+      }
+    },
+    "/case/bloom-algo/deployed.mp4": {
+      "av1": true,
+      "hevc": true,
+      "p1080": {
+        "h264": true,
+        "hevc": true
+      }
+    },
+    "/case/bloom-algo/marketplace.mp4": {
+      "av1": true,
+      "p1080": {
+        "h264": true
+      }
+    },
+    "/case/bloom-algo/strategy.mp4": {
+      "p1080": {
+        "h264": true,
+        "hevc": true
+      }
+    },
+    "/case/bloom-algo/trade.mp4": {
+      "p1080": {
+        "h264": true,
+        "hevc": true
+      }
+    },
+    "/case/lwt/scale-01.mp4": {
+      "p1080": {
+        "h264": true,
+        "hevc": true
+      }
+    },
+    "/case/lwt/scale-02.mp4": {
+      "p1080": {
+        "h264": true,
+        "hevc": true
+      }
+    },
+    "/case/lwt/scale-03.mp4": {
+      "p1080": {
+        "h264": true,
+        "hevc": true
+      }
+    },
+    "/case/lwt/scale-04.mp4": {
+      "p1080": {
+        "h264": true
+      }
+    },
+    "/case/lwt/scale-05.mp4": {},
+    "/case/lwt/scale-06.mp4": {
+      "p1080": {
+        "h264": true
+      }
+    },
+    "/case/lwt/scale-07.mp4": {
+      "p1080": {
+        "h264": true
+      }
+    },
+    "/case/lwt/scale-08.mp4": {
+      "p1080": {
+        "h264": true
+      }
+    },
+    "/case/mach/anywhere.mp4": {},
+    "/case/mach/camera.mp4": {},
+    "/case/mach/drive.mp4": {},
+    "/case/mach/hero.mp4": {
+      "p1080": {
+        "h264": true
+      }
+    },
+    "/case/mach/mark.mp4": {},
+    "/case/mach/reveal.mp4": {
+      "p1080": {
+        "h264": true
+      }
+    },
+    "/case/stockbee/perspective-mock.mp4": {
+      "p1080": {
+        "h264": true
+      }
+    },
+    "/case/stockbee/product-workspace.mp4": {
+      "p1080": {
+        "h264": true
+      }
+    }
+  }
+}

@@ -19,7 +19,7 @@ export function CurrentBuild() {
         <div className="relative w-[clamp(120px,15.15vw,229px)] shrink-0">
           {/* soft glow — the design's blurred duplicate behind the coin */}
           <Image
-            src="/current-coin.png"
+            src="/current-coin.webp"
             alt=""
             aria-hidden
             width={655}
@@ -28,7 +28,7 @@ export function CurrentBuild() {
             className="absolute inset-0 scale-105 blur-md opacity-70"
           />
           <Image
-            src="/current-coin.png"
+            src="/current-coin.webp"
             alt="The High Club — 999.9 fine silver coin"
             width={655}
             height={536}

@@ -1041,7 +1041,7 @@ export function PortraitHero({
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         ref={imgARef}
-        src="/hero-art.png"
+        src="/hero-art.webp"
         alt=""
         aria-hidden
         decoding="async"
@@ -1052,7 +1052,7 @@ export function PortraitHero({
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         ref={imgBRef}
-        src="/hero-face.png"
+        src="/hero-face.webp"
         alt=""
         aria-hidden
         decoding="async"

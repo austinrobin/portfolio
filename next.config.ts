@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 
 const nextConfig: NextConfig = {
+  poweredByHeader: false,
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   images: {
     qualities: [75, 90],
@@ -20,6 +21,8 @@ const nextConfig: NextConfig = {
       { source: "/case/:path*", headers: cache },
       { source: "/gallery/:path*", headers: cache },
       { source: "/footer/:path*", headers: cache },
+      { source: "/lab/:path*", headers: cache },
+      { source: "/:file(hero-art|hero-face|current-coin)\\.webp", headers: cache },
     ];
   },
 };

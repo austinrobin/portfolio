@@ -7,6 +7,7 @@ import type { CaseMedia, CaseStudy } from "@/lib/case-studies";
 import Link from "next/link";
 import { BanknoteNav } from "@/components/banknote-nav";
 import { Monogram } from "@/components/home/monogram";
+import variants from "../../../content/media-variants.json";
 import { gsap, ScrollSmoother, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { caseFont } from "./case-font";
 import { heroFonts } from "@/components/home/hero-config";
@@ -58,6 +59,71 @@ function Rise({
   );
 }
 
+/* ------------------------------------------------------ media variants */
+
+/* content/media-variants.json is written by `npm run media:variants` after
+   assets land: which downscaled stills exist, which codec companions each
+   clip has (AV1 / HEVC beside the H.264), the 1080p phone cuts, and the
+   WebP posters. Anything missing from it falls back to the plain file. */
+type Variants = {
+  stills: Record<string, { w: number; widths: number[] }>;
+  posters: Record<string, string>;
+  videos: Record<string, { av1?: boolean; hevc?: boolean; p1080?: { h264: boolean; av1?: boolean; hevc?: boolean } }>;
+};
+const VARIANTS = variants as unknown as Variants;
+
+const SIZES = {
+  full: "(min-width: 1024px) calc(100vw - 390px), (min-width: 768px) calc(100vw - 345px), 100vw",
+  half: "(min-width: 1024px) calc(50vw - 199px), (min-width: 768px) calc(50vw - 176px), 50vw",
+};
+
+/* srcset for a still: every downscale we have plus the source itself */
+function stillSrcSet(src: string): string | undefined {
+  const v = VARIANTS.stills[src];
+  if (!v || !v.widths.length) return undefined;
+  const parts = v.widths.map((w) => `${src.replace(/\.webp$/, `.w${w}.webp`)} ${w}w`);
+  parts.push(`${src} ${v.w}w`);
+  return parts.join(", ");
+}
+const posterOf = (m: CaseMedia) => (m.poster ? VARIANTS.posters[m.poster] ?? m.poster : undefined);
+
+/* Codec choice, decided once per session from what the browser reports it
+   can decode: AV1 on desktops that support it (about half the bytes of the
+   H.264 at measurably equal fidelity), HEVC for Safari and phones with the
+   hardware, H.264 everywhere else. Phones get the 1080-long-edge cut. */
+type Codec = "av1" | "hevc" | "h264";
+const TYPE: Record<Codec, string> = {
+  av1: 'video/mp4; codecs="av01.0.08M.08"',
+  hevc: 'video/mp4; codecs="hvc1.1.6.L120.B0"',
+  h264: 'video/mp4; codecs="avc1.640028"',
+};
+let decodeCache: Record<Codec, boolean> | null = null;
+function canDecode(): Record<Codec, boolean> {
+  if (decodeCache) return decodeCache;
+  const v = document.createElement("video");
+  const ok = (c: Codec) => v.canPlayType(TYPE[c]) === "probably";
+  decodeCache = { av1: ok("av1"), hevc: ok("hevc"), h264: true };
+  return decodeCache;
+}
+function pickSources(media: CaseMedia): { src: string; type: string }[] {
+  // the H.264 file is the key: the StockBee reel lists its WebM first
+  const base = media.src.endsWith(".webm") && media.srcFallback ? media.srcFallback : media.src;
+  const v = VARIANTS.videos[base];
+  const phone = window.matchMedia("(max-width: 767px)").matches;
+  const can = canDecode();
+  const out: { src: string; type: string }[] = [];
+  const stem = base.replace(/\.mp4$/, "");
+  if (phone && v?.p1080) {
+    if (v.p1080.hevc && can.hevc) out.push({ src: `${stem}.p1080.hevc.mp4`, type: TYPE.hevc });
+    if (v.p1080.h264) out.push({ src: `${stem}.p1080.mp4`, type: TYPE.h264 });
+  } else if (v) {
+    if (v.av1 && can.av1 && !phone) out.push({ src: `${stem}.av1.mp4`, type: TYPE.av1 });
+    if (v.hevc && can.hevc) out.push({ src: `${stem}.hevc.mp4`, type: TYPE.hevc });
+  }
+  out.push({ src: base, type: TYPE.h264 });
+  return out;
+}
+
 function VideoSources({
   media,
   className,
@@ -69,55 +135,67 @@ function VideoSources({
   loop?: boolean;
   style?: React.CSSProperties;
 }) {
-  /* Lazy: a case page can carry 15MB+ of video, and autoplay makes browsers
-     fetch every file on mount regardless of preload. Sources attach only
-     when the tile comes within a viewport of the screen; playback follows
-     visibility so off-screen loops don't burn CPU. Sources attach two
-     screens ahead and buffer fully, so a clip is ready the moment it lands. */
+  /* Lazy in two steps. A case page can carry 20MB+ of video, so far-away
+     tiles are empty <video>s with just a poster. Within one viewport the
+     sources attach with preload="metadata" (a few KB: the index). Only a
+     tile actually on screen is asked to play — that is what pulls the
+     stream, progressively, so a page never downloads twelve clips at once
+     and the stills stop queueing behind them. Off-screen tiles pause. */
   const ref = useRef<HTMLVideoElement>(null);
-  const [near, setNear] = useState(false);
+  const [sources, setSources] = useState<{ src: string; type: string }[] | null>(null);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    const attach = () => setSources((s) => s ?? pickSources(media));
     // synchronous first check — the observer's initial callback waits for a
-    // rendering frame, so a tile already within a viewport attaches at once
+    // rendering frame, so a tile already near the screen attaches at once
     const r = el.getBoundingClientRect();
-    if (r.top < window.innerHeight * 3 && r.bottom > -window.innerHeight) setNear(true);
-    const io = new IntersectionObserver(
+    if (r.top < window.innerHeight * 2 && r.bottom > -window.innerHeight) attach();
+    const near = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) attach();
+      },
+      { rootMargin: "100% 0px" },
+    );
+    const visible = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          if (e.isIntersecting) setNear(true);
           const v = e.target as HTMLVideoElement;
           if (e.isIntersecting) v.play().catch(() => {});
           else v.pause();
         }
       },
-      { rootMargin: "200% 0px" },
+      { rootMargin: "25% 0px" },
     );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+    near.observe(el);
+    visible.observe(el);
+    return () => {
+      near.disconnect();
+      visible.disconnect();
+    };
+  }, [media]);
   useEffect(() => {
-    if (near && ref.current) ref.current.load();
-  }, [near]);
-  const common = {
-    ref,
-    className,
-    style,
-    poster: media.poster,
-    muted: true,
-    playsInline: true,
-    preload: (near ? "auto" : "none") as "auto" | "none",
-    loop,
-  };
-  if (!near) return <video {...common} />;
-  if (!media.srcFallback) {
-    return <video {...common} autoPlay src={media.src} />;
-  }
+    const el = ref.current;
+    if (!sources || !el) return;
+    el.load();
+    // already on screen when the sources arrived → start now
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight * 1.25 && r.bottom > -window.innerHeight * 0.25) el.play().catch(() => {});
+  }, [sources]);
   return (
-    <video {...common} autoPlay>
-      <source src={media.src} type="video/webm" />
-      <source src={media.srcFallback} type="video/mp4" />
+    <video
+      ref={ref}
+      className={className}
+      style={style}
+      poster={posterOf(media)}
+      muted
+      playsInline
+      loop={loop}
+      preload={sources ? "metadata" : "none"}
+    >
+      {sources?.map((s) => (
+        <source key={s.src} src={s.src} type={s.type} />
+      ))}
     </video>
   );
 }
@@ -419,9 +497,12 @@ function Tile({
   className = "",
   fadeTop = false,
   bleed = false,
+  wide = false,
 }: {
   media: CaseMedia;
   alt: string;
+  /** the tile spans the whole river (sets the srcset sizes) */
+  wide?: boolean;
   /** the role in its row (sets the preset frame), or "fill" to take the
       height the row gives it; a custom asset overrides the ratio */
   frame: keyof typeof FRAME | "fill";
@@ -468,8 +549,12 @@ function Tile({
              optimised on entry (studio-compressed or hand-encoded) */
           <img
             src={media.src}
+            srcSet={stillSrcSet(media.src)}
+            sizes={wide ? SIZES.full : SIZES.half}
             alt={alt}
             loading={eager ? "eager" : "lazy"}
+            fetchPriority={eager ? "high" : "auto"}
+            decoding="async"
             className="absolute inset-0 h-full w-full object-cover"
             style={fit(media)}
           />
@@ -501,7 +586,7 @@ function River({ media, alt }: { media: CaseMedia[]; alt: string }) {
     <div className="mt-[35px] flex flex-col gap-2 sm:mt-10">
       {rows.map((row, r) => {
         if (row.type === "primary") {
-          return <Tile key={r} media={row.items[0]} alt={row.items[0].caption || alt} frame="primary" />;
+          return <Tile key={r} media={row.items[0]} alt={row.items[0].caption || alt} frame="primary" wide />;
         }
         if (row.type === "pair") {
           return (
@@ -822,7 +907,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
         {/* ---- media river ---- */}
         <div className="min-w-0 flex-1">
           {cs.heroMedia?.src ? (
-            <Tile media={cs.heroMedia} alt={cs.title} frame="primary" loop={false} eager bleed />
+            <Tile media={cs.heroMedia} alt={cs.title} frame="primary" loop={false} eager bleed wide />
           ) : null}
 
           {/* phones: identity under the hero; the bottom pill owns the chapters */}

@@ -1,3 +1,4 @@
+import { preload } from "react-dom";
 import { showcase } from "@/lib/showcase";
 import { PortraitHero } from "@/components/home/portrait-hero";
 import { CurrentBuild } from "@/components/home/current-build";
@@ -7,6 +8,9 @@ import { LifeCollage } from "@/components/home/life-collage";
 import { BanknoteFooter } from "@/components/home/banknote-footer";
 
 export default function Home() {
+  /* the engraving is the hero's texture and its largest byte — ask for it
+     before the stylesheet and scripts are even parsed */
+  preload("/hero-art.webp", { as: "image", fetchPriority: "high" });
   return (
     <div>
       <PortraitHero />

@@ -57,7 +57,7 @@
         {
           "kind": "video",
           "src": "/case/bloom-algo/marketplace.mp4",
-          "poster": "/case/bloom-algo/marketplace.jpg",
+          "poster": "/case/bloom-algo/marketplace.poster.webp",
           "block": "primary",
           "w": 2560,
           "h": 1440
@@ -65,7 +65,7 @@
         {
           "kind": "video",
           "src": "/case/bloom-algo/deploy-flow.mp4",
-          "poster": "/case/bloom-algo/deploy-flow.jpg",
+          "poster": "/case/bloom-algo/deploy-flow.poster.webp",
           "w": 2560,
           "h": 1440,
           "block": "primary"
@@ -73,7 +73,7 @@
         {
           "kind": "video",
           "src": "/case/bloom-algo/deployed.mp4",
-          "poster": "/case/bloom-algo/deployed.jpg",
+          "poster": "/case/bloom-algo/deployed.poster.webp",
           "block": "secondary",
           "cols": 2,
           "ratio": 0.963,
@@ -106,7 +106,7 @@
         {
           "kind": "video",
           "src": "/case/bloom-algo/strategy.mp4",
-          "poster": "/case/bloom-algo/strategy.jpg",
+          "poster": "/case/bloom-algo/strategy.poster.webp",
           "block": "secondary",
           "cols": 2,
           "ratio": 0.963,
@@ -126,7 +126,7 @@
         {
           "kind": "video",
           "src": "/case/bloom-algo/baskets.mp4",
-          "poster": "/case/bloom-algo/baskets.jpg",
+          "poster": "/case/bloom-algo/baskets.poster.webp",
           "w": 2560,
           "h": 1440,
           "block": "primary"
@@ -185,7 +185,7 @@
         {
           "kind": "video",
           "src": "/case/bloom-algo/trade.mp4",
-          "poster": "/case/bloom-algo/trade.jpg",
+          "poster": "/case/bloom-algo/trade.poster.webp",
           "block": "secondary",
           "cols": 2,
           "ratio": 0.963,
@@ -225,7 +225,7 @@
         {
           "kind": "video",
           "src": "/case/bloom-algo/alerts.mp4",
-          "poster": "/case/bloom-algo/alerts.jpg",
+          "poster": "/case/bloom-algo/alerts.poster.webp",
           "block": "secondary",
           "cols": 2,
           "ratio": 0.963,
@@ -365,7 +365,7 @@
         {
           "kind": "video",
           "src": "/case/bloom-algo/broker.mp4",
-          "poster": "/case/bloom-algo/broker.jpg",
+          "poster": "/case/bloom-algo/broker.poster.webp",
           "block": "secondary",
           "cols": 2,
           "ratio": 0.963,

@@ -39,7 +39,7 @@
         {
           "kind": "video",
           "src": "/case/lwt/scale-02.mp4",
-          "poster": "/case/lwt/scale-02.jpg",
+          "poster": "/case/lwt/scale-02.poster.webp",
           "block": "primary",
           "cols": 2,
           "ratio": 1.7778,
@@ -134,7 +134,7 @@
         {
           "kind": "video",
           "src": "/case/lwt/scale-05.mp4",
-          "poster": "/case/lwt/scale-05.jpg",
+          "poster": "/case/lwt/scale-05.poster.webp",
           "block": "primary",
           "cols": 2,
           "ratio": 1.7778,
@@ -188,7 +188,7 @@
         {
           "kind": "video",
           "src": "/case/lwt/scale-08.mp4",
-          "poster": "/case/lwt/scale-08.jpg",
+          "poster": "/case/lwt/scale-08.poster.webp",
           "block": "secondary",
           "cols": 2,
           "ratio": 1.7778,
@@ -206,7 +206,7 @@
         {
           "kind": "video",
           "src": "/case/lwt/scale-03.mp4",
-          "poster": "/case/lwt/scale-03.jpg",
+          "poster": "/case/lwt/scale-03.poster.webp",
           "block": "primary",
           "cols": 2,
           "ratio": 1.7778,
@@ -246,7 +246,7 @@
         {
           "kind": "video",
           "src": "/case/lwt/scale-04.mp4",
-          "poster": "/case/lwt/scale-04.jpg",
+          "poster": "/case/lwt/scale-04.poster.webp",
           "block": "primary",
           "cols": 2,
           "ratio": 1.7778,
@@ -322,7 +322,7 @@
         {
           "kind": "video",
           "src": "/case/lwt/scale-01.mp4",
-          "poster": "/case/lwt/scale-01.jpg",
+          "poster": "/case/lwt/scale-01.poster.webp",
           "block": "secondary",
           "cols": 2,
           "ratio": 1.7778,
@@ -333,7 +333,7 @@
         {
           "kind": "video",
           "src": "/case/lwt/scale-06.mp4",
-          "poster": "/case/lwt/scale-06.jpg",
+          "poster": "/case/lwt/scale-06.poster.webp",
           "block": "tertiary",
           "cols": 2,
           "ratio": 1.7778,
@@ -344,7 +344,7 @@
         {
           "kind": "video",
           "src": "/case/lwt/scale-07.mp4",
-          "poster": "/case/lwt/scale-07.jpg",
+          "poster": "/case/lwt/scale-07.poster.webp",
           "block": "tertiary",
           "cols": 2,
           "ratio": 1.7778,

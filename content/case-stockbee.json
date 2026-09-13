@@ -54,7 +54,7 @@
           "kind": "video",
           "src": "/case/stockbee/product-workspace.webm",
           "srcFallback": "/case/stockbee/product-workspace.mp4",
-          "poster": "/case/stockbee/product-workspace-poster.jpg",
+          "poster": "/case/stockbee/product-workspace-poster.poster.webp",
           "caption": "",
           "aspect": "screen"
         }
