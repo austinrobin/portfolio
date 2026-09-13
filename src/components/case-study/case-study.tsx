@@ -629,7 +629,7 @@ function ChapterIndex({
             key={c.id}
             type="button"
             onClick={() => onJump(c.id)}
-            className={`group relative whitespace-nowrap text-left text-[14px] font-medium leading-none transition-colors sm:text-[15px] ${
+            className={`group relative whitespace-nowrap text-left text-[14px] font-normal leading-none transition-colors sm:text-[15px] ${
               on ? "text-foreground" : "text-muted hover:text-foreground"
             }`}
           >
