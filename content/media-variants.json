@@ -432,30 +432,39 @@
       }
     },
     "/case/bloom-algo/strategy.mp4": {
+      "av1": true,
+      "hevc": true,
       "p1080": {
         "h264": true,
         "hevc": true
       }
     },
     "/case/bloom-algo/trade.mp4": {
+      "av1": true,
+      "hevc": true,
       "p1080": {
         "h264": true,
         "hevc": true
       }
     },
     "/case/lwt/scale-01.mp4": {
+      "av1": true,
+      "hevc": true,
       "p1080": {
         "h264": true,
         "hevc": true
       }
     },
     "/case/lwt/scale-02.mp4": {
+      "av1": true,
       "p1080": {
         "h264": true,
         "hevc": true
       }
     },
     "/case/lwt/scale-03.mp4": {
+      "av1": true,
+      "hevc": true,
       "p1080": {
         "h264": true,
         "hevc": true
@@ -466,44 +475,68 @@
         "h264": true
       }
     },
-    "/case/lwt/scale-05.mp4": {},
+    "/case/lwt/scale-05.mp4": {
+      "av1": true
+    },
     "/case/lwt/scale-06.mp4": {
+      "hevc": true,
       "p1080": {
-        "h264": true
+        "h264": true,
+        "hevc": true
       }
     },
     "/case/lwt/scale-07.mp4": {
+      "av1": true,
       "p1080": {
         "h264": true
       }
     },
     "/case/lwt/scale-08.mp4": {
+      "av1": true,
       "p1080": {
         "h264": true
       }
     },
-    "/case/mach/anywhere.mp4": {},
-    "/case/mach/camera.mp4": {},
-    "/case/mach/drive.mp4": {},
+    "/case/mach/anywhere.mp4": {
+      "av1": true
+    },
+    "/case/mach/camera.mp4": {
+      "av1": true,
+      "hevc": true
+    },
+    "/case/mach/drive.mp4": {
+      "av1": true
+    },
     "/case/mach/hero.mp4": {
+      "av1": true,
       "p1080": {
         "h264": true
       }
     },
-    "/case/mach/mark.mp4": {},
+    "/case/mach/mark.mp4": {
+      "av1": true,
+      "hevc": true
+    },
     "/case/mach/reveal.mp4": {
+      "av1": true,
+      "hevc": true,
       "p1080": {
-        "h264": true
+        "h264": true,
+        "hevc": true
       }
     },
     "/case/stockbee/perspective-mock.mp4": {
+      "av1": true,
       "p1080": {
         "h264": true
       }
     },
     "/case/stockbee/product-workspace.mp4": {
+      "av1": true,
+      "hevc": true,
       "p1080": {
-        "h264": true
+        "h264": true,
+        "hevc": true
       }
     }
   }
