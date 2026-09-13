@@ -1,5 +1,792 @@
 [
   {
+    "at": "2026-09-13T21:08:15.723Z",
+    "summary": "update src, alt, w +133 more",
+    "changes": [
+      {
+        "field": "caseBloom.sections.0.media.0.src",
+        "from": "/case/bloom-algo/banner.webp",
+        "to": "/case/bloom-algo/calm.webp"
+      },
+      {
+        "field": "caseBloom.sections.0.media.0.alt",
+        "from": "Algo trading for everyone."
+      },
+      {
+        "field": "caseBloom.sections.0.media.0.w",
+        "from": 1051,
+        "to": 2300
+      },
+      {
+        "field": "caseBloom.sections.0.media.0.h",
+        "from": 370,
+        "to": 1293
+      },
+      {
+        "field": "caseBloom.sections.0.media.0.block",
+        "from": "custom",
+        "to": "primary"
+      },
+      {
+        "field": "caseBloom.sections.0.media.0.cols",
+        "from": 1
+      },
+      {
+        "field": "caseBloom.sections.0.media.0.ratio",
+        "from": 2.84
+      },
+      {
+        "field": "caseBloom.sections.0.media.1.src",
+        "from": "/case/bloom-algo/landing.webp",
+        "to": "/case/bloom-algo/banner.webp"
+      },
+      {
+        "field": "caseBloom.sections.0.media.1.alt",
+        "from": "Bloom Algo landing page: Algo trading for everyone, dashboard on a laptop",
+        "to": "Algo trading for everyone."
+      },
+      {
+        "field": "caseBloom.sections.0.media.1.w",
+        "from": 1729,
+        "to": 1051
+      },
+      {
+        "field": "caseBloom.sections.0.media.1.h",
+        "from": 1740,
+        "to": 370
+      },
+      {
+        "field": "caseBloom.sections.0.media.1.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseBloom.sections.0.media.1.cols",
+        "from": 2,
+        "to": 1
+      },
+      {
+        "field": "caseBloom.sections.0.media.1.ratio",
+        "from": 0.994,
+        "to": 2.84
+      },
+      {
+        "field": "caseBloom.sections.0.media.2",
+        "from": {
+          "kind": "image",
+          "src": "/case/bloom-algo/goldfish.webp",
+          "alt": "Bloom Algo brand art: goldfish among flowers",
+          "w": 2560,
+          "h": 1433,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.994
+        }
+      },
+      {
+        "field": "caseBloom.sections.1.media.0.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseBloom.sections.1.media.0.src",
+        "from": "/case/bloom-algo/features.webp",
+        "to": "/case/bloom-algo/marketplace.mp4"
+      },
+      {
+        "field": "caseBloom.sections.1.media.0.w",
+        "from": 2300,
+        "to": 2560
+      },
+      {
+        "field": "caseBloom.sections.1.media.0.h",
+        "from": 1294,
+        "to": 1440
+      },
+      {
+        "field": "caseBloom.sections.1.media.0.poster",
+        "to": "/case/bloom-algo/marketplace.jpg"
+      },
+      {
+        "field": "caseBloom.sections.1.media.2.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseBloom.sections.1.media.2.src",
+        "from": "/case/bloom-algo/deploy-settings.webp",
+        "to": "/case/bloom-algo/deployed.mp4"
+      },
+      {
+        "field": "caseBloom.sections.1.media.2.alt",
+        "from": "Turbo Expiry deployment settings: multiplier, period and stop loss"
+      },
+      {
+        "field": "caseBloom.sections.1.media.2.w",
+        "from": 1533,
+        "to": 1600
+      },
+      {
+        "field": "caseBloom.sections.1.media.2.h",
+        "from": 863,
+        "to": 1662
+      },
+      {
+        "field": "caseBloom.sections.1.media.2.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseBloom.sections.1.media.2.ratio",
+        "from": 1.776,
+        "to": 0.963
+      },
+      {
+        "field": "caseBloom.sections.1.media.2.poster",
+        "to": "/case/bloom-algo/deployed.jpg"
+      },
+      {
+        "field": "caseBloom.sections.1.media.3.src",
+        "from": "/case/bloom-algo/future-instances.webp",
+        "to": "/case/bloom-algo/landing.webp"
+      },
+      {
+        "field": "caseBloom.sections.1.media.3.alt",
+        "from": "Future Instances: scheduled algo runs per day",
+        "to": "Bloom Algo landing page: Algo trading for everyone, dashboard on a laptop"
+      },
+      {
+        "field": "caseBloom.sections.1.media.3.w",
+        "from": 1533,
+        "to": 1729
+      },
+      {
+        "field": "caseBloom.sections.1.media.3.h",
+        "from": 863,
+        "to": 1740
+      },
+      {
+        "field": "caseBloom.sections.1.media.3.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseBloom.sections.1.media.3.ratio",
+        "from": 1.776,
+        "to": 0.994
+      },
+      {
+        "field": "caseBloom.sections.1.media.3.zoom",
+        "to": 1
+      },
+      {
+        "field": "caseBloom.sections.1.media.4",
+        "from": {
+          "kind": "image",
+          "src": "/case/bloom-algo/connect-broker.webp",
+          "alt": "Connect your broker: FinX and Dhan in three steps",
+          "w": 794,
+          "h": 993,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.85
+        }
+      },
+      {
+        "field": "caseBloom.sections.1.media.5",
+        "from": {
+          "kind": "image",
+          "src": "/case/bloom-algo/instances.webp",
+          "alt": "Instances and period widgets",
+          "w": 620,
+          "h": 681,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.85
+        }
+      },
+      {
+        "field": "caseBloom.sections.1.media.6",
+        "from": {
+          "kind": "video",
+          "src": "/case/bloom-algo/broker.mp4",
+          "poster": "/case/bloom-algo/broker.jpg",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.963,
+          "w": 1600,
+          "h": 1662
+        }
+      },
+      {
+        "field": "caseBloom.sections.1.media.7",
+        "from": {
+          "kind": "video",
+          "src": "/case/bloom-algo/deployed.mp4",
+          "poster": "/case/bloom-algo/deployed.jpg",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.963,
+          "w": 1600,
+          "h": 1662
+        }
+      },
+      {
+        "field": "caseBloom.sections.2.media.0.src",
+        "from": "/case/bloom-algo/marketplace.mp4",
+        "to": "/case/bloom-algo/strategy.mp4"
+      },
+      {
+        "field": "caseBloom.sections.2.media.0.poster",
+        "from": "/case/bloom-algo/marketplace.jpg",
+        "to": "/case/bloom-algo/strategy.jpg"
+      },
+      {
+        "field": "caseBloom.sections.2.media.0.block",
+        "from": "primary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseBloom.sections.2.media.0.w",
+        "from": 2560,
+        "to": 1600
+      },
+      {
+        "field": "caseBloom.sections.2.media.0.h",
+        "from": 1440,
+        "to": 1662
+      },
+      {
+        "field": "caseBloom.sections.2.media.0.cols",
+        "to": 2
+      },
+      {
+        "field": "caseBloom.sections.2.media.0.ratio",
+        "to": 0.963
+      },
+      {
+        "field": "caseBloom.sections.2.media.1.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseBloom.sections.2.media.1.src",
+        "from": "/case/bloom-algo/strategy.mp4",
+        "to": "/case/bloom-algo/goldfish.webp"
+      },
+      {
+        "field": "caseBloom.sections.2.media.1.poster",
+        "from": "/case/bloom-algo/strategy.jpg"
+      },
+      {
+        "field": "caseBloom.sections.2.media.1.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseBloom.sections.2.media.1.ratio",
+        "from": 0.963,
+        "to": 0.994
+      },
+      {
+        "field": "caseBloom.sections.2.media.1.w",
+        "from": 1600,
+        "to": 2560
+      },
+      {
+        "field": "caseBloom.sections.2.media.1.h",
+        "from": 1662,
+        "to": 1433
+      },
+      {
+        "field": "caseBloom.sections.2.media.1.alt",
+        "to": "Bloom Algo brand art: goldfish among flowers"
+      },
+      {
+        "field": "caseBloom.sections.2.media.2.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseBloom.sections.2.media.2.src",
+        "from": "/case/bloom-algo/top-performers.webp",
+        "to": "/case/bloom-algo/baskets.mp4"
+      },
+      {
+        "field": "caseBloom.sections.2.media.2.alt",
+        "from": "Top performers: Volatility Seeker, High Voltage, Spike Catcher"
+      },
+      {
+        "field": "caseBloom.sections.2.media.2.w",
+        "from": 1533,
+        "to": 2560
+      },
+      {
+        "field": "caseBloom.sections.2.media.2.h",
+        "from": 863,
+        "to": 1440
+      },
+      {
+        "field": "caseBloom.sections.2.media.2.block",
+        "from": "custom",
+        "to": "primary"
+      },
+      {
+        "field": "caseBloom.sections.2.media.2.cols",
+        "from": 2
+      },
+      {
+        "field": "caseBloom.sections.2.media.2.ratio",
+        "from": 1.78
+      },
+      {
+        "field": "caseBloom.sections.2.media.2.poster",
+        "to": "/case/bloom-algo/baskets.jpg"
+      },
+      {
+        "field": "caseBloom.sections.2.media.3.src",
+        "from": "/case/bloom-algo/pricing.webp",
+        "to": "/case/bloom-algo/top-performers.webp"
+      },
+      {
+        "field": "caseBloom.sections.2.media.3.alt",
+        "from": "Deploy, Test, Optimize: Bloom Prime, Bloom Elite and FinX plans",
+        "to": "Top performers: Volatility Seeker, High Voltage, Spike Catcher"
+      },
+      {
+        "field": "caseBloom.sections.2.media.3.w",
+        "from": 1482,
+        "to": 1533
+      },
+      {
+        "field": "caseBloom.sections.2.media.3.h",
+        "from": 804,
+        "to": 863
+      },
+      {
+        "field": "caseBloom.sections.2.media.3.block",
+        "from": "custom",
+        "to": "primary"
+      },
+      {
+        "field": "caseBloom.sections.2.media.4",
+        "to": {
+          "kind": "image",
+          "src": "/case/bloom-algo/butterfly.webp",
+          "alt": "Bloom Algo brand art: butterfly metamorphosis",
+          "w": 2464,
+          "h": 1968,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 1.786,
+          "focusX": 67
+        }
+      },
+      {
+        "field": "caseBloom.sections.2.media.5",
+        "to": {
+          "kind": "image",
+          "src": "/case/bloom-algo/pl-card.webp",
+          "alt": "Shareable card: 5 strategies deployed, 12 trades, +21.4% net P&L",
+          "w": 1586,
+          "h": 2210,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.75
+        }
+      },
+      {
+        "field": "caseBloom.sections.3.media.1.src",
+        "from": "/case/bloom-algo/baskets.mp4",
+        "to": "/case/bloom-algo/trade.mp4"
+      },
+      {
+        "field": "caseBloom.sections.3.media.1.poster",
+        "from": "/case/bloom-algo/baskets.jpg",
+        "to": "/case/bloom-algo/trade.jpg"
+      },
+      {
+        "field": "caseBloom.sections.3.media.1.w",
+        "from": 2560,
+        "to": 1600
+      },
+      {
+        "field": "caseBloom.sections.3.media.1.h",
+        "from": 1440,
+        "to": 1662
+      },
+      {
+        "field": "caseBloom.sections.3.media.1.block",
+        "from": "primary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseBloom.sections.3.media.1.cols",
+        "to": 2
+      },
+      {
+        "field": "caseBloom.sections.3.media.1.ratio",
+        "to": 0.963
+      },
+      {
+        "field": "caseBloom.sections.3.media.2.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseBloom.sections.3.media.3.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseBloom.sections.3.media.4.src",
+        "from": "/case/bloom-algo/strategy-cards.webp",
+        "to": "/case/bloom-algo/notifications.webp"
+      },
+      {
+        "field": "caseBloom.sections.3.media.4.alt",
+        "from": "Breakout Detector and Momentum Tracker cards with instances and period",
+        "to": "Algo deployed, instance triggered and stopped notifications"
+      },
+      {
+        "field": "caseBloom.sections.3.media.4.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseBloom.sections.3.media.5.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseBloom.sections.3.media.5.src",
+        "from": "/case/bloom-algo/notifications.webp",
+        "to": "/case/bloom-algo/alerts.mp4"
+      },
+      {
+        "field": "caseBloom.sections.3.media.5.alt",
+        "from": "Algo deployed, instance triggered and stopped notifications"
+      },
+      {
+        "field": "caseBloom.sections.3.media.5.w",
+        "from": 794,
+        "to": 1600
+      },
+      {
+        "field": "caseBloom.sections.3.media.5.h",
+        "from": 993,
+        "to": 1662
+      },
+      {
+        "field": "caseBloom.sections.3.media.5.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseBloom.sections.3.media.5.ratio",
+        "from": 0.8,
+        "to": 0.963
+      },
+      {
+        "field": "caseBloom.sections.3.media.5.poster",
+        "to": "/case/bloom-algo/alerts.jpg"
+      },
+      {
+        "field": "caseBloom.sections.3.media.6",
+        "from": {
+          "kind": "video",
+          "src": "/case/bloom-algo/trade.mp4",
+          "poster": "/case/bloom-algo/trade.jpg",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.963,
+          "w": 1600,
+          "h": 1662
+        }
+      },
+      {
+        "field": "caseBloom.sections.3.media.7",
+        "from": {
+          "kind": "video",
+          "src": "/case/bloom-algo/alerts.mp4",
+          "poster": "/case/bloom-algo/alerts.jpg",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.963,
+          "w": 1600,
+          "h": 1662
+        }
+      },
+      {
+        "field": "caseBloom.sections.4.media.0.src",
+        "from": "/case/bloom-algo/calm.webp",
+        "to": "/case/bloom-algo/brand-board.webp"
+      },
+      {
+        "field": "caseBloom.sections.4.media.0.w",
+        "from": 2300,
+        "to": 1533
+      },
+      {
+        "field": "caseBloom.sections.4.media.0.h",
+        "from": 1293,
+        "to": 863
+      },
+      {
+        "field": "caseBloom.sections.4.media.0.alt",
+        "to": "Bloom Algo brand board: logo, gradients, connect broker and Earnings Pulse cards"
+      },
+      {
+        "field": "caseBloom.sections.4.media.1.src",
+        "from": "/case/bloom-algo/brand-board.webp",
+        "to": "/case/bloom-algo/deploy-settings.webp"
+      },
+      {
+        "field": "caseBloom.sections.4.media.1.alt",
+        "from": "Bloom Algo brand board: logo, gradients, connect broker and Earnings Pulse cards",
+        "to": "Turbo Expiry deployment settings: multiplier, period and stop loss"
+      },
+      {
+        "field": "caseBloom.sections.4.media.1.cols",
+        "to": 2
+      },
+      {
+        "field": "caseBloom.sections.4.media.1.ratio",
+        "to": 1.776
+      },
+      {
+        "field": "caseBloom.sections.4.media.2.src",
+        "from": "/case/bloom-algo/butterfly.webp",
+        "to": "/case/bloom-algo/features.webp"
+      },
+      {
+        "field": "caseBloom.sections.4.media.2.alt",
+        "from": "Bloom Algo brand art: butterfly metamorphosis"
+      },
+      {
+        "field": "caseBloom.sections.4.media.2.w",
+        "from": 2464,
+        "to": 2300
+      },
+      {
+        "field": "caseBloom.sections.4.media.2.h",
+        "from": 1968,
+        "to": 1294
+      },
+      {
+        "field": "caseBloom.sections.4.media.2.block",
+        "from": "custom",
+        "to": "primary"
+      },
+      {
+        "field": "caseBloom.sections.4.media.2.cols",
+        "from": 2
+      },
+      {
+        "field": "caseBloom.sections.4.media.2.ratio",
+        "from": 1.786
+      },
+      {
+        "field": "caseBloom.sections.4.media.3.src",
+        "from": "/case/bloom-algo/flowers.webp",
+        "to": "/case/bloom-algo/splash.webp"
+      },
+      {
+        "field": "caseBloom.sections.4.media.3.alt",
+        "from": "Bloom Algo brand art: chrome flowers",
+        "to": "Bloom Algo splash: logo over a mountain landscape"
+      },
+      {
+        "field": "caseBloom.sections.4.media.3.w",
+        "from": 2560,
+        "to": 700
+      },
+      {
+        "field": "caseBloom.sections.4.media.3.h",
+        "from": 1433,
+        "to": 888
+      },
+      {
+        "field": "caseBloom.sections.4.media.3.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseBloom.sections.4.media.3.ratio",
+        "from": 1.786,
+        "to": 0.75
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.src",
+        "from": "/case/bloom-algo/splash.webp",
+        "to": "/case/bloom-algo/ticker.webp"
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.alt",
+        "from": "Bloom Algo splash: logo over a mountain landscape",
+        "to": "Ticker: Automation isn't the future. It's the present. And it's here."
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.w",
+        "from": 700,
+        "to": 1728
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.h",
+        "from": 888,
+        "to": 431
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.cols",
+        "from": 2,
+        "to": 1
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.ratio",
+        "from": 0.75,
+        "to": 4
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.zoom",
+        "to": 1
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.focusX",
+        "to": 14
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.focusY",
+        "to": 50
+      },
+      {
+        "field": "caseBloom.sections.4.media.5.src",
+        "from": "/case/bloom-algo/pl-card.webp",
+        "to": "/case/bloom-algo/flowers.webp"
+      },
+      {
+        "field": "caseBloom.sections.4.media.5.alt",
+        "from": "Shareable card: 5 strategies deployed, 12 trades, +21.4% net P&L",
+        "to": "Bloom Algo brand art: chrome flowers"
+      },
+      {
+        "field": "caseBloom.sections.4.media.5.w",
+        "from": 1586,
+        "to": 2560
+      },
+      {
+        "field": "caseBloom.sections.4.media.5.h",
+        "from": 2210,
+        "to": 1433
+      },
+      {
+        "field": "caseBloom.sections.4.media.5.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseBloom.sections.4.media.5.ratio",
+        "from": 0.75,
+        "to": 1.786
+      },
+      {
+        "field": "caseBloom.sections.4.media.6",
+        "from": {
+          "kind": "image",
+          "src": "/case/bloom-algo/ticker.webp",
+          "alt": "Ticker: Automation isn't the future. It's the present. And it's here.",
+          "w": 1728,
+          "h": 431,
+          "block": "custom",
+          "cols": 1,
+          "ratio": 4
+        }
+      },
+      {
+        "field": "caseBloom.sections.5.media.1",
+        "to": {
+          "kind": "image",
+          "src": "/case/bloom-algo/future-instances.webp",
+          "alt": "Future Instances: scheduled algo runs per day",
+          "w": 1533,
+          "h": 863,
+          "block": "primary",
+          "cols": 2,
+          "ratio": 1.776
+        }
+      },
+      {
+        "field": "caseBloom.sections.5.media.2",
+        "to": {
+          "kind": "image",
+          "src": "/case/bloom-algo/strategy-cards.webp",
+          "alt": "Breakout Detector and Momentum Tracker cards with instances and period",
+          "w": 794,
+          "h": 993,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.8
+        }
+      },
+      {
+        "field": "caseBloom.sections.5.media.3",
+        "to": {
+          "kind": "image",
+          "src": "/case/bloom-algo/instances.webp",
+          "alt": "Instances and period widgets",
+          "w": 620,
+          "h": 681,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.85
+        }
+      },
+      {
+        "field": "caseBloom.sections.5.media.4",
+        "to": {
+          "kind": "image",
+          "src": "/case/bloom-algo/connect-broker.webp",
+          "alt": "Connect your broker: FinX and Dhan in three steps",
+          "w": 794,
+          "h": 993,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.85
+        }
+      },
+      {
+        "field": "caseBloom.sections.5.media.5",
+        "to": {
+          "kind": "video",
+          "src": "/case/bloom-algo/broker.mp4",
+          "poster": "/case/bloom-algo/broker.jpg",
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.963,
+          "w": 1600,
+          "h": 1662
+        }
+      },
+      {
+        "field": "caseBloom.sections.5.media.6",
+        "to": {
+          "kind": "image",
+          "src": "/case/bloom-algo/pricing.webp",
+          "alt": "Deploy, Test, Optimize: Bloom Prime, Bloom Elite and FinX plans",
+          "w": 1482,
+          "h": 804,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.78
+        }
+      }
+    ]
+  },
+  {
     "at": "2026-09-05T08:12:36.926Z",
     "summary": "update zoom",
     "changes": [

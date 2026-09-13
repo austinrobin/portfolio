@@ -29,33 +29,20 @@
       "media": [
         {
           "kind": "image",
+          "src": "/case/bloom-algo/calm.webp",
+          "block": "primary",
+          "w": 2300,
+          "h": 1293
+        },
+        {
+          "kind": "image",
           "src": "/case/bloom-algo/banner.webp",
           "alt": "Algo trading for everyone.",
           "w": 1051,
           "h": 370,
-          "block": "custom",
+          "block": "tertiary",
           "cols": 1,
           "ratio": 2.84
-        },
-        {
-          "kind": "image",
-          "src": "/case/bloom-algo/landing.webp",
-          "alt": "Bloom Algo landing page: Algo trading for everyone, dashboard on a laptop",
-          "w": 1729,
-          "h": 1740,
-          "block": "custom",
-          "cols": 2,
-          "ratio": 0.994
-        },
-        {
-          "kind": "image",
-          "src": "/case/bloom-algo/goldfish.webp",
-          "alt": "Bloom Algo brand art: goldfish among flowers",
-          "w": 2560,
-          "h": 1433,
-          "block": "custom",
-          "cols": 2,
-          "ratio": 0.994
         }
       ]
     },
@@ -70,11 +57,12 @@
       "statement": "Two clicks from strategy to live deployment.",
       "media": [
         {
-          "kind": "image",
-          "src": "/case/bloom-algo/features.webp",
+          "kind": "video",
+          "src": "/case/bloom-algo/marketplace.mp4",
+          "poster": "/case/bloom-algo/marketplace.jpg",
           "block": "primary",
-          "w": 2300,
-          "h": 1294
+          "w": 2560,
+          "h": 1440
         },
         {
           "kind": "video",
@@ -85,64 +73,25 @@
           "block": "primary"
         },
         {
-          "kind": "image",
-          "src": "/case/bloom-algo/deploy-settings.webp",
-          "alt": "Turbo Expiry deployment settings: multiplier, period and stop loss",
-          "w": 1533,
-          "h": 863,
-          "block": "custom",
-          "cols": 2,
-          "ratio": 1.776
-        },
-        {
-          "kind": "image",
-          "src": "/case/bloom-algo/future-instances.webp",
-          "alt": "Future Instances: scheduled algo runs per day",
-          "w": 1533,
-          "h": 863,
-          "block": "custom",
-          "cols": 2,
-          "ratio": 1.776
-        },
-        {
-          "kind": "image",
-          "src": "/case/bloom-algo/connect-broker.webp",
-          "alt": "Connect your broker: FinX and Dhan in three steps",
-          "w": 794,
-          "h": 993,
-          "block": "custom",
-          "cols": 2,
-          "ratio": 0.85
-        },
-        {
-          "kind": "image",
-          "src": "/case/bloom-algo/instances.webp",
-          "alt": "Instances and period widgets",
-          "w": 620,
-          "h": 681,
-          "block": "custom",
-          "cols": 2,
-          "ratio": 0.85
-        },
-        {
-          "kind": "video",
-          "src": "/case/bloom-algo/broker.mp4",
-          "poster": "/case/bloom-algo/broker.jpg",
-          "block": "custom",
-          "cols": 2,
-          "ratio": 0.963,
-          "w": 1600,
-          "h": 1662
-        },
-        {
           "kind": "video",
           "src": "/case/bloom-algo/deployed.mp4",
           "poster": "/case/bloom-algo/deployed.jpg",
-          "block": "custom",
+          "block": "secondary",
           "cols": 2,
           "ratio": 0.963,
           "w": 1600,
           "h": 1662
+        },
+        {
+          "kind": "image",
+          "src": "/case/bloom-algo/landing.webp",
+          "alt": "Bloom Algo landing page: Algo trading for everyone, dashboard on a laptop",
+          "w": 1729,
+          "h": 1740,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.994,
+          "zoom": 1
         }
       ]
     },
@@ -158,17 +107,9 @@
       "media": [
         {
           "kind": "video",
-          "src": "/case/bloom-algo/marketplace.mp4",
-          "poster": "/case/bloom-algo/marketplace.jpg",
-          "block": "primary",
-          "w": 2560,
-          "h": 1440
-        },
-        {
-          "kind": "video",
           "src": "/case/bloom-algo/strategy.mp4",
           "poster": "/case/bloom-algo/strategy.jpg",
-          "block": "custom",
+          "block": "secondary",
           "cols": 2,
           "ratio": 0.963,
           "w": 1600,
@@ -176,23 +117,52 @@
         },
         {
           "kind": "image",
+          "src": "/case/bloom-algo/goldfish.webp",
+          "alt": "Bloom Algo brand art: goldfish among flowers",
+          "w": 2560,
+          "h": 1433,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.994
+        },
+        {
+          "kind": "video",
+          "src": "/case/bloom-algo/baskets.mp4",
+          "poster": "/case/bloom-algo/baskets.jpg",
+          "w": 2560,
+          "h": 1440,
+          "block": "primary"
+        },
+        {
+          "kind": "image",
           "src": "/case/bloom-algo/top-performers.webp",
           "alt": "Top performers: Volatility Seeker, High Voltage, Spike Catcher",
           "w": 1533,
           "h": 863,
-          "block": "custom",
+          "block": "primary",
           "cols": 2,
           "ratio": 1.78
         },
         {
           "kind": "image",
-          "src": "/case/bloom-algo/pricing.webp",
-          "alt": "Deploy, Test, Optimize: Bloom Prime, Bloom Elite and FinX plans",
-          "w": 1482,
-          "h": 804,
-          "block": "custom",
+          "src": "/case/bloom-algo/butterfly.webp",
+          "alt": "Bloom Algo brand art: butterfly metamorphosis",
+          "w": 2464,
+          "h": 1968,
+          "block": "secondary",
           "cols": 2,
-          "ratio": 1.78
+          "ratio": 1.786,
+          "focusX": 67
+        },
+        {
+          "kind": "image",
+          "src": "/case/bloom-algo/pl-card.webp",
+          "alt": "Shareable card: 5 strategies deployed, 12 trades, +21.4% net P&L",
+          "w": 1586,
+          "h": 2210,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.75
         }
       ]
     },
@@ -216,11 +186,13 @@
         },
         {
           "kind": "video",
-          "src": "/case/bloom-algo/baskets.mp4",
-          "poster": "/case/bloom-algo/baskets.jpg",
-          "w": 2560,
-          "h": 1440,
-          "block": "primary"
+          "src": "/case/bloom-algo/trade.mp4",
+          "poster": "/case/bloom-algo/trade.jpg",
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.963,
+          "w": 1600,
+          "h": 1662
         },
         {
           "kind": "image",
@@ -228,7 +200,7 @@
           "alt": "Account P&L 17,04,736 with sparkline",
           "w": 667,
           "h": 413,
-          "block": "custom",
+          "block": "tertiary",
           "cols": 2,
           "ratio": 1.615
         },
@@ -238,19 +210,9 @@
           "alt": "+37,056 current MTM and 8 algos deployed",
           "w": 667,
           "h": 413,
-          "block": "custom",
+          "block": "tertiary",
           "cols": 2,
           "ratio": 1.615
-        },
-        {
-          "kind": "image",
-          "src": "/case/bloom-algo/strategy-cards.webp",
-          "alt": "Breakout Detector and Momentum Tracker cards with instances and period",
-          "w": 794,
-          "h": 993,
-          "block": "custom",
-          "cols": 2,
-          "ratio": 0.8
         },
         {
           "kind": "image",
@@ -258,25 +220,15 @@
           "alt": "Algo deployed, instance triggered and stopped notifications",
           "w": 794,
           "h": 993,
-          "block": "custom",
+          "block": "secondary",
           "cols": 2,
           "ratio": 0.8
         },
         {
           "kind": "video",
-          "src": "/case/bloom-algo/trade.mp4",
-          "poster": "/case/bloom-algo/trade.jpg",
-          "block": "custom",
-          "cols": 2,
-          "ratio": 0.963,
-          "w": 1600,
-          "h": 1662
-        },
-        {
-          "kind": "video",
           "src": "/case/bloom-algo/alerts.mp4",
           "poster": "/case/bloom-algo/alerts.jpg",
-          "block": "custom",
+          "block": "secondary",
           "cols": 2,
           "ratio": 0.963,
           "w": 1600,
@@ -297,13 +249,6 @@
       "media": [
         {
           "kind": "image",
-          "src": "/case/bloom-algo/calm.webp",
-          "block": "primary",
-          "w": 2300,
-          "h": 1293
-        },
-        {
-          "kind": "image",
           "src": "/case/bloom-algo/brand-board.webp",
           "alt": "Bloom Algo brand board: logo, gradients, connect broker and Earnings Pulse cards",
           "w": 1533,
@@ -312,23 +257,20 @@
         },
         {
           "kind": "image",
-          "src": "/case/bloom-algo/butterfly.webp",
-          "alt": "Bloom Algo brand art: butterfly metamorphosis",
-          "w": 2464,
-          "h": 1968,
-          "block": "custom",
+          "src": "/case/bloom-algo/deploy-settings.webp",
+          "alt": "Turbo Expiry deployment settings: multiplier, period and stop loss",
+          "w": 1533,
+          "h": 863,
+          "block": "primary",
           "cols": 2,
-          "ratio": 1.786
+          "ratio": 1.776
         },
         {
           "kind": "image",
-          "src": "/case/bloom-algo/flowers.webp",
-          "alt": "Bloom Algo brand art: chrome flowers",
-          "w": 2560,
-          "h": 1433,
-          "block": "custom",
-          "cols": 2,
-          "ratio": 1.786
+          "src": "/case/bloom-algo/features.webp",
+          "block": "primary",
+          "w": 2300,
+          "h": 1294
         },
         {
           "kind": "image",
@@ -336,17 +278,7 @@
           "alt": "Bloom Algo splash: logo over a mountain landscape",
           "w": 700,
           "h": 888,
-          "block": "custom",
-          "cols": 2,
-          "ratio": 0.75
-        },
-        {
-          "kind": "image",
-          "src": "/case/bloom-algo/pl-card.webp",
-          "alt": "Shareable card: 5 strategies deployed, 12 trades, +21.4% net P&L",
-          "w": 1586,
-          "h": 2210,
-          "block": "custom",
+          "block": "secondary",
           "cols": 2,
           "ratio": 0.75
         },
@@ -356,9 +288,22 @@
           "alt": "Ticker: Automation isn't the future. It's the present. And it's here.",
           "w": 1728,
           "h": 431,
-          "block": "custom",
+          "block": "tertiary",
           "cols": 1,
-          "ratio": 4.0
+          "ratio": 4,
+          "zoom": 1,
+          "focusX": 14,
+          "focusY": 50
+        },
+        {
+          "kind": "image",
+          "src": "/case/bloom-algo/flowers.webp",
+          "alt": "Bloom Algo brand art: chrome flowers",
+          "w": 2560,
+          "h": 1433,
+          "block": "tertiary",
+          "cols": 2,
+          "ratio": 1.786
         }
       ]
     },
@@ -378,6 +323,66 @@
           "block": "primary",
           "w": 1764,
           "h": 993
+        },
+        {
+          "kind": "image",
+          "src": "/case/bloom-algo/future-instances.webp",
+          "alt": "Future Instances: scheduled algo runs per day",
+          "w": 1533,
+          "h": 863,
+          "block": "primary",
+          "cols": 2,
+          "ratio": 1.776
+        },
+        {
+          "kind": "image",
+          "src": "/case/bloom-algo/strategy-cards.webp",
+          "alt": "Breakout Detector and Momentum Tracker cards with instances and period",
+          "w": 794,
+          "h": 993,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.8
+        },
+        {
+          "kind": "image",
+          "src": "/case/bloom-algo/instances.webp",
+          "alt": "Instances and period widgets",
+          "w": 620,
+          "h": 681,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.85
+        },
+        {
+          "kind": "image",
+          "src": "/case/bloom-algo/connect-broker.webp",
+          "alt": "Connect your broker: FinX and Dhan in three steps",
+          "w": 794,
+          "h": 993,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.85
+        },
+        {
+          "kind": "video",
+          "src": "/case/bloom-algo/broker.mp4",
+          "poster": "/case/bloom-algo/broker.jpg",
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.963,
+          "w": 1600,
+          "h": 1662
+        },
+        {
+          "kind": "image",
+          "src": "/case/bloom-algo/pricing.webp",
+          "alt": "Deploy, Test, Optimize: Bloom Prime, Bloom Elite and FinX plans",
+          "w": 1482,
+          "h": 804,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.78
         }
       ]
     },
