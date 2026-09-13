@@ -578,7 +578,7 @@ function Chapter({
       {/* a hairline opens the chapter; only its name sits on the left — the
           heading and copy are one block pushed to the viewport's right edge */}
       <Rise className="grid gap-x-8 gap-y-3 md:grid-cols-2">
-        <p className="font-mono text-[12px] uppercase tracking-[0.25em] text-muted md:pt-1.5 md:text-[11px]">
+        <p className="text-[10px] font-semibold uppercase leading-[1.2] tracking-[0.17em] text-black/40 md:pt-2">
           {kicker}
         </p>
         <div className="max-w-[50ch] md:justify-self-end">
@@ -586,14 +586,14 @@ function Chapter({
             {heading}
           </h2>
           {body?.length ? (
-            <div className="mt-4 space-y-2 text-[16px] leading-[1.5] text-muted md:text-[15px] md:leading-[1.45]">
+            <div className="mt-4 space-y-2 text-[16px] font-normal leading-[1.52] tracking-[-0.02em] text-black/60">
               {body.map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
             </div>
           ) : null}
           {statement ? (
-            <p className="mt-5 text-[20px] font-light leading-[1.25] tracking-[-0.01em] md:text-[clamp(18px,1.45vw,22px)]">
+            <p className="mt-5 text-[22.4px] font-medium leading-[1.1] tracking-[-0.02em] text-black">
               {statement}
             </p>
           ) : null}
