@@ -209,7 +209,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
       <div
         ref={stageRef}
         className="flex h-svh flex-col items-center justify-center overflow-hidden pt-[4svh]"
-        style={{ ["--deck-w" as string]: "min(92vw, 1240px, calc((100svh - 160px) * 1.21))" }}
+        style={{ ["--deck-w" as string]: "min(92vw, 1054px, calc((100svh - 160px) * 1.03))" }}
       >
         {/* The section's name — a huge script watermark. Starts as the
             highlight, recedes behind the folder as it lands. */}
@@ -232,13 +232,13 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
         >
           <div className="min-w-0">
             <p
-              className="truncate text-[clamp(26px,2.54vw,38px)] font-bold uppercase tracking-[0.04em]"
+              className="truncate text-[clamp(20px,1.9vw,28px)] font-bold uppercase tracking-[0.04em]"
               style={{ fontFamily: "var(--font-silk)" }}
             >
               {current.title}
             </p>
             <p
-              className="mt-1 truncate text-[clamp(26px,2.54vw,38px)] leading-tight"
+              className="mt-0.5 truncate text-[clamp(20px,1.9vw,28px)] leading-tight"
               style={{ fontFamily: "var(--font-peristiwa)" }}
             >
               {current.subtitle}
