@@ -32,7 +32,7 @@ const smooth = (x: number) => {
  */
 const LEAN = 22; // deg — the standing sheets' lean back
 const STEP_UP = 4; // % of card height per queued sheet
-const STEP_BACK = 130; // px deeper per queued sheet
+const STEP_BACK = 130; // px deeper per queued sheet (the camera distance scales with the sheet: 2.7× its width)
 const FLOOR = -95; // deg — fallen flat, a touch past, toward the camera
 
 function DeckCard({
@@ -209,7 +209,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
       <div
         ref={stageRef}
         className="flex h-svh flex-col items-center justify-center overflow-hidden pt-[4svh]"
-        style={{ ["--deck-w" as string]: "min(92vw, 1240px, calc((100svh - 160px) * 1.33))" }}
+        style={{ ["--deck-w" as string]: "min(92vw, 1240px, calc((100svh - 160px) * 1.21))" }}
       >
         {/* The section's name — a huge script watermark. Starts as the
             highlight, recedes behind the folder as it lands. */}
@@ -259,12 +259,13 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
         </motion.div>
 
         {/* 3D stage — the works folder; rises into place over the script.
-            The box is the featured sheet; the queue's strips need ~22% of
-            its height above it and the floor ~30% below, so the sheet is
-            sized to the viewport with that headroom (max 990px wide). */}
+            The box is the featured sheet; the strips take ~12% of its width
+            above it and the floor projects ~39% of its height below (half of
+            that is reserved so the composition centres on it), so the sheet
+            is sized to the viewport with that headroom (max 1240px wide). */}
         <motion.div
-          className="z-10 w-[var(--deck-w)] pt-[calc(var(--deck-w)*0.078)] pb-[calc(var(--deck-w)*0.04)]"
-          style={{ perspective: 2400, perspectiveOrigin: "50% 0%", y: deckY }}
+          className="z-10 w-[var(--deck-w)] pt-[calc(var(--deck-w)*0.078)] pb-[calc(var(--deck-w)*0.122)]"
+          style={{ perspective: "calc(var(--deck-w) * 2.7)", perspectiveOrigin: "50% 0%", y: deckY }}
         >
           <div className="relative aspect-[16/10] [transform-style:preserve-3d]">
             {items.map((item, i) => (
