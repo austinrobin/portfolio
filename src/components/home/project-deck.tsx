@@ -85,20 +85,32 @@ function DeckCard({
         style={{ background: item.theme.bg }}
         onClick={onActivate}
       >
-        {item.cover ? (
-          <Image
-            src={item.cover}
-            alt={item.title}
-            fill
-            sizes="(max-width: 860px) 92vw, 780px"
-            className="object-cover"
-          />
-        ) : (
-          <PlaceholderCover item={item} />
-        )}
+        <Cover item={item} sizes="(max-width: 860px) 92vw, 1240px" />
       </div>
     </motion.div>
   );
+}
+
+/* A cover: a looping reel when the path is a video, a still otherwise.
+   Reels autoplay muted and loop; the poster holds the first frame. */
+function Cover({ item, sizes }: { item: ShowcaseItem; sizes: string }) {
+  if (!item.cover) return <PlaceholderCover item={item} />;
+  if (item.cover.endsWith(".mp4")) {
+    return (
+      <video
+        src={item.cover}
+        poster={item.coverPoster}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-label={item.title}
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+    );
+  }
+  return <Image src={item.cover} alt={item.title} fill sizes={sizes} className="object-cover" />;
 }
 
 /* Styled stand-in until real project visuals land (item.cover). */
@@ -269,11 +281,7 @@ function CardShellStatic({ item }: { item: ShowcaseItem }) {
   const inner = (
     <div className="overflow-hidden rounded-lg border border-border">
       <div className="relative aspect-[16/10]">
-        {item.cover ? (
-          <Image src={item.cover} alt={item.title} fill className="object-cover" />
-        ) : (
-          <PlaceholderCover item={item} />
-        )}
+        <Cover item={item} sizes="100vw" />
       </div>
     </div>
   );

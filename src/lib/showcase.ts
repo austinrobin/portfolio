@@ -3,8 +3,11 @@ export interface ShowcaseItem {
   title: string;
   subtitle: string;
   year: string;
-  /** Real cover image (public/ path). Falls back to a styled placeholder. */
+  /** Real cover (public/ path): a still, or a looping .mp4 reel. Falls back
+      to a styled placeholder. */
   cover?: string;
+  /** Poster for a video cover — the first frame, shown until it plays. */
+  coverPoster?: string;
   /** Link to the case study; omit for coming-soon items. */
   href?: string;
   /** Placeholder cover styling until a real visual lands. */
@@ -57,9 +60,11 @@ export const showcase: ShowcaseItem[] = [
   {
     id: "bloom-algo",
     title: "Bloom Algo",
-    subtitle: "Structure for the chaos of options trading",
-    year: "2025",
+    subtitle: "Making algo trading feel less like an algorithm",
+    year: "2024",
     href: "/work/bloom-algo",
+    cover: "/deck/bloom-algo.mp4",
+    coverPoster: "/deck/bloom-algo.poster.webp",
     theme: { bg: "#0F1411", fg: "#ECF3EE", accent: "#7FE0B4" },
   },
   {
