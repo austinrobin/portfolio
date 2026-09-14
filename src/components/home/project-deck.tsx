@@ -31,7 +31,7 @@ const smooth = (x: number) => {
  * a step while the next one is read.
  */
 const LEAN = 22; // deg — the standing sheets' lean back
-const STEP_UP = 4.5; // % of card height per queued sheet
+const STEP_UP = 4; // % of card height per queued sheet
 const STEP_BACK = 130; // px deeper per queued sheet
 const FLOOR = -95; // deg — fallen flat, a touch past, toward the camera
 
@@ -188,7 +188,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
       <div
         ref={stageRef}
         className="flex h-svh flex-col items-center justify-center overflow-hidden"
-        style={{ ["--deck-w" as string]: "min(92vw, 1240px, calc((100svh - 220px) * 1.31))" }}
+        style={{ ["--deck-w" as string]: "min(92vw, 1240px, calc((100svh - 160px) * 1.33))" }}
       >
         {/* The section's name — a huge script watermark. Starts as the
             highlight, recedes behind the folder as it lands. */}
@@ -206,7 +206,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
 
         {/* Project name + details, inked like the design */}
         <motion.div
-          className="relative z-10 mb-[24px] flex w-[var(--deck-w)] items-end justify-between gap-4"
+          className="relative z-10 mb-[12px] flex w-[var(--deck-w)] items-end justify-between gap-4"
           style={{ opacity: capOpacity, color: INK }}
         >
           <div className="min-w-0">
@@ -242,7 +242,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
             its height above it and the floor ~30% below, so the sheet is
             sized to the viewport with that headroom (max 990px wide). */}
         <motion.div
-          className="z-10 w-[var(--deck-w)] pt-[calc(var(--deck-w)*0.1375)] pb-[calc(var(--deck-w)*0.1)]"
+          className="z-10 w-[var(--deck-w)] pt-[calc(var(--deck-w)*0.125)] pb-[calc(var(--deck-w)*0.04)]"
           style={{ perspective: 2400, perspectiveOrigin: "50% 0%", y: deckY }}
         >
           <div className="relative aspect-[16/10] [transform-style:preserve-3d]">
