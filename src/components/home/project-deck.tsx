@@ -21,18 +21,19 @@ const smooth = (x: number) => {
 };
 
 /*
- * Stack offset in % of card height. Reference (Beeyond rolodex): the queued
- * sheets fan up and back behind the featured card — each deeper sheet sits
- * a tight strip higher AND leans flatter, like pages draped over a bar.
+ * Geometry, re-studied against the Beeyond rolodex reference (2026-09-14):
+ * one distant, elevated camera (long perspective, origin above the deck);
+ * the featured sheet stands leaning back so its top edge reads narrower;
+ * the queue stands behind it at the same lean, each sheet a step higher
+ * and a step deeper, so the top strips of the next four or five sheets show
+ * in the space above the featured one; a sheet that has been read falls
+ * forward past flat and lies on the floor in front, mirrored, holding for
+ * a step while the next one is read.
  */
-const stackYPct = (d: number) => {
-  const dd = Math.min(d, 6);
-  if (dd <= 1) return -72 * smooth(dd);
-  return -(72 + 6.5 * (dd - 1));
-};
-
-/* Deeper sheets lean flatter: 62° for the next card, approaching ~86°. */
-const stackAngle = (d: number) => Math.min(62 + Math.max(d - 1, 0) * 8, 86);
+const LEAN = 22; // deg — the standing sheets' lean back
+const STEP_UP = 4.5; // % of card height per queued sheet
+const STEP_BACK = 130; // px deeper per queued sheet
+const FLOOR = -95; // deg — fallen flat, a touch past, toward the camera
 
 function DeckCard({
   item,
@@ -45,40 +46,32 @@ function DeckCard({
   p: MotionValue<number>;
   onActivate?: () => void;
 }) {
-  // t < 0: waiting in the fan · t 0→1: falling flat · t > 1: the mirrored floor
+  // t < 0: standing in the queue · t 0→1: falling forward · t > 1: the floor
   const t = useTransform(p, (v) => v - index);
 
   const rotateX = useTransform(t, (v) => {
-    if (v < 0) {
-      const d = -v;
-      // unfolds 62 -> 0 on approach; deeper sheets fan flatter behind
-      return d <= 1 ? 62 * smooth(d) : stackAngle(d);
-    }
-    if (v <= 1) return -96 * smooth(v);
-    return -96 - Math.min((v - 1) * 3, 4);
+    if (v <= 0) return LEAN; // queue and featured share one lean
+    if (v <= 1) return LEAN + (FLOOR - LEAN) * smooth(v);
+    return FLOOR;
   });
 
   const y = useTransform(t, (v) => {
-    if (v < 0) return `${stackYPct(-v)}%`;
-    if (v <= 1) return `${8 * smooth(v)}%`;
-    return `${8 + (v - 1) * 6}%`;
+    if (v < 0) return `${-STEP_UP * Math.min(-v, 6)}%`;
+    return "0%";
   });
 
-  /* After landing the flat card keeps coming TOWARD the camera — that is
-     what projects it down into the lower third as the mirrored floor
-     (pushing y instead just shoves it out of the stage). */
   const z = useTransform(t, (v) => {
-    if (v < 0) return -60 * Math.min(-v, 6);
-    if (v <= 1) return 60 * smooth(v);
-    return 60 + (v - 1) * 70;
+    if (v < 0) return -STEP_BACK * Math.min(-v, 6);
+    if (v <= 1) return 0;
+    return (v - 1) * 40; // the floor creeps toward the camera as it waits
   });
 
   const opacity = useTransform(t, (v) => {
     if (v <= -5.5) return 0;
-    if (v < -4.5) return v + 5.5; // fade in deep in the fan
-    // the mirrored floor HOLDS for a full step, then yields to the next
-    if (v <= 1.9) return 1;
-    if (v < 2.35) return 1 - (v - 1.9) / 0.45;
+    if (v < -4.5) return v + 5.5; // deep in the queue, sheets fade in
+    // the floor holds under the next sheet's read, then yields as that one falls
+    if (v <= 1.55) return 1;
+    if (v < 2) return 1 - (v - 1.55) / 0.45;
     return 0;
   });
 
@@ -195,6 +188,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
       <div
         ref={stageRef}
         className="flex h-svh flex-col items-center justify-center overflow-hidden"
+        style={{ ["--deck-w" as string]: "min(92vw, 990px, calc((100svh - 220px) * 1.05))" }}
       >
         {/* The section's name — a huge script watermark. Starts as the
             highlight, recedes behind the folder as it lands. */}
@@ -212,7 +206,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
 
         {/* Project name + details, inked like the design */}
         <motion.div
-          className="relative z-10 mb-[60px] flex w-[min(92vw,990px)] items-end justify-between gap-4"
+          className="relative z-10 mb-[24px] flex w-[var(--deck-w)] items-end justify-between gap-4"
           style={{ opacity: capOpacity, color: INK }}
         >
           <div className="min-w-0">
@@ -243,10 +237,13 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
           )}
         </motion.div>
 
-        {/* 3D stage — the works folder; rises into place over the script */}
+        {/* 3D stage — the works folder; rises into place over the script.
+            The box is the featured sheet; the queue's strips need ~22% of
+            its height above it and the floor ~30% below, so the sheet is
+            sized to the viewport with that headroom (max 990px wide). */}
         <motion.div
-          className="z-10 w-[min(92vw,990px)]"
-          style={{ perspective: 1050, perspectiveOrigin: "50% 16%", y: deckY }}
+          className="z-10 w-[var(--deck-w)] pt-[calc(var(--deck-w)*0.1375)] pb-[calc(var(--deck-w)*0.19)]"
+          style={{ perspective: 2400, perspectiveOrigin: "50% 0%", y: deckY }}
         >
           <div className="relative aspect-[16/10] [transform-style:preserve-3d]">
             {items.map((item, i) => (
