@@ -154,6 +154,15 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
   const titleOpacity = useTransform(approach, [0, 0.8], [1, 0]);
   const deckY = useTransform(approach, [0.35, 0.9], ["26svh", "0svh"]);
   const capOpacity = useTransform(approach, [0.72, 0.92], [0, 1]);
+  /* The queue's strips shrink as sheets are read; the caption follows them
+     down so it always sits just above the top strip rather than stranded at
+     the headroom's top (1 strip = STEP_UP% of the sheet height = deck-w/1.6). */
+  const capY = useTransform(p, (v) => {
+    const remaining = Math.max(0, Math.min(n - 1 - v, 5));
+    const empty = 5 - remaining; // strips of headroom with nothing in them
+    // a strip projects to ~57% of its nominal height (lean + distance)
+    return `calc(var(--deck-w) * ${((empty * STEP_UP * 0.57) / 100 / 1.6).toFixed(4)})`;
+  });
 
   useMotionValueEvent(p, "change", (v) => {
     const idx = Math.min(Math.max(Math.round(v), 0), n - 1);
@@ -187,7 +196,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
     <div ref={wrapRef} className={fontVars} style={{ height: `${n * 100}vh` }}>
       <div
         ref={stageRef}
-        className="flex h-svh flex-col items-center justify-center overflow-hidden"
+        className="flex h-svh flex-col items-center justify-center overflow-hidden pt-[4svh]"
         style={{ ["--deck-w" as string]: "min(92vw, 1240px, calc((100svh - 160px) * 1.33))" }}
       >
         {/* The section's name — a huge script watermark. Starts as the
@@ -206,8 +215,8 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
 
         {/* Project name + details, inked like the design */}
         <motion.div
-          className="relative z-10 mb-[12px] flex w-[var(--deck-w)] items-end justify-between gap-4"
-          style={{ opacity: capOpacity, color: INK }}
+          className="relative z-10 mb-[16px] flex w-[var(--deck-w)] items-end justify-between gap-4"
+          style={{ opacity: capOpacity, color: INK, y: capY }}
         >
           <div className="min-w-0">
             <p
@@ -242,7 +251,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
             its height above it and the floor ~30% below, so the sheet is
             sized to the viewport with that headroom (max 990px wide). */}
         <motion.div
-          className="z-10 w-[var(--deck-w)] pt-[calc(var(--deck-w)*0.125)] pb-[calc(var(--deck-w)*0.04)]"
+          className="z-10 w-[var(--deck-w)] pt-[calc(var(--deck-w)*0.078)] pb-[calc(var(--deck-w)*0.04)]"
           style={{ perspective: 2400, perspectiveOrigin: "50% 0%", y: deckY }}
         >
           <div className="relative aspect-[16/10] [transform-style:preserve-3d]">
