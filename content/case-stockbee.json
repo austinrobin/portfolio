@@ -77,6 +77,14 @@
           "block": "primary",
           "w": 1491,
           "h": 879
+        },
+        {
+          "kind": "image",
+          "src": "/case/stockbee/lightning-fast.webp",
+          "alt": "Lightning-fast stock updates, delivered to your WhatsApp",
+          "w": 1543,
+          "h": 868,
+          "block": "primary"
         }
       ],
       "showcase": true
@@ -93,9 +101,33 @@
       "media": [
         {
           "kind": "image",
-          "src": "",
-          "caption": "",
-          "aspect": "wide"
+          "src": "/case/stockbee/uptrend.webp",
+          "alt": "Uptrend list: stocks, CMP and day change",
+          "w": 1107,
+          "h": 1384,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.8
+        },
+        {
+          "kind": "image",
+          "src": "/case/stockbee/tablet-feed.webp",
+          "alt": "The live update feed on a tablet",
+          "w": 1107,
+          "h": 1384,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.8
+        },
+        {
+          "kind": "image",
+          "src": "/case/stockbee/phone-transcript.webp",
+          "alt": "An earnings-call summary on the phone",
+          "w": 731,
+          "h": 759,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.96
         }
       ],
       "showcase": true
@@ -112,9 +144,39 @@
       "media": [
         {
           "kind": "image",
-          "src": "",
-          "caption": "",
-          "aspect": "wide"
+          "src": "/case/stockbee/terminal.webp",
+          "alt": "StockBee Terminal: your trading command centre",
+          "w": 1543,
+          "h": 868,
+          "block": "primary"
+        },
+        {
+          "kind": "image",
+          "src": "/case/stockbee/no-noise.webp",
+          "alt": "No Noise: StockBee Spotlight, sector surge, breakout tracker",
+          "w": 1543,
+          "h": 868,
+          "block": "primary"
+        },
+        {
+          "kind": "image",
+          "src": "/case/stockbee/fno-table.webp",
+          "alt": "F&O table with option chain data",
+          "w": 1543,
+          "h": 868,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.78
+        },
+        {
+          "kind": "image",
+          "src": "/case/stockbee/options-chart.webp",
+          "alt": "NIFTY 50 options open-interest chart",
+          "w": 1543,
+          "h": 868,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.78
         }
       ],
       "showcase": true
@@ -130,9 +192,33 @@
       "media": [
         {
           "kind": "image",
-          "src": "",
-          "caption": "",
-          "aspect": "wide"
+          "src": "/case/stockbee/notification-filters.webp",
+          "alt": "Notification filters and account controls",
+          "w": 890,
+          "h": 551,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.615
+        },
+        {
+          "kind": "image",
+          "src": "/case/stockbee/radar.webp",
+          "alt": "Radar: scanning the market",
+          "w": 890,
+          "h": 551,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.615
+        },
+        {
+          "kind": "image",
+          "src": "/case/stockbee/funnel.webp",
+          "alt": "The update funnel: key updates, analytical updates, event schedules, promotions",
+          "w": 1107,
+          "h": 1384,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.8
         }
       ]
     },
@@ -148,9 +234,19 @@
       "media": [
         {
           "kind": "image",
-          "src": "",
-          "caption": "",
-          "aspect": "wide"
+          "src": "/case/stockbee/get-started.webp",
+          "alt": "Get started with StockBee in three steps",
+          "w": 1543,
+          "h": 868,
+          "block": "primary"
+        },
+        {
+          "kind": "image",
+          "src": "/case/stockbee/stock-list.webp",
+          "alt": "Edit your stock list: 24 stocks tracked",
+          "w": 1543,
+          "h": 868,
+          "block": "primary"
         }
       ]
     },
@@ -165,9 +261,21 @@
       "media": [
         {
           "kind": "image",
-          "src": "",
-          "caption": "",
-          "aspect": "wide"
+          "src": "/case/stockbee/press.webp",
+          "alt": "As seen in Business Today, India Today, MSN, Yahoo Finance, Rediff, Business Standard, The Tribune",
+          "w": 890,
+          "h": 551,
+          "block": "primary"
+        },
+        {
+          "kind": "image",
+          "src": "/case/stockbee/custom-insights.webp",
+          "alt": "Enterprise solutions: custom insights, scalable impact",
+          "w": 1107,
+          "h": 1384,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.8
         }
       ]
     }

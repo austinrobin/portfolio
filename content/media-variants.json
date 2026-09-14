@@ -377,12 +377,120 @@
         1280
       ]
     },
+    "/case/stockbee/custom-insights.webp": {
+      "w": 1107,
+      "widths": [
+        640,
+        960
+      ]
+    },
+    "/case/stockbee/fno-table.webp": {
+      "w": 1543,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/stockbee/funnel.webp": {
+      "w": 1107,
+      "widths": [
+        640,
+        960
+      ]
+    },
+    "/case/stockbee/get-started.webp": {
+      "w": 1543,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/stockbee/lightning-fast.webp": {
+      "w": 1543,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
     "/case/stockbee/meet-stockbee.webp": {
       "w": 1800,
       "widths": [
         640,
         960,
         1280
+      ]
+    },
+    "/case/stockbee/no-noise.webp": {
+      "w": 1543,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/stockbee/notification-filters.webp": {
+      "w": 890,
+      "widths": [
+        640
+      ]
+    },
+    "/case/stockbee/options-chart.webp": {
+      "w": 1543,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/stockbee/phone-transcript.webp": {
+      "w": 731,
+      "widths": [
+        640
+      ]
+    },
+    "/case/stockbee/press.webp": {
+      "w": 890,
+      "widths": [
+        640
+      ]
+    },
+    "/case/stockbee/radar.webp": {
+      "w": 890,
+      "widths": [
+        640
+      ]
+    },
+    "/case/stockbee/stock-list.webp": {
+      "w": 1543,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/stockbee/tablet-feed.webp": {
+      "w": 1107,
+      "widths": [
+        640,
+        960
+      ]
+    },
+    "/case/stockbee/terminal.webp": {
+      "w": 1543,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/stockbee/uptrend.webp": {
+      "w": 1107,
+      "widths": [
+        640,
+        960
       ]
     }
   },
