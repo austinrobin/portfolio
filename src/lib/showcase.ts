@@ -21,8 +21,8 @@ export interface ShowcaseItem {
 export const showcase: ShowcaseItem[] = [
   {
     id: "high",
-    title: "High",
-    subtitle: "Investing, rebuilt for Gen Z",
+    title: "HIGH",
+    subtitle: "Markets, meet culture",
     year: "2026",
     href: "/work/high",
     cover: "/deck/high.mp4",
