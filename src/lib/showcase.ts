@@ -32,6 +32,8 @@ export const showcase: ShowcaseItem[] = [
     title: "High",
     subtitle: "Investing, rebuilt for Gen Z",
     year: "2026",
+    cover: "/deck/high.mp4",
+    coverPoster: "/deck/high.poster.webp",
     theme: { bg: "#0B0714", fg: "#EFEAF8", accent: "#A78BFA" },
   },
   {
