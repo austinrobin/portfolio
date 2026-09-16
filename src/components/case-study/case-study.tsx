@@ -7,7 +7,7 @@ import type { CaseMedia, CaseStudy } from "@/lib/case-studies";
 import Link from "next/link";
 import { BanknoteNav } from "@/components/banknote-nav";
 import { Monogram } from "@/components/home/monogram";
-import variants from "../../../content/media-variants.json";
+import { POSTERS, STILLS, pickVideoSources, type VideoSource } from "@/lib/video-sources";
 import { gsap, ScrollSmoother, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { caseFont } from "./case-font";
 import { heroFonts } from "@/components/home/hero-config";
@@ -61,17 +61,6 @@ function Rise({
 
 /* ------------------------------------------------------ media variants */
 
-/* content/media-variants.json is written by `npm run media:variants` after
-   assets land: which downscaled stills exist, which codec companions each
-   clip has (AV1 / HEVC beside the H.264), the 1080p phone cuts, and the
-   WebP posters. Anything missing from it falls back to the plain file. */
-type Variants = {
-  stills: Record<string, { w: number; widths: number[] }>;
-  posters: Record<string, string>;
-  videos: Record<string, { av1?: boolean; hevc?: boolean; p1080?: { h264: boolean; av1?: boolean; hevc?: boolean } }>;
-};
-const VARIANTS = variants as unknown as Variants;
-
 const SIZES = {
   full: "(min-width: 1024px) calc(100vw - 390px), (min-width: 768px) calc(100vw - 345px), 100vw",
   half: "(min-width: 1024px) calc(50vw - 199px), (min-width: 768px) calc(50vw - 176px), 50vw",
@@ -79,49 +68,18 @@ const SIZES = {
 
 /* srcset for a still: every downscale we have plus the source itself */
 function stillSrcSet(src: string): string | undefined {
-  const v = VARIANTS.stills[src];
+  const v = STILLS[src];
   if (!v || !v.widths.length) return undefined;
   const parts = v.widths.map((w) => `${src.replace(/\.webp$/, `.w${w}.webp`)} ${w}w`);
   parts.push(`${src} ${v.w}w`);
   return parts.join(", ");
 }
-const posterOf = (m: CaseMedia) => (m.poster ? VARIANTS.posters[m.poster] ?? m.poster : undefined);
+const posterOf = (m: CaseMedia) => (m.poster ? POSTERS[m.poster] ?? m.poster : undefined);
 
-/* Codec choice, decided once per session from what the browser reports it
-   can decode: AV1 on desktops that support it (about half the bytes of the
-   H.264 at measurably equal fidelity), HEVC for Safari and phones with the
-   hardware, H.264 everywhere else. Phones get the 1080-long-edge cut. */
-type Codec = "av1" | "hevc" | "h264";
-const TYPE: Record<Codec, string> = {
-  av1: 'video/mp4; codecs="av01.0.08M.08"',
-  hevc: 'video/mp4; codecs="hvc1.1.6.L120.B0"',
-  h264: 'video/mp4; codecs="avc1.640028"',
-};
-let decodeCache: Record<Codec, boolean> | null = null;
-function canDecode(): Record<Codec, boolean> {
-  if (decodeCache) return decodeCache;
-  const v = document.createElement("video");
-  const ok = (c: Codec) => v.canPlayType(TYPE[c]) === "probably";
-  decodeCache = { av1: ok("av1"), hevc: ok("hevc"), h264: true };
-  return decodeCache;
-}
-function pickSources(media: CaseMedia): { src: string; type: string }[] {
+function pickSources(media: CaseMedia): VideoSource[] {
   // the H.264 file is the key: the StockBee reel lists its WebM first
   const base = media.src.endsWith(".webm") && media.srcFallback ? media.srcFallback : media.src;
-  const v = VARIANTS.videos[base];
-  const phone = window.matchMedia("(max-width: 767px)").matches;
-  const can = canDecode();
-  const out: { src: string; type: string }[] = [];
-  const stem = base.replace(/\.mp4$/, "");
-  if (phone && v?.p1080) {
-    if (v.p1080.hevc && can.hevc) out.push({ src: `${stem}.p1080.hevc.mp4`, type: TYPE.hevc });
-    if (v.p1080.h264) out.push({ src: `${stem}.p1080.mp4`, type: TYPE.h264 });
-  } else if (v) {
-    if (v.av1 && can.av1 && !phone) out.push({ src: `${stem}.av1.mp4`, type: TYPE.av1 });
-    if (v.hevc && can.hevc) out.push({ src: `${stem}.hevc.mp4`, type: TYPE.hevc });
-  }
-  out.push({ src: base, type: TYPE.h264 });
-  return out;
+  return pickVideoSources(base);
 }
 
 function VideoSources({
@@ -142,7 +100,7 @@ function VideoSources({
      stream, progressively, so a page never downloads twelve clips at once
      and the stills stop queueing behind them. Off-screen tiles pause. */
   const ref = useRef<HTMLVideoElement>(null);
-  const [sources, setSources] = useState<{ src: string; type: string }[] | null>(null);
+  const [sources, setSources] = useState<VideoSource[] | null>(null);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;

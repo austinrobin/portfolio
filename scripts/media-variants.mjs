@@ -37,6 +37,7 @@ function walk(dir) {
 }
 const queue = [];
 walk(CASE);
+walk(join(PUB, "deck"));
 
 for (const [kind, p] of queue) {
   const url = "/" + relative(PUB, p).split("/").join("/");

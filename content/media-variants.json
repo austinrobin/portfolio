@@ -533,6 +533,9 @@
         "hevc": true
       }
     },
+    "/case/bloom-algo/explainer.mp4": {
+      "av1": true
+    },
     "/case/bloom-algo/marketplace.mp4": {
       "av1": true,
       "p1080": {
@@ -646,6 +649,14 @@
         "h264": true,
         "hevc": true
       }
+    },
+    "/deck/bloom-algo.mp4": {
+      "av1": true,
+      "hevc": true
+    },
+    "/deck/high.mp4": {
+      "av1": true,
+      "hevc": true
     }
   }
 }

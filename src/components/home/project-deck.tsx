@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { pickVideoSources, type VideoSource } from "@/lib/video-sources";
 import {
   motion,
   useMotionValueEvent,
@@ -92,22 +93,52 @@ function DeckCard({
 }
 
 /* A cover: a looping reel when the path is a video, a still otherwise.
-   Reels autoplay muted and loop; the poster holds the first frame. */
+   A reel is poster-only until the deck comes within a viewport of the
+   screen, then attaches the lightest source the browser decodes (AV1 /
+   HEVC / H.264) and plays muted on loop — the home page never downloads
+   the reels ahead of the visitor reaching the folder. */
 function Cover({ item, sizes }: { item: ShowcaseItem; sizes: string }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const [sources, setSources] = useState<VideoSource[] | null>(null);
+  const isVideo = !!item.cover && item.cover.endsWith(".mp4");
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !isVideo || !item.cover) return;
+    const attach = () => setSources((s) => s ?? pickVideoSources(item.cover!));
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > -window.innerHeight) attach();
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) attach();
+      },
+      { rootMargin: "60% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [isVideo, item.cover]);
+  useEffect(() => {
+    const el = ref.current;
+    if (!sources || !el) return;
+    el.load();
+    el.play().catch(() => {});
+  }, [sources]);
   if (!item.cover) return <PlaceholderCover item={item} />;
-  if (item.cover.endsWith(".mp4")) {
+  if (isVideo) {
     return (
       <video
-        src={item.cover}
+        ref={ref}
         poster={item.coverPoster}
-        autoPlay
         muted
         loop
         playsInline
-        preload="metadata"
+        preload={sources ? "metadata" : "none"}
         aria-label={item.title}
         className="absolute inset-0 h-full w-full object-cover"
-      />
+      >
+        {sources?.map((s) => (
+          <source key={s.src} src={s.src} type={s.type} />
+        ))}
+      </video>
     );
   }
   return <Image src={item.cover} alt={item.title} fill sizes={sizes} className="object-cover" />;
