@@ -2,6 +2,7 @@ import stockbeeJson from "../../content/case-stockbee.json";
 import lwtJson from "../../content/case-lwt.json";
 import machJson from "../../content/case-mach.json";
 import bloomJson from "../../content/case-bloom.json";
+import highJson from "../../content/case-high.json";
 
 /*
  * Case-study content, Studio-editable.
@@ -98,8 +99,9 @@ export const caseStockbee: CaseStudy = stockbeeJson as CaseStudy;
 export const caseLwt: CaseStudy = lwtJson as CaseStudy;
 export const caseMach: CaseStudy = machJson as CaseStudy;
 export const caseBloom: CaseStudy = bloomJson as CaseStudy;
+export const caseHigh: CaseStudy = highJson as CaseStudy;
 
-const registry: CaseStudy[] = [caseStockbee, caseLwt, caseMach, caseBloom];
+const registry: CaseStudy[] = [caseStockbee, caseLwt, caseMach, caseBloom, caseHigh];
 
 export function getCaseStudies(): CaseStudy[] {
   return [...registry].sort((a, b) => {

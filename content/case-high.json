@@ -1,0 +1,192 @@
+{
+  "slug": "high",
+  "title": "High",
+  "tagline": "Investing, rebuilt for Gen Z.",
+  "summary": "An invite-only investing app for the generation that moves first.",
+  "year": "2026",
+  "tags": [
+    "Lead Product Designer",
+    "Brand",
+    "Creative Direction"
+  ],
+  "role": "Lead Product Designer",
+  "disciplines": "Lead Product Designer · Brand · Creative Direction",
+  "team": "With the High founding team",
+  "scope": "Brand, product, launch, waitlist, transactional design system",
+  "featured": false,
+  "order": 5,
+  "heroMedia": {
+    "kind": "video",
+    "src": "/case/high/drop.mp4",
+    "poster": "/case/high/drop.poster.webp",
+    "w": 1920,
+    "h": 1080,
+    "block": "primary"
+  },
+  "sections": [
+    {
+      "id": "problem",
+      "kicker": "The problem",
+      "heading": "Investing apps talk to Gen Z like a bank.",
+      "body": [
+        "Compliance-grey screens, a lecture in every onboarding, and a brand that asks to be trusted before it has earned a second look.",
+        "The generation that learned markets from memes, drops and group chats never got an app that spoke their language."
+      ],
+      "statement": "High started with a different question: what if investing felt like culture, not paperwork?",
+      "media": []
+    },
+    {
+      "id": "bet",
+      "kicker": "The bet",
+      "heading": "A brand before a bank.",
+      "body": [
+        "High was built as a brand first: a chrome chain pendant for a logo, stickers instead of icons, drops instead of features, a voice that talks like the people it is for.",
+        "The product carries the culture; it does not apologise for it."
+      ],
+      "statement": "Crafted with culture. Built for those who move early.",
+      "media": [
+        {
+          "kind": "video",
+          "src": "/case/high/stickers.mp4",
+          "poster": "/case/high/stickers.poster.webp",
+          "w": 1920,
+          "h": 1080,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.778
+        },
+        {
+          "kind": "video",
+          "src": "/case/high/market-freak.mp4",
+          "poster": "/case/high/market-freak.poster.webp",
+          "w": 1920,
+          "h": 1080,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.778
+        }
+      ]
+    },
+    {
+      "id": "product",
+      "kicker": "The product",
+      "heading": "Stocks, F&O and ETFs in one app that gets out of the way.",
+      "body": [
+        "Onboarding, demat, deposits, trades and alerts were designed as one continuous system on pure OLED black, mint and purple.",
+        "Every screen had to be fast to read at a glance and honest about risk without turning into a warning label."
+      ],
+      "statement": "Serious underneath. Never boring on top.",
+      "media": [
+        {
+          "kind": "video",
+          "src": "/case/high/app.mp4",
+          "poster": "/case/high/app.poster.webp",
+          "w": 1920,
+          "h": 1080,
+          "sound": true,
+          "block": "primary"
+        }
+      ]
+    },
+    {
+      "id": "drop",
+      "kicker": "The launch",
+      "heading": "Launched like a drop, not a listing.",
+      "body": [
+        "The next big drop isn't a sneaker. High went to market the way culture does: a film, a founders' club, a countdown, a message on a dusty rear window.",
+        "Founding Members got 500 seats and a flat ₹5 per order for life, for being early."
+      ],
+      "statement": "Get High.",
+      "media": [
+        {
+          "kind": "video",
+          "src": "/case/high/film.mp4",
+          "poster": "/case/high/film.poster.webp",
+          "w": 1920,
+          "h": 1080,
+          "sound": true,
+          "block": "primary"
+        }
+      ]
+    },
+    {
+      "id": "club",
+      "kicker": "The High Club",
+      "heading": "An invite, not a sign-up.",
+      "body": [
+        "The waitlist, the invite, the founder confirmation and the onboarding kit were designed as one ritual: you are let in, you get a code, you are welcomed by name.",
+        "A silver coin for the founding members made the membership something you could hold."
+      ],
+      "statement": "You're officially in.",
+      "media": [
+        {
+          "kind": "image",
+          "src": "/current-coin.webp",
+          "alt": "The High Club coin — 999.9 fine silver",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.22,
+          "w": 655,
+          "h": 536
+        }
+      ]
+    },
+    {
+      "id": "system",
+      "kicker": "The system",
+      "heading": "Every message in the same voice.",
+      "body": [
+        "Eighteen transactional emails, from OTP to payout, were built as a single standards-compliant system: live text, dynamic fields, sticker headers and a closing block that always sounds like High.",
+        "The same rules run the waitlist page, the app and the films, so a user never meets a different brand halfway through."
+      ],
+      "statement": "One voice, from the first OTP to the last payout.",
+      "media": []
+    },
+    {
+      "id": "role",
+      "kicker": "My role",
+      "heading": "Building it end to end.",
+      "body": [
+        "I led product design, brand and creative direction across the app, the launch films, the waitlist and the transactional design system, working with the founding team from the first sticker to the first trade."
+      ],
+      "statement": "The complexity stays in the system. The culture stays in front.",
+      "media": []
+    }
+  ],
+  "impact": {
+    "title": "Impact",
+    "stats": [
+      {
+        "value": "500",
+        "label": "Founding seats"
+      },
+      {
+        "value": "18",
+        "label": "Transactional emails"
+      },
+      {
+        "value": "XXK+",
+        "label": "Waitlist"
+      },
+      {
+        "value": "₹5",
+        "label": "Flat per order, for founders"
+      },
+      {
+        "value": "3",
+        "label": "Segments: stocks, F&O, ETF"
+      },
+      {
+        "value": "XX%",
+        "label": "Activation"
+      }
+    ]
+  },
+  "result": {
+    "heading": "The result",
+    "body": [
+      "High turns the most compliance-heavy category on the phone into something a twenty-year-old would show a friend."
+    ],
+    "statement": "Investing, rebuilt for the people who move first."
+  }
+}

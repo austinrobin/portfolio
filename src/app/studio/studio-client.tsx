@@ -12,6 +12,7 @@ import {
   caseLwt,
   caseMach,
   caseBloom,
+  caseHigh,
   type CaseMedia,
   type CaseStudy,
 } from "@/lib/case-studies";
@@ -39,6 +40,7 @@ interface Draft {
   caseLwt: CaseStudy;
   caseMach: CaseStudy;
   caseBloom: CaseStudy;
+  caseHigh: CaseStudy;
   lab: LabCascadeSettings;
   footer: FooterSettings;
 }
@@ -56,7 +58,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v31"; // v31: StockBee assets round 2 (v30: webp posters (v29: Bloom meta 2024 (v28: Bloom assets round 3 (v27: round 2 (v26: Bloom copy rewrite (v25: Bloom assets; v23: sound toggle; v20: zoom; v14: custom blocks + focal point)
+const DRAFT_KEY = "studio-draft-v32"; // v32: High case (v31: StockBee assets round 2 (v30: webp posters (v29: Bloom meta 2024 (v28: Bloom assets round 3 (v27: round 2 (v26: Bloom copy rewrite (v25: Bloom assets; v23: sound toggle; v20: zoom; v14: custom blocks + focal point)
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {
@@ -66,6 +68,7 @@ const defaults: Draft = {
   caseLwt,
   caseMach,
   caseBloom,
+  caseHigh,
   lab: labConfig,
   footer: footerConfig,
 };
@@ -313,9 +316,9 @@ export function StudioClient() {
   const [tab, setTab] = useState<"controls" | "log">("controls");
   const [open, setOpen] = useState(true);
   const [group, setGroup] = useState<string | null>("Hero — text");
-  const [target, setTarget] = useState<"home" | "case" | "case-lwt" | "case-mach" | "case-bloom">("home");
-  const caseKey = target === "case-lwt" ? ("caseLwt" as const) : target === "case-mach" ? ("caseMach" as const) : target === "case-bloom" ? ("caseBloom" as const) : ("caseStockbee" as const);
-  const caseLabel = caseKey === "caseLwt" ? "LWT" : caseKey === "caseMach" ? "MACH" : caseKey === "caseBloom" ? "Bloom Algo" : "StockBee";
+  const [target, setTarget] = useState<"home" | "case" | "case-lwt" | "case-mach" | "case-bloom" | "case-high">("home");
+  const caseKey = target === "case-lwt" ? ("caseLwt" as const) : target === "case-mach" ? ("caseMach" as const) : target === "case-bloom" ? ("caseBloom" as const) : target === "case-high" ? ("caseHigh" as const) : ("caseStockbee" as const);
+  const caseLabel = caseKey === "caseLwt" ? "LWT" : caseKey === "caseMach" ? "MACH" : caseKey === "caseBloom" ? "Bloom Algo" : caseKey === "caseHigh" ? "High" : "StockBee";
   const [status, setStatus] = useState<string>("");
   const [saving, setSaving] = useState(false);
   const [log, setLog] = useState<LogEntry[]>([]);
@@ -504,6 +507,10 @@ export function StudioClient() {
               content: JSON.stringify(draft.caseBloom, null, 2) + "\n",
             },
             {
+              path: "content/case-high.json",
+              content: JSON.stringify(draft.caseHigh, null, 2) + "\n",
+            },
+            {
               path: "content/lab.json",
               content: JSON.stringify(draft.lab, null, 2) + "\n",
             },
@@ -641,6 +648,7 @@ export function StudioClient() {
                 ["case-lwt", "LWT"],
                 ["case-mach", "MACH"],
                 ["case-bloom", "Bloom Algo"],
+                ["case-high", "High"],
               ] as const
             ).map(([k, label]) => (
               <button
@@ -649,7 +657,7 @@ export function StudioClient() {
                   setTarget(k);
                   setTab("controls");
                   setGroup(
-                    k === "home" ? "Hero — text" : k === "case-lwt" ? "Case — LWT" : k === "case-mach" ? "Case — MACH" : k === "case-bloom" ? "Case — Bloom Algo" : "Case — StockBee",
+                    k === "home" ? "Hero — text" : k === "case-lwt" ? "Case — LWT" : k === "case-mach" ? "Case — MACH" : k === "case-bloom" ? "Case — Bloom Algo" : k === "case-high" ? "Case — High" : "Case — StockBee",
                   );
                 }}
                 className={`rounded-full px-3 py-1.5 text-xs ${
