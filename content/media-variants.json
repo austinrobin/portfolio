@@ -534,7 +534,11 @@
       }
     },
     "/case/bloom-algo/explainer.mp4": {
-      "av1": true
+      "av1": true,
+      "hevc": true,
+      "p1080": {
+        "h264": true
+      }
     },
     "/case/bloom-algo/marketplace.mp4": {
       "av1": true,

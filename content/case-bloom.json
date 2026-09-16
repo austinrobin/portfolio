@@ -56,6 +56,15 @@
       "media": [
         {
           "kind": "video",
+          "src": "/case/bloom-algo/explainer.mp4",
+          "poster": "/case/bloom-algo/explainer.poster.webp",
+          "block": "primary",
+          "sound": true,
+          "w": 1920,
+          "h": 1080
+        },
+        {
+          "kind": "video",
           "src": "/case/bloom-algo/marketplace.mp4",
           "poster": "/case/bloom-algo/marketplace.poster.webp",
           "block": "primary",
