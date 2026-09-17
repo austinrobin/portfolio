@@ -181,6 +181,15 @@
         1280
       ]
     },
+    "/case/high/high-times.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
     "/case/lwt/auditorium.webp": {
       "w": 1920,
       "widths": [
@@ -591,6 +600,14 @@
       "hevc": true,
       "p1080": {
         "h264": true
+      }
+    },
+    "/case/high/site.mp4": {
+      "av1": true,
+      "hevc": true,
+      "p1080": {
+        "h264": true,
+        "hevc": true
       }
     },
     "/case/high/stickers.mp4": {

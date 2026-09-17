@@ -140,6 +140,14 @@
       "statement": "Have fun around the money. Never be careless with it.",
       "media": [
         {
+          "kind": "video",
+          "src": "/case/high/site.mp4",
+          "poster": "/case/high/site.poster.webp",
+          "block": "primary",
+          "w": 2560,
+          "h": 1439
+        },
+        {
           "kind": "image",
           "src": "/current-coin.webp",
           "alt": "The High Club coin — 999.9 fine silver",
@@ -173,6 +181,14 @@
       ],
       "statement": "The brand doesn't sit outside the product. It lives inside it.",
       "media": [
+        {
+          "kind": "image",
+          "src": "/case/high/high-times.webp",
+          "alt": "The High Times: Not everyone gets in early. But the OG1000 do.",
+          "block": "primary",
+          "w": 2560,
+          "h": 1440
+        },
         {
           "kind": "video",
           "src": "/case/high/film.mp4",
