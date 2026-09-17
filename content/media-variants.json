@@ -588,6 +588,7 @@
     },
     "/case/high/market-freak.mp4": {
       "av1": true,
+      "hevc": true,
       "p1080": {
         "h264": true
       }
