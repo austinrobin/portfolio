@@ -38,24 +38,12 @@
       "statement": "A genuinely good financial product with a point of view.",
       "media": [
         {
-          "kind": "video",
-          "src": "/case/high/stickers.mp4",
-          "poster": "/case/high/stickers.poster.webp",
-          "w": 1920,
-          "h": 1080,
-          "block": "custom",
-          "cols": 2,
-          "ratio": 1.778
-        },
-        {
-          "kind": "video",
-          "src": "/case/high/market-freak.mp4",
-          "poster": "/case/high/market-freak.poster.webp",
-          "w": 1920,
-          "h": 1080,
-          "block": "custom",
-          "cols": 2,
-          "ratio": 1.778
+          "kind": "image",
+          "src": "/case/high/high-times.webp",
+          "alt": "The High Times: Not everyone gets in early. But the OG1000 do.",
+          "block": "primary",
+          "w": 2560,
+          "h": 1440
         }
       ]
     },
@@ -84,11 +72,23 @@
       "media": [
         {
           "kind": "video",
-          "src": "/case/high/drop.mp4",
-          "poster": "/case/high/drop.poster.webp",
+          "src": "/case/high/stickers.mp4",
+          "poster": "/case/high/stickers.poster.webp",
           "w": 1920,
           "h": 1080,
-          "block": "primary"
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.778
+        },
+        {
+          "kind": "video",
+          "src": "/case/high/market-freak.mp4",
+          "poster": "/case/high/market-freak.poster.webp",
+          "w": 1920,
+          "h": 1080,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.778
         }
       ]
     },
@@ -182,14 +182,6 @@
       ],
       "statement": "Different surfaces. One character.",
       "media": [
-        {
-          "kind": "image",
-          "src": "/case/high/high-times.webp",
-          "alt": "The High Times: Not everyone gets in early. But the OG1000 do.",
-          "block": "primary",
-          "w": 2560,
-          "h": 1440
-        },
         {
           "kind": "video",
           "src": "/case/high/film.mp4",
