@@ -1,17 +1,17 @@
 {
   "slug": "high",
   "title": "HIGH",
-  "tagline": "Building a serious investing product for a generation that refuses to use serious-looking finance products.",
-  "summary": "Markets, meet culture. A serious investing product that feels at home in the culture around it.",
+  "tagline": "Markets, meet culture.",
+  "summary": "A serious investing product with a point of view.",
   "year": "2026",
   "tags": [
     "Product Strategy",
     "Product Design",
     "Visual Direction",
-    "Fintech"
+    "Design Leadership"
   ],
   "role": "Lead Product Designer",
-  "disciplines": "Product Strategy · Product Design · Visual Direction · Fintech",
+  "disciplines": "Product Strategy · Product Design · Visual Direction · Design Leadership",
   "team": "With the High founding team",
   "scope": "Brand, product, launch, waitlist, transactional design system",
   "featured": false,
@@ -26,27 +26,16 @@
   },
   "sections": [
     {
-      "id": "problem",
-      "kicker": "The problem",
-      "heading": "Finance had a type.",
+      "id": "comfortable",
+      "kicker": "01 — The problem",
+      "heading": "Finance had become comfortable",
       "body": [
-        "Dense screens. Serious language. Charts everywhere. Very little personality.",
-        "HIGH was built for a generation that grew up expecting something else from software: intuitive products, strong visual identities, and experiences that feel native to everyday life.",
-        "The challenge wasn't to make finance look younger."
+        "For years, fintech had settled into a familiar formula.",
+        "Dense interfaces. Serious language. Small differences in pricing fighting for attention while the actual product experience stayed largely the same.",
+        "We wanted to break out of that comfort. HIGH started with a simple ambition: make investing feel like a product people actually want to open.",
+        "Not finance made louder. Not finance dressed up for Gen Z."
       ],
-      "statement": "It was to make a genuinely good investing product feel at home in the culture around it.",
-      "media": []
-    },
-    {
-      "id": "culture",
-      "kicker": "Markets × Culture",
-      "heading": "Markets, meet culture.",
-      "body": [
-        "HIGH sits between two worlds.",
-        "The product still needs the depth of a serious broker: stocks, ETFs, IPOs, F&O, live data, charts, portfolios and trading tools.",
-        "But the experience could also speak through fashion, music, internet culture, creators, conversation and everyday Indian life. That became the central design tension:"
-      ],
-      "statement": "Confident, not arrogant. Youthful, not childish. Simple, not dumbed down.",
+      "statement": "A genuinely good financial product with a point of view.",
       "media": [
         {
           "kind": "video",
@@ -71,27 +60,48 @@
       ]
     },
     {
-      "id": "onboarding",
-      "kicker": "Onboarding",
-      "heading": "Making the market easier to enter",
+      "id": "outside",
+      "kicker": "02 — Direction",
+      "heading": "Start outside the interface",
       "body": [
-        "The first experience is one of the hardest.",
-        "Opening a demat account means navigating identity verification, KYC, bank details, income information, declarations, signatures and regulatory requirements. HIGH had to make that journey feel far less intimidating without hiding what was actually happening.",
-        "The onboarding experience was shaped as a sequence of clear, conversational steps, carrying the same personality as the rest of the product while respecting the seriousness of financial onboarding."
+        "I didn't want us to begin with UI references. That felt too easy. We'd end up borrowing the same visual language the category had already settled into.",
+        "Instead, I gave the team room to look elsewhere. We explored art direction, fashion, editorial, photography, culture and visual worlds that had little to do with fintech.",
+        "We refined those directions until we found something that could stretch across a product this broad without losing its character."
       ],
-      "statement": "Complex process. Human experience.",
+      "statement": "The visual language came before the interface.",
       "media": []
     },
     {
-      "id": "dashboard",
-      "kicker": "The dashboard",
-      "heading": "From a dashboard to a daily habit",
+      "id": "world",
+      "kicker": "03 — The world",
+      "heading": "Build the world first",
       "body": [
-        "The core product brings together market information, discovery and trading in one place.",
-        "But the ambition was bigger than simply putting more tools on a screen.",
-        "The dashboard combines market mood, portfolio context, watchlists, alerts, trending stocks, sector activity, news, events and dynamic discovery so the market can be understood at a glance. The product isn't just answering \"What can I trade?\" It's also answering:"
+        "I deliberately reversed the usual order.",
+        "Instead of starting with components and building a design system around them, we created the expressive assets first. Cards. Graphics. Illustrations. Market moments. Brand elements.",
+        "Then we asked: how should the interface behave around this world? That gave us a system that felt designed rather than assembled."
       ],
-      "statement": "\"What's happening?\" \"Why does it matter?\"",
+      "statement": "The system followed the expression, not the other way around.",
+      "media": [
+        {
+          "kind": "video",
+          "src": "/case/high/drop.mp4",
+          "poster": "/case/high/drop.poster.webp",
+          "w": 1920,
+          "h": 1080,
+          "block": "primary"
+        }
+      ]
+    },
+    {
+      "id": "alive",
+      "kicker": "04 — The product",
+      "heading": "Make finance feel alive",
+      "body": [
+        "The challenge was never just making screens prettier.",
+        "HIGH needed to bring personality into a product that still had to handle serious financial work: market discovery, stock research, order flows, portfolios, F&O, ETFs, IPOs, alerts and more.",
+        "So we rethought familiar surfaces. A portfolio could feel like something you own, not another spreadsheet. A watchlist could feel like something you return to. Market updates could have a voice. Small interactions could carry character without getting in the way."
+      ],
+      "statement": "The product had to feel alive, not distracting.",
       "media": [
         {
           "kind": "video",
@@ -105,48 +115,16 @@
       ]
     },
     {
-      "id": "news",
-      "kicker": "News",
-      "heading": "Turning information into understanding",
+      "id": "limit",
+      "kicker": "05 — Restraint",
+      "heading": "Personality has a limit",
       "body": [
-        "News became part of the product rather than a separate destination.",
-        "Instead of a feed of headlines, HIGH connects stories with price movement, affected stocks, sectors and the user's own watchlist.",
-        "That connection turns market news into something more useful than a scrolling feed."
+        "The easiest way to make fintech feel young is to make everything loud. We didn't.",
+        "HIGH needed to feel culturally aware without becoming a caricature of Gen Z. The tone could be playful, but money still needed clarity. Personality could appear in the right moments, then step aside when the decision became serious.",
+        "That balance became one of the most important design constraints."
       ],
-      "statement": "Headline → Context → Understanding",
-      "media": []
-    },
-    {
-      "id": "trader",
-      "kicker": "Advanced surfaces",
-      "heading": "Designing for the trader brain",
-      "body": [
-        "HIGH's advanced surfaces are dense by necessity.",
-        "F&O requires option chains, open interest, volatility, positioning and expiry information. Screeners need to compress thousands of securities into useful signals.",
-        "The design challenge was to keep the information rich without making the interface feel intimidating. Hierarchy became the tool:"
-      ],
-      "statement": "Show less first. Reveal more when needed.",
-      "media": []
-    },
-    {
-      "id": "personality",
-      "kicker": "Personality",
-      "heading": "Finance, with a little personality",
-      "body": [
-        "The product doesn't treat personality as decoration. It runs through the interface itself.",
-        "Watchlists can feel playful. Market states can speak like people. Collectibles create moments of surprise. Badges turn progress into something visible. Buzz and polls bring the market conversation into the product.",
-        "The rule was simple:"
-      ],
-      "statement": "Have fun around the money. Never be careless with it.",
+      "statement": "Playful around the money. Serious about the money.",
       "media": [
-        {
-          "kind": "video",
-          "src": "/case/high/site.mp4",
-          "poster": "/case/high/site.poster.webp",
-          "block": "primary",
-          "w": 2560,
-          "h": 1439
-        },
         {
           "kind": "image",
           "src": "/current-coin.webp",
@@ -160,26 +138,49 @@
       ]
     },
     {
-      "id": "system",
-      "kicker": "The system",
-      "heading": "Designing a system, not a collection of screens",
+      "id": "scale",
+      "kicker": "06 — Scale",
+      "heading": "Designing at product scale",
       "body": [
-        "As the product expanded across stocks, ETFs, IPOs, F&O, SIPs, news, portfolios, alerts, discovery and community, consistency became a product problem of its own.",
-        "The experience needed shared patterns, hierarchy and visual behaviour while leaving room for each surface to have its own character."
+        "As HIGH grew, so did the surface area.",
+        "Stocks, ETFs, IPOs, F&O, watchlists, screeners, news, market discovery, SIPs, portfolios, alerts, social layers, collectibles and more all had to feel like parts of the same product.",
+        "Every feature needed its own thinking. What deserves attention? What should disappear? Where does personality help? Where does it get in the way?"
       ],
-      "statement": "That meant designing the system behind the screens, not just the screens themselves.",
+      "statement": "A lot of the craft was in answering those questions without losing the larger character of HIGH.",
+      "media": [
+        {
+          "kind": "video",
+          "src": "/case/high/site.mp4",
+          "poster": "/case/high/site.poster.webp",
+          "block": "primary",
+          "w": 2560,
+          "h": 1439
+        }
+      ]
+    },
+    {
+      "id": "team",
+      "kicker": "07 — The team",
+      "heading": "Keeping the team on one wavelength",
+      "body": [
+        "The product was built by a team, not a single designer.",
+        "One of my biggest responsibilities was keeping the creative bar high while leaving enough room for individual expression.",
+        "There were plenty of iterations, changing directions and moments where the energy of the team naturally rose and fell. The job was to keep bringing everyone back to the same ambition without making everyone design the same way.",
+        "Alignment without uniformity."
+      ],
+      "statement": "That became one of the most valuable parts of the project for me.",
       "media": []
     },
     {
-      "id": "brand",
-      "kicker": "The brand",
-      "heading": "Carrying the idea beyond the app",
+      "id": "everywhere",
+      "kicker": "08 — The brand",
+      "heading": "One character, everywhere",
       "body": [
-        "HIGH was designed as a consumer brand around investing, not simply another brokerage interface.",
-        "The same thinking extended into campaigns, social content, onboarding communication, product language and brand moments.",
-        "The visual world pulls from contemporary Indian youth culture while keeping the financial product credible."
+        "HIGH was never meant to be just an app.",
+        "The same point of view extended into campaigns, social content, onboarding, product copy, market moments and the wider brand world.",
+        "The goal was simple:"
       ],
-      "statement": "The brand doesn't sit outside the product. It lives inside it.",
+      "statement": "Different surfaces. One character.",
       "media": [
         {
           "kind": "image",
@@ -199,30 +200,6 @@
           "block": "primary"
         }
       ]
-    },
-    {
-      "id": "restraint",
-      "kicker": "Restraint",
-      "heading": "Building with restraint",
-      "body": [
-        "The easiest way to make a finance app feel young is to make it loud. That wasn't the goal.",
-        "HIGH avoids turning every interaction into a joke or every screen into a meme. Personality appears where it adds energy, while money, risk and critical information stay clear.",
-        "The result is a product that can be playful without becoming frivolous."
-      ],
-      "statement": "Not finance pretending to be cool. Finance, redesigned.",
-      "media": []
-    },
-    {
-      "id": "role",
-      "kicker": "My role",
-      "heading": "From idea to a full product",
-      "body": [
-        "The work stretched from the product's core trading experience into the wider ecosystem around it.",
-        "I worked across product direction, experience design, visual language and the systems connecting them, making decisions around hierarchy, complexity, discovery, engagement and brand expression as the product grew.",
-        "The challenge was never just making individual features work."
-      ],
-      "statement": "It was making the whole experience feel like HIGH.",
-      "media": []
     }
   ],
   "impact": {
@@ -233,8 +210,8 @@
         "label": "Users"
       },
       {
-        "value": "XXM+",
-        "label": "Orders / trades"
+        "value": "XX+",
+        "label": "Product surfaces"
       },
       {
         "value": "XX%",
@@ -245,21 +222,18 @@
         "label": "Retention"
       },
       {
-        "value": "XX+",
-        "label": "Product surfaces shipped"
-      },
-      {
-        "value": "XX",
-        "label": "Markets / instruments supported"
+        "value": "XXM+",
+        "label": "Interactions / orders"
       }
     ]
   },
   "result": {
     "heading": "The result",
     "body": [
-      "HIGH is an attempt to change the relationship people have with their investing app.",
-      "Not by making markets less serious. By making the experience around them more human."
+      "HIGH is a serious investing product that doesn't feel like it was designed in a finance department.",
+      "It brings markets, technology and culture into the same experience without asking any of them to disappear.",
+      "Not finance pretending to be cool."
     ],
-    "statement": "Markets, meet culture."
+    "statement": "Just finance, done differently."
   }
 }
