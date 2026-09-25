@@ -134,7 +134,7 @@ function Cover({ item, sizes, playing = true }: { item: ShowcaseItem; sizes: str
     return (
       <video
         ref={ref}
-        poster={item.coverPoster ? mediaUrl(item.coverPoster) : undefined}
+        poster={sources && item.coverPoster ? mediaUrl(item.coverPoster) : undefined}
         muted
         loop
         playsInline

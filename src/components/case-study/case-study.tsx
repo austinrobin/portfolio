@@ -153,7 +153,9 @@ function VideoSources({
       ref={ref}
       className={className}
       style={style}
-      poster={posterOf(media)}
+      /* browsers fetch a poster at parse time no matter where the tile is, so
+         it is only set once the clip is within a screen of view */
+      poster={sources ? posterOf(media) : undefined}
       muted
       playsInline
       loop={loop}

@@ -960,7 +960,6 @@
       }
     },
     "/case/high/phone-cards.mp4": {
-      "av1": true,
       "p1080": {
         "h264": true
       }
@@ -971,36 +970,28 @@
       }
     },
     "/case/high/phone-fno.mp4": {
-      "av1": true,
       "p1080": {
         "h264": true
       }
     },
     "/case/high/phone-investor.mp4": {
-      "av1": true,
       "p1080": {
         "h264": true
       }
     },
     "/case/high/phone-portfolio.mp4": {
-      "av1": true,
-      "hevc": true,
       "p1080": {
         "h264": true,
         "hevc": true
       }
     },
     "/case/high/phone-stock.mp4": {
-      "av1": true,
-      "hevc": true,
       "p1080": {
         "h264": true,
         "hevc": true
       }
     },
     "/case/high/phone-watchlist.mp4": {
-      "av1": true,
-      "hevc": true,
       "p1080": {
         "h264": true,
         "hevc": true
@@ -1404,54 +1395,38 @@
     "/case/high/otp-meme.w640.webp": 63880,
     "/case/high/otp-meme.w960.webp": 111884,
     "/case/high/otp-meme.webp": 219952,
-    "/case/high/phone-badge.av1.mp4": 3662310,
-    "/case/high/phone-badge.hevc.mp4": 4342212,
-    "/case/high/phone-badge.mp4": 3776022,
-    "/case/high/phone-badge.p1080.hevc.mp4": 2140018,
-    "/case/high/phone-badge.p1080.mp4": 1902672,
-    "/case/high/phone-badge.poster.webp": 67482,
-    "/case/high/phone-cards.av1.mp4": 3439760,
-    "/case/high/phone-cards.hevc.mp4": 3843723,
-    "/case/high/phone-cards.mp4": 4202320,
-    "/case/high/phone-cards.p1080.hevc.mp4": 2133537,
-    "/case/high/phone-cards.p1080.mp4": 2148725,
-    "/case/high/phone-cards.poster.webp": 72414,
-    "/case/high/phone-collectible.av1.mp4": 5252832,
-    "/case/high/phone-collectible.hevc.mp4": 5432913,
-    "/case/high/phone-collectible.mp4": 5481532,
-    "/case/high/phone-collectible.p1080.hevc.mp4": 2771485,
-    "/case/high/phone-collectible.p1080.mp4": 2726821,
-    "/case/high/phone-collectible.poster.webp": 97500,
-    "/case/high/phone-fno.av1.mp4": 4395191,
-    "/case/high/phone-fno.hevc.mp4": 6971745,
-    "/case/high/phone-fno.mp4": 5743583,
-    "/case/high/phone-fno.p1080.hevc.mp4": 3576230,
-    "/case/high/phone-fno.p1080.mp4": 3266286,
-    "/case/high/phone-fno.poster.webp": 76258,
-    "/case/high/phone-investor.av1.mp4": 1205401,
-    "/case/high/phone-investor.hevc.mp4": 2024135,
-    "/case/high/phone-investor.mp4": 1686637,
-    "/case/high/phone-investor.p1080.hevc.mp4": 1071821,
-    "/case/high/phone-investor.p1080.mp4": 921187,
-    "/case/high/phone-investor.poster.webp": 135350,
-    "/case/high/phone-portfolio.av1.mp4": 2424983,
-    "/case/high/phone-portfolio.hevc.mp4": 2153678,
-    "/case/high/phone-portfolio.mp4": 3169165,
-    "/case/high/phone-portfolio.p1080.hevc.mp4": 1058072,
-    "/case/high/phone-portfolio.p1080.mp4": 1310175,
-    "/case/high/phone-portfolio.poster.webp": 98362,
-    "/case/high/phone-stock.av1.mp4": 2665531,
-    "/case/high/phone-stock.hevc.mp4": 2576494,
-    "/case/high/phone-stock.mp4": 3260987,
-    "/case/high/phone-stock.p1080.hevc.mp4": 1240334,
-    "/case/high/phone-stock.p1080.mp4": 1485447,
-    "/case/high/phone-stock.poster.webp": 91934,
-    "/case/high/phone-watchlist.av1.mp4": 1702517,
-    "/case/high/phone-watchlist.hevc.mp4": 1675578,
-    "/case/high/phone-watchlist.mp4": 2483368,
-    "/case/high/phone-watchlist.p1080.hevc.mp4": 782227,
-    "/case/high/phone-watchlist.p1080.mp4": 1062533,
-    "/case/high/phone-watchlist.poster.webp": 94622,
+    "/case/high/phone-badge.mp4": 3817276,
+    "/case/high/phone-badge.p1080.hevc.mp4": 2113327,
+    "/case/high/phone-badge.p1080.mp4": 1922746,
+    "/case/high/phone-badge.poster.webp": 67114,
+    "/case/high/phone-cards.mp4": 4158935,
+    "/case/high/phone-cards.p1080.hevc.mp4": 1978834,
+    "/case/high/phone-cards.p1080.mp4": 2095447,
+    "/case/high/phone-cards.poster.webp": 72004,
+    "/case/high/phone-collectible.mp4": 5568555,
+    "/case/high/phone-collectible.p1080.hevc.mp4": 2768948,
+    "/case/high/phone-collectible.p1080.mp4": 2757558,
+    "/case/high/phone-collectible.poster.webp": 96238,
+    "/case/high/phone-fno.mp4": 5847200,
+    "/case/high/phone-fno.p1080.hevc.mp4": 3529973,
+    "/case/high/phone-fno.p1080.mp4": 3220406,
+    "/case/high/phone-fno.poster.webp": 77610,
+    "/case/high/phone-investor.mp4": 1617287,
+    "/case/high/phone-investor.p1080.hevc.mp4": 1022921,
+    "/case/high/phone-investor.p1080.mp4": 895549,
+    "/case/high/phone-investor.poster.webp": 134748,
+    "/case/high/phone-portfolio.mp4": 3121479,
+    "/case/high/phone-portfolio.p1080.hevc.mp4": 1024749,
+    "/case/high/phone-portfolio.p1080.mp4": 1274221,
+    "/case/high/phone-portfolio.poster.webp": 96932,
+    "/case/high/phone-stock.mp4": 3299349,
+    "/case/high/phone-stock.p1080.hevc.mp4": 1154721,
+    "/case/high/phone-stock.p1080.mp4": 1483586,
+    "/case/high/phone-stock.poster.webp": 90992,
+    "/case/high/phone-watchlist.mp4": 2466043,
+    "/case/high/phone-watchlist.p1080.hevc.mp4": 770943,
+    "/case/high/phone-watchlist.p1080.mp4": 1060744,
+    "/case/high/phone-watchlist.poster.webp": 92960,
     "/case/high/post-48-hours.w640.webp": 88588,
     "/case/high/post-48-hours.w960.webp": 140606,
     "/case/high/post-48-hours.webp": 189566,
