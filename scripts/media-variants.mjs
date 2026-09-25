@@ -23,21 +23,27 @@ const WIDTHS = [640, 960, 1280, 1920];
 const manifest = {};
 const posters = {};
 const videos = {};
+const sizes = {}; // every media file's bytes — the CDN (jsDelivr) refuses files over 20MB
+function sizeOf(p) { sizes["/" + relative(PUB, p).split("/").join("/")] = statSync(p).size; }
 let made = 0, kept = 0;
 
 function walk(dir) {
   for (const e of readdirSync(dir)) {
     const p = join(dir, e);
     if (statSync(p).isDirectory()) { walk(p); continue; }
+    if (e === ".DS_Store") continue;
+    sizeOf(p);
     if (/\.w\d+\.webp$/.test(e) || /\.poster\.webp$/.test(e)) continue;
     if (e.endsWith(".webp")) queue.push(["still", p]);
     if (e.endsWith(".jpg")) queue.push(["poster", p]);
-    if (e.endsWith(".mp4") && !/\.(p1080|av1|hevc)(\.|$)/.test(e.replace(/\.mp4$/, "") + ".")) queue.push(["video", p]);
+    if (e.endsWith(".mp4") && !/\.(p1080|p1440|av1|hevc)(\.|$)/.test(e.replace(/\.mp4$/, "") + ".")) queue.push(["video", p]);
   }
 }
 const queue = [];
 walk(CASE);
 walk(join(PUB, "deck"));
+for (const d of ["footer", "gallery"]) if (existsSync(join(PUB, d))) for (const e of readdirSync(join(PUB, d))) { const q = join(PUB, d, e); if (statSync(q).isFile() && e !== ".DS_Store") sizeOf(q); }
+for (const e of ["hero-art.webp", "hero-face.webp", "current-coin.webp"]) if (existsSync(join(PUB, e))) sizeOf(join(PUB, e));
 
 for (const [kind, p] of queue) {
   const url = "/" + relative(PUB, p).split("/").join("/");
@@ -82,5 +88,5 @@ for (const [kind, p] of queue) {
     made++;
   }
 }
-writeFileSync(join(ROOT, "content", "media-variants.json"), JSON.stringify({ stills: manifest, posters, videos }, null, 2) + "\n");
+writeFileSync(join(ROOT, "content", "media-variants.json"), JSON.stringify({ stills: manifest, posters, videos, sizes }, null, 2) + "\n");
 console.log(`variants: ${made} written, ${kept} up to date; ${Object.keys(manifest).length} stills, ${Object.keys(posters).length} posters, ${Object.keys(videos).length} videos`);

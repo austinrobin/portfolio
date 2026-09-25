@@ -1,4 +1,5 @@
 import { preload } from "react-dom";
+import { mediaUrl } from "@/lib/media-url";
 import { showcase } from "@/lib/showcase";
 import { PortraitHero } from "@/components/home/portrait-hero";
 import { CurrentBuild } from "@/components/home/current-build";
@@ -10,7 +11,7 @@ import { BanknoteFooter } from "@/components/home/banknote-footer";
 export default function Home() {
   /* the engraving is the hero's texture and its largest byte — ask for it
      before the stylesheet and scripts are even parsed */
-  preload("/hero-art.webp", { as: "image", fetchPriority: "high" });
+  preload(mediaUrl("/hero-art.webp"), { as: "image", fetchPriority: "high", crossOrigin: "anonymous" });
   return (
     <div>
       <PortraitHero />

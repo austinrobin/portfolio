@@ -10,10 +10,11 @@
  * never AV1 (software decode stutters on cheap Androids).
  */
 import variants from "../../content/media-variants.json";
+import { mediaUrl, onCdn } from "./media-url";
 
 export type VideoVariants = Record<
   string,
-  { av1?: boolean; hevc?: boolean; p1080?: { h264: boolean; av1?: boolean; hevc?: boolean } }
+  { av1?: boolean; hevc?: boolean; p1440?: { hevc?: boolean; av1?: boolean }; p1080?: { h264: boolean; av1?: boolean; hevc?: boolean } }
 >;
 export type StillVariants = Record<string, { w: number; widths: number[] }>;
 export type PosterVariants = Record<string, string>;
@@ -51,17 +52,28 @@ export function pickVideoSources(h264: string, tile: "full" | "half" = "full"): 
   const v = V.videos[h264];
   const phone = window.matchMedia("(max-width: 767px)").matches;
   const can = canDecode();
-  const out: VideoSource[] = [];
   const stem = h264.replace(/\.mp4$/, "");
   const small = phone || tile === "half";
+  // candidates in preference order; a rendition the CDN cannot serve (over
+  // 20MB) drops behind the ones it can, since the origin is the slow path
+  const wanted: { path: string; codec: Codec }[] = [];
   if (small && v?.p1080) {
-    if (v.p1080.hevc && can.hevc) out.push({ src: `${stem}.p1080.hevc.mp4`, type: VIDEO_TYPE.hevc });
-    if (v.p1080.h264) out.push({ src: `${stem}.p1080.mp4`, type: VIDEO_TYPE.h264 });
+    if (v.p1080.hevc && can.hevc) wanted.push({ path: `${stem}.p1080.hevc.mp4`, codec: "hevc" });
+    if (v.p1080.h264) wanted.push({ path: `${stem}.p1080.mp4`, codec: "h264" });
   } else if (v) {
-    if (v.hevc && can.hevc) out.push({ src: `${stem}.hevc.mp4`, type: VIDEO_TYPE.hevc });
-    if (v.av1 && can.av1 && !phone && !can.hevc) out.push({ src: `${stem}.av1.mp4`, type: VIDEO_TYPE.av1 });
+    if (v.hevc && can.hevc) wanted.push({ path: `${stem}.hevc.mp4`, codec: "hevc" });
+    if (v.p1440?.hevc && can.hevc) wanted.push({ path: `${stem}.p1440.hevc.mp4`, codec: "hevc" });
+    if (v.av1 && can.av1 && !phone && !can.hevc) wanted.push({ path: `${stem}.av1.mp4`, codec: "av1" });
+    if (v.p1440?.av1 && can.av1 && !phone && !can.hevc) wanted.push({ path: `${stem}.p1440.av1.mp4`, codec: "av1" });
+    if (v.p1080?.h264) wanted.push({ path: `${stem}.p1080.mp4`, codec: "h264" });
   }
-  out.push({ src: h264, type: VIDEO_TYPE.h264 });
+  wanted.push({ path: h264, codec: "h264" });
+  const cdn = wanted.filter((w) => onCdn(w.path));
+  const origin = wanted.filter((w) => !onCdn(w.path));
+  const ordered = process.env.NEXT_PUBLIC_MEDIA_BASE ? [...cdn, ...origin] : wanted;
+  const out: VideoSource[] = ordered.map((w) => ({ src: mediaUrl(w.path), type: VIDEO_TYPE[w.codec] }));
+  // and the site's own H.264 as the last resort if the CDN is unreachable
+  if (out[out.length - 1].src !== h264) out.push({ src: h264, type: VIDEO_TYPE.h264 });
   return out;
 }
 

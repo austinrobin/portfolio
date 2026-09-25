@@ -1,8 +1,15 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 
+/* On Vercel, media is served from jsDelivr pinned to the deployed commit
+   (see src/lib/media-url.ts). VERCEL_GIT_COMMIT_SHA is set by Vercel for
+   every git-triggered build; locally the base stays empty. */
+const sha = process.env.VERCEL_GIT_COMMIT_SHA;
+const mediaBase = sha && process.env.VERCEL ? `https://cdn.jsdelivr.net/gh/austinrobin/portfolio@${sha}/public` : "";
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  env: { NEXT_PUBLIC_MEDIA_BASE: mediaBase },
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   images: {
     qualities: [75, 90],

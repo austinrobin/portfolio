@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
 import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
 import { Monogram } from "./monogram";
+import { mediaUrl } from "@/lib/media-url";
 import { heroFonts, INK } from "./hero-config";
 import { footerConfig, type FooterSettings } from "./footer-config";
 
@@ -51,7 +52,7 @@ function GuillocheGround({ strength }: { strength: number }) {
           /* eslint-disable-next-line @next/next/no-img-element -- static ground plate */
           <img
             key={i}
-            src="/footer/guilloche.webp"
+            src={mediaUrl("/footer/guilloche.webp")}
             alt=""
             aria-hidden
             data-ground
@@ -142,7 +143,7 @@ const PLATE_SRCS = [
   "/footer/austin.svg",
   "/footer/colonnade.svg",
   "/footer/flourish.svg",
-];
+].map(mediaUrl);
 
 /* ---------------- section ---------------------------------------------- */
 
@@ -360,7 +361,7 @@ export function BanknoteFooter({
 
         {/* plate order = animation order (see startAt) */}
         <Plate
-          src="/footer/pegasus.svg"
+          src={mediaUrl("/footer/pegasus.svg")}
           alt=""
           mode="radial"
           at={0}
@@ -368,14 +369,14 @@ export function BanknoteFooter({
           style={{ left: `${cfg.pegasusX}%`, top: `${cfg.pegasusY}%`, width: `${cfg.pegasusW}%` }}
         />
         <Plate
-          src="/footer/pegasus.svg"
+          src={mediaUrl("/footer/pegasus.svg")}
           alt=""
           mode="radial"
           at={0}
           style={{ right: `${cfg.pegasusX}%`, top: `${cfg.pegasusY}%`, width: `${cfg.pegasusW}%` }}
         />
         <Plate
-          src="/footer/austin.svg"
+          src={mediaUrl("/footer/austin.svg")}
           alt="Austin"
           mode="x"
           at={0.3}
@@ -388,14 +389,14 @@ export function BanknoteFooter({
           }}
         />
         <Plate
-          src="/footer/colonnade.svg"
+          src={mediaUrl("/footer/colonnade.svg")}
           alt=""
           mode="y"
           at={0.1}
           style={{ left: `${cfg.colonnadeX}%`, bottom: `${cfg.colonnadeBottom}%`, width: `${cfg.colonnadeW}%` }}
         />
         <Plate
-          src="/footer/colonnade.svg"
+          src={mediaUrl("/footer/colonnade.svg")}
           alt=""
           mode="y"
           at={0.1}
@@ -403,7 +404,7 @@ export function BanknoteFooter({
           style={{ right: `${cfg.colonnadeX}%`, bottom: `${cfg.colonnadeBottom}%`, width: `${cfg.colonnadeW}%` }}
         />
         <Plate
-          src="/footer/flourish.svg"
+          src={mediaUrl("/footer/flourish.svg")}
           alt=""
           mode="x"
           at={0.6}
@@ -411,7 +412,7 @@ export function BanknoteFooter({
           style={{ left: `${cfg.flourishX}%`, top: `${cfg.flourishY}%`, width: `${cfg.flourishW}%` }}
         />
         <Plate
-          src="/footer/flourish.svg"
+          src={mediaUrl("/footer/flourish.svg")}
           alt=""
           mode="x"
           at={0.6}

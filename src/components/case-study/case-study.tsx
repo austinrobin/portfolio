@@ -8,6 +8,7 @@ import Link from "next/link";
 import { BanknoteNav } from "@/components/banknote-nav";
 import { Monogram } from "@/components/home/monogram";
 import { POSTERS, STILLS, pickVideoSources, releasePlay, requestPlay, type VideoSource } from "@/lib/video-sources";
+import { fallbackToOrigin, mediaUrl } from "@/lib/media-url";
 import { gsap, ScrollSmoother, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { caseFont } from "./case-font";
 import { heroFonts } from "@/components/home/hero-config";
@@ -70,11 +71,11 @@ const SIZES = {
 function stillSrcSet(src: string): string | undefined {
   const v = STILLS[src];
   if (!v || !v.widths.length) return undefined;
-  const parts = v.widths.map((w) => `${src.replace(/\.webp$/, `.w${w}.webp`)} ${w}w`);
-  parts.push(`${src} ${v.w}w`);
+  const parts = v.widths.map((w) => `${mediaUrl(src.replace(/\.webp$/, `.w${w}.webp`))} ${w}w`);
+  parts.push(`${mediaUrl(src)} ${v.w}w`);
   return parts.join(", ");
 }
-const posterOf = (m: CaseMedia) => (m.poster ? POSTERS[m.poster] ?? m.poster : undefined);
+const posterOf = (m: CaseMedia) => (m.poster ? mediaUrl(POSTERS[m.poster] ?? m.poster) : undefined);
 
 function pickSources(media: CaseMedia, wide: boolean): VideoSource[] {
   // the H.264 file is the key: the StockBee reel lists its WebM first
@@ -515,8 +516,9 @@ function Tile({
           /* eslint-disable-next-line @next/next/no-img-element -- assets are
              optimised on entry (studio-compressed or hand-encoded) */
           <img
-            src={media.src}
+            src={mediaUrl(media.src)}
             srcSet={stillSrcSet(media.src)}
+            onError={fallbackToOrigin}
             sizes={wide ? SIZES.full : SIZES.half}
             alt={alt}
             loading={eager ? "eager" : "lazy"}

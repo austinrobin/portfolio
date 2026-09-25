@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { pickVideoSources, type VideoSource } from "@/lib/video-sources";
+import { mediaUrl } from "@/lib/media-url";
 import {
   motion,
   useMotionValueEvent,
@@ -133,7 +134,7 @@ function Cover({ item, sizes, playing = true }: { item: ShowcaseItem; sizes: str
     return (
       <video
         ref={ref}
-        poster={item.coverPoster}
+        poster={item.coverPoster ? mediaUrl(item.coverPoster) : undefined}
         muted
         loop
         playsInline

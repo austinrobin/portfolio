@@ -1,4 +1,5 @@
 "use client";
+import { mediaUrl } from "@/lib/media-url";
 
 import { useEffect, useRef } from "react";
 import { useReducedMotion } from "motion/react";
@@ -225,6 +226,7 @@ export function GalleryCanvas() {
     let disposed = false;
     items.forEach((it, i) => {
       const img = new Image();
+      img.crossOrigin = "anonymous";
       img.decoding = "async";
       img.onload = () => {
         if (disposed) return;
@@ -261,7 +263,7 @@ export function GalleryCanvas() {
         textures[i] = tex;
         drawFrame(performance.now()); // eager repaint as pieces arrive
       };
-      img.src = it.src;
+      img.src = mediaUrl(it.src);
     });
 
     /* ---------------- per-card character (deterministic) ---------------- */
