@@ -44,6 +44,26 @@
           "block": "primary",
           "w": 2560,
           "h": 1440
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/poster-numbers-culture.webp",
+          "alt": "Markets had the numbers. We brought the culture.",
+          "w": 1535,
+          "h": 1783,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.86
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/poster-everything.webp",
+          "alt": "Everything a broking app does: stocks, IPOs, ETFs, F&O, commodities",
+          "w": 1082,
+          "h": 1198,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.86
         }
       ]
     },
@@ -57,7 +77,68 @@
         "We refined those directions until we found something that could stretch across a product this broad without losing its character."
       ],
       "statement": "The visual language came before the interface.",
-      "media": []
+      "media": [
+        {
+          "kind": "image",
+          "src": "/case/high/post-48-hours.webp",
+          "alt": "48 hours — campaign post",
+          "w": 1082,
+          "h": 1278,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.846
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/post-72-hours.webp",
+          "alt": "72 hours — your invite to the HIGH side is here",
+          "w": 1623,
+          "h": 1917,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.846
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/founder-card-a.webp",
+          "alt": "Welcome to the Founding Club — the founder card",
+          "w": 1535,
+          "h": 2030,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.756
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/otp-meme.webp",
+          "alt": "The OTP is behaving now — sometimes good things start with a lil' drama",
+          "w": 1535,
+          "h": 2030,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.756
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/post-no-one-else.webp",
+          "alt": "No one else like you",
+          "w": 2778,
+          "h": 3689,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.753
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/post-heat.webp",
+          "alt": "Where the heat at? Front row to the action",
+          "w": 2778,
+          "h": 3689,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.753
+        }
+      ]
     },
     {
       "id": "world",
@@ -89,6 +170,86 @@
           "block": "custom",
           "cols": 2,
           "ratio": 1.778
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/sticker-box.webp",
+          "alt": "Sticker set",
+          "w": 711,
+          "h": 1006,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.68
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/sticker-sheet.webp",
+          "alt": "Sticker sheet — #Carry the culture",
+          "w": 711,
+          "h": 1006,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.68
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/card-logo.webp",
+          "alt": "HI*H card",
+          "w": 2050,
+          "h": 3215,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.637
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/card-hands-off.webp",
+          "alt": "Hands off, bro — the business card",
+          "w": 1025,
+          "h": 1608,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.637
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/high-mints.webp",
+          "alt": "HIGH Mints",
+          "w": 1442,
+          "h": 905,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.7
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/highdration-can.webp",
+          "alt": "HIGHdration can",
+          "w": 1672,
+          "h": 941,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.7
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/carry-the-culture.webp",
+          "alt": "#Carry the culture",
+          "w": 1894,
+          "h": 1894,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.0
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/high-department.webp",
+          "alt": "The High Department Co.",
+          "w": 1674,
+          "h": 1046,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.0
         }
       ]
     },
@@ -111,6 +272,126 @@
           "h": 1080,
           "sound": true,
           "block": "primary"
+        },
+        {
+          "kind": "video",
+          "src": "/case/high/phone-watchlist.mp4",
+          "poster": "/case/high/phone-watchlist.poster.webp",
+          "w": 1440,
+          "h": 1800,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.8
+        },
+        {
+          "kind": "video",
+          "src": "/case/high/phone-portfolio.mp4",
+          "poster": "/case/high/phone-portfolio.poster.webp",
+          "w": 1440,
+          "h": 1800,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.8
+        },
+        {
+          "kind": "video",
+          "src": "/case/high/phone-stock.mp4",
+          "poster": "/case/high/phone-stock.poster.webp",
+          "w": 1440,
+          "h": 1800,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.8
+        },
+        {
+          "kind": "video",
+          "src": "/case/high/phone-fno.mp4",
+          "poster": "/case/high/phone-fno.poster.webp",
+          "w": 1440,
+          "h": 1800,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.8
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/app-watchlist.webp",
+          "alt": "Fyne Shyt! — a watchlist that feels like yours",
+          "w": 1314,
+          "h": 1250,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.1
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/app-buy.webp",
+          "alt": "Buy sheet",
+          "w": 1284,
+          "h": 1102,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.1
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/app-trending.webp",
+          "alt": "Trending — silver ETFs",
+          "w": 1442,
+          "h": 1232,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.1
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/app-buzz.webp",
+          "alt": "Buzz — silver is the new buzz in town",
+          "w": 1148,
+          "h": 1110,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.1
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/app-sector.webp",
+          "alt": "Sector ranking",
+          "w": 1496,
+          "h": 1854,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.8
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/app-titan.webp",
+          "alt": "Titan — stock page",
+          "w": 1482,
+          "h": 1854,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.8
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/render-nifty.webp",
+          "alt": "Nifty 50 on the phone",
+          "w": 1288,
+          "h": 1221,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.15
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/render-hand.webp",
+          "alt": "Spotlight in hand",
+          "w": 1426,
+          "h": 1103,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.15
         }
       ]
     },
@@ -125,6 +406,66 @@
       ],
       "statement": "Playful around the money. Serious about the money.",
       "media": [
+        {
+          "kind": "video",
+          "src": "/case/high/phone-collectible.mp4",
+          "poster": "/case/high/phone-collectible.poster.webp",
+          "w": 1440,
+          "h": 1800,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.8
+        },
+        {
+          "kind": "video",
+          "src": "/case/high/phone-badge.mp4",
+          "poster": "/case/high/phone-badge.poster.webp",
+          "w": 1440,
+          "h": 1800,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.8
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/app-titan-meme.webp",
+          "alt": "Titan with a Joey meme — personality in the interface",
+          "w": 796,
+          "h": 828,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.98
+        },
+        {
+          "kind": "video",
+          "src": "/case/high/meme-funds.mp4",
+          "poster": "/case/high/meme-funds.poster.webp",
+          "w": 1440,
+          "h": 1440,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.98
+        },
+        {
+          "kind": "video",
+          "src": "/case/high/meme-horse.mp4",
+          "poster": "/case/high/meme-horse.poster.webp",
+          "w": 960,
+          "h": 940,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.0
+        },
+        {
+          "kind": "video",
+          "src": "/case/high/meme-goat.mp4",
+          "poster": "/case/high/meme-goat.poster.webp",
+          "w": 800,
+          "h": 1000,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.0
+        },
         {
           "kind": "image",
           "src": "/current-coin.webp",
@@ -155,6 +496,82 @@
           "block": "primary",
           "w": 2560,
           "h": 1439
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/email-suite.webp",
+          "alt": "The transactional email suite",
+          "w": 2703,
+          "h": 1535,
+          "block": "primary"
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/social-set.webp",
+          "alt": "Social set — Break the default, Add to cart, Blink and you've traded, Your market crush list, Too high too fast",
+          "w": 2948,
+          "h": 1732,
+          "block": "primary"
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/post-blink.webp",
+          "alt": "Blink and you've traded",
+          "w": 2778,
+          "h": 3689,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.753
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/post-crush-list.webp",
+          "alt": "Your market crush list",
+          "w": 2778,
+          "h": 3689,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.753
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/post-too-high.webp",
+          "alt": "Too high too fast",
+          "w": 2778,
+          "h": 3689,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.753
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/post-break-default.webp",
+          "alt": "Break the default",
+          "w": 2778,
+          "h": 3689,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.753
+        },
+        {
+          "kind": "video",
+          "src": "/case/high/phone-investor.mp4",
+          "poster": "/case/high/phone-investor.poster.webp",
+          "w": 1440,
+          "h": 1800,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.8
+        },
+        {
+          "kind": "video",
+          "src": "/case/high/phone-cards.mp4",
+          "poster": "/case/high/phone-cards.poster.webp",
+          "w": 1440,
+          "h": 1800,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.8
         }
       ]
     },
@@ -190,6 +607,74 @@
           "h": 1080,
           "sound": true,
           "block": "primary"
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/merch-shelf.webp",
+          "alt": "The HIGH merch shelf",
+          "w": 1836,
+          "h": 1212,
+          "block": "primary"
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/merch-kit.webp",
+          "alt": "The founder kit",
+          "w": 1340,
+          "h": 1080,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.15
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/merch-box.webp",
+          "alt": "The box — money testing",
+          "w": 1070,
+          "h": 1018,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.15
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/merch-gun.webp",
+          "alt": "Sticker-bombed money gun",
+          "w": 571,
+          "h": 708,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.75
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/cap.webp",
+          "alt": "The HI*H cap",
+          "w": 787,
+          "h": 1180,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.75
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/highdration-label.webp",
+          "alt": "HIGHdration label",
+          "w": 3216,
+          "h": 2009,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.6
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/founder-card-b.webp",
+          "alt": "Welcome to the Founding Club",
+          "w": 1207,
+          "h": 970,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.6
         }
       ]
     }

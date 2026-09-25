@@ -181,6 +181,129 @@
         1280
       ]
     },
+    "/case/high/app-buy.webp": {
+      "w": 1284,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/app-buzz.webp": {
+      "w": 1148,
+      "widths": [
+        640,
+        960
+      ]
+    },
+    "/case/high/app-sector.webp": {
+      "w": 1496,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/app-titan-meme.webp": {
+      "w": 796,
+      "widths": [
+        640
+      ]
+    },
+    "/case/high/app-titan.webp": {
+      "w": 1482,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/app-trending.webp": {
+      "w": 1442,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/app-watchlist.webp": {
+      "w": 1314,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/cap.webp": {
+      "w": 787,
+      "widths": [
+        640
+      ]
+    },
+    "/case/high/card-hands-off.webp": {
+      "w": 1025,
+      "widths": [
+        640,
+        960
+      ]
+    },
+    "/case/high/card-logo.webp": {
+      "w": 2050,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/high/carry-the-culture.webp": {
+      "w": 1894,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/email-suite.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/high/founder-card-a.webp": {
+      "w": 1535,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/founder-card-b.webp": {
+      "w": 1207,
+      "widths": [
+        640,
+        960
+      ]
+    },
+    "/case/high/high-department.webp": {
+      "w": 1674,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/high-mints.webp": {
+      "w": 1442,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
     "/case/high/high-times.webp": {
       "w": 2560,
       "widths": [
@@ -188,6 +311,196 @@
         960,
         1280,
         1920
+      ]
+    },
+    "/case/high/highdration-can.webp": {
+      "w": 1672,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/highdration-label.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/high/merch-box.webp": {
+      "w": 1070,
+      "widths": [
+        640,
+        960
+      ]
+    },
+    "/case/high/merch-gun.webp": {
+      "w": 571,
+      "widths": []
+    },
+    "/case/high/merch-kit.webp": {
+      "w": 1340,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/merch-shelf.webp": {
+      "w": 1836,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/otp-meme.webp": {
+      "w": 1535,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/post-48-hours.webp": {
+      "w": 1082,
+      "widths": [
+        640,
+        960
+      ]
+    },
+    "/case/high/post-72-hours.webp": {
+      "w": 1623,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/post-blink-octopus.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/high/post-blink.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/high/post-break-default.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/high/post-crush-list.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/high/post-heat.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/high/post-no-one-else.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/high/post-too-high.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/high/post-you-did-it.webp": {
+      "w": 1623,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/poster-everything.webp": {
+      "w": 1082,
+      "widths": [
+        640,
+        960
+      ]
+    },
+    "/case/high/poster-numbers-culture.webp": {
+      "w": 1535,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/render-hand.webp": {
+      "w": 1426,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/render-nifty.webp": {
+      "w": 1288,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/social-set.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/high/sticker-box.webp": {
+      "w": 711,
+      "widths": [
+        640
+      ]
+    },
+    "/case/high/sticker-sheet.webp": {
+      "w": 711,
+      "widths": [
+        640
       ]
     },
     "/case/lwt/auditorium.webp": {
@@ -600,6 +913,67 @@
       "hevc": true,
       "p1080": {
         "h264": true
+      }
+    },
+    "/case/high/meme-funds.mp4": {
+      "av1": true
+    },
+    "/case/high/meme-goat.mp4": {
+      "av1": true
+    },
+    "/case/high/meme-horse.mp4": {
+      "av1": true
+    },
+    "/case/high/phone-badge.mp4": {
+      "p1080": {
+        "h264": true
+      }
+    },
+    "/case/high/phone-cards.mp4": {
+      "av1": true,
+      "p1080": {
+        "h264": true
+      }
+    },
+    "/case/high/phone-collectible.mp4": {
+      "p1080": {
+        "h264": true
+      }
+    },
+    "/case/high/phone-fno.mp4": {
+      "av1": true,
+      "p1080": {
+        "h264": true
+      }
+    },
+    "/case/high/phone-investor.mp4": {
+      "av1": true,
+      "p1080": {
+        "h264": true
+      }
+    },
+    "/case/high/phone-portfolio.mp4": {
+      "av1": true,
+      "hevc": true,
+      "p1080": {
+        "h264": true,
+        "hevc": true
+      }
+    },
+    "/case/high/phone-stock.mp4": {
+      "av1": true,
+      "hevc": true,
+      "p1080": {
+        "h264": true,
+        "hevc": true
+      }
+    },
+    "/case/high/phone-watchlist.mp4": {
+      "av1": true,
+      "hevc": true,
+      "p1080": {
+        "h264": true,
+        "hevc": true
       }
     },
     "/case/high/site.mp4": {
