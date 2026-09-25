@@ -1,7 +1,7 @@
 #!/bin/bash
 # Warm the CDN edge for every media file after a deploy.
 #   scripts/warm-cdn.sh                  → warms jsDelivr for the current HEAD commit (what the live site serves)
-#   scripts/warm-cdn.sh <base-url>       → warms any base, e.g. https://portfolio-brown-five-85.vercel.app
+#   scripts/warm-cdn.sh <base-url>       → warms any base, e.g. https://austinrobin.design
 # jsDelivr caches per commit URL, so every deploy starts cold in each region; the first fetch of a file
 # fills the edge near whoever runs this. Files over 20MB are skipped (jsDelivr refuses them).
 cd "$(dirname "$0")/.." || exit 1
