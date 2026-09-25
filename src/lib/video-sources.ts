@@ -36,20 +36,58 @@ export function canDecode(): Record<Codec, boolean> {
   return decodeCache;
 }
 export type VideoSource = { src: string; type: string };
-/** `h264` is the .mp4 the manifest is keyed by. */
-export function pickVideoSources(h264: string): VideoSource[] {
+/**
+ * `h264` is the .mp4 the manifest is keyed by. `tile` says how big the video
+ * is drawn: a half-width tile never needs the full master, so it gets the
+ * 1080 cut even on desktop — a third of the pixels to decode and to fetch.
+ *
+ * Order of preference is hardware first: HEVC decodes in silicon on every
+ * Mac, iPhone and most Windows machines; AV1 is the lightest file but Apple
+ * silicon before M3 has no AV1 decoder, so Chrome there decodes it on the CPU
+ * and several streams at once stutter. AV1 stays for browsers without HEVC
+ * (Firefox, Chrome on Linux/older Windows) where it is the best option.
+ */
+export function pickVideoSources(h264: string, tile: "full" | "half" = "full"): VideoSource[] {
   const v = V.videos[h264];
   const phone = window.matchMedia("(max-width: 767px)").matches;
   const can = canDecode();
   const out: VideoSource[] = [];
   const stem = h264.replace(/\.mp4$/, "");
-  if (phone && v?.p1080) {
+  const small = phone || tile === "half";
+  if (small && v?.p1080) {
     if (v.p1080.hevc && can.hevc) out.push({ src: `${stem}.p1080.hevc.mp4`, type: VIDEO_TYPE.hevc });
     if (v.p1080.h264) out.push({ src: `${stem}.p1080.mp4`, type: VIDEO_TYPE.h264 });
   } else if (v) {
-    if (v.av1 && can.av1 && !phone) out.push({ src: `${stem}.av1.mp4`, type: VIDEO_TYPE.av1 });
     if (v.hevc && can.hevc) out.push({ src: `${stem}.hevc.mp4`, type: VIDEO_TYPE.hevc });
+    if (v.av1 && can.av1 && !phone && !can.hevc) out.push({ src: `${stem}.av1.mp4`, type: VIDEO_TYPE.av1 });
   }
   out.push({ src: h264, type: VIDEO_TYPE.h264 });
   return out;
+}
+
+/* At most this many clips decode at once on a page; the rest hold their
+   poster/last frame until one of the playing ones scrolls away. */
+const MAX_PLAYING = 3;
+const playing = new Set<HTMLVideoElement>();
+export function requestPlay(el: HTMLVideoElement): void {
+  if (playing.has(el)) return;
+  if (playing.size >= MAX_PLAYING) {
+    // drop the one farthest from the viewport centre
+    const mid = window.innerHeight / 2;
+    let far: HTMLVideoElement | null = null, farD = -1;
+    for (const p of playing) {
+      const r = p.getBoundingClientRect();
+      const d = Math.abs((r.top + r.bottom) / 2 - mid);
+      if (d > farD) { farD = d; far = p; }
+    }
+    const r = el.getBoundingClientRect();
+    if (far && Math.abs((r.top + r.bottom) / 2 - mid) < farD) { far.pause(); playing.delete(far); }
+    else return;
+  }
+  playing.add(el);
+  el.play().catch(() => { playing.delete(el); });
+}
+export function releasePlay(el: HTMLVideoElement): void {
+  el.pause();
+  playing.delete(el);
 }

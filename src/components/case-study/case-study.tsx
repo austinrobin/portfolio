@@ -7,7 +7,7 @@ import type { CaseMedia, CaseStudy } from "@/lib/case-studies";
 import Link from "next/link";
 import { BanknoteNav } from "@/components/banknote-nav";
 import { Monogram } from "@/components/home/monogram";
-import { POSTERS, STILLS, pickVideoSources, type VideoSource } from "@/lib/video-sources";
+import { POSTERS, STILLS, pickVideoSources, releasePlay, requestPlay, type VideoSource } from "@/lib/video-sources";
 import { gsap, ScrollSmoother, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { caseFont } from "./case-font";
 import { heroFonts } from "@/components/home/hero-config";
@@ -76,10 +76,10 @@ function stillSrcSet(src: string): string | undefined {
 }
 const posterOf = (m: CaseMedia) => (m.poster ? POSTERS[m.poster] ?? m.poster : undefined);
 
-function pickSources(media: CaseMedia): VideoSource[] {
+function pickSources(media: CaseMedia, wide: boolean): VideoSource[] {
   // the H.264 file is the key: the StockBee reel lists its WebM first
   const base = media.src.endsWith(".webm") && media.srcFallback ? media.srcFallback : media.src;
-  return pickVideoSources(base);
+  return pickVideoSources(base, wide ? "full" : "half");
 }
 
 function VideoSources({
@@ -87,11 +87,14 @@ function VideoSources({
   className,
   loop = true,
   style,
+  wide = false,
 }: {
   media: CaseMedia;
   className: string;
   loop?: boolean;
   style?: React.CSSProperties;
+  /** full-width tile: gets the master rendition; halves get the 1080 cut */
+  wide?: boolean;
 }) {
   /* Lazy in two steps. A case page can carry 20MB+ of video, so far-away
      tiles are empty <video>s with just a poster. Within one viewport the
@@ -104,7 +107,7 @@ function VideoSources({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const attach = () => setSources((s) => s ?? pickSources(media));
+    const attach = () => setSources((s) => s ?? pickSources(media, wide));
     // synchronous first check — the observer's initial callback waits for a
     // rendering frame, so a tile already near the screen attaches at once
     const r = el.getBoundingClientRect();
@@ -115,30 +118,34 @@ function VideoSources({
       },
       { rootMargin: "100% 0px" },
     );
+    // play only when a fifth of the tile is actually on screen; off screen it
+    // pauses and frees its decoder for the ones that are
     const visible = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
           const v = e.target as HTMLVideoElement;
-          if (e.isIntersecting) v.play().catch(() => {});
-          else v.pause();
+          if (e.isIntersecting) requestPlay(v);
+          else releasePlay(v);
         }
       },
-      { rootMargin: "25% 0px" },
+      { threshold: 0.2 },
     );
     near.observe(el);
     visible.observe(el);
     return () => {
       near.disconnect();
       visible.disconnect();
+      releasePlay(el);
     };
-  }, [media]);
+  }, [media, wide]);
   useEffect(() => {
     const el = ref.current;
     if (!sources || !el) return;
     el.load();
     // already on screen when the sources arrived → start now
     const r = el.getBoundingClientRect();
-    if (r.top < window.innerHeight * 1.25 && r.bottom > -window.innerHeight * 0.25) el.play().catch(() => {});
+    const vis = Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0);
+    if (vis > r.height * 0.2) requestPlay(el);
   }, [sources]);
   return (
     <video
@@ -490,6 +497,7 @@ function Tile({
               <VideoSources
                 media={media}
                 loop={loop}
+                wide={wide}
                 className="absolute inset-0 h-full w-full object-cover"
                 style={fit(media)}
               />
@@ -498,6 +506,7 @@ function Tile({
             <VideoSources
               media={media}
               loop={loop}
+              wide={wide}
               className="absolute inset-0 h-full w-full object-cover"
               style={fit(media)}
             />

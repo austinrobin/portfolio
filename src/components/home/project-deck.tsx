@@ -41,11 +41,14 @@ function DeckCard({
   index,
   p,
   onActivate,
+  playing = true,
 }: {
   item: ShowcaseItem;
   index: number;
   p: MotionValue<number>;
   onActivate?: () => void;
+  /** featured sheet or its neighbours: the only ones whose reel runs */
+  playing?: boolean;
 }) {
   // t < 0: standing in the queue · t 0→1: falling forward · t > 1: the floor
   const t = useTransform(p, (v) => v - index);
@@ -86,7 +89,7 @@ function DeckCard({
         style={{ background: item.theme.bg }}
         onClick={onActivate}
       >
-        <Cover item={item} sizes="(max-width: 860px) 92vw, 1240px" />
+        <Cover item={item} sizes="(max-width: 860px) 92vw, 1240px" playing={playing} />
       </div>
     </motion.div>
   );
@@ -97,7 +100,7 @@ function DeckCard({
    screen, then attaches the lightest source the browser decodes (AV1 /
    HEVC / H.264) and plays muted on loop — the home page never downloads
    the reels ahead of the visitor reaching the folder. */
-function Cover({ item, sizes }: { item: ShowcaseItem; sizes: string }) {
+function Cover({ item, sizes, playing = true }: { item: ShowcaseItem; sizes: string; playing?: boolean }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [sources, setSources] = useState<VideoSource[] | null>(null);
   const isVideo = !!item.cover && item.cover.endsWith(".mp4");
@@ -116,12 +119,15 @@ function Cover({ item, sizes }: { item: ShowcaseItem; sizes: string }) {
     io.observe(el);
     return () => io.disconnect();
   }, [isVideo, item.cover]);
+  // the queue behind the featured sheet holds its poster — five reels
+  // decoding at once is what made the folder stutter on laptops
   useEffect(() => {
     const el = ref.current;
     if (!sources || !el) return;
-    el.load();
-    el.play().catch(() => {});
-  }, [sources]);
+    if (el.readyState === 0) el.load();
+    if (playing) el.play().catch(() => {});
+    else el.pause();
+  }, [playing, sources]);
   if (!item.cover) return <PlaceholderCover item={item} />;
   if (isVideo) {
     return (
@@ -300,7 +306,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
         >
           <div className="relative aspect-[16/10] [transform-style:preserve-3d]">
             {items.map((item, i) => (
-              <DeckCard key={item.id} item={item} index={i} p={p} />
+              <DeckCard key={item.id} item={item} index={i} p={p} playing={Math.abs(i - active) <= 1} />
             ))}
           </div>
         </motion.div>
