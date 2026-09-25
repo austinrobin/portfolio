@@ -17,12 +17,14 @@
   "featured": false,
   "order": 5,
   "heroMedia": {
-    "kind": "video",
-    "src": "/case/high/drop.mp4",
-    "poster": "/case/high/drop.poster.webp",
-    "w": 1920,
-    "h": 1080,
-    "block": "primary"
+    "kind": "image",
+    "src": "/case/high/high-department.webp",
+    "alt": "The High Department Co.",
+    "block": "custom",
+    "cols": 1,
+    "ratio": 1.6,
+    "w": 1674,
+    "h": 1046
   },
   "sections": [
     {
@@ -37,6 +39,14 @@
       ],
       "statement": "A genuinely good financial product with a point of view.",
       "media": [
+        {
+          "kind": "video",
+          "src": "/case/high/drop.mp4",
+          "poster": "/case/high/drop.poster.webp",
+          "w": 1920,
+          "h": 1080,
+          "block": "primary"
+        },
         {
           "kind": "image",
           "src": "/case/high/high-times.webp",
@@ -319,26 +329,6 @@
           "block": "custom",
           "cols": 2,
           "ratio": 1.7
-        },
-        {
-          "kind": "image",
-          "src": "/case/high/carry-the-culture.webp",
-          "alt": "#Carry the culture",
-          "w": 1894,
-          "h": 1894,
-          "block": "custom",
-          "cols": 2,
-          "ratio": 1.0
-        },
-        {
-          "kind": "image",
-          "src": "/case/high/high-department.webp",
-          "alt": "The High Department Co.",
-          "w": 1674,
-          "h": 1046,
-          "block": "custom",
-          "cols": 2,
-          "ratio": 1.0
         }
       ]
     },
@@ -564,6 +554,16 @@
           "ratio": 1.22,
           "w": 655,
           "h": 536
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/carry-the-culture.webp",
+          "alt": "#Carry the culture",
+          "w": 1894,
+          "h": 1894,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.22
         }
       ]
     },
