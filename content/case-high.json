@@ -64,6 +64,27 @@
           "block": "custom",
           "cols": 2,
           "ratio": 0.86
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/story-boring.webp",
+          "alt": "Boring market apps had their chance",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.5625,
+          "w": 2160,
+          "h": 3840
+        },
+        {
+          "kind": "video",
+          "src": "/case/high/town.mp4",
+          "poster": "/case/high/town.poster.webp",
+          "w": 1080,
+          "h": 1920,
+          "sound": true,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.5625
         }
       ]
     },
@@ -137,6 +158,66 @@
           "block": "custom",
           "cols": 2,
           "ratio": 0.753
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/founding-generation.webp",
+          "alt": "The founding generation — editorial photography",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.664,
+          "w": 1122,
+          "h": 1402
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/waitlist-signup.webp",
+          "alt": "You got in — welcome to the Founding Club",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.664,
+          "w": 1082,
+          "h": 1629
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/card-carry-culture.webp",
+          "alt": "Carry the culture — the founder card",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.888,
+          "w": 1122,
+          "h": 1263
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/card-early-access.webp",
+          "alt": "Get early access to the waitlist",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.888,
+          "w": 1122,
+          "h": 1263
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/phone-hill.webp",
+          "alt": "HIGH on a hilltop",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.7,
+          "w": 1448,
+          "h": 1086
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/phones-hands.webp",
+          "alt": "HIGH in hand",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.7,
+          "w": 1672,
+          "h": 941
         }
       ]
     },
@@ -170,6 +251,14 @@
           "block": "custom",
           "cols": 2,
           "ratio": 1.778
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/founder-card-perspective.webp",
+          "alt": "The founder card in perspective",
+          "block": "primary",
+          "w": 2560,
+          "h": 1494
         },
         {
           "kind": "image",
@@ -603,6 +692,15 @@
           "kind": "video",
           "src": "/case/high/film.mp4",
           "poster": "/case/high/film.poster.webp",
+          "w": 1920,
+          "h": 1080,
+          "sound": true,
+          "block": "primary"
+        },
+        {
+          "kind": "video",
+          "src": "/case/high/brand-reel.mp4",
+          "poster": "/case/high/brand-reel.poster.webp",
           "w": 1920,
           "h": 1080,
           "sound": true,

@@ -240,6 +240,20 @@
         640
       ]
     },
+    "/case/high/card-carry-culture.webp": {
+      "w": 1122,
+      "widths": [
+        640,
+        960
+      ]
+    },
+    "/case/high/card-early-access.webp": {
+      "w": 1122,
+      "widths": [
+        640,
+        960
+      ]
+    },
     "/case/high/card-hands-off.webp": {
       "w": 1025,
       "widths": [
@@ -283,6 +297,22 @@
     },
     "/case/high/founder-card-b.webp": {
       "w": 1207,
+      "widths": [
+        640,
+        960
+      ]
+    },
+    "/case/high/founder-card-perspective.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/high/founding-generation.webp": {
+      "w": 1122,
       "widths": [
         640,
         960
@@ -359,6 +389,22 @@
     },
     "/case/high/otp-meme.webp": {
       "w": 1535,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/phone-hill.webp": {
+      "w": 1448,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/high/phones-hands.webp": {
+      "w": 1672,
       "widths": [
         640,
         960,
@@ -501,6 +547,22 @@
       "w": 711,
       "widths": [
         640
+      ]
+    },
+    "/case/high/story-boring.webp": {
+      "w": 2160,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/high/waitlist-signup.webp": {
+      "w": 1082,
+      "widths": [
+        640,
+        960
       ]
     },
     "/case/lwt/auditorium.webp": {
@@ -918,6 +980,14 @@
         "hevc": true
       }
     },
+    "/case/high/brand-reel.mp4": {
+      "av1": true,
+      "hevc": true,
+      "p1080": {
+        "h264": true,
+        "hevc": true
+      }
+    },
     "/case/high/drop.mp4": {
       "av1": true,
       "hevc": true,
@@ -1014,6 +1084,10 @@
       "p1080": {
         "h264": true
       }
+    },
+    "/case/high/town.mp4": {
+      "av1": true,
+      "hevc": true
     },
     "/case/lwt/scale-01.mp4": {
       "av1": true,
@@ -1302,8 +1376,16 @@
     "/case/high/app.p1080.hevc.mp4": 2536445,
     "/case/high/app.p1080.mp4": 3114144,
     "/case/high/app.poster.webp": 4942,
+    "/case/high/brand-reel.av1.mp4": 2489790,
+    "/case/high/brand-reel.hevc.mp4": 4085819,
+    "/case/high/brand-reel.mp4": 4563214,
+    "/case/high/brand-reel.p1080.hevc.mp4": 1946723,
+    "/case/high/brand-reel.p1080.mp4": 2240739,
+    "/case/high/brand-reel.poster.webp": 38072,
     "/case/high/cap.w640.webp": 79204,
     "/case/high/cap.webp": 147234,
+    "/case/high/card-carry-culture.webp": 292878,
+    "/case/high/card-early-access.webp": 93908,
     "/case/high/card-hands-off.w640.webp": 29898,
     "/case/high/card-hands-off.w960.webp": 44250,
     "/case/high/card-hands-off.webp": 49906,
@@ -1342,6 +1424,8 @@
     "/case/high/founder-card-b.w640.webp": 81598,
     "/case/high/founder-card-b.w960.webp": 160654,
     "/case/high/founder-card-b.webp": 266626,
+    "/case/high/founder-card-perspective.webp": 229508,
+    "/case/high/founding-generation.webp": 253964,
     "/case/high/high-department.w1280.webp": 41366,
     "/case/high/high-department.w640.webp": 21440,
     "/case/high/high-department.w960.webp": 31624,
@@ -1411,6 +1495,7 @@
     "/case/high/phone-fno.p1080.hevc.mp4": 3529973,
     "/case/high/phone-fno.p1080.mp4": 3220406,
     "/case/high/phone-fno.poster.webp": 77610,
+    "/case/high/phone-hill.webp": 126604,
     "/case/high/phone-investor.mp4": 1617287,
     "/case/high/phone-investor.p1080.hevc.mp4": 1022921,
     "/case/high/phone-investor.p1080.mp4": 895549,
@@ -1427,6 +1512,7 @@
     "/case/high/phone-watchlist.p1080.hevc.mp4": 770943,
     "/case/high/phone-watchlist.p1080.mp4": 1060744,
     "/case/high/phone-watchlist.poster.webp": 92960,
+    "/case/high/phones-hands.webp": 118768,
     "/case/high/post-48-hours.w640.webp": 88588,
     "/case/high/post-48-hours.w960.webp": 140606,
     "/case/high/post-48-hours.webp": 189566,
@@ -1511,6 +1597,12 @@
     "/case/high/stickers.p1080.hevc.mp4": 261367,
     "/case/high/stickers.p1080.mp4": 246339,
     "/case/high/stickers.poster.webp": 3774,
+    "/case/high/story-boring.webp": 1560206,
+    "/case/high/town.av1.mp4": 4016440,
+    "/case/high/town.hevc.mp4": 8343557,
+    "/case/high/town.mp4": 14033293,
+    "/case/high/town.poster.webp": 145802,
+    "/case/high/waitlist-signup.webp": 92372,
     "/case/lwt/auditorium.w1280.webp": 36540,
     "/case/lwt/auditorium.w640.webp": 17086,
     "/case/lwt/auditorium.w960.webp": 27160,

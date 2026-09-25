@@ -58,7 +58,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v37"; // v37: StockBee 3 frames (v36: HIGH assets round 2 (v35: HIGH copy v2 (v34: HIGH site+times (v33: HIGH copy (v32: High case (v31: StockBee assets round 2 (v30: webp posters (v29: Bloom meta 2024 (v28: Bloom assets round 3 (v27: round 2 (v26: Bloom copy rewrite (v25: Bloom assets; v23: sound toggle; v20: zoom; v14: custom blocks + focal point)
+const DRAFT_KEY = "studio-draft-v38"; // v38: HIGH round 3 (v37: StockBee 3 frames (v36: HIGH assets round 2 (v35: HIGH copy v2 (v34: HIGH site+times (v33: HIGH copy (v32: High case (v31: StockBee assets round 2 (v30: webp posters (v29: Bloom meta 2024 (v28: Bloom assets round 3 (v27: round 2 (v26: Bloom copy rewrite (v25: Bloom assets; v23: sound toggle; v20: zoom; v14: custom blocks + focal point)
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {
