@@ -699,6 +699,13 @@
         1280
       ]
     },
+    "/case/stockbee/breakouts.webp": {
+      "w": 1107,
+      "widths": [
+        640,
+        960
+      ]
+    },
     "/case/stockbee/custom-insights.webp": {
       "w": 1107,
       "widths": [
@@ -745,6 +752,14 @@
         1280
       ]
     },
+    "/case/stockbee/news-impact.webp": {
+      "w": 1543,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
     "/case/stockbee/no-noise.webp": {
       "w": 1543,
       "widths": [
@@ -757,6 +772,13 @@
       "w": 890,
       "widths": [
         640
+      ]
+    },
+    "/case/stockbee/oi-gainers.webp": {
+      "w": 1107,
+      "widths": [
+        640,
+        960
       ]
     },
     "/case/stockbee/options-chart.webp": {
