@@ -880,6 +880,10 @@
     "/case/bloom-algo/explainer.mp4": {
       "av1": true,
       "hevc": true,
+      "p1440": {
+        "hevc": true,
+        "av1": true
+      },
       "p1080": {
         "h264": true
       }
@@ -925,6 +929,10 @@
     "/case/high/film.mp4": {
       "av1": true,
       "hevc": true,
+      "p1440": {
+        "hevc": true,
+        "av1": true
+      },
       "p1080": {
         "h264": true,
         "hevc": true
@@ -1001,6 +1009,10 @@
     "/case/high/site.mp4": {
       "av1": true,
       "hevc": true,
+      "p1440": {
+        "hevc": true,
+        "av1": true
+      },
       "p1080": {
         "h264": true,
         "hevc": true

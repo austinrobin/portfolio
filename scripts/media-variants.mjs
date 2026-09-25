@@ -59,6 +59,10 @@ for (const [kind, p] of queue) {
     const v = {};
     if (lighter(`${stem}.av1.mp4`, p)) v.av1 = true;
     if (lighter(`${stem}.hevc.mp4`, p)) v.hevc = true;
+    // the biggest CDN-safe (<20MB) rendition of a long film: 1440-wide HEVC / AV1
+    if (existsSync(`${stem}.p1440.hevc.mp4`) || existsSync(`${stem}.p1440.av1.mp4`)) {
+      v.p1440 = { ...(playable(`${stem}.p1440.hevc.mp4`) ? { hevc: true } : {}), ...(playable(`${stem}.p1440.av1.mp4`) ? { av1: true } : {}) };
+    }
     // the phone cut too: a 1276px clip re-cut to 1080 saves nothing worth a second file
     if (lighter(`${stem}.p1080.mp4`, p)) {
       const ph = `${stem}.p1080.mp4`;
