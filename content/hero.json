@@ -32,7 +32,7 @@
   "patternFadeIn": 0.34,
   "patternFadeOut": 0.85,
   "autoScan": true,
-  "autoScanDesktop": false,
+  "autoScanDesktop": true,
   "scanSpeed": 1,
   "idleMs": 2500,
   "scanCenterX": 0.5,

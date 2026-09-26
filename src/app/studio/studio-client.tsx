@@ -1045,7 +1045,7 @@ export function StudioClient() {
                 onChange={(v) =>
                   setDraft({ ...draft, hero: { ...draft.hero, autoScan: v } })
                 }
-                hint="Drifts across the head when nobody is pointing."
+                hint="Zig-zags down the head, rests, and sweeps back up while nobody is pointing."
               />
               <Toggle
                 label="Auto-scan on desktop"

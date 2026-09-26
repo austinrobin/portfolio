@@ -27,8 +27,9 @@ const peristiwa = heroFonts.peristiwa;
  * then domain-warped by fbm and HARD-thresholded, so the reveal boundary
  * tears rather than fading. Horizontal bands near the boundary displace their
  * sampling to give the datamosh smear. When no pointer is present an
- * auto-scan pointer drifts across the head (this is what drives touch
- * devices); a real pointer takes over via a crossfaded stamp weight, so
+ * auto-scan pointer sweeps the head in a serpentine — zig-zagging down,
+ * resting, zig-zagging back up (touch devices, and desktop once the cursor
+ * has rested); a real pointer takes over via a crossfaded stamp weight, so
  * handover never jumps.
  *
  * Per the banknote design, the art displays UNCROPPED — its baked paper
@@ -46,6 +47,15 @@ const peristiwa = heroFonts.peristiwa;
 /* Trail field grid. Since the guilloché iteration the field covers the WHOLE
    hero (expressed in portrait-uv via uField), not just the portrait rect, so
    the hover effect reaches the pattern around the portrait too. */
+/* Serpentine auto-scan timing (seconds at scan speed 1). */
+const SCAN_SWEEP = 2.5; // one pass down (or up) the head
+const SCAN_REST_LOW = 1.5; // rest at the bottom
+const SCAN_REST_HIGH = 3; // rest at the top
+const SCAN_ZIGS = 2; // full zig-zags across the head per pass
+const SCAN_CYCLE = SCAN_SWEEP * 2 + SCAN_REST_LOW + SCAN_REST_HIGH;
+const SCAN_LEAD = 0.6; // rest before the first pass after a cursor lets go
+const SCAN_LEAD_FIRST = 1.5; // …and on the very first paint
+
 const GW = 224;
 const GH = 128;
 
@@ -548,7 +558,7 @@ export function PortraitHero({
     let realY = 0;
     let prevRealX = 0;
     let prevRealY = 0;
-    let realActive = false;
+    let pressed = false; // pointer held down (touch drag / mouse drag)
     let lastRealAt = -1e9;
     let hasReal = false;
     // virtual (auto-scan)
@@ -558,6 +568,11 @@ export function PortraitHero({
     let prevVirtY = 0.42;
     let handover = 0;
     let wasReal = false;
+    let wasAmb = false;
+    // ambient path clock — restarted whenever the auto-scan takes over, so
+    // the sweep always begins at the top; primed so the first sweep starts
+    // after a short rest instead of on the very first frame
+    let ambT0 = performance.now() - (SCAN_CYCLE - SCAN_LEAD_FIRST) * 1000;
 
     let velocity = 0;
     let bandSeed = 0.137;
@@ -678,6 +693,27 @@ export function PortraitHero({
       }
     };
 
+    /* Serpentine idle path, after the Lando Norris hero: a 2.5 s sweep
+       down the head with two zig-zags across it, a 1.5 s rest, a 2.5 s
+       sweep back up, a 3 s rest — then again. x is eased (quadratic in/out)
+       so the zig-zags bunch at the turns; y runs on a cosine so the sweep
+       slows into both ends. Returns portrait-relative offsets in [-1, 1]. */
+    const inOut = (p: number) =>
+      p < 0.5 ? 2 * p * p : 1 - 2 * (1 - p) * (1 - p);
+    const scanPath = (t: number) => {
+      const u = ((t % SCAN_CYCLE) + SCAN_CYCLE) % SCAN_CYCLE;
+      let p: number; // 0 = top of the path, 1 = bottom
+      if (u < SCAN_SWEEP) p = u / SCAN_SWEEP;
+      else if (u < SCAN_SWEEP + SCAN_REST_LOW) p = 1;
+      else if (u < SCAN_SWEEP * 2 + SCAN_REST_LOW)
+        p = 1 - (u - SCAN_SWEEP - SCAN_REST_LOW) / SCAN_SWEEP;
+      else p = 0;
+      return {
+        x: -Math.cos(inOut(p) * Math.PI * 2 * SCAN_ZIGS),
+        y: -Math.cos(p * Math.PI),
+      };
+    };
+
     const ambientActive = () => {
       const c = cfgRef.current;
       return (
@@ -703,7 +739,9 @@ export function PortraitHero({
       const elapsed = (now - start) / 1000;
 
       /* pointer / auto-scan handover */
-      const wantsReal = realActive || now - lastRealAt < c.idleMs;
+      // a resting cursor lets go after idleMs, wherever it rests; a held
+      // pointer keeps the reveal
+      const wantsReal = pressed || now - lastRealAt < c.idleMs;
       handover += ((wantsReal ? 1 : 0) - handover) * (1 - Math.exp(-6 * dt));
       if (wasReal && !wantsReal && hasReal) {
         // seed the virtual pointer where the cursor left, so it never jumps
@@ -711,26 +749,31 @@ export function PortraitHero({
         virtY = realY;
         prevVirtX = realX;
         prevVirtY = realY;
+        // the sweep restarts from the top; a short lead lets the virtual
+        // pointer glide there from wherever the cursor stopped
+        ambT0 = now - (SCAN_CYCLE - SCAN_LEAD) * 1000;
       }
       wasReal = wantsReal;
 
       const amb = ambientActive();
       if (amb) {
-        const t = elapsed * c.scanSpeed;
-        const tx =
-          c.scanCenterX +
-          c.scanRadiusX * (Math.sin(t * 0.37) + 0.18 * Math.sin(t * 1.31));
-        const ty = c.scanCenterY + c.scanRadiusY * Math.sin(t * 0.53 + 1.7);
-        const kv = 1 - Math.exp(-2.5 * dt);
+        if (!wasAmb) ambT0 = now - (SCAN_CYCLE - SCAN_LEAD) * 1000;
+        const p = scanPath(((now - ambT0) / 1000) * c.scanSpeed);
+        const tx = c.scanCenterX + c.scanRadiusX * p.x;
+        const ty = c.scanCenterY + c.scanRadiusY * p.y;
+        // tight follow (~0.1 s) so the zig-zag corners stay corners
+        const kv = 1 - Math.exp(-10 * dt);
         prevVirtX = virtX;
         prevVirtY = virtY;
         virtX += (tx - virtX) * kv;
         virtY += (ty - virtY) * kv;
       }
+      wasAmb = amb;
 
       /* velocity (portrait-uv per second, smoothed) */
-      const movedX = hasReal ? realX - prevRealX : virtX - prevVirtX;
-      const movedY = hasReal ? realY - prevRealY : virtY - prevVirtY;
+      const realDrives = hasReal && handover > 0.5;
+      const movedX = realDrives ? realX - prevRealX : virtX - prevVirtX;
+      const movedY = realDrives ? realY - prevRealY : virtY - prevVirtY;
       const speed = Math.sqrt(movedX * movedX + movedY * movedY) / Math.max(dt, 1e-3);
       velocity += (Math.min(speed / 1.6, 1) - velocity) * (1 - Math.exp(-8 * dt));
 
@@ -739,11 +782,12 @@ export function PortraitHero({
          (the effect exists in motion, per the design direction). Faster
          strokes stamp wider, which keeps the shape fluid rather than round. */
       const realDist = Math.hypot(realX - prevRealX, realY - prevRealY);
+      const virtDist = Math.hypot(virtX - prevVirtX, virtY - prevVirtY);
       const widen = 1 + velocity * 0.55;
       if (handover > 0.001 && hasReal && realDist > 0.0012) {
         stampCapsule(prevRealX, prevRealY, realX, realY, handover, widen);
       }
-      if (handover < 0.999 && amb) {
+      if (handover < 0.999 && amb && virtDist > 0.0012) {
         stampCapsule(prevVirtX, prevVirtY, virtX, virtY, 1 - handover, widen);
       }
       prevRealX = realX;
@@ -817,8 +861,9 @@ export function PortraitHero({
       // zero. If the pattern is still (speed 0 / reduced motion) we can
       // sleep entirely; otherwise keep animating, but drop the idle state
       // to ~30fps — visibility/intersection gates stop us off-screen.
-      const idle = !amb && maxV === 0 && realDist <= 0.0012;
-      if (idle && patSpeed <= 0.0001) {
+      const idle =
+        (!amb || virtDist <= 0.0012) && maxV === 0 && realDist <= 0.0012;
+      if (idle && patSpeed <= 0.0001 && !amb) {
         running = false;
         return;
       }
@@ -853,21 +898,20 @@ export function PortraitHero({
     };
     const onMove = (e: PointerEvent) => {
       toUv(e);
-      realActive = true;
       wake();
     };
     const onDown = (e: PointerEvent) => {
       toUv(e);
-      realActive = true;
+      pressed = true;
       wake();
     };
     const onUp = () => {
-      realActive = false;
+      pressed = false;
       lastRealAt = performance.now();
       wake();
     };
     const onLeave = () => {
-      realActive = false;
+      pressed = false;
       wake();
     };
 
