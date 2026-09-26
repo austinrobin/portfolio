@@ -9,6 +9,9 @@ export interface LifePhoto {
   caption: string; // handwritten under the photo
   date: string; // optional, handwritten beside the frame ("2025.04.11")
   rotate: number; // resting tilt, deg
+  framed?: boolean; // true = the white frame is part of the image (a photographed print)
+  w?: number; // pixel size of the file (reserves the print's shape before it loads)
+  h?: number;
 }
 
 export interface LifeVideo {

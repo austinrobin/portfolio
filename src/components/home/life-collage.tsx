@@ -43,10 +43,51 @@ const SPREAD: Placed[] = [
 
 /* ---------------------------------------------------------------- pieces */
 
+/* A print lying on paper: a tight contact shadow plus a wide, faint one. */
+const PRINT_SHADOW =
+  "0 1px 1.5px rgba(26,25,19,0.10), 0 4px 10px rgba(26,25,19,0.10), 0 18px 36px rgba(26,25,19,0.10)";
+
 function Polaroid({ photo }: { photo: LifePhoto }) {
+  if (photo.framed && photo.src) {
+    /* the frame is part of the picture (a real print, photographed) —
+       the caption and date are written onto its bottom border */
+    return (
+      <div className="relative rounded-[3px]" style={{ boxShadow: PRINT_SHADOW }}>
+        {/* eslint-disable-next-line @next/next/no-img-element -- a real
+            print at its own size; the frame is in the file */}
+        <img
+          src={mediaUrl(photo.src)}
+          alt={photo.caption}
+          width={photo.w}
+          height={photo.h}
+          className="block h-auto w-full rounded-[3px] bg-white"
+          style={photo.w && photo.h ? { aspectRatio: `${photo.w} / ${photo.h}` } : undefined}
+          draggable={false}
+          loading="lazy"
+          decoding="async"
+        />
+        {photo.caption ? (
+          <p
+            className="absolute inset-x-0 bottom-[5.5%] text-center text-[22px] leading-none"
+            style={{ fontFamily: "var(--font-peristiwa)", color: INK }}
+          >
+            {photo.caption}
+          </p>
+        ) : null}
+        {photo.date ? (
+          <p
+            className="absolute bottom-[3%] left-[4%] text-[15px] leading-none"
+            style={{ fontFamily: "var(--font-peristiwa)", color: INK }}
+          >
+            {photo.date}
+          </p>
+        ) : null}
+      </div>
+    );
+  }
   return (
     <div className="relative">
-      <div className="rounded-[3px] bg-white p-3 shadow-[0_18px_44px_rgba(26,25,19,0.18)]">
+      <div className="rounded-[3px] bg-white p-3" style={{ boxShadow: PRINT_SHADOW }}>
         <div className="relative aspect-[4/5] overflow-hidden rounded-[2px] bg-subtle">
           {photo.src ? (
             /* eslint-disable-next-line @next/next/no-img-element -- collage
@@ -194,10 +235,11 @@ function Cassette({ video, onPlay }: { video: LifeVideo; onPlay?: () => void }) 
     </>
   );
   const cls =
-    "group relative block w-full rounded-[10px] border p-[10px] text-left shadow-[0_18px_44px_rgba(26,25,19,0.18)]";
+    "group relative block w-full rounded-[10px] border p-[10px] text-left";
   const style = {
     background: "linear-gradient(180deg,#FBFAF6,#EDEAE2)",
     borderColor: "rgba(26,25,19,0.14)",
+    boxShadow: PRINT_SHADOW,
   };
   return playable ? (
     <button type="button" onClick={onPlay} aria-label={`Play ${video.title}`} className={`${cls} cursor-pointer`} style={style}>

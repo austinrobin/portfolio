@@ -10,9 +10,31 @@
     "it'll all work out."
   ],
   "photos": [
-    { "src": "/gallery/photo-16.webp", "caption": "off duty", "date": "", "rotate": -3 },
-    { "src": "/gallery/photo-21.webp", "caption": "somewhere new", "date": "2025.04.11", "rotate": 8 },
-    { "src": "/gallery/photo-07.webp", "caption": "window seat", "date": "", "rotate": -12 }
+    {
+      "src": "/life/polaroid-01.webp",
+      "caption": "the crew",
+      "date": "",
+      "rotate": -3,
+      "framed": true,
+      "w": 1042,
+      "h": 1200
+    },
+    {
+      "src": "/life/polaroid-02.webp",
+      "caption": "somewhere high",
+      "date": "",
+      "rotate": 8,
+      "framed": true,
+      "w": 952,
+      "h": 1200
+    },
+    {
+      "src": "/gallery/photo-07.webp",
+      "caption": "window seat",
+      "date": "",
+      "rotate": -12,
+      "framed": false
+    }
   ],
   "video": {
     "url": "",

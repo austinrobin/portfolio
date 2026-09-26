@@ -1236,6 +1236,7 @@ export function StudioClient() {
                 <div key={i} className="mt-3 border-t border-border pt-3">
                   <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">Polaroid {i + 1}</p>
                   <TextField label="Image" value={ph.src} onChange={(v) => setLifePhoto(i, { src: v })} />
+                  <Toggle label="Frame is in the image" value={!!ph.framed} onChange={(v) => setLifePhoto(i, { framed: v })} hint="On for photographed prints; off adds a white frame around a plain photo." />
                   <TextField label="Caption" value={ph.caption} onChange={(v) => setLifePhoto(i, { caption: v })} />
                   <TextField label="Date" value={ph.date} onChange={(v) => setLifePhoto(i, { date: v })} />
                   <Slider label="Tilt" value={ph.rotate} min={-15} max={15} step={0.5} onChange={(v) => setLifePhoto(i, { rotate: v })} />
