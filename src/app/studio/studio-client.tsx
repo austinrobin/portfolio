@@ -1230,8 +1230,8 @@ export function StudioClient() {
               <TextField label="Handwritten, line 1" value={draft.life.note[0] ?? ""} onChange={(v) => setLife({ note: [v, draft.life.note[1] ?? ""] })} />
               <TextField label="Handwritten, line 2" value={draft.life.note[1] ?? ""} onChange={(v) => setLife({ note: [draft.life.note[0] ?? "", v] })} />
               <TextField label="YouTube link" value={draft.life.video.url} onChange={(v) => setLife({ video: { ...draft.life.video, url: v } })} />
-              <TextField label="Cassette title" value={draft.life.video.title} onChange={(v) => setLife({ video: { ...draft.life.video, title: v } })} />
-              <TextField label="Cassette line" value={draft.life.video.sub} onChange={(v) => setLife({ video: { ...draft.life.video, sub: v } })} />
+              <TextField label="Film title" value={draft.life.video.title} onChange={(v) => setLife({ video: { ...draft.life.video, title: v } })} />
+              <TextField label="Film line" value={draft.life.video.sub} onChange={(v) => setLife({ video: { ...draft.life.video, sub: v } })} />
               {draft.life.photos.map((ph, i) => (
                 <div key={i} className="mt-3 border-t border-border pt-3">
                   <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">Polaroid {i + 1}</p>

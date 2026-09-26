@@ -12,6 +12,7 @@ import {
   type LifeVideo,
 } from "./life-config";
 import { mediaUrl } from "@/lib/media-url";
+import { VIDEO_TYPE } from "@/lib/video-sources";
 
 /*
  * Studio / Life — the desk spread.
@@ -19,8 +20,9 @@ import { mediaUrl } from "@/lib/media-url";
  * Reference: a teaser spread of three instax prints scattered on white with
  * a short note top-right, a cassette on the right and a handwritten line
  * with a clover at the bottom. Translated into the site's paper world:
- * three polaroids of Austin's, the note in the display serif, the cassette
- * is his YouTube channel (press it, the film opens over the page), and the
+ * three polaroids of Austin's, the note in the display serif, the camera
+ * is his YouTube channel — its screen loops moments from the film (press it,
+ * the film opens over the page), and the
  * clover line is in the script. Everything lives in content/life.json.
  *
  * Every piece is draggable on desktop — pick it up, move it, the pile is
@@ -30,14 +32,14 @@ import { mediaUrl } from "@/lib/media-url";
 
 type Placed =
   | { id: string; kind: "photo"; index: number; left?: string; right?: string; top: string; width: number; z: number }
-  | { id: string; kind: "lines" | "cassette" | "note"; left?: string; right?: string; top: string; width: number; rotate: number; z: number };
+  | { id: string; kind: "lines" | "camera" | "note"; left?: string; right?: string; top: string; width: number; rotate: number; z: number };
 
 const SPREAD: Placed[] = [
   { id: "p1", kind: "photo", index: 0, left: "4%", top: "3%", width: 310, z: 2 },
   { id: "p2", kind: "photo", index: 1, left: "33%", top: "26%", width: 270, z: 3 },
   { id: "p3", kind: "photo", index: 2, left: "3%", top: "55%", width: 275, z: 1 },
   { id: "lines", kind: "lines", right: "4%", top: "8%", width: 330, rotate: 0, z: 4 },
-  { id: "tape", kind: "cassette", right: "0%", top: "33%", width: 410, rotate: 0, z: 5 },
+  { id: "camera", kind: "camera", right: "0%", top: "31%", width: 440, rotate: 0, z: 5 },
   { id: "note", kind: "note", right: "8%", top: "76%", width: 330, rotate: -2, z: 6 },
 ];
 
@@ -152,102 +154,155 @@ function Lines({ cfg }: { cfg: LifeSettings }) {
   );
 }
 
-function Reel({ spin }: { spin: boolean }) {
-  return (
-    <svg
-      viewBox="0 0 36 36"
-      className={`size-9 ${spin ? "motion-safe:group-hover:[animation:spin_2.4s_linear_infinite]" : ""}`}
-      aria-hidden
-    >
-      <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.85)" strokeWidth="1.5" />
-      <circle cx="18" cy="18" r="7" fill="none" stroke="rgba(255,255,255,0.85)" strokeWidth="1.5" />
-      {Array.from({ length: 6 }, (_, i) => {
-        const a = (i * Math.PI) / 3;
-        return (
-          <line
-            key={i}
-            x1={18 + Math.cos(a) * 7}
-            y1={18 + Math.sin(a) * 7}
-            x2={18 + Math.cos(a) * 11}
-            y2={18 + Math.sin(a) * 11}
-            stroke="rgba(255,255,255,0.85)"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-        );
-      })}
-    </svg>
-  );
-}
+/* The camera: a photographed compact with its backdrop removed, its screen
+   playing a muted loop cut from the film. The screen rect is measured on the
+   cutout (percent of the image). Hovering shows a cursor pill like the case
+   studies' sound toggle; pressing opens the film. */
+const CAMERA_SRC = "/life/camera.webp";
+const CAMERA_W = 1081;
+const CAMERA_H = 451;
+const SCREEN = { left: 4.44, top: 15.3, width: 47.18, height: 76.5 }; // % of the cutout
+const REEL = {
+  h264: "/life/camera-reel.mp4",
+  hevc: "/life/camera-reel.hevc.mp4",
+  poster: "/life/camera-reel.poster.webp",
+};
 
-function Cassette({ video, onPlay }: { video: LifeVideo; onPlay?: () => void }) {
+function Camera({ video, onPlay }: { video: LifeVideo; onPlay?: () => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [near, setNear] = useState(false);
+  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
+  const [focused, setFocused] = useState(false);
+  const [finePointer, setFinePointer] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const sync = () => setFinePointer(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  /* the loop only downloads once the camera is about a viewport away */
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setNear(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "100% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  /* …and only plays while on screen */
+  useEffect(() => {
+    if (!near) return;
+    const v = videoRef.current;
+    if (!v) return;
+    v.load();
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) v.play().catch(() => {});
+          else v.pause();
+        });
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(v);
+    return () => io.disconnect();
+  }, [near]);
   const playable = !!onPlay;
-  const body = (
-    <>
-      {/* screws */}
-      {["left-2 top-2", "right-2 top-2", "left-2 bottom-2", "right-2 bottom-2"].map((pos) => (
-        <span
-          key={pos}
-          className={`absolute ${pos} size-[5px] rounded-full`}
-          style={{ background: "rgba(26,25,19,0.3)" }}
-        />
-      ))}
-      {/* label */}
+  const showPill = pos !== null || !finePointer || focused;
+  const label = playable ? "WATCH" : "WATCH · SOON";
+  return (
+    <div
+      ref={ref}
+      className="relative"
+      style={{
+        aspectRatio: `${CAMERA_W} / ${CAMERA_H}`,
+        filter:
+          "drop-shadow(0 22px 26px rgba(26,25,19,0.26)) drop-shadow(0 3px 5px rgba(26,25,19,0.12))",
+        cursor: finePointer && playable ? "none" : undefined,
+      }}
+      onMouseMove={(e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        setPos({ x: e.clientX - r.left, y: e.clientY - r.top });
+      }}
+      onMouseLeave={() => setPos(null)}
+    >
+      {/* the screen sits under the body image; the bezel frames it */}
       <div
-        className="rounded-[4px] border bg-white px-4 pb-3 pt-3"
-        style={{ borderColor: "rgba(26,25,19,0.1)" }}
+        className="absolute overflow-hidden bg-black"
+        style={{
+          left: `${SCREEN.left}%`,
+          top: `${SCREEN.top}%`,
+          width: `${SCREEN.width}%`,
+          height: `${SCREEN.height}%`,
+        }}
       >
-        <div className="flex items-baseline justify-between gap-3">
-          <p
-            className="text-[20px] uppercase leading-none tracking-[0.02em]"
-            style={{ fontFamily: "var(--font-silk)", color: INK }}
-          >
-            {video.title}
-          </p>
-          <span className="shrink-0 font-mono text-[9px] uppercase tracking-[0.25em] text-muted">
-            {playable ? "play ▶" : "coming soon"}
-          </span>
-        </div>
-        <p className="mt-1 text-[12px] leading-snug text-muted">{video.sub}</p>
-        {/* window */}
-        <div
-          className="mt-3 flex items-center justify-between rounded-[3px] px-5 py-2"
-          style={{ background: "#2A2925" }}
+        <video
+          ref={videoRef}
+          className="absolute inset-0 h-full w-full object-cover"
+          muted
+          loop
+          playsInline
+          preload={near ? "auto" : "none"}
+          poster={near ? mediaUrl(REEL.poster) : undefined}
+          aria-label="Moments from the film, on the camera's screen"
         >
-          <Reel spin={playable} />
-          <span className="mx-3 h-[3px] flex-1 rounded-full" style={{ background: "#7A5C33" }} />
-          <Reel spin={playable} />
-        </div>
-        <div className="mt-3 flex gap-1.5">
-          <span className="h-[3px] flex-1 rounded-full" style={{ background: INK }} />
-          <span className="h-[3px] w-10 rounded-full" style={{ background: INK, opacity: 0.45 }} />
-        </div>
+          {near ? (
+            <>
+              <source src={mediaUrl(REEL.hevc)} type={VIDEO_TYPE.hevc} />
+              <source src={mediaUrl(REEL.h264)} type={VIDEO_TYPE.h264} />
+            </>
+          ) : null}
+        </video>
       </div>
-      {/* the head opening */}
-      <div
-        className="mx-auto mt-2 flex h-6 w-[62%] items-center justify-between rounded-b-[6px] px-4"
-        style={{ background: "rgba(26,25,19,0.07)" }}
+      {/* eslint-disable-next-line @next/next/no-img-element -- a cutout with
+          alpha at its own size; the frame sizes it */}
+      <img
+        src={mediaUrl(CAMERA_SRC)}
+        alt="A silver compact camera"
+        width={CAMERA_W}
+        height={CAMERA_H}
+        className="relative block h-auto w-full"
+        draggable={false}
+        loading="lazy"
+        decoding="async"
+      />
+      {playable ? (
+        <button
+          type="button"
+          aria-label={`Watch ${video.title}`}
+          onClick={onPlay}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          className="absolute inset-0 h-full w-full bg-transparent focus:outline-none"
+          style={finePointer ? { cursor: "none" } : undefined}
+        />
+      ) : null}
+      <span
+        aria-hidden
+        className={`pointer-events-none absolute z-10 flex items-center gap-[5px] rounded-[4px] px-[7px] py-[5px] font-mono text-[9px] font-semibold uppercase tracking-[0.12em] backdrop-blur-md transition-opacity duration-150 ${showPill ? "opacity-100" : "opacity-0"}`}
+        style={{
+          background: "rgba(16,27,188,0.92)",
+          color: "#F9F7F1",
+          boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)",
+          ...(pos && finePointer
+            ? { left: pos.x, top: pos.y, transform: "translate(-50%, -50%)" }
+            : { left: "6%", bottom: "8%" }),
+        }}
       >
-        {Array.from({ length: 5 }, (_, i) => (
-          <span key={i} className="size-[6px] rounded-full" style={{ background: "rgba(26,25,19,0.28)" }} />
-        ))}
-      </div>
-    </>
-  );
-  const cls =
-    "group relative block w-full rounded-[10px] border p-[10px] text-left";
-  const style = {
-    background: "linear-gradient(180deg,#FBFAF6,#EDEAE2)",
-    borderColor: "rgba(26,25,19,0.14)",
-    boxShadow: PRINT_SHADOW,
-  };
-  return playable ? (
-    <button type="button" onClick={onPlay} aria-label={`Play ${video.title}`} className={`${cls} cursor-pointer`} style={style}>
-      {body}
-    </button>
-  ) : (
-    <div className={cls} style={style}>
-      {body}
+        {label}
+        <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden>
+          <path d="M4 2.5v11l9-5.5z" />
+        </svg>
+      </span>
     </div>
   );
 }
@@ -365,8 +420,8 @@ export function LifeCollage({ overrides }: { overrides?: Partial<LifeSettings> }
       }
       case "lines":
         return <Lines cfg={cfg} />;
-      case "cassette":
-        return <Cassette video={cfg.video} onPlay={play} />;
+      case "camera":
+        return <Camera video={cfg.video} onPlay={play} />;
       case "note":
         return <Note note={cfg.note} />;
     }
