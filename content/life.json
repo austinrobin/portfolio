@@ -1,0 +1,22 @@
+{
+  "lines": [
+    "Work is most of my days.",
+    "This is the rest of them."
+  ],
+  "signoff": "Studio / Life.",
+  "handle": "/austin",
+  "note": [
+    "whatever it is,",
+    "it'll all work out."
+  ],
+  "photos": [
+    { "src": "/gallery/photo-16.webp", "caption": "off duty", "date": "", "rotate": -3 },
+    { "src": "/gallery/photo-21.webp", "caption": "somewhere new", "date": "2025.04.11", "rotate": 8 },
+    { "src": "/gallery/photo-07.webp", "caption": "window seat", "date": "", "rotate": -12 }
+  ],
+  "video": {
+    "url": "",
+    "title": "The channel",
+    "sub": "design, community & the life around it"
+  }
+}

@@ -27,6 +27,7 @@ const ALLOWED = new Set([
   "content/case-bloom.json",
   "content/case-high.json",
   "content/lab.json",
+  "content/life.json",
   "content/footer.json",
 ]);
 const LOG_PATH = "content/updates-log.json";

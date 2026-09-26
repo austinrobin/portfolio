@@ -24,6 +24,7 @@ import {
 import { CurrentBuild } from "@/components/home/current-build";
 import { ProjectDeck } from "@/components/home/project-deck";
 import { LifeCollage } from "@/components/home/life-collage";
+import { lifeConfig, type LifePhoto, type LifeSettings } from "@/components/home/life-config";
 import { BanknoteFooter } from "@/components/home/banknote-footer";
 import {
   footerConfig,
@@ -42,6 +43,7 @@ interface Draft {
   caseBloom: CaseStudy;
   caseHigh: CaseStudy;
   lab: LabCascadeSettings;
+  life: LifeSettings;
   footer: FooterSettings;
 }
 interface LogEntry {
@@ -70,6 +72,7 @@ const defaults: Draft = {
   caseBloom,
   caseHigh,
   lab: labConfig,
+  life: lifeConfig,
   footer: footerConfig,
 };
 
@@ -353,6 +356,11 @@ export function StudioClient() {
   const setLab = (patch: Partial<LabCascadeSettings>) =>
     setDraft({ ...draft, lab: { ...draft.lab, ...patch } });
 
+  const setLife = (patch: Partial<LifeSettings>) =>
+    setDraft({ ...draft, life: { ...draft.life, ...patch } });
+  const setLifePhoto = (i: number, patch: Partial<LifePhoto>) =>
+    setLife({ photos: draft.life.photos.map((ph, j) => (j === i ? { ...ph, ...patch } : ph)) });
+
   const setFooter = (patch: Partial<FooterSettings>) =>
     setDraft({ ...draft, footer: { ...draft.footer, ...patch } });
 
@@ -515,6 +523,10 @@ export function StudioClient() {
               content: JSON.stringify(draft.lab, null, 2) + "\n",
             },
             {
+              path: "content/life.json",
+              content: JSON.stringify(draft.life, null, 2) + "\n",
+            },
+            {
               path: "content/footer.json",
               content: JSON.stringify(draft.footer, null, 2) + "\n",
             },
@@ -601,7 +613,7 @@ export function StudioClient() {
               <ProjectDeck items={showcase} />
             </section>
             <LabTeaser overrides={draft.lab} />
-            <LifeCollage />
+            <LifeCollage overrides={draft.life} />
             <BanknoteFooter overrides={draft.footer} />
           </>
         ) : (
@@ -1208,6 +1220,27 @@ export function StudioClient() {
               <Slider label="Turn when active" value={draft.lab.activeRotY} min={-60} max={0} step={1}
                 onChange={(v) => setLab({ activeRotY: v })}
                 hint="Same as Turn (Y) = pure slide. 0 = faces you fully." />
+            </Group>
+
+            <Group title={"Life — desk"} open={group === "Life — desk"} onToggle={() => setGroup(group === "Life — desk" ? null : "Life — desk")}>
+              <TextField label="Note, line 1" value={draft.life.lines[0] ?? ""} onChange={(v) => setLife({ lines: [v, draft.life.lines[1] ?? ""] })} />
+              <TextField label="Note, line 2" value={draft.life.lines[1] ?? ""} onChange={(v) => setLife({ lines: [draft.life.lines[0] ?? "", v] })} />
+              <TextField label="Sign-off" value={draft.life.signoff} onChange={(v) => setLife({ signoff: v })} />
+              <TextField label="Handle" value={draft.life.handle} onChange={(v) => setLife({ handle: v })} />
+              <TextField label="Handwritten, line 1" value={draft.life.note[0] ?? ""} onChange={(v) => setLife({ note: [v, draft.life.note[1] ?? ""] })} />
+              <TextField label="Handwritten, line 2" value={draft.life.note[1] ?? ""} onChange={(v) => setLife({ note: [draft.life.note[0] ?? "", v] })} />
+              <TextField label="YouTube link" value={draft.life.video.url} onChange={(v) => setLife({ video: { ...draft.life.video, url: v } })} />
+              <TextField label="Cassette title" value={draft.life.video.title} onChange={(v) => setLife({ video: { ...draft.life.video, title: v } })} />
+              <TextField label="Cassette line" value={draft.life.video.sub} onChange={(v) => setLife({ video: { ...draft.life.video, sub: v } })} />
+              {draft.life.photos.map((ph, i) => (
+                <div key={i} className="mt-3 border-t border-border pt-3">
+                  <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">Polaroid {i + 1}</p>
+                  <TextField label="Image" value={ph.src} onChange={(v) => setLifePhoto(i, { src: v })} />
+                  <TextField label="Caption" value={ph.caption} onChange={(v) => setLifePhoto(i, { caption: v })} />
+                  <TextField label="Date" value={ph.date} onChange={(v) => setLifePhoto(i, { date: v })} />
+                  <Slider label="Tilt" value={ph.rotate} min={-15} max={15} step={0.5} onChange={(v) => setLifePhoto(i, { rotate: v })} />
+                </div>
+              ))}
             </Group>
 
             <Group title={"Footer — dedication"} open={group === "Footer — dedication"} onToggle={() => setGroup(group === "Footer — dedication" ? null : "Footer — dedication")}>
