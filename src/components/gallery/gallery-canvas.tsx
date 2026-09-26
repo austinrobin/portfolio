@@ -151,13 +151,39 @@ export function GalleryCanvas() {
 
   useEffect(() => {
     if (reduce) return;
-    /* one deal per load: Fisher–Yates over a copy, so the stream's sequence
-       is fresh each visit but stays fixed across recycles */
-    const items = [...galleryItems];
-    for (let i = items.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [items[i], items[j]] = [items[j], items[i]];
+    /* one deal per load: shuffle the graphic work and the photographs
+       separately, then weave the two piles together in proportion so
+       neighbours alternate — never a run of one kind, fresh each visit,
+       fixed across recycles */
+    const shuffle = <T,>(arr: T[]) => {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    };
+    const isPhoto = (src: string) => /\/photo-\d+\./.test(src);
+    const photos = shuffle(galleryItems.filter((it) => isPhoto(it.src)));
+    const graphics = shuffle(galleryItems.filter((it) => !isPhoto(it.src)));
+    const items: typeof galleryItems = [];
+    {
+      let pi = 0;
+      let gi = 0;
+      while (pi < photos.length || gi < graphics.length) {
+        // take from whichever pile is behind its share
+        const takePhoto =
+          gi >= graphics.length ||
+          (pi < photos.length &&
+            pi / photos.length <= gi / graphics.length);
+        items.push(takePhoto ? photos[pi++] : graphics[gi++]);
+      }
     }
+    /* the field grows with the collection: the depth per card (and the
+       cards per helix turn) stay at the values tuned for the first thirty,
+       so more work means a longer flight, not a denser one */
+    const span = (ZSPAN * items.length) / 30;
+    const turns = (TURNS * items.length) / 30;
     const wrap = wrapRef.current;
     const canvas = canvasRef.current;
     if (!wrap || !canvas) return;
@@ -275,7 +301,7 @@ export function GalleryCanvas() {
     const phase = items.map((_, i) => hash(i, 4) * TAU);
 
     /* ---------------- state ---------------- */
-    const z = items.map((_, i) => ((i + 0.5) / n) * ZSPAN);
+    const z = items.map((_, i) => ((i + 0.5) / n) * span);
     const order = items.map((_, i) => i);
     let boost = 0;
     let speedNorm = 0;
@@ -382,14 +408,14 @@ export function GalleryCanvas() {
       for (const i of order) {
         const d = z[i];
         const k = FOV / d;
-        const a = ((i * TURNS) / n) * TAU + worldAngle;
+        const a = ((i * turns) / n) * TAU + worldAngle;
         const x = cx + Math.cos(a) * RING_R * cx * k * 1.15;
         const y = cy + Math.sin(a) * RING_R * cy * k * 1.3;
 
         // far fade-in, near fade-out (gone before it can flash the screen)
         const fadeIn = Math.min(
           1,
-          Math.max(0, (ZSPAN + RECYCLE_AT - d) / (ZSPAN * 0.25)),
+          Math.max(0, (span + RECYCLE_AT - d) / (ZSPAN * 0.25)),
         );
         const fadeOut = Math.min(1, Math.max(0, (d - 0.9) / 1.1));
         const o = Math.min(fadeIn, fadeOut);
@@ -444,10 +470,10 @@ export function GalleryCanvas() {
           // one clean jump past ZSPAN — spawn depth sits BELOW the reverse
           // wrap threshold, so a recycled card can never ping-pong (the old
           // 0.12/ZSPAN pair trapped cards in an invisible flicker loop)
-          z[i] += ZSPAN;
+          z[i] += span;
           if (speedNorm > 0.22) shutter(speedNorm);
-        } else if (z[i] > ZSPAN + RECYCLE_AT) {
-          z[i] -= ZSPAN; // (reverse travel)
+        } else if (z[i] > span + RECYCLE_AT) {
+          z[i] -= span; // (reverse travel)
         }
       }
 
