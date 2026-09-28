@@ -80,10 +80,18 @@ function DeckCard({
     return 0;
   });
 
+  // the fallen sheet lies past the stage's bottom edge; rather than being
+  // cut there it dissolves into the paper toward its near (top) edge — the
+  // fade grows as the sheet falls, so a standing sheet is never masked
+  const mask = useTransform(t, (v) => {
+    const f = v <= 0 ? 100 : v <= 1 ? 100 - 76 * smooth(v) : 24;
+    return f >= 100 ? "none" : `linear-gradient(to top, #000 ${f.toFixed(1)}%, transparent ${Math.min(100, f + 40).toFixed(1)}%)`;
+  });
+
   return (
     <motion.div
       className="absolute inset-0 [transform-style:preserve-3d] will-change-transform"
-      style={{ rotateX, y, z, opacity, transformOrigin: "50% 100%" }}
+      style={{ rotateX, y, z, opacity, maskImage: mask, WebkitMaskImage: mask, transformOrigin: "50% 100%" }}
     >
       <div
         className="absolute inset-0 cursor-pointer overflow-hidden rounded-lg border border-border shadow-[0_30px_80px_rgba(26,25,19,0.22)]"
