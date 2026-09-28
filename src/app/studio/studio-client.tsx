@@ -24,7 +24,7 @@ import {
 import { CurrentBuild } from "@/components/home/current-build";
 import { ProjectDeck } from "@/components/home/project-deck";
 import { LifeCollage } from "@/components/home/life-collage";
-import { lifeConfig, type LifePhoto, type LifeSettings } from "@/components/home/life-config";
+import { lifeConfig, type LifePhoto, type LifePieceId, type LifePieceLayout, type LifeSettings } from "@/components/home/life-config";
 import { BanknoteFooter } from "@/components/home/banknote-footer";
 import {
   footerConfig,
@@ -358,6 +358,9 @@ export function StudioClient() {
 
   const setLife = (patch: Partial<LifeSettings>) =>
     setDraft({ ...draft, life: { ...draft.life, ...patch } });
+  const lifeLayout = draft.life.layout ?? lifeConfig.layout;
+  const setLifeLayout = (id: LifePieceId, patch: Partial<LifePieceLayout>) =>
+    setLife({ layout: { ...lifeLayout, [id]: { ...lifeLayout[id], ...patch } } });
   const setLifePhoto = (i: number, patch: Partial<LifePhoto>) =>
     setLife({ photos: draft.life.photos.map((ph, j) => (j === i ? { ...ph, ...patch } : ph)) });
 
@@ -613,7 +616,7 @@ export function StudioClient() {
               <ProjectDeck items={showcase} />
             </section>
             <LabTeaser overrides={draft.lab} />
-            <LifeCollage overrides={draft.life} />
+            <LifeCollage overrides={draft.life} editable onLayout={setLifeLayout} />
             <BanknoteFooter overrides={draft.footer} />
           </>
         ) : (
@@ -1242,6 +1245,22 @@ export function StudioClient() {
                   <Slider label="Tilt" value={ph.rotate} min={-15} max={15} step={0.5} onChange={(v) => setLifePhoto(i, { rotate: v })} />
                 </div>
               ))}
+              <div className="mt-3 border-t border-border pt-3">
+                <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">The desk</p>
+                <p className="mb-3 text-[12px] leading-snug text-muted">Drag a piece on the desk to place it; the sliders fine-tune. Phones ignore this and stack the pieces.</p>
+                <Slider label="Desk height (px)" value={draft.life.deskHeight ?? lifeConfig.deskHeight} min={500} max={1200} step={10} onChange={(v) => setLife({ deskHeight: v })} />
+                {([["p1", "Print 1"], ["p2", "Print 2"], ["p3", "Print 3"], ["lines", "Note"], ["camera", "Camera"], ["note", "Handwritten line"]] as [LifePieceId, string][]).map(([id, name]) => (
+                  <div key={id} className="mt-3 border-t border-border/60 pt-3">
+                    <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">{name}</p>
+                    <Slider label="Left (%)" value={lifeLayout[id].x} min={-10} max={100} step={0.5} onChange={(v) => setLifeLayout(id, { x: v })} />
+                    <Slider label="Top (%)" value={lifeLayout[id].y} min={-10} max={100} step={0.5} onChange={(v) => setLifeLayout(id, { y: v })} />
+                    <Slider label="Width (px)" value={lifeLayout[id].w} min={120} max={760} step={5} onChange={(v) => setLifeLayout(id, { w: v })} />
+                    {id.startsWith("p") ? null : (
+                      <Slider label="Tilt" value={lifeLayout[id].r ?? 0} min={-15} max={15} step={0.5} onChange={(v) => setLifeLayout(id, { r: v })} />
+                    )}
+                  </div>
+                ))}
+              </div>
             </Group>
 
             <Group title={"Footer — dedication"} open={group === "Footer — dedication"} onToggle={() => setGroup(group === "Footer — dedication" ? null : "Footer — dedication")}>

@@ -8,6 +8,8 @@ import {
   lifeConfig,
   youtubeId,
   type LifePhoto,
+  type LifePieceId,
+  type LifePieceLayout,
   type LifeSettings,
   type LifeVideo,
 } from "./life-config";
@@ -31,16 +33,17 @@ import { VIDEO_TYPE } from "@/lib/video-sources";
  */
 
 type Placed =
-  | { id: string; kind: "photo"; index: number; left?: string; right?: string; top: string; width: number; z: number }
-  | { id: string; kind: "lines" | "camera" | "note"; left?: string; right?: string; top: string; width: number; rotate: number; z: number };
+  | { id: LifePieceId; kind: "photo"; index: number; z: number }
+  | { id: LifePieceId; kind: "lines" | "camera" | "note"; z: number };
 
+/* what sits on the desk; where and how big comes from content/life.json */
 const SPREAD: Placed[] = [
-  { id: "p1", kind: "photo", index: 0, left: "4%", top: "3%", width: 310, z: 2 },
-  { id: "p2", kind: "photo", index: 1, left: "33%", top: "26%", width: 270, z: 3 },
-  { id: "p3", kind: "photo", index: 2, left: "3%", top: "55%", width: 275, z: 1 },
-  { id: "lines", kind: "lines", right: "4%", top: "8%", width: 330, rotate: 0, z: 4 },
-  { id: "camera", kind: "camera", right: "0%", top: "31%", width: 440, rotate: 0, z: 5 },
-  { id: "note", kind: "note", right: "8%", top: "76%", width: 330, rotate: -2, z: 6 },
+  { id: "p1", kind: "photo", index: 0, z: 2 },
+  { id: "p2", kind: "photo", index: 1, z: 3 },
+  { id: "p3", kind: "photo", index: 2, z: 1 },
+  { id: "lines", kind: "lines", z: 4 },
+  { id: "camera", kind: "camera", z: 5 },
+  { id: "note", kind: "note", z: 6 },
 ];
 
 /* ---------------------------------------------------------------- pieces */
@@ -393,8 +396,19 @@ function VideoLightbox({ id, title, onClose }: { id: string; title: string; onCl
 
 /* ---------------------------------------------------------------- section */
 
-export function LifeCollage({ overrides }: { overrides?: Partial<LifeSettings> }) {
+export function LifeCollage({
+  overrides,
+  editable = false,
+  onLayout,
+}: {
+  overrides?: Partial<LifeSettings>;
+  /** Studio: no entrance animation, and dragging a piece reports where it landed */
+  editable?: boolean;
+  onLayout?: (id: LifePieceId, patch: Partial<LifePieceLayout>) => void;
+}) {
   const cfg: LifeSettings = { ...lifeConfig, ...overrides };
+  const layout = cfg.layout ?? lifeConfig.layout;
+  const deskHeight = cfg.deskHeight ?? lifeConfig.deskHeight;
   const canvasRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const zTop = useRef(10);
@@ -410,7 +424,21 @@ export function LifeCollage({ overrides }: { overrides?: Partial<LifeSettings> }
   };
 
   const rotateOf = (p: Placed) =>
-    p.kind === "photo" ? (cfg.photos[p.index]?.rotate ?? 0) : p.rotate;
+    p.kind === "photo" ? (cfg.photos[p.index]?.rotate ?? 0) : (layout[p.id]?.r ?? 0);
+
+  /* where a dragged piece came to rest, as desk percentages — measured from
+     its centre, which rotation and the drag scale leave untouched */
+  const settle = (id: LifePieceId, el: HTMLElement) => {
+    const desk = canvasRef.current;
+    if (!desk || !onLayout) return;
+    const d = desk.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    const cx = r.left + r.width / 2 - d.left;
+    const cy = r.top + r.height / 2 - d.top;
+    const x = ((cx - el.offsetWidth / 2) / d.width) * 100;
+    const y = ((cy - el.offsetHeight / 2) / d.height) * 100;
+    onLayout(id, { x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10 });
+  };
 
   const body = (p: Placed) => {
     switch (p.kind) {
@@ -437,26 +465,32 @@ export function LifeCollage({ overrides }: { overrides?: Partial<LifeSettings> }
       {/* -------- desktop: the draggable desk -------- */}
       <div
         ref={canvasRef}
-        className="relative mx-auto mt-16 hidden h-[820px] max-w-6xl md:block"
+        className="relative mx-auto mt-16 hidden max-w-6xl md:block"
+        style={{ height: deskHeight }}
       >
         {SPREAD.map((p, i) => {
           const rotate = rotateOf(p);
+          const lay = layout[p.id];
           return (
             <motion.div
-              key={p.id}
+              /* in Studio the key carries the position, so a piece remounts
+                 where it was dropped and the drag offset resets to zero */
+              key={editable ? `${p.id}-${lay.x}-${lay.y}` : p.id}
               className="absolute cursor-grab touch-none select-none active:cursor-grabbing"
-              style={{ left: p.left, right: p.right, top: p.top, width: p.width, zIndex: zMap[p.id] ?? p.z }}
-              initial={reduce ? false : { opacity: 0, y: 28, rotate: rotate + (i % 2 ? 5 : -5) }}
+              style={{ left: `${lay.x}%`, top: `${lay.y}%`, width: lay.w, zIndex: zMap[p.id] ?? p.z }}
+              initial={reduce || editable ? false : { opacity: 0, y: 28, rotate: rotate + (i % 2 ? 5 : -5) }}
               whileInView={{ opacity: 1, y: 0, rotate }}
               viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.7, delay: i * 0.06, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: editable ? 0 : 0.7, delay: editable ? 0 : i * 0.06, ease: [0.16, 1, 0.3, 1] }}
               drag
               dragConstraints={canvasRef}
-              dragElastic={0.18}
+              dragElastic={editable ? 0 : 0.18}
               dragMomentum={false}
-              whileHover={reduce ? undefined : { rotate: rotate * 0.4, y: -4 }}
+              whileHover={reduce || editable ? undefined : { rotate: rotate * 0.4, y: -4 }}
               whileDrag={{ scale: 1.04, rotate: 0 }}
               onDragStart={() => lift(p.id)}
+              onDragEnd={editable ? (e) => settle(p.id, (e.target as HTMLElement).closest("[data-piece]") as HTMLElement) : undefined}
+              data-piece={p.id}
             >
               {body(p)}
             </motion.div>

@@ -20,7 +20,18 @@ export interface LifeVideo {
   sub: string; // small line under the title
 }
 
+export type LifePieceId = "p1" | "p2" | "p3" | "lines" | "camera" | "note";
+export interface LifePieceLayout {
+  x: number; // % of the desk's width, the piece's left edge
+  y: number; // % of the desk's height, the piece's top edge
+  w: number; // width, px
+  r?: number; // tilt, deg (photos take theirs from LifePhoto.rotate)
+}
+export type LifeLayout = Record<LifePieceId, LifePieceLayout>;
+
 export interface LifeSettings {
+  deskHeight: number; // px, the desktop canvas
+  layout: LifeLayout; // where every piece sits on the desk
   lines: string[]; // the note top-right, one line per entry
   signoff: string; // "Studio / Life."
   handle: string; // "/austin"
