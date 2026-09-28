@@ -11,6 +11,7 @@ import { POSTERS, STILLS, pickVideoSources, releasePlay, requestPlay, type Video
 import { fallbackToOrigin, mediaUrl } from "@/lib/media-url";
 import { gsap, ScrollSmoother, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { caseFont } from "./case-font";
+import { NextUp, nextProject } from "./next-up";
 import { heroFonts } from "@/components/home/hero-config";
 
 /*
@@ -630,7 +631,8 @@ function Chapter({
   statement,
   children,
 }: {
-  id: string;
+  /** chapter id for the index; omit when a wrapper carries it */
+  id?: string;
   /** chapter number, printed with the kicker */
   n?: number;
   kicker: string;
@@ -643,7 +645,7 @@ function Chapter({
     <section
       id={id}
       data-chapter={id}
-      className="mx-5 mt-2 scroll-mt-[12svh] border-t border-border pt-6 sm:mt-2 sm:pt-6 md:mx-0"
+      className={`mx-5 scroll-mt-[12svh] border-t border-border pt-6 sm:pt-6 md:mx-0 ${id ? "mt-2 sm:mt-2" : ""}`}
     >
       {/* a hairline opens the chapter; only its name sits on the left — the
           heading and copy are one block pushed to the viewport's right edge */}
@@ -847,6 +849,8 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
 
   /* every hat worn on the project, then the year */
   const meta = [...cs.tags, cs.year].filter(Boolean).join(" · ");
+  const next = nextProject(cs.slug);
+  const outcomeN = cs.sections.length + (cs.impact.stats.length > 0 ? 2 : 1);
 
   return (
     <article
@@ -951,17 +955,33 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
           </Chapter>
           ) : null}
 
-          {/* ---- outcome ---- */}
+          {/* ---- outcome (in the river only when there is no next project) ---- */}
+          {!next ? (
+            <Chapter
+              id="result"
+              n={outcomeN}
+              kicker="Outcome"
+              heading={cs.result.heading}
+              body={cs.result.body}
+              statement={cs.result.statement}
+            />
+          ) : null}
+        </div>
+      </div>
+
+      {/* ---- the ending: Outcome as the closing screen, then the next project
+          opens up from the corner ---- */}
+      {next ? (
+        <NextUp next={next} id="result">
           <Chapter
-            id="result"
-            n={cs.sections.length + (cs.impact.stats.length > 0 ? 2 : 1)}
+            n={outcomeN}
             kicker="Outcome"
             heading={cs.result.heading}
             body={cs.result.body}
             statement={cs.result.statement}
           />
-        </div>
-      </div>
+        </NextUp>
+      ) : null}
     </article>
   );
 }
