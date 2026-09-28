@@ -11,20 +11,26 @@
   ],
   "photos": [
     {
-      "src": "/gallery/photo-16.webp",
-      "caption": "",
+      "src": "/life/polaroid-01.webp",
+      "caption": "the crew",
       "date": "",
-      "rotate": -2
+      "rotate": -2,
+      "framed": true,
+      "w": 1042,
+      "h": 1200
     },
     {
-      "src": "/gallery/photo-21.webp",
-      "caption": "",
+      "src": "/life/polaroid-02.webp",
+      "caption": "somewhere high",
       "date": "",
-      "rotate": 8
+      "rotate": 8,
+      "framed": true,
+      "w": 952,
+      "h": 1200
     },
     {
       "src": "/gallery/photo-07.webp",
-      "caption": "",
+      "caption": "window seat",
       "date": "",
       "rotate": -12,
       "framed": false

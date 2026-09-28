@@ -1168,21 +1168,34 @@ function Letters({ text, delay, step }: { text: string; delay: number; step: num
     window.addEventListener("site:ready", on, { once: true });
     return () => window.removeEventListener("site:ready", on);
   }, []);
+  /* each letter is an inline-block (so it can rise), and a line may break
+     between inline-blocks — so every word is wrapped as one unbreakable run
+     and only the spaces between words can wrap */
+  let i = 0;
+  const letter = (ch: string) => {
+    const at = delay + i++ * step;
+    return (
+      <span
+        key={i}
+        aria-hidden
+        className="inline-block will-change-transform"
+        style={{
+          whiteSpace: ch === " " ? "pre" : undefined,
+          opacity: go ? 1 : 0,
+          transform: go ? "none" : "translateY(0.45em)",
+          transition: `opacity 420ms ease-out ${at.toFixed(3)}s, transform 520ms cubic-bezier(0.16,1,0.3,1) ${at.toFixed(3)}s`,
+        }}
+      >
+        {ch}
+      </span>
+    );
+  };
   return (
     <span aria-label={text}>
-      {text.split("").map((ch, i) => (
-        <span
-          key={i}
-          aria-hidden
-          className="inline-block will-change-transform"
-          style={{
-            whiteSpace: ch === " " ? "pre" : undefined,
-            opacity: go ? 1 : 0,
-            transform: go ? "none" : "translateY(0.45em)",
-            transition: `opacity 420ms ease-out ${(delay + i * step).toFixed(3)}s, transform 520ms cubic-bezier(0.16,1,0.3,1) ${(delay + i * step).toFixed(3)}s`,
-          }}
-        >
-          {ch}
+      {text.split(" ").map((word, w) => (
+        <span key={w} aria-hidden>
+          <span className="inline-block whitespace-nowrap">{word.split("").map(letter)}</span>
+          {w < text.split(" ").length - 1 ? letter(" ") : null}
         </span>
       ))}
     </span>
