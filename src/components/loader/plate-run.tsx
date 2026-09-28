@@ -12,17 +12,18 @@ const CSS = `@keyframes plate-run{from{background-position-y:0%}to{background-po
 .plate-run{animation:plate-run .84s steps(${PLATE_FRAMES}) infinite}
 @media (prefers-reduced-motion: reduce){.plate-run{animation:none}}`;
 
+/* The plates fill the whole screen: the smallest 16:9 box that covers the
+   viewport, centred, so each engraving is cropped like a cover image rather
+   than stretched. */
 export function PlateRun({ running = true }: { running?: boolean }) {
   return (
-    <div
-      aria-hidden
-      className="relative aspect-video w-[min(72vw,560px)] overflow-hidden rounded-[3px]"
-      style={{ background: "#101BBC", boxShadow: "inset 0 0 0 1px rgba(249,247,241,0.35), 0 40px 80px rgba(0,0,40,0.35)" }}
-    >
+    <div aria-hidden className="absolute inset-0 overflow-hidden" style={{ background: "#101BBC" }}>
       <style>{CSS}</style>
       <div
-        className={`absolute inset-0 ${running ? "plate-run" : ""}`}
+        className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ${running ? "plate-run" : ""}`}
         style={{
+          width: "max(100vw, calc(100vh * 16 / 9))",
+          height: "max(100vh, calc(100vw * 9 / 16))",
           backgroundImage: `url(${SPRITE})`,
           backgroundSize: `100% ${PLATE_FRAMES * 100}%`,
           backgroundRepeat: "no-repeat",
@@ -32,11 +33,11 @@ export function PlateRun({ running = true }: { running?: boolean }) {
   );
 }
 
-/** The full-screen curtain the plate sits on. `lift` slides it away. */
+/** The full-screen curtain the plates run on. `lift` slides it away. */
 export function Curtain({ lift, running = true }: { lift: boolean; running?: boolean }) {
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center"
+      className="fixed inset-0 z-[100] overflow-hidden"
       style={{
         background: "#101BBC",
         transform: lift ? "translateY(-101%)" : "translateY(0)",
