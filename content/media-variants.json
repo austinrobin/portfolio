@@ -1199,7 +1199,11 @@
     },
     "/deck/lwt.mp4": {
       "av1": true,
-      "hevc": true
+      "hevc": true,
+      "p1080": {
+        "h264": true,
+        "hevc": true
+      }
     },
     "/deck/mach.mp4": {
       "av1": true,
@@ -1899,10 +1903,12 @@
     "/deck/high.p1080.hevc.mp4": 1911742,
     "/deck/high.p1080.mp4": 2489234,
     "/deck/high.poster.webp": 135792,
-    "/deck/lwt.av1.mp4": 712824,
-    "/deck/lwt.hevc.mp4": 1129496,
-    "/deck/lwt.mp4": 1806455,
-    "/deck/lwt.poster.webp": 22520,
+    "/deck/lwt.av1.mp4": 830396,
+    "/deck/lwt.hevc.mp4": 1172274,
+    "/deck/lwt.mp4": 1801322,
+    "/deck/lwt.p1080.hevc.mp4": 509862,
+    "/deck/lwt.p1080.mp4": 891478,
+    "/deck/lwt.poster.webp": 33844,
     "/deck/mach.av1.mp4": 2493312,
     "/deck/mach.hevc.mp4": 3146783,
     "/deck/mach.mp4": 3849849,
