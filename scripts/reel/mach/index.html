@@ -1,0 +1,31 @@
+<!doctype html><html><head><meta charset="utf-8"><title>MACH reel</title><style>
+@font-face{font-family:Benzin;font-weight:400;src:url(fonts/Benzin-Regular.ttf)}
+@font-face{font-family:Benzin;font-weight:500;src:url(fonts/Benzin-Medium.ttf)}
+@font-face{font-family:Benzin;font-weight:700;src:url(fonts/Benzin-Bold.ttf)}
+@font-face{font-family:Benzin;font-weight:800;src:url(fonts/Benzin-ExtraBold.ttf)}
+@font-face{font-family:Mono;font-weight:400;src:url(fonts/ProtoMono-Regular.ttf)}
+html,body{margin:0;background:#050505;overflow:hidden}
+#stage{position:relative;width:1920px;height:1200px;overflow:hidden;background:#050505}
+</style><script>window.REEL_FPS = 30; window.REEL_DUR = 12;</script></head><body><div id="stage"></div>
+<script type="module">
+import * as L from "../lib.js";
+import { ASSETS, SEQS, shots, local, build } from "./scenes.js";
+window.ready = (async () => {
+  await Promise.all(["400 40px Benzin", "500 40px Benzin", "700 40px Benzin", "800 40px Benzin", "400 40px Mono"].map((f) => document.fonts.load(f)));
+  await L.preload(ASSETS);
+  for (const [n, c] of Object.entries(SEQS)) L.seqs[n] = await L.preloadSeq(n, c);
+  build(document.getElementById("stage"));
+  window.FPS = L.FPS; window.FRAMES = L.FPS * L.DUR;
+  window.renderFrame = (i) => {
+    const gt = (i / L.FPS) % L.DUR;
+    for (const s of shots) {
+      const lt = local(s, gt);
+      if (lt === null) { s.root.style.display = "none"; continue; }
+      s.root.style.display = "";
+      s.update(lt, gt);
+    }
+    return gt;
+  };
+  return { shots: shots.length, fps: L.FPS, dur: L.DUR };
+})();
+</script></body></html>
