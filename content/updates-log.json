@@ -1,5 +1,58 @@
 [
   {
+    "at": "2026-09-28T17:56:28.580Z",
+    "summary": "update patternOpacity, patternHover, patternSpacing +7 more",
+    "changes": [
+      {
+        "field": "hero.patternOpacity",
+        "from": 0.06,
+        "to": 0.07
+      },
+      {
+        "field": "hero.patternHover",
+        "from": 0.33,
+        "to": 0.55
+      },
+      {
+        "field": "hero.patternSpacing",
+        "from": 13,
+        "to": 10
+      },
+      {
+        "field": "hero.patternFadeIn",
+        "from": 0.34,
+        "to": 0.24
+      },
+      {
+        "field": "hero.scanSpeed",
+        "from": 1,
+        "to": 1.5
+      },
+      {
+        "field": "caseStockbee.heroMedia.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseStockbee.heroMedia.src",
+        "from": "/case/stockbee/dashboard.webp",
+        "to": "/case/stockbee/perspective-mock.mp4"
+      },
+      {
+        "field": "caseStockbee.heroMedia.alt",
+        "from": "The StockBee workspace — live market dashboard with alerts, news impact and watchlists"
+      },
+      {
+        "field": "caseStockbee.heroMedia.w",
+        "from": 2560
+      },
+      {
+        "field": "caseStockbee.heroMedia.h",
+        "from": 1440
+      }
+    ]
+  },
+  {
     "at": "2026-09-28T14:17:08.239Z",
     "summary": "update x, x, x +3 more",
     "changes": [
