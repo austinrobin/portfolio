@@ -1,5 +1,3738 @@
 [
   {
+    "at": "2026-09-25T13:36:24.294Z",
+    "summary": "update src, alt, w +267 more",
+    "changes": [
+      {
+        "field": "caseHigh.sections.2.media.6.src",
+        "from": "/case/high/high-mints.webp",
+        "to": "/case/high/card-hands-off.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.alt",
+        "from": "HIGH Mints",
+        "to": "Hands off, bro — the business card"
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.w",
+        "from": 1442,
+        "to": 1025
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.h",
+        "from": 905,
+        "to": 1608
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.ratio",
+        "from": 1.7,
+        "to": 0.637
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.focusY",
+        "to": 74
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.src",
+        "from": "/case/high/card-hands-off.webp",
+        "to": "/case/high/card-logo.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.alt",
+        "from": "Hands off, bro — the business card",
+        "to": "HI*H card"
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.w",
+        "from": 1025,
+        "to": 2050
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.h",
+        "from": 1608,
+        "to": 3215
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.focusY",
+        "from": 74,
+        "to": 98
+      },
+      {
+        "field": "caseHigh.sections.2.media.8.src",
+        "from": "/case/high/card-logo.webp",
+        "to": "/case/high/waitlist-signup.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.8.alt",
+        "from": "HI*H card",
+        "to": "You got in — welcome to the Founding Club"
+      },
+      {
+        "field": "caseHigh.sections.2.media.8.w",
+        "from": 2050,
+        "to": 1082
+      },
+      {
+        "field": "caseHigh.sections.2.media.8.h",
+        "from": 3215,
+        "to": 1629
+      },
+      {
+        "field": "caseHigh.sections.2.media.8.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.8.ratio",
+        "from": 0.637,
+        "to": 0.664
+      },
+      {
+        "field": "caseHigh.sections.2.media.8.focusY",
+        "from": 98,
+        "to": 68
+      },
+      {
+        "field": "caseHigh.sections.2.media.9.src",
+        "from": "/case/high/highdration-can.webp",
+        "to": "/case/high/founding-generation.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.9.alt",
+        "from": "HIGHdration can",
+        "to": "The founding generation — editorial photography"
+      },
+      {
+        "field": "caseHigh.sections.2.media.9.w",
+        "from": 1672,
+        "to": 1122
+      },
+      {
+        "field": "caseHigh.sections.2.media.9.h",
+        "from": 941,
+        "to": 1402
+      },
+      {
+        "field": "caseHigh.sections.2.media.9.ratio",
+        "from": 1.7,
+        "to": 0.664
+      },
+      {
+        "field": "caseHigh.sections.2.media.10.src",
+        "from": "/case/high/waitlist-signup.webp",
+        "to": "/case/high/card-carry-culture.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.10.alt",
+        "from": "You got in — welcome to the Founding Club",
+        "to": "Carry the culture — the founder card"
+      },
+      {
+        "field": "caseHigh.sections.2.media.10.block",
+        "from": "secondary",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.10.ratio",
+        "from": 0.664,
+        "to": 0.888
+      },
+      {
+        "field": "caseHigh.sections.2.media.10.w",
+        "from": 1082,
+        "to": 1122
+      },
+      {
+        "field": "caseHigh.sections.2.media.10.h",
+        "from": 1629,
+        "to": 1263
+      },
+      {
+        "field": "caseHigh.sections.2.media.10.focusY",
+        "from": 68
+      },
+      {
+        "field": "caseHigh.sections.2.media.11.src",
+        "from": "/case/high/founding-generation.webp",
+        "to": "/case/high/card-early-access.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.11.alt",
+        "from": "The founding generation — editorial photography",
+        "to": "Get early access to the waitlist"
+      },
+      {
+        "field": "caseHigh.sections.2.media.11.block",
+        "from": "primary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.11.ratio",
+        "from": 0.664,
+        "to": 0.888
+      },
+      {
+        "field": "caseHigh.sections.2.media.11.h",
+        "from": 1402,
+        "to": 1263
+      },
+      {
+        "field": "caseHigh.sections.2.media.11.focusY",
+        "to": 37
+      },
+      {
+        "field": "caseHigh.sections.2.media.11.focusX",
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.2.media.11.zoom",
+        "to": 1
+      },
+      {
+        "field": "caseHigh.sections.2.media.12",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/card-carry-culture.webp",
+          "alt": "Carry the culture — the founder card",
+          "block": "primary",
+          "cols": 2,
+          "ratio": 0.888,
+          "w": 1122,
+          "h": 1263
+        }
+      },
+      {
+        "field": "caseHigh.sections.2.media.13",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/card-early-access.webp",
+          "alt": "Get early access to the waitlist",
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.888,
+          "w": 1122,
+          "h": 1263,
+          "focusY": 37,
+          "focusX": 0,
+          "zoom": 1
+        }
+      },
+      {
+        "field": "caseHigh.sections.3.media.1.src",
+        "from": "/case/high/phone-stock.mp4",
+        "to": "/case/high/phone-portfolio.mp4"
+      },
+      {
+        "field": "caseHigh.sections.3.media.1.poster",
+        "from": "/case/high/phone-stock.poster.webp",
+        "to": "/case/high/phone-portfolio.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.1.zoom",
+        "from": 1.1,
+        "to": 1.4
+      },
+      {
+        "field": "caseHigh.sections.3.media.1.focusY",
+        "to": 86
+      },
+      {
+        "field": "caseHigh.sections.3.media.2.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.3.media.2.src",
+        "from": "/case/high/phone-portfolio.mp4",
+        "to": "/case/high/app-buy.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.2.poster",
+        "from": "/case/high/phone-portfolio.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.2.w",
+        "from": 1440,
+        "to": 1284
+      },
+      {
+        "field": "caseHigh.sections.3.media.2.h",
+        "from": 1800,
+        "to": 1102
+      },
+      {
+        "field": "caseHigh.sections.3.media.2.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.2.ratio",
+        "from": 0.8,
+        "to": 1.1
+      },
+      {
+        "field": "caseHigh.sections.3.media.2.zoom",
+        "from": 1.4
+      },
+      {
+        "field": "caseHigh.sections.3.media.2.focusY",
+        "from": 86,
+        "to": 43
+      },
+      {
+        "field": "caseHigh.sections.3.media.2.alt",
+        "to": "Buy sheet"
+      },
+      {
+        "field": "caseHigh.sections.3.media.3.src",
+        "from": "/case/high/phone-watchlist.mp4",
+        "to": "/case/high/meme-goat.mp4"
+      },
+      {
+        "field": "caseHigh.sections.3.media.3.poster",
+        "from": "/case/high/phone-watchlist.poster.webp",
+        "to": "/case/high/meme-goat.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.3.w",
+        "from": 1440,
+        "to": 800
+      },
+      {
+        "field": "caseHigh.sections.3.media.3.h",
+        "from": 1800,
+        "to": 1000
+      },
+      {
+        "field": "caseHigh.sections.3.media.3.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.3.ratio",
+        "from": 0.8,
+        "to": 1
+      },
+      {
+        "field": "caseHigh.sections.3.media.3.zoom",
+        "from": 1.65
+      },
+      {
+        "field": "caseHigh.sections.3.media.3.focusY",
+        "from": 0,
+        "to": 63
+      },
+      {
+        "field": "caseHigh.sections.3.media.4.src",
+        "from": "/case/high/app-buy.webp",
+        "to": "/case/high/app-trending.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.4.alt",
+        "from": "Buy sheet",
+        "to": "Trending — silver ETFs"
+      },
+      {
+        "field": "caseHigh.sections.3.media.4.w",
+        "from": 1284,
+        "to": 1442
+      },
+      {
+        "field": "caseHigh.sections.3.media.4.h",
+        "from": 1102,
+        "to": 1232
+      },
+      {
+        "field": "caseHigh.sections.3.media.4.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.4.focusY",
+        "from": 43,
+        "to": 24
+      },
+      {
+        "field": "caseHigh.sections.3.media.4.focusX",
+        "to": 47
+      },
+      {
+        "field": "caseHigh.sections.3.media.4.zoom",
+        "to": 1.05
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.src",
+        "from": "/case/high/meme-goat.mp4",
+        "to": "/case/high/phone-stock.mp4"
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.poster",
+        "from": "/case/high/meme-goat.poster.webp",
+        "to": "/case/high/phone-stock.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.w",
+        "from": 800,
+        "to": 1440
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.h",
+        "from": 1000,
+        "to": 1800
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.ratio",
+        "from": 1,
+        "to": 0.8
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.focusY",
+        "from": 63
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.zoom",
+        "to": 1.1
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.src",
+        "from": "/case/high/app-trending.webp",
+        "to": "/case/high/site.mp4"
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.alt",
+        "from": "Trending — silver ETFs"
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.w",
+        "from": 1442,
+        "to": 2560
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.h",
+        "from": 1232,
+        "to": 1439
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.block",
+        "from": "secondary",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.cols",
+        "from": 2
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.ratio",
+        "from": 1.1
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.focusY",
+        "from": 24
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.focusX",
+        "from": 47
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.zoom",
+        "from": 1.05
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.poster",
+        "to": "/case/high/site.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.src",
+        "from": "/case/high/phone-fno.mp4",
+        "to": "/case/high/render-hand.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.poster",
+        "from": "/case/high/phone-fno.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.w",
+        "from": 1440,
+        "to": 1426
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.h",
+        "from": 1800,
+        "to": 1103
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.block",
+        "from": "secondary",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.ratio",
+        "from": 0.8,
+        "to": 1.15
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.zoom",
+        "from": 1.4
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.focusY",
+        "from": 0
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.focusX",
+        "from": 48
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.alt",
+        "to": "Spotlight in hand"
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.src",
+        "from": "/case/high/app-watchlist.webp",
+        "to": "/case/high/phone-watchlist.mp4"
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.alt",
+        "from": "Fyne Shyt! — a watchlist that feels like yours"
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.w",
+        "from": 1314,
+        "to": 1440
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.h",
+        "from": 1250,
+        "to": 1800
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.ratio",
+        "from": 1.1,
+        "to": 0.8
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.zoom",
+        "from": 1.1,
+        "to": 1.65
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.poster",
+        "to": "/case/high/phone-watchlist.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.src",
+        "from": "/case/high/app-buzz.webp",
+        "to": "/case/high/app-watchlist.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.alt",
+        "from": "Buzz — silver is the new buzz in town",
+        "to": "Fyne Shyt! — a watchlist that feels like yours"
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.w",
+        "from": 1148,
+        "to": 1314
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.h",
+        "from": 1110,
+        "to": 1250
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.focusY",
+        "from": 80,
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.zoom",
+        "to": 1.1
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.src",
+        "from": "/case/high/app-sector.webp",
+        "to": "/case/high/app-buzz.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.alt",
+        "from": "Sector ranking",
+        "to": "Buzz — silver is the new buzz in town"
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.w",
+        "from": 1496,
+        "to": 1148
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.h",
+        "from": 1854,
+        "to": 1110
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.ratio",
+        "from": 0.8,
+        "to": 1.1
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.zoom",
+        "from": 1.2
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.focusY",
+        "from": 100,
+        "to": 80
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.focusX",
+        "from": 38
+      },
+      {
+        "field": "caseHigh.sections.3.media.11.src",
+        "from": "/case/high/app-titan.webp",
+        "to": "/case/high/app-sector.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.11.alt",
+        "from": "Titan — stock page",
+        "to": "Sector ranking"
+      },
+      {
+        "field": "caseHigh.sections.3.media.11.w",
+        "from": 1482,
+        "to": 1496
+      },
+      {
+        "field": "caseHigh.sections.3.media.11.zoom",
+        "from": 1.6,
+        "to": 1.2
+      },
+      {
+        "field": "caseHigh.sections.3.media.11.focusX",
+        "from": 20,
+        "to": 38
+      },
+      {
+        "field": "caseHigh.sections.3.media.11.focusY",
+        "from": 2,
+        "to": 100
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.src",
+        "from": "/case/high/meme-horse.mp4",
+        "to": "/case/high/app-titan.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.poster",
+        "from": "/case/high/meme-horse.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.w",
+        "from": 960,
+        "to": 1482
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.h",
+        "from": 940,
+        "to": 1854
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.ratio",
+        "from": 1,
+        "to": 0.8
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.alt",
+        "to": "Titan — stock page"
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.zoom",
+        "to": 1.6
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.focusX",
+        "to": 20
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.focusY",
+        "to": 2
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.src",
+        "from": "/case/high/render-nifty.webp",
+        "to": "/case/high/meme-horse.mp4"
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.alt",
+        "from": "Nifty 50 on the phone"
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.w",
+        "from": 1288,
+        "to": 960
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.h",
+        "from": 1221,
+        "to": 940
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.ratio",
+        "from": 1.15,
+        "to": 1
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.focusY",
+        "from": 38
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.zoom",
+        "from": 1.3
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.poster",
+        "to": "/case/high/meme-horse.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.14.src",
+        "from": "/case/high/render-hand.webp",
+        "to": "/case/high/render-nifty.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.14.alt",
+        "from": "Spotlight in hand",
+        "to": "Nifty 50 on the phone"
+      },
+      {
+        "field": "caseHigh.sections.3.media.14.w",
+        "from": 1426,
+        "to": 1288
+      },
+      {
+        "field": "caseHigh.sections.3.media.14.h",
+        "from": 1103,
+        "to": 1221
+      },
+      {
+        "field": "caseHigh.sections.3.media.14.block",
+        "from": "primary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.14.focusY",
+        "to": 38
+      },
+      {
+        "field": "caseHigh.sections.3.media.14.zoom",
+        "to": 1.3
+      },
+      {
+        "field": "caseHigh.sections.5.media.0.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.5.media.0.src",
+        "from": "/case/high/site.mp4",
+        "to": "/case/high/email-suite.webp"
+      },
+      {
+        "field": "caseHigh.sections.5.media.0.poster",
+        "from": "/case/high/site.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.5.media.0.w",
+        "from": 2560,
+        "to": 2703
+      },
+      {
+        "field": "caseHigh.sections.5.media.0.h",
+        "from": 1439,
+        "to": 1535
+      },
+      {
+        "field": "caseHigh.sections.5.media.0.alt",
+        "to": "The transactional email suite"
+      },
+      {
+        "field": "caseHigh.sections.5.media.1.src",
+        "from": "/case/high/email-suite.webp",
+        "to": "/case/high/social-set.webp"
+      },
+      {
+        "field": "caseHigh.sections.5.media.1.alt",
+        "from": "The transactional email suite",
+        "to": "Social set — Break the default, Add to cart, Blink and you've traded, Your market crush list, Too high too fast"
+      },
+      {
+        "field": "caseHigh.sections.5.media.1.w",
+        "from": 2703,
+        "to": 2948
+      },
+      {
+        "field": "caseHigh.sections.5.media.1.h",
+        "from": 1535,
+        "to": 1732
+      },
+      {
+        "field": "caseHigh.sections.5.media.2.src",
+        "from": "/case/high/social-set.webp",
+        "to": "/case/high/post-blink.webp"
+      },
+      {
+        "field": "caseHigh.sections.5.media.2.alt",
+        "from": "Social set — Break the default, Add to cart, Blink and you've traded, Your market crush list, Too high too fast",
+        "to": "Blink and you've traded"
+      },
+      {
+        "field": "caseHigh.sections.5.media.2.w",
+        "from": 2948,
+        "to": 2778
+      },
+      {
+        "field": "caseHigh.sections.5.media.2.h",
+        "from": 1732,
+        "to": 3689
+      },
+      {
+        "field": "caseHigh.sections.5.media.2.block",
+        "from": "primary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.5.media.2.cols",
+        "to": 2
+      },
+      {
+        "field": "caseHigh.sections.5.media.2.ratio",
+        "to": 0.753
+      },
+      {
+        "field": "caseHigh.sections.5.media.3.src",
+        "from": "/case/high/post-blink.webp",
+        "to": "/case/high/post-crush-list.webp"
+      },
+      {
+        "field": "caseHigh.sections.5.media.3.alt",
+        "from": "Blink and you've traded",
+        "to": "Your market crush list"
+      },
+      {
+        "field": "caseHigh.sections.5.media.4.src",
+        "from": "/case/high/post-crush-list.webp",
+        "to": "/case/high/post-too-high.webp"
+      },
+      {
+        "field": "caseHigh.sections.5.media.4.alt",
+        "from": "Your market crush list",
+        "to": "Too high too fast"
+      },
+      {
+        "field": "caseHigh.sections.5.media.5.src",
+        "from": "/case/high/post-too-high.webp",
+        "to": "/case/high/post-break-default.webp"
+      },
+      {
+        "field": "caseHigh.sections.5.media.5.alt",
+        "from": "Too high too fast",
+        "to": "Break the default"
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.src",
+        "from": "/case/high/post-break-default.webp",
+        "to": "/case/high/phone-investor.mp4"
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.alt",
+        "from": "Break the default"
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.w",
+        "from": 2778,
+        "to": 1440
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.h",
+        "from": 3689,
+        "to": 1800
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.ratio",
+        "from": 0.753,
+        "to": 0.8
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.poster",
+        "to": "/case/high/phone-investor.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.zoom",
+        "to": 1.55
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.focusY",
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.5.media.7.src",
+        "from": "/case/high/phone-investor.mp4",
+        "to": "/case/high/phone-cards.mp4"
+      },
+      {
+        "field": "caseHigh.sections.5.media.7.poster",
+        "from": "/case/high/phone-investor.poster.webp",
+        "to": "/case/high/phone-cards.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.5.media.7.zoom",
+        "from": 1.55
+      },
+      {
+        "field": "caseHigh.sections.5.media.7.focusY",
+        "from": 0
+      },
+      {
+        "field": "caseHigh.sections.5.media.8.src",
+        "from": "/case/high/phone-cards.mp4",
+        "to": "/case/high/drop.mp4"
+      },
+      {
+        "field": "caseHigh.sections.5.media.8.poster",
+        "from": "/case/high/phone-cards.poster.webp",
+        "to": "/case/high/drop.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.5.media.8.w",
+        "from": 1440,
+        "to": 1920
+      },
+      {
+        "field": "caseHigh.sections.5.media.8.h",
+        "from": 1800,
+        "to": 1080
+      },
+      {
+        "field": "caseHigh.sections.5.media.8.block",
+        "from": "secondary",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.5.media.8.cols",
+        "from": 2
+      },
+      {
+        "field": "caseHigh.sections.5.media.8.ratio",
+        "from": 0.8
+      },
+      {
+        "field": "caseHigh.sections.5.media.9.src",
+        "from": "/case/high/drop.mp4",
+        "to": "/case/high/phone-fno.mp4"
+      },
+      {
+        "field": "caseHigh.sections.5.media.9.poster",
+        "from": "/case/high/drop.poster.webp",
+        "to": "/case/high/phone-fno.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.5.media.9.w",
+        "from": 1920,
+        "to": 1440
+      },
+      {
+        "field": "caseHigh.sections.5.media.9.h",
+        "from": 1080,
+        "to": 1800
+      },
+      {
+        "field": "caseHigh.sections.5.media.9.block",
+        "from": "primary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.5.media.9.cols",
+        "to": 2
+      },
+      {
+        "field": "caseHigh.sections.5.media.9.ratio",
+        "to": 0.8
+      },
+      {
+        "field": "caseHigh.sections.5.media.9.zoom",
+        "to": 1.4
+      },
+      {
+        "field": "caseHigh.sections.5.media.9.focusY",
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.5.media.9.focusX",
+        "to": 48
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.src",
+        "from": "/case/high/merch-shelf.webp",
+        "to": "/case/high/highdration-can.webp"
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.alt",
+        "from": "The HIGH merch shelf",
+        "to": "HIGHdration can"
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.w",
+        "from": 1836,
+        "to": 1672
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.h",
+        "from": 1212,
+        "to": 941
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.focusX",
+        "from": 76
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.focusY",
+        "from": 57
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.zoom",
+        "from": 1.05
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.cols",
+        "to": 2
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.ratio",
+        "to": 1.7
+      },
+      {
+        "field": "caseHigh.sections.7.media.1.src",
+        "from": "/case/high/merch-kit.webp",
+        "to": "/case/high/highdration-label.webp"
+      },
+      {
+        "field": "caseHigh.sections.7.media.1.alt",
+        "from": "The founder kit",
+        "to": "HIGHdration label"
+      },
+      {
+        "field": "caseHigh.sections.7.media.1.w",
+        "from": 1340,
+        "to": 3216
+      },
+      {
+        "field": "caseHigh.sections.7.media.1.h",
+        "from": 1080,
+        "to": 2009
+      },
+      {
+        "field": "caseHigh.sections.7.media.1.block",
+        "from": "tertiary",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.7.media.1.ratio",
+        "from": 1.15,
+        "to": 1.6
+      },
+      {
+        "field": "caseHigh.sections.7.media.1.focusY",
+        "from": 94
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.src",
+        "from": "/case/high/merch-box.webp",
+        "to": "/case/high/merch-gun.webp"
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.alt",
+        "from": "The box — money testing",
+        "to": "Sticker-bombed money gun"
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.w",
+        "from": 1070,
+        "to": 571
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.h",
+        "from": 1018,
+        "to": 708
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.ratio",
+        "from": 1.15,
+        "to": 0.75
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.focusX",
+        "from": 60
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.focusY",
+        "from": 80,
+        "to": 35
+      },
+      {
+        "field": "caseHigh.sections.7.media.3.src",
+        "from": "/case/high/merch-gun.webp",
+        "to": "/case/high/merch-kit.webp"
+      },
+      {
+        "field": "caseHigh.sections.7.media.3.alt",
+        "from": "Sticker-bombed money gun",
+        "to": "The founder kit"
+      },
+      {
+        "field": "caseHigh.sections.7.media.3.w",
+        "from": 571,
+        "to": 1340
+      },
+      {
+        "field": "caseHigh.sections.7.media.3.h",
+        "from": 708,
+        "to": 1080
+      },
+      {
+        "field": "caseHigh.sections.7.media.3.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.7.media.3.ratio",
+        "from": 0.75,
+        "to": 1.15
+      },
+      {
+        "field": "caseHigh.sections.7.media.3.focusY",
+        "from": 35,
+        "to": 94
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.src",
+        "from": "/case/high/cap.webp",
+        "to": "/case/high/merch-box.webp"
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.alt",
+        "from": "The HI*H cap",
+        "to": "The box — money testing"
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.w",
+        "from": 787,
+        "to": 1070
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.h",
+        "from": 1180,
+        "to": 1018
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.ratio",
+        "from": 0.75,
+        "to": 1.15
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.focusX",
+        "to": 60
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.focusY",
+        "to": 80
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.src",
+        "from": "/case/high/highdration-label.webp",
+        "to": "/case/high/merch-shelf.webp"
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.alt",
+        "from": "HIGHdration label",
+        "to": "The HIGH merch shelf"
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.w",
+        "from": 3216,
+        "to": 1836
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.h",
+        "from": 2009,
+        "to": 1212
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.cols",
+        "from": 2
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.ratio",
+        "from": 1.6
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.focusX",
+        "to": 76
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.focusY",
+        "to": 57
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.zoom",
+        "to": 1.05
+      },
+      {
+        "field": "caseHigh.sections.7.media.6.src",
+        "from": "/case/high/founder-card-b.webp",
+        "to": "/case/high/cap.webp"
+      },
+      {
+        "field": "caseHigh.sections.7.media.6.alt",
+        "from": "Welcome to the Founding Club",
+        "to": "The HI*H cap"
+      },
+      {
+        "field": "caseHigh.sections.7.media.6.w",
+        "from": 1207,
+        "to": 787
+      },
+      {
+        "field": "caseHigh.sections.7.media.6.h",
+        "from": 970,
+        "to": 1180
+      },
+      {
+        "field": "caseHigh.sections.7.media.6.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.7.media.6.ratio",
+        "from": 1.6,
+        "to": 0.75
+      },
+      {
+        "field": "caseHigh.sections.7.media.7",
+        "to": {
+          "kind": "image",
+          "src": "/case/high/founder-card-b.webp",
+          "alt": "Welcome to the Founding Club",
+          "w": 1207,
+          "h": 970,
+          "block": "tertiary",
+          "cols": 2,
+          "ratio": 1.6
+        }
+      },
+      {
+        "field": "caseHigh.sections.7.media.8",
+        "to": {
+          "kind": "image",
+          "src": "/case/high/high-mints.webp",
+          "alt": "HIGH Mints",
+          "w": 1442,
+          "h": 905,
+          "block": "tertiary",
+          "cols": 2,
+          "ratio": 1.7
+        }
+      }
+    ]
+  },
+  {
+    "at": "2026-09-25T13:17:52.535Z",
+    "summary": "update src, alt, w +191 more",
+    "changes": [
+      {
+        "field": "caseHigh.sections.1.media.5.src",
+        "from": "/case/high/post-heat.webp",
+        "to": "/case/high/phone-hill.webp"
+      },
+      {
+        "field": "caseHigh.sections.1.media.5.alt",
+        "from": "Where the heat at? Front row to the action",
+        "to": "HIGH on a hilltop"
+      },
+      {
+        "field": "caseHigh.sections.1.media.5.w",
+        "from": 2778,
+        "to": 1448
+      },
+      {
+        "field": "caseHigh.sections.1.media.5.h",
+        "from": 3689,
+        "to": 1086
+      },
+      {
+        "field": "caseHigh.sections.1.media.5.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.1.media.5.ratio",
+        "from": 0.753,
+        "to": 1.7
+      },
+      {
+        "field": "caseHigh.sections.1.media.5.zoom",
+        "to": 1
+      },
+      {
+        "field": "caseHigh.sections.1.media.6.src",
+        "from": "/case/high/founding-generation.webp",
+        "to": "/case/high/phones-hands.webp"
+      },
+      {
+        "field": "caseHigh.sections.1.media.6.alt",
+        "from": "The founding generation — editorial photography",
+        "to": "HIGH in hand"
+      },
+      {
+        "field": "caseHigh.sections.1.media.6.block",
+        "from": "primary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.1.media.6.ratio",
+        "from": 0.664,
+        "to": 1.7
+      },
+      {
+        "field": "caseHigh.sections.1.media.6.w",
+        "from": 1122,
+        "to": 1672
+      },
+      {
+        "field": "caseHigh.sections.1.media.6.h",
+        "from": 1402,
+        "to": 941
+      },
+      {
+        "field": "caseHigh.sections.1.media.7.src",
+        "from": "/case/high/waitlist-signup.webp",
+        "to": "/case/high/post-heat.webp"
+      },
+      {
+        "field": "caseHigh.sections.1.media.7.alt",
+        "from": "You got in — welcome to the Founding Club",
+        "to": "Where the heat at? Front row to the action"
+      },
+      {
+        "field": "caseHigh.sections.1.media.7.ratio",
+        "from": 0.664,
+        "to": 0.753
+      },
+      {
+        "field": "caseHigh.sections.1.media.7.w",
+        "from": 1082,
+        "to": 2778
+      },
+      {
+        "field": "caseHigh.sections.1.media.7.h",
+        "from": 1629,
+        "to": 3689
+      },
+      {
+        "field": "caseHigh.sections.1.media.7.focusY",
+        "from": 68
+      },
+      {
+        "field": "caseHigh.sections.1.media.8",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/card-carry-culture.webp",
+          "alt": "Carry the culture — the founder card",
+          "block": "primary",
+          "cols": 2,
+          "ratio": 0.888,
+          "w": 1122,
+          "h": 1263
+        }
+      },
+      {
+        "field": "caseHigh.sections.1.media.9",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/card-early-access.webp",
+          "alt": "Get early access to the waitlist",
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.888,
+          "w": 1122,
+          "h": 1263,
+          "focusY": 37,
+          "focusX": 0,
+          "zoom": 1
+        }
+      },
+      {
+        "field": "caseHigh.sections.1.media.10",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/phone-hill.webp",
+          "alt": "HIGH on a hilltop",
+          "block": "tertiary",
+          "cols": 2,
+          "ratio": 1.7,
+          "w": 1448,
+          "h": 1086,
+          "zoom": 1
+        }
+      },
+      {
+        "field": "caseHigh.sections.1.media.11",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/phones-hands.webp",
+          "alt": "HIGH in hand",
+          "block": "tertiary",
+          "cols": 2,
+          "ratio": 1.7,
+          "w": 1672,
+          "h": 941
+        }
+      },
+      {
+        "field": "caseHigh.sections.2.media.0.src",
+        "from": "/case/high/stickers.mp4",
+        "to": "/case/high/market-freak.mp4"
+      },
+      {
+        "field": "caseHigh.sections.2.media.0.poster",
+        "from": "/case/high/stickers.poster.webp",
+        "to": "/case/high/market-freak.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.0.block",
+        "from": "tertiary",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.1.src",
+        "from": "/case/high/market-freak.mp4",
+        "to": "/case/high/stickers.mp4"
+      },
+      {
+        "field": "caseHigh.sections.2.media.1.poster",
+        "from": "/case/high/market-freak.poster.webp",
+        "to": "/case/high/stickers.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.1.block",
+        "from": "primary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.4.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.2.media.4.src",
+        "from": "/case/high/sticker-sheet.webp",
+        "to": "/case/high/brand-reel.mp4"
+      },
+      {
+        "field": "caseHigh.sections.2.media.4.alt",
+        "from": "Sticker sheet — #Carry the culture"
+      },
+      {
+        "field": "caseHigh.sections.2.media.4.w",
+        "from": 711,
+        "to": 1920
+      },
+      {
+        "field": "caseHigh.sections.2.media.4.h",
+        "from": 1006,
+        "to": 1080
+      },
+      {
+        "field": "caseHigh.sections.2.media.4.block",
+        "from": "secondary",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.4.cols",
+        "from": 2
+      },
+      {
+        "field": "caseHigh.sections.2.media.4.ratio",
+        "from": 0.68
+      },
+      {
+        "field": "caseHigh.sections.2.media.4.focusY",
+        "from": 100
+      },
+      {
+        "field": "caseHigh.sections.2.media.4.poster",
+        "to": "/case/high/brand-reel.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.4.sound",
+        "to": true
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.src",
+        "from": "/case/high/card-logo.webp",
+        "to": "/case/high/sticker-sheet.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.alt",
+        "from": "HI*H card",
+        "to": "Sticker sheet — #Carry the culture"
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.w",
+        "from": 2050,
+        "to": 711
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.h",
+        "from": 3215,
+        "to": 1006
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.ratio",
+        "from": 0.637,
+        "to": 0.68
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.focusY",
+        "from": 98,
+        "to": 100
+      },
+      {
+        "field": "caseHigh.sections.2.media.8.src",
+        "from": "/case/high/highdration-can.webp",
+        "to": "/case/high/card-logo.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.8.alt",
+        "from": "HIGHdration can",
+        "to": "HI*H card"
+      },
+      {
+        "field": "caseHigh.sections.2.media.8.w",
+        "from": 1672,
+        "to": 2050
+      },
+      {
+        "field": "caseHigh.sections.2.media.8.h",
+        "from": 941,
+        "to": 3215
+      },
+      {
+        "field": "caseHigh.sections.2.media.8.block",
+        "from": "primary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.8.ratio",
+        "from": 1.7,
+        "to": 0.637
+      },
+      {
+        "field": "caseHigh.sections.2.media.8.focusY",
+        "to": 98
+      },
+      {
+        "field": "caseHigh.sections.2.media.9.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.2.media.9.src",
+        "from": "/case/high/brand-reel.mp4",
+        "to": "/case/high/highdration-can.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.9.poster",
+        "from": "/case/high/brand-reel.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.9.w",
+        "from": 1920,
+        "to": 1672
+      },
+      {
+        "field": "caseHigh.sections.2.media.9.h",
+        "from": 1080,
+        "to": 941
+      },
+      {
+        "field": "caseHigh.sections.2.media.9.sound",
+        "from": true
+      },
+      {
+        "field": "caseHigh.sections.2.media.9.alt",
+        "to": "HIGHdration can"
+      },
+      {
+        "field": "caseHigh.sections.2.media.9.cols",
+        "to": 2
+      },
+      {
+        "field": "caseHigh.sections.2.media.9.ratio",
+        "to": 1.7
+      },
+      {
+        "field": "caseHigh.sections.2.media.10",
+        "to": {
+          "kind": "image",
+          "src": "/case/high/waitlist-signup.webp",
+          "alt": "You got in — welcome to the Founding Club",
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.664,
+          "w": 1082,
+          "h": 1629,
+          "focusY": 68
+        }
+      },
+      {
+        "field": "caseHigh.sections.2.media.11",
+        "to": {
+          "kind": "image",
+          "src": "/case/high/founding-generation.webp",
+          "alt": "The founding generation — editorial photography",
+          "block": "primary",
+          "cols": 2,
+          "ratio": 0.664,
+          "w": 1122,
+          "h": 1402
+        }
+      },
+      {
+        "field": "caseHigh.sections.2.media.12",
+        "to": {
+          "kind": "image",
+          "src": "/case/high/card-carry-culture.webp",
+          "alt": "Carry the culture — the founder card",
+          "block": "primary",
+          "cols": 2,
+          "ratio": 0.888,
+          "w": 1122,
+          "h": 1263
+        }
+      },
+      {
+        "field": "caseHigh.sections.2.media.13",
+        "to": {
+          "kind": "image",
+          "src": "/case/high/card-early-access.webp",
+          "alt": "Get early access to the waitlist",
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.888,
+          "w": 1122,
+          "h": 1263,
+          "focusY": 37,
+          "focusX": 0,
+          "zoom": 1
+        }
+      },
+      {
+        "field": "caseHigh.sections.3.media.1.src",
+        "from": "/case/high/phone-watchlist.mp4",
+        "to": "/case/high/phone-stock.mp4"
+      },
+      {
+        "field": "caseHigh.sections.3.media.1.poster",
+        "from": "/case/high/phone-watchlist.poster.webp",
+        "to": "/case/high/phone-stock.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.1.zoom",
+        "from": 1.65,
+        "to": 1.1
+      },
+      {
+        "field": "caseHigh.sections.3.media.1.focusY",
+        "from": 0
+      },
+      {
+        "field": "caseHigh.sections.3.media.3.src",
+        "from": "/case/high/phone-stock.mp4",
+        "to": "/case/high/phone-watchlist.mp4"
+      },
+      {
+        "field": "caseHigh.sections.3.media.3.poster",
+        "from": "/case/high/phone-stock.poster.webp",
+        "to": "/case/high/phone-watchlist.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.3.zoom",
+        "from": 1.1,
+        "to": 1.65
+      },
+      {
+        "field": "caseHigh.sections.3.media.3.focusY",
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.src",
+        "from": "/case/high/app-trending.webp",
+        "to": "/case/high/meme-goat.mp4"
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.alt",
+        "from": "Trending — silver ETFs"
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.w",
+        "from": 1442,
+        "to": 800
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.h",
+        "from": 1232,
+        "to": 1000
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.ratio",
+        "from": 1.1,
+        "to": 1
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.focusY",
+        "from": 24,
+        "to": 63
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.focusX",
+        "from": 47
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.zoom",
+        "from": 1.05
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.poster",
+        "to": "/case/high/meme-goat.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.src",
+        "from": "/case/high/phone-fno.mp4",
+        "to": "/case/high/app-trending.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.poster",
+        "from": "/case/high/phone-fno.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.w",
+        "from": 1440,
+        "to": 1442
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.h",
+        "from": 1800,
+        "to": 1232
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.ratio",
+        "from": 0.8,
+        "to": 1.1
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.zoom",
+        "from": 1.4,
+        "to": 1.05
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.focusY",
+        "from": 0,
+        "to": 24
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.focusX",
+        "from": 48,
+        "to": 47
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.alt",
+        "to": "Trending — silver ETFs"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.src",
+        "from": "/case/high/app-watchlist.webp",
+        "to": "/case/high/phone-fno.mp4"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.alt",
+        "from": "Fyne Shyt! — a watchlist that feels like yours"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.w",
+        "from": 1314,
+        "to": 1440
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.h",
+        "from": 1250,
+        "to": 1800
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.ratio",
+        "from": 1.1,
+        "to": 0.8
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.zoom",
+        "from": 1.1,
+        "to": 1.4
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.poster",
+        "to": "/case/high/phone-fno.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.focusX",
+        "to": 48
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.src",
+        "from": "/case/high/app-buzz.webp",
+        "to": "/case/high/app-watchlist.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.alt",
+        "from": "Buzz — silver is the new buzz in town",
+        "to": "Fyne Shyt! — a watchlist that feels like yours"
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.w",
+        "from": 1148,
+        "to": 1314
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.h",
+        "from": 1110,
+        "to": 1250
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.focusY",
+        "from": 80,
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.zoom",
+        "to": 1.1
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.src",
+        "from": "/case/high/app-sector.webp",
+        "to": "/case/high/app-buzz.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.alt",
+        "from": "Sector ranking",
+        "to": "Buzz — silver is the new buzz in town"
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.w",
+        "from": 1496,
+        "to": 1148
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.h",
+        "from": 1854,
+        "to": 1110
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.ratio",
+        "from": 0.8,
+        "to": 1.1
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.zoom",
+        "from": 1.2
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.focusY",
+        "from": 100,
+        "to": 80
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.focusX",
+        "from": 38
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.src",
+        "from": "/case/high/app-titan.webp",
+        "to": "/case/high/app-sector.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.alt",
+        "from": "Titan — stock page",
+        "to": "Sector ranking"
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.w",
+        "from": 1482,
+        "to": 1496
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.zoom",
+        "from": 1.6,
+        "to": 1.2
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.focusX",
+        "from": 20,
+        "to": 38
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.focusY",
+        "from": 2,
+        "to": 100
+      },
+      {
+        "field": "caseHigh.sections.3.media.11.src",
+        "from": "/case/high/render-nifty.webp",
+        "to": "/case/high/app-titan.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.11.alt",
+        "from": "Nifty 50 on the phone",
+        "to": "Titan — stock page"
+      },
+      {
+        "field": "caseHigh.sections.3.media.11.w",
+        "from": 1288,
+        "to": 1482
+      },
+      {
+        "field": "caseHigh.sections.3.media.11.h",
+        "from": 1221,
+        "to": 1854
+      },
+      {
+        "field": "caseHigh.sections.3.media.11.ratio",
+        "from": 1.15,
+        "to": 0.8
+      },
+      {
+        "field": "caseHigh.sections.3.media.11.focusY",
+        "from": 38,
+        "to": 2
+      },
+      {
+        "field": "caseHigh.sections.3.media.11.zoom",
+        "from": 1.3,
+        "to": 1.6
+      },
+      {
+        "field": "caseHigh.sections.3.media.11.focusX",
+        "to": 20
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.src",
+        "from": "/case/high/render-hand.webp",
+        "to": "/case/high/meme-horse.mp4"
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.alt",
+        "from": "Spotlight in hand"
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.w",
+        "from": 1426,
+        "to": 960
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.h",
+        "from": 1103,
+        "to": 940
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.block",
+        "from": "primary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.ratio",
+        "from": 1.15,
+        "to": 1
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.poster",
+        "to": "/case/high/meme-horse.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.src",
+        "from": "/case/high/meme-horse.mp4",
+        "to": "/case/high/render-nifty.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.poster",
+        "from": "/case/high/meme-horse.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.w",
+        "from": 960,
+        "to": 1288
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.h",
+        "from": 940,
+        "to": 1221
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.ratio",
+        "from": 1,
+        "to": 1.15
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.alt",
+        "to": "Nifty 50 on the phone"
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.focusY",
+        "to": 38
+      },
+      {
+        "field": "caseHigh.sections.3.media.13.zoom",
+        "to": 1.3
+      },
+      {
+        "field": "caseHigh.sections.3.media.14.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.3.media.14.src",
+        "from": "/case/high/meme-goat.mp4",
+        "to": "/case/high/render-hand.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.14.poster",
+        "from": "/case/high/meme-goat.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.14.w",
+        "from": 800,
+        "to": 1426
+      },
+      {
+        "field": "caseHigh.sections.3.media.14.h",
+        "from": 1000,
+        "to": 1103
+      },
+      {
+        "field": "caseHigh.sections.3.media.14.block",
+        "from": "tertiary",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.14.ratio",
+        "from": 1,
+        "to": 1.15
+      },
+      {
+        "field": "caseHigh.sections.3.media.14.focusY",
+        "from": 63
+      },
+      {
+        "field": "caseHigh.sections.3.media.14.alt",
+        "to": "Spotlight in hand"
+      },
+      {
+        "field": "caseHigh.sections.4.media.0.src",
+        "from": "/case/high/phone-collectible.mp4",
+        "to": "/case/high/meme-funds.mp4"
+      },
+      {
+        "field": "caseHigh.sections.4.media.0.poster",
+        "from": "/case/high/phone-collectible.poster.webp",
+        "to": "/case/high/meme-funds.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.0.h",
+        "from": 1800,
+        "to": 1440
+      },
+      {
+        "field": "caseHigh.sections.4.media.0.ratio",
+        "from": 0.72,
+        "to": 0.98
+      },
+      {
+        "field": "caseHigh.sections.4.media.0.focusY",
+        "to": 52
+      },
+      {
+        "field": "caseHigh.sections.4.media.0.focusX",
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.4.media.1.src",
+        "from": "/case/high/phone-badge.mp4",
+        "to": "/case/high/phone-collectible.mp4"
+      },
+      {
+        "field": "caseHigh.sections.4.media.1.poster",
+        "from": "/case/high/phone-badge.poster.webp",
+        "to": "/case/high/phone-collectible.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.1.ratio",
+        "from": 0.8,
+        "to": 0.72
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.src",
+        "from": "/current-coin.webp",
+        "to": "/case/high/phone-badge.mp4"
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.alt",
+        "from": "The High Club coin — 999.9 fine silver"
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.ratio",
+        "from": 1.22,
+        "to": 0.8
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.w",
+        "from": 655,
+        "to": 1440
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.h",
+        "from": 536,
+        "to": 1800
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.poster",
+        "to": "/case/high/phone-badge.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.sound",
+        "to": false
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.src",
+        "from": "/case/high/meme-funds.mp4",
+        "to": "/case/high/carry-the-culture.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.poster",
+        "from": "/case/high/meme-funds.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.w",
+        "from": 1440,
+        "to": 1894
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.h",
+        "from": 1440,
+        "to": 1894
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.ratio",
+        "from": 0.98,
+        "to": 1.22
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.focusY",
+        "from": 52
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.focusX",
+        "from": 0
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.alt",
+        "to": "#Carry the culture"
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.src",
+        "from": "/case/high/carry-the-culture.webp",
+        "to": "/current-coin.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.alt",
+        "from": "#Carry the culture",
+        "to": "The High Club coin — 999.9 fine silver"
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.w",
+        "from": 1894,
+        "to": 655
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.h",
+        "from": 1894,
+        "to": 536
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.block",
+        "from": "secondary",
+        "to": "tertiary"
+      }
+    ]
+  },
+  {
+    "at": "2026-09-25T13:03:02.305Z",
+    "summary": "update src, poster, sound +121 more",
+    "changes": [
+      {
+        "field": "caseHigh.sections.0.media.0.src",
+        "from": "/case/high/drop.mp4",
+        "to": "/case/high/film.mp4"
+      },
+      {
+        "field": "caseHigh.sections.0.media.0.poster",
+        "from": "/case/high/drop.poster.webp",
+        "to": "/case/high/film.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.0.media.0.sound",
+        "to": true
+      },
+      {
+        "field": "caseHigh.sections.0.media.4.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.0.media.4.src",
+        "from": "/case/high/story-boring.webp",
+        "to": "/case/high/town.mp4"
+      },
+      {
+        "field": "caseHigh.sections.0.media.4.alt",
+        "from": "Boring market apps had their chance"
+      },
+      {
+        "field": "caseHigh.sections.0.media.4.w",
+        "from": 2160,
+        "to": 1080
+      },
+      {
+        "field": "caseHigh.sections.0.media.4.h",
+        "from": 3840,
+        "to": 1920
+      },
+      {
+        "field": "caseHigh.sections.0.media.4.focusY",
+        "from": 0
+      },
+      {
+        "field": "caseHigh.sections.0.media.4.poster",
+        "to": "/case/high/town.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.0.media.4.sound",
+        "to": true
+      },
+      {
+        "field": "caseHigh.sections.0.media.5.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.0.media.5.src",
+        "from": "/case/high/town.mp4",
+        "to": "/case/high/story-boring.webp"
+      },
+      {
+        "field": "caseHigh.sections.0.media.5.poster",
+        "from": "/case/high/town.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.0.media.5.w",
+        "from": 1080,
+        "to": 2160
+      },
+      {
+        "field": "caseHigh.sections.0.media.5.h",
+        "from": 1920,
+        "to": 3840
+      },
+      {
+        "field": "caseHigh.sections.0.media.5.sound",
+        "from": true
+      },
+      {
+        "field": "caseHigh.sections.0.media.5.alt",
+        "to": "Boring market apps had their chance"
+      },
+      {
+        "field": "caseHigh.sections.0.media.5.focusY",
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.1.media.2.src",
+        "from": "/case/high/founder-card-a.webp",
+        "to": "/case/high/post-no-one-else.webp"
+      },
+      {
+        "field": "caseHigh.sections.1.media.2.alt",
+        "from": "Welcome to the Founding Club — the founder card",
+        "to": "No one else like you"
+      },
+      {
+        "field": "caseHigh.sections.1.media.2.w",
+        "from": 1535,
+        "to": 2778
+      },
+      {
+        "field": "caseHigh.sections.1.media.2.h",
+        "from": 2030,
+        "to": 3689
+      },
+      {
+        "field": "caseHigh.sections.1.media.2.ratio",
+        "from": 0.756,
+        "to": 0.753
+      },
+      {
+        "field": "caseHigh.sections.1.media.3.src",
+        "from": "/case/high/otp-meme.webp",
+        "to": "/case/high/founder-card-a.webp"
+      },
+      {
+        "field": "caseHigh.sections.1.media.3.alt",
+        "from": "The OTP is behaving now — sometimes good things start with a lil' drama",
+        "to": "Welcome to the Founding Club — the founder card"
+      },
+      {
+        "field": "caseHigh.sections.1.media.4.src",
+        "from": "/case/high/post-no-one-else.webp",
+        "to": "/case/high/otp-meme.webp"
+      },
+      {
+        "field": "caseHigh.sections.1.media.4.alt",
+        "from": "No one else like you",
+        "to": "The OTP is behaving now — sometimes good things start with a lil' drama"
+      },
+      {
+        "field": "caseHigh.sections.1.media.4.w",
+        "from": 2778,
+        "to": 1535
+      },
+      {
+        "field": "caseHigh.sections.1.media.4.h",
+        "from": 3689,
+        "to": 2030
+      },
+      {
+        "field": "caseHigh.sections.1.media.4.ratio",
+        "from": 0.753,
+        "to": 0.756
+      },
+      {
+        "field": "caseHigh.sections.2.media.9",
+        "to": {
+          "kind": "video",
+          "src": "/case/high/brand-reel.mp4",
+          "poster": "/case/high/brand-reel.poster.webp",
+          "w": 1920,
+          "h": 1080,
+          "sound": true,
+          "block": "primary"
+        }
+      },
+      {
+        "field": "caseHigh.sections.3.media.13",
+        "to": {
+          "kind": "video",
+          "src": "/case/high/meme-horse.mp4",
+          "poster": "/case/high/meme-horse.poster.webp",
+          "w": 960,
+          "h": 940,
+          "block": "tertiary",
+          "cols": 2,
+          "ratio": 1
+        }
+      },
+      {
+        "field": "caseHigh.sections.3.media.14",
+        "to": {
+          "kind": "video",
+          "src": "/case/high/meme-goat.mp4",
+          "poster": "/case/high/meme-goat.poster.webp",
+          "w": 800,
+          "h": 1000,
+          "block": "tertiary",
+          "cols": 2,
+          "ratio": 1,
+          "focusY": 63
+        }
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.src",
+        "from": "/case/high/meme-funds.mp4",
+        "to": "/current-coin.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.poster",
+        "from": "/case/high/meme-funds.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.w",
+        "from": 1440,
+        "to": 655
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.h",
+        "from": 1440,
+        "to": 536
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.ratio",
+        "from": 0.98,
+        "to": 1.22
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.focusY",
+        "from": 52
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.focusX",
+        "from": 0
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.alt",
+        "to": "The High Club coin — 999.9 fine silver"
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.src",
+        "from": "/case/high/meme-horse.mp4",
+        "to": "/case/high/meme-funds.mp4"
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.poster",
+        "from": "/case/high/meme-horse.poster.webp",
+        "to": "/case/high/meme-funds.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.w",
+        "from": 960,
+        "to": 1440
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.h",
+        "from": 940,
+        "to": 1440
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.ratio",
+        "from": 1,
+        "to": 0.98
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.focusY",
+        "to": 52
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.focusX",
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.src",
+        "from": "/case/high/meme-goat.mp4",
+        "to": "/case/high/carry-the-culture.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.poster",
+        "from": "/case/high/meme-goat.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.w",
+        "from": 800,
+        "to": 1894
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.h",
+        "from": 1000,
+        "to": 1894
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.ratio",
+        "from": 1,
+        "to": 1.22
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.focusY",
+        "from": 63
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.alt",
+        "to": "#Carry the culture"
+      },
+      {
+        "field": "caseHigh.sections.4.media.5",
+        "from": {
+          "kind": "image",
+          "src": "/current-coin.webp",
+          "alt": "The High Club coin — 999.9 fine silver",
+          "block": "tertiary",
+          "cols": 2,
+          "ratio": 1.22,
+          "w": 655,
+          "h": 536
+        }
+      },
+      {
+        "field": "caseHigh.sections.4.media.6",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/carry-the-culture.webp",
+          "alt": "#Carry the culture",
+          "w": 1894,
+          "h": 1894,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 1.22
+        }
+      },
+      {
+        "field": "caseHigh.sections.5.media.9",
+        "to": {
+          "kind": "video",
+          "src": "/case/high/drop.mp4",
+          "poster": "/case/high/drop.poster.webp",
+          "w": 1920,
+          "h": 1080,
+          "block": "primary"
+        }
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.src",
+        "from": "/case/high/film.mp4",
+        "to": "/case/high/merch-shelf.webp"
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.poster",
+        "from": "/case/high/film.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.w",
+        "from": 1920,
+        "to": 1836
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.h",
+        "from": 1080,
+        "to": 1212
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.sound",
+        "from": true
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.alt",
+        "to": "The HIGH merch shelf"
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.focusX",
+        "to": 76
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.focusY",
+        "to": 57
+      },
+      {
+        "field": "caseHigh.sections.7.media.0.zoom",
+        "to": 1.05
+      },
+      {
+        "field": "caseHigh.sections.7.media.1.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.7.media.1.src",
+        "from": "/case/high/brand-reel.mp4",
+        "to": "/case/high/merch-kit.webp"
+      },
+      {
+        "field": "caseHigh.sections.7.media.1.poster",
+        "from": "/case/high/brand-reel.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.7.media.1.w",
+        "from": 1920,
+        "to": 1340
+      },
+      {
+        "field": "caseHigh.sections.7.media.1.sound",
+        "from": true
+      },
+      {
+        "field": "caseHigh.sections.7.media.1.block",
+        "from": "primary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.7.media.1.alt",
+        "to": "The founder kit"
+      },
+      {
+        "field": "caseHigh.sections.7.media.1.cols",
+        "to": 2
+      },
+      {
+        "field": "caseHigh.sections.7.media.1.ratio",
+        "to": 1.15
+      },
+      {
+        "field": "caseHigh.sections.7.media.1.focusY",
+        "to": 94
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.src",
+        "from": "/case/high/merch-shelf.webp",
+        "to": "/case/high/merch-box.webp"
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.alt",
+        "from": "The HIGH merch shelf",
+        "to": "The box — money testing"
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.w",
+        "from": 1836,
+        "to": 1070
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.h",
+        "from": 1212,
+        "to": 1018
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.block",
+        "from": "primary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.focusX",
+        "from": 76,
+        "to": 60
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.focusY",
+        "from": 57,
+        "to": 80
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.zoom",
+        "from": 1.05
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.cols",
+        "to": 2
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.ratio",
+        "to": 1.15
+      },
+      {
+        "field": "caseHigh.sections.7.media.3.src",
+        "from": "/case/high/merch-kit.webp",
+        "to": "/case/high/merch-gun.webp"
+      },
+      {
+        "field": "caseHigh.sections.7.media.3.alt",
+        "from": "The founder kit",
+        "to": "Sticker-bombed money gun"
+      },
+      {
+        "field": "caseHigh.sections.7.media.3.w",
+        "from": 1340,
+        "to": 571
+      },
+      {
+        "field": "caseHigh.sections.7.media.3.h",
+        "from": 1080,
+        "to": 708
+      },
+      {
+        "field": "caseHigh.sections.7.media.3.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.7.media.3.ratio",
+        "from": 1.15,
+        "to": 0.75
+      },
+      {
+        "field": "caseHigh.sections.7.media.3.focusY",
+        "from": 94,
+        "to": 35
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.src",
+        "from": "/case/high/merch-box.webp",
+        "to": "/case/high/cap.webp"
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.alt",
+        "from": "The box — money testing",
+        "to": "The HI*H cap"
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.w",
+        "from": 1070,
+        "to": 787
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.h",
+        "from": 1018,
+        "to": 1180
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.ratio",
+        "from": 1.15,
+        "to": 0.75
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.focusX",
+        "from": 60
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.focusY",
+        "from": 80
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.src",
+        "from": "/case/high/merch-gun.webp",
+        "to": "/case/high/highdration-label.webp"
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.alt",
+        "from": "Sticker-bombed money gun",
+        "to": "HIGHdration label"
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.w",
+        "from": 571,
+        "to": 3216
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.h",
+        "from": 708,
+        "to": 2009
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.block",
+        "from": "secondary",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.ratio",
+        "from": 0.75,
+        "to": 1.6
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.focusY",
+        "from": 35
+      },
+      {
+        "field": "caseHigh.sections.7.media.6.src",
+        "from": "/case/high/cap.webp",
+        "to": "/case/high/founder-card-b.webp"
+      },
+      {
+        "field": "caseHigh.sections.7.media.6.alt",
+        "from": "The HI*H cap",
+        "to": "Welcome to the Founding Club"
+      },
+      {
+        "field": "caseHigh.sections.7.media.6.w",
+        "from": 787,
+        "to": 1207
+      },
+      {
+        "field": "caseHigh.sections.7.media.6.h",
+        "from": 1180,
+        "to": 970
+      },
+      {
+        "field": "caseHigh.sections.7.media.6.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.7.media.6.ratio",
+        "from": 0.75,
+        "to": 1.6
+      },
+      {
+        "field": "caseHigh.sections.7.media.7",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/highdration-label.webp",
+          "alt": "HIGHdration label",
+          "w": 3216,
+          "h": 2009,
+          "block": "primary",
+          "cols": 2,
+          "ratio": 1.6
+        }
+      },
+      {
+        "field": "caseHigh.sections.7.media.8",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/founder-card-b.webp",
+          "alt": "Welcome to the Founding Club",
+          "w": 1207,
+          "h": 970,
+          "block": "tertiary",
+          "cols": 2,
+          "ratio": 1.6
+        }
+      }
+    ]
+  },
+  {
+    "at": "2026-09-25T12:49:58.408Z",
+    "summary": "update block, block, block +157 more",
+    "changes": [
+      {
+        "field": "caseHigh.sections.0.media.2.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.0.media.3.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.0.media.4.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.0.media.4.focusY",
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.0.media.5.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.1.media.0.block",
+        "from": "custom",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.1.media.1.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.1.media.2.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.1.media.3.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.1.media.4.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.1.media.5.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.1.media.6.block",
+        "from": "custom",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.1.media.7.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.1.media.7.focusY",
+        "to": 68
+      },
+      {
+        "field": "caseHigh.sections.1.media.8.block",
+        "from": "custom",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.1.media.9.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.1.media.9.focusY",
+        "to": 37
+      },
+      {
+        "field": "caseHigh.sections.1.media.9.focusX",
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.1.media.9.zoom",
+        "to": 1
+      },
+      {
+        "field": "caseHigh.sections.1.media.10.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.1.media.10.zoom",
+        "to": 1
+      },
+      {
+        "field": "caseHigh.sections.1.media.11.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.0.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.1.block",
+        "from": "custom",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.2.block",
+        "from": "primary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.3.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.4.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.4.focusY",
+        "to": 100
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.focusY",
+        "to": 98
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.src",
+        "from": "/case/high/card-hands-off.webp",
+        "to": "/case/high/high-mints.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.alt",
+        "from": "Hands off, bro — the business card",
+        "to": "HIGH Mints"
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.w",
+        "from": 1025,
+        "to": 1442
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.h",
+        "from": 1608,
+        "to": 905
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.ratio",
+        "from": 0.637,
+        "to": 1.7
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.src",
+        "from": "/case/high/high-mints.webp",
+        "to": "/case/high/card-hands-off.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.alt",
+        "from": "HIGH Mints",
+        "to": "Hands off, bro — the business card"
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.w",
+        "from": 1442,
+        "to": 1025
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.h",
+        "from": 905,
+        "to": 1608
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.ratio",
+        "from": 1.7,
+        "to": 0.637
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.focusY",
+        "to": 74
+      },
+      {
+        "field": "caseHigh.sections.2.media.8.block",
+        "from": "custom",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.1.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.1.zoom",
+        "to": 1.65
+      },
+      {
+        "field": "caseHigh.sections.3.media.1.focusY",
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.3.media.2.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.2.zoom",
+        "to": 1.4
+      },
+      {
+        "field": "caseHigh.sections.3.media.2.focusY",
+        "to": 86
+      },
+      {
+        "field": "caseHigh.sections.3.media.3.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.3.zoom",
+        "to": 1.1
+      },
+      {
+        "field": "caseHigh.sections.3.media.4.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.3.media.4.src",
+        "from": "/case/high/phone-fno.mp4",
+        "to": "/case/high/app-buy.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.4.poster",
+        "from": "/case/high/phone-fno.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.4.w",
+        "from": 1440,
+        "to": 1284
+      },
+      {
+        "field": "caseHigh.sections.3.media.4.h",
+        "from": 1800,
+        "to": 1102
+      },
+      {
+        "field": "caseHigh.sections.3.media.4.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.4.ratio",
+        "from": 0.8,
+        "to": 1.1
+      },
+      {
+        "field": "caseHigh.sections.3.media.4.alt",
+        "to": "Buy sheet"
+      },
+      {
+        "field": "caseHigh.sections.3.media.4.focusY",
+        "to": 43
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.src",
+        "from": "/case/high/app-watchlist.webp",
+        "to": "/case/high/app-trending.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.alt",
+        "from": "Fyne Shyt! — a watchlist that feels like yours",
+        "to": "Trending — silver ETFs"
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.w",
+        "from": 1314,
+        "to": 1442
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.h",
+        "from": 1250,
+        "to": 1232
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.focusY",
+        "to": 24
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.focusX",
+        "to": 47
+      },
+      {
+        "field": "caseHigh.sections.3.media.5.zoom",
+        "to": 1.05
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.src",
+        "from": "/case/high/app-buy.webp",
+        "to": "/case/high/phone-fno.mp4"
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.alt",
+        "from": "Buy sheet"
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.w",
+        "from": 1284,
+        "to": 1440
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.h",
+        "from": 1102,
+        "to": 1800
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.ratio",
+        "from": 1.1,
+        "to": 0.8
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.poster",
+        "to": "/case/high/phone-fno.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.zoom",
+        "to": 1.4
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.focusY",
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.focusX",
+        "to": 48
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.src",
+        "from": "/case/high/app-trending.webp",
+        "to": "/case/high/app-watchlist.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.alt",
+        "from": "Trending — silver ETFs",
+        "to": "Fyne Shyt! — a watchlist that feels like yours"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.w",
+        "from": 1442,
+        "to": 1314
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.h",
+        "from": 1232,
+        "to": 1250
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.focusY",
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.zoom",
+        "to": 1.1
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.focusY",
+        "to": 80
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.zoom",
+        "to": 1.2
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.focusY",
+        "to": 100
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.focusX",
+        "to": 38
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.zoom",
+        "to": 1.6
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.focusX",
+        "to": 20
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.focusY",
+        "to": 2
+      },
+      {
+        "field": "caseHigh.sections.3.media.11.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.11.focusY",
+        "to": 38
+      },
+      {
+        "field": "caseHigh.sections.3.media.11.zoom",
+        "to": 1.3
+      },
+      {
+        "field": "caseHigh.sections.3.media.12.block",
+        "from": "custom",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.4.media.0.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.4.media.0.ratio",
+        "from": 0.8,
+        "to": 0.72
+      },
+      {
+        "field": "caseHigh.sections.4.media.1.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.src",
+        "from": "/case/high/app-titan-meme.webp",
+        "to": "/case/high/meme-funds.mp4"
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.alt",
+        "from": "Titan with a Joey meme — personality in the interface"
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.w",
+        "from": 796,
+        "to": 1440
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.h",
+        "from": 828,
+        "to": 1440
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.poster",
+        "to": "/case/high/meme-funds.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.focusY",
+        "to": 52
+      },
+      {
+        "field": "caseHigh.sections.4.media.2.focusX",
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.src",
+        "from": "/case/high/meme-funds.mp4",
+        "to": "/case/high/meme-horse.mp4"
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.poster",
+        "from": "/case/high/meme-funds.poster.webp",
+        "to": "/case/high/meme-horse.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.w",
+        "from": 1440,
+        "to": 960
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.h",
+        "from": 1440,
+        "to": 940
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.4.media.3.ratio",
+        "from": 0.98,
+        "to": 1
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.src",
+        "from": "/case/high/meme-horse.mp4",
+        "to": "/case/high/meme-goat.mp4"
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.poster",
+        "from": "/case/high/meme-horse.poster.webp",
+        "to": "/case/high/meme-goat.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.w",
+        "from": 960,
+        "to": 800
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.h",
+        "from": 940,
+        "to": 1000
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.focusY",
+        "to": 63
+      },
+      {
+        "field": "caseHigh.sections.4.media.5.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.4.media.5.src",
+        "from": "/case/high/meme-goat.mp4",
+        "to": "/current-coin.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.5.poster",
+        "from": "/case/high/meme-goat.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.5.w",
+        "from": 800,
+        "to": 655
+      },
+      {
+        "field": "caseHigh.sections.4.media.5.h",
+        "from": 1000,
+        "to": 536
+      },
+      {
+        "field": "caseHigh.sections.4.media.5.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.4.media.5.ratio",
+        "from": 1,
+        "to": 1.22
+      },
+      {
+        "field": "caseHigh.sections.4.media.5.alt",
+        "to": "The High Club coin — 999.9 fine silver"
+      },
+      {
+        "field": "caseHigh.sections.4.media.6.src",
+        "from": "/current-coin.webp",
+        "to": "/case/high/carry-the-culture.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.6.alt",
+        "from": "The High Club coin — 999.9 fine silver",
+        "to": "#Carry the culture"
+      },
+      {
+        "field": "caseHigh.sections.4.media.6.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.4.media.6.w",
+        "from": 655,
+        "to": 1894
+      },
+      {
+        "field": "caseHigh.sections.4.media.6.h",
+        "from": 536,
+        "to": 1894
+      },
+      {
+        "field": "caseHigh.sections.4.media.7",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/carry-the-culture.webp",
+          "alt": "#Carry the culture",
+          "w": 1894,
+          "h": 1894,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.22
+        }
+      },
+      {
+        "field": "caseHigh.sections.5.media.3.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.5.media.4.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.5.media.5.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.5.media.7.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.5.media.7.zoom",
+        "to": 1.55
+      },
+      {
+        "field": "caseHigh.sections.5.media.7.focusY",
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.5.media.8.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.focusX",
+        "to": 76
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.focusY",
+        "to": 57
+      },
+      {
+        "field": "caseHigh.sections.7.media.2.zoom",
+        "to": 1.05
+      },
+      {
+        "field": "caseHigh.sections.7.media.3.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.7.media.3.focusY",
+        "to": 94
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.focusX",
+        "to": 60
+      },
+      {
+        "field": "caseHigh.sections.7.media.4.focusY",
+        "to": 80
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.7.media.5.focusY",
+        "to": 35
+      },
+      {
+        "field": "caseHigh.sections.7.media.6.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.7.media.7.block",
+        "from": "custom",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.7.media.8.block",
+        "from": "custom",
+        "to": "tertiary"
+      }
+    ]
+  },
+  {
     "at": "2026-09-13T21:08:15.723Z",
     "summary": "update src, alt, w +133 more",
     "changes": [
