@@ -1,5 +1,457 @@
 [
   {
+    "at": "2026-09-28T11:51:50.211Z",
+    "summary": "update autoScanDesktop, src, alt +89 more",
+    "changes": [
+      {
+        "field": "hero.autoScanDesktop",
+        "from": true,
+        "to": false
+      },
+      {
+        "field": "caseHigh.sections.1.media.2.src",
+        "from": "/case/high/post-no-one-else.webp",
+        "to": "/case/high/founder-card-a.webp"
+      },
+      {
+        "field": "caseHigh.sections.1.media.2.alt",
+        "from": "No one else like you",
+        "to": "Welcome to the Founding Club — the founder card"
+      },
+      {
+        "field": "caseHigh.sections.1.media.2.w",
+        "from": 2778,
+        "to": 1535
+      },
+      {
+        "field": "caseHigh.sections.1.media.2.h",
+        "from": 3689,
+        "to": 2030
+      },
+      {
+        "field": "caseHigh.sections.1.media.2.ratio",
+        "from": 0.753,
+        "to": 0.756
+      },
+      {
+        "field": "caseHigh.sections.1.media.3.src",
+        "from": "/case/high/founder-card-a.webp",
+        "to": "/case/high/otp-meme.webp"
+      },
+      {
+        "field": "caseHigh.sections.1.media.3.alt",
+        "from": "Welcome to the Founding Club — the founder card",
+        "to": "The OTP is behaving now — sometimes good things start with a lil' drama"
+      },
+      {
+        "field": "caseHigh.sections.1.media.4.src",
+        "from": "/case/high/otp-meme.webp",
+        "to": "/case/high/post-no-one-else.webp"
+      },
+      {
+        "field": "caseHigh.sections.1.media.4.alt",
+        "from": "The OTP is behaving now — sometimes good things start with a lil' drama",
+        "to": "No one else like you"
+      },
+      {
+        "field": "caseHigh.sections.1.media.4.w",
+        "from": 1535,
+        "to": 2778
+      },
+      {
+        "field": "caseHigh.sections.1.media.4.h",
+        "from": 2030,
+        "to": 3689
+      },
+      {
+        "field": "caseHigh.sections.1.media.4.ratio",
+        "from": 0.756,
+        "to": 0.753
+      },
+      {
+        "field": "caseHigh.sections.1.media.5.src",
+        "from": "/case/high/phone-hill.webp",
+        "to": "/case/high/post-heat.webp"
+      },
+      {
+        "field": "caseHigh.sections.1.media.5.alt",
+        "from": "HIGH on a hilltop",
+        "to": "Where the heat at? Front row to the action"
+      },
+      {
+        "field": "caseHigh.sections.1.media.5.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.1.media.5.ratio",
+        "from": 1.7,
+        "to": 0.753
+      },
+      {
+        "field": "caseHigh.sections.1.media.5.w",
+        "from": 1448,
+        "to": 2778
+      },
+      {
+        "field": "caseHigh.sections.1.media.5.h",
+        "from": 1086,
+        "to": 3689
+      },
+      {
+        "field": "caseHigh.sections.1.media.5.zoom",
+        "from": 1
+      },
+      {
+        "field": "caseHigh.sections.1.media.6.src",
+        "from": "/case/high/phones-hands.webp",
+        "to": "/case/high/phone-hill.webp"
+      },
+      {
+        "field": "caseHigh.sections.1.media.6.alt",
+        "from": "HIGH in hand",
+        "to": "HIGH on a hilltop"
+      },
+      {
+        "field": "caseHigh.sections.1.media.6.w",
+        "from": 1672,
+        "to": 1448
+      },
+      {
+        "field": "caseHigh.sections.1.media.6.h",
+        "from": 941,
+        "to": 1086
+      },
+      {
+        "field": "caseHigh.sections.1.media.6.zoom",
+        "to": 1
+      },
+      {
+        "field": "caseHigh.sections.1.media.7.src",
+        "from": "/case/high/post-heat.webp",
+        "to": "/case/high/phones-hands.webp"
+      },
+      {
+        "field": "caseHigh.sections.1.media.7.alt",
+        "from": "Where the heat at? Front row to the action",
+        "to": "HIGH in hand"
+      },
+      {
+        "field": "caseHigh.sections.1.media.7.w",
+        "from": 2778,
+        "to": 1672
+      },
+      {
+        "field": "caseHigh.sections.1.media.7.h",
+        "from": 3689,
+        "to": 941
+      },
+      {
+        "field": "caseHigh.sections.1.media.7.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.1.media.7.ratio",
+        "from": 0.753,
+        "to": 1.7
+      },
+      {
+        "field": "caseHigh.sections.2.media.2.src",
+        "from": "/case/high/founder-card-perspective.webp",
+        "to": "/case/high/sticker-box.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.2.alt",
+        "from": "The founder card in perspective",
+        "to": "Sticker set"
+      },
+      {
+        "field": "caseHigh.sections.2.media.2.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.2.w",
+        "from": 2560,
+        "to": 711
+      },
+      {
+        "field": "caseHigh.sections.2.media.2.h",
+        "from": 1494,
+        "to": 1006
+      },
+      {
+        "field": "caseHigh.sections.2.media.2.cols",
+        "to": 2
+      },
+      {
+        "field": "caseHigh.sections.2.media.2.ratio",
+        "to": 0.68
+      },
+      {
+        "field": "caseHigh.sections.2.media.3.src",
+        "from": "/case/high/sticker-box.webp",
+        "to": "/case/high/card-logo.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.3.alt",
+        "from": "Sticker set",
+        "to": "HI*H card"
+      },
+      {
+        "field": "caseHigh.sections.2.media.3.w",
+        "from": 711,
+        "to": 2050
+      },
+      {
+        "field": "caseHigh.sections.2.media.3.h",
+        "from": 1006,
+        "to": 3215
+      },
+      {
+        "field": "caseHigh.sections.2.media.3.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.3.ratio",
+        "from": 0.68,
+        "to": 0.637
+      },
+      {
+        "field": "caseHigh.sections.2.media.3.focusY",
+        "to": 98
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.src",
+        "from": "/case/high/sticker-sheet.webp",
+        "to": "/case/high/founder-card-perspective.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.alt",
+        "from": "Sticker sheet — #Carry the culture",
+        "to": "The founder card in perspective"
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.w",
+        "from": 711,
+        "to": 2560
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.h",
+        "from": 1006,
+        "to": 1494
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.cols",
+        "from": 2
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.ratio",
+        "from": 0.68
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.focusY",
+        "from": 100
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.src",
+        "from": "/case/high/card-hands-off.webp",
+        "to": "/case/high/sticker-sheet.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.alt",
+        "from": "Hands off, bro — the business card",
+        "to": "Sticker sheet — #Carry the culture"
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.w",
+        "from": 1025,
+        "to": 711
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.h",
+        "from": 1608,
+        "to": 1006
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.ratio",
+        "from": 0.637,
+        "to": 0.68
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.focusY",
+        "from": 74,
+        "to": 100
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.src",
+        "from": "/case/high/card-logo.webp",
+        "to": "/case/high/card-hands-off.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.alt",
+        "from": "HI*H card",
+        "to": "Hands off, bro — the business card"
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.w",
+        "from": 2050,
+        "to": 1025
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.h",
+        "from": 3215,
+        "to": 1608
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.7.focusY",
+        "from": 98,
+        "to": 74
+      },
+      {
+        "field": "life.photos.0.src",
+        "from": "/life/polaroid-01.webp",
+        "to": "/gallery/photo-16.webp"
+      },
+      {
+        "field": "life.photos.0.caption",
+        "from": "the crew",
+        "to": ""
+      },
+      {
+        "field": "life.photos.0.rotate",
+        "from": -3,
+        "to": -2
+      },
+      {
+        "field": "life.photos.0.framed",
+        "from": true
+      },
+      {
+        "field": "life.photos.0.w",
+        "from": 1042
+      },
+      {
+        "field": "life.photos.0.h",
+        "from": 1200
+      },
+      {
+        "field": "life.photos.1.src",
+        "from": "/life/polaroid-02.webp",
+        "to": "/gallery/photo-21.webp"
+      },
+      {
+        "field": "life.photos.1.caption",
+        "from": "somewhere high",
+        "to": ""
+      },
+      {
+        "field": "life.photos.1.framed",
+        "from": true
+      },
+      {
+        "field": "life.photos.1.w",
+        "from": 952
+      },
+      {
+        "field": "life.photos.1.h",
+        "from": 1200
+      },
+      {
+        "field": "life.photos.2.caption",
+        "from": "window seat",
+        "to": ""
+      },
+      {
+        "field": "life.deskHeight",
+        "from": 820,
+        "to": 1000
+      },
+      {
+        "field": "life.layout.p1.x",
+        "from": 4,
+        "to": 16
+      },
+      {
+        "field": "life.layout.p1.y",
+        "from": 3,
+        "to": 6
+      },
+      {
+        "field": "life.layout.p1.w",
+        "from": 310,
+        "to": 300
+      },
+      {
+        "field": "life.layout.p2.x",
+        "from": 33,
+        "to": 44
+      },
+      {
+        "field": "life.layout.p2.y",
+        "from": 26,
+        "to": 22.5
+      },
+      {
+        "field": "life.layout.p2.w",
+        "from": 270,
+        "to": 300
+      },
+      {
+        "field": "life.layout.p3.x",
+        "from": 3,
+        "to": 19
+      },
+      {
+        "field": "life.layout.p3.y",
+        "from": 55,
+        "to": 47
+      },
+      {
+        "field": "life.layout.p3.w",
+        "from": 275,
+        "to": 300
+      },
+      {
+        "field": "life.layout.lines.x",
+        "from": 67.4,
+        "to": 55
+      },
+      {
+        "field": "life.layout.camera.x",
+        "from": 61.8,
+        "to": 80.5
+      },
+      {
+        "field": "life.layout.camera.w",
+        "from": 440,
+        "to": 760
+      },
+      {
+        "field": "life.layout.camera.r",
+        "from": 0,
+        "to": -9
+      },
+      {
+        "field": "life.layout.note.x",
+        "from": 63.4,
+        "to": 73
+      }
+    ]
+  },
+  {
     "at": "2026-09-25T13:36:24.294Z",
     "summary": "update src, alt, w +267 more",
     "changes": [

@@ -11,26 +11,20 @@
   ],
   "photos": [
     {
-      "src": "/life/polaroid-01.webp",
-      "caption": "the crew",
+      "src": "/gallery/photo-16.webp",
+      "caption": "",
       "date": "",
-      "rotate": -3,
-      "framed": true,
-      "w": 1042,
-      "h": 1200
+      "rotate": -2
     },
     {
-      "src": "/life/polaroid-02.webp",
-      "caption": "somewhere high",
+      "src": "/gallery/photo-21.webp",
+      "caption": "",
       "date": "",
-      "rotate": 8,
-      "framed": true,
-      "w": 952,
-      "h": 1200
+      "rotate": 8
     },
     {
       "src": "/gallery/photo-07.webp",
-      "caption": "window seat",
+      "caption": "",
       "date": "",
       "rotate": -12,
       "framed": false
@@ -41,40 +35,40 @@
     "title": "The channel",
     "sub": "design, community & the life around it"
   },
-  "deskHeight": 820,
   "layout": {
     "p1": {
-      "x": 4,
-      "y": 3,
-      "w": 310
+      "x": 16,
+      "y": 6,
+      "w": 300
     },
     "p2": {
-      "x": 33,
-      "y": 26,
-      "w": 270
+      "x": 44,
+      "y": 22.5,
+      "w": 300
     },
     "p3": {
-      "x": 3,
-      "y": 55,
-      "w": 275
+      "x": 19,
+      "y": 47,
+      "w": 300
     },
     "lines": {
-      "x": 67.4,
+      "x": 55,
       "y": 8,
       "w": 330,
       "r": 0
     },
     "camera": {
-      "x": 61.8,
+      "x": 80.5,
       "y": 31,
-      "w": 440,
-      "r": 0
+      "w": 760,
+      "r": -9
     },
     "note": {
-      "x": 63.4,
+      "x": 73,
       "y": 76,
       "w": 330,
       "r": -2
     }
-  }
+  },
+  "deskHeight": 1000
 }

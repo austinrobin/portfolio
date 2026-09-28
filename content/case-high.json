@@ -133,16 +133,6 @@
         },
         {
           "kind": "image",
-          "src": "/case/high/post-no-one-else.webp",
-          "alt": "No one else like you",
-          "w": 2778,
-          "h": 3689,
-          "block": "secondary",
-          "cols": 2,
-          "ratio": 0.753
-        },
-        {
-          "kind": "image",
           "src": "/case/high/founder-card-a.webp",
           "alt": "Welcome to the Founding Club — the founder card",
           "w": 1535,
@@ -160,6 +150,26 @@
           "block": "secondary",
           "cols": 2,
           "ratio": 0.756
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/post-no-one-else.webp",
+          "alt": "No one else like you",
+          "w": 2778,
+          "h": 3689,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.753
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/post-heat.webp",
+          "alt": "Where the heat at? Front row to the action",
+          "w": 2778,
+          "h": 3689,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.753
         },
         {
           "kind": "image",
@@ -181,16 +191,6 @@
           "ratio": 1.7,
           "w": 1672,
           "h": 941
-        },
-        {
-          "kind": "image",
-          "src": "/case/high/post-heat.webp",
-          "alt": "Where the heat at? Front row to the action",
-          "w": 2778,
-          "h": 3689,
-          "block": "secondary",
-          "cols": 2,
-          "ratio": 0.753
         }
       ]
     },
@@ -227,14 +227,6 @@
         },
         {
           "kind": "image",
-          "src": "/case/high/founder-card-perspective.webp",
-          "alt": "The founder card in perspective",
-          "block": "tertiary",
-          "w": 2560,
-          "h": 1494
-        },
-        {
-          "kind": "image",
           "src": "/case/high/sticker-box.webp",
           "alt": "Sticker set",
           "w": 711,
@@ -244,6 +236,17 @@
           "ratio": 0.68
         },
         {
+          "kind": "image",
+          "src": "/case/high/card-logo.webp",
+          "alt": "HI*H card",
+          "w": 2050,
+          "h": 3215,
+          "block": "tertiary",
+          "cols": 2,
+          "ratio": 0.637,
+          "focusY": 98
+        },
+        {
           "kind": "video",
           "src": "/case/high/brand-reel.mp4",
           "poster": "/case/high/brand-reel.poster.webp",
@@ -251,6 +254,14 @@
           "h": 1080,
           "sound": true,
           "block": "primary"
+        },
+        {
+          "kind": "image",
+          "src": "/case/high/founder-card-perspective.webp",
+          "alt": "The founder card in perspective",
+          "block": "tertiary",
+          "w": 2560,
+          "h": 1494
         },
         {
           "kind": "image",
@@ -273,17 +284,6 @@
           "cols": 2,
           "ratio": 0.637,
           "focusY": 74
-        },
-        {
-          "kind": "image",
-          "src": "/case/high/card-logo.webp",
-          "alt": "HI*H card",
-          "w": 2050,
-          "h": 3215,
-          "block": "tertiary",
-          "cols": 2,
-          "ratio": 0.637,
-          "focusY": 98
         },
         {
           "kind": "image",
