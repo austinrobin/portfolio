@@ -30,6 +30,7 @@ export function SiteLoader() {
       if (done) return;
       done = true;
       booted = true;
+      window.dispatchEvent(new Event("site:ready"));
       setState("lift");
       window.setTimeout(() => setState("gone"), 800);
     };

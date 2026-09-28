@@ -2,6 +2,7 @@ import { preload } from "react-dom";
 import { mediaUrl } from "@/lib/media-url";
 import { showcase } from "@/lib/showcase";
 import { PortraitHero } from "@/components/home/portrait-hero";
+import { BanknoteNav } from "@/components/banknote-nav";
 import { CurrentBuild } from "@/components/home/current-build";
 import { ProjectDeck } from "@/components/home/project-deck";
 import { LabTeaser } from "@/components/home/lab-teaser";
@@ -14,7 +15,9 @@ export default function Home() {
   preload(mediaUrl("/hero-art.webp"), { as: "image", fetchPriority: "high", crossOrigin: "anonymous" });
   return (
     <div>
-      <PortraitHero />
+      {/* the nav stays with the reader; only the monogram slips away on scroll */}
+      <BanknoteNav fixed />
+      <PortraitHero hideNav />
 
       {/* Currently building — High (coin + script, per the Figma export) */}
       <CurrentBuild />

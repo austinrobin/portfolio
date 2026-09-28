@@ -499,7 +499,9 @@ export function LifeCollage({
                  where it was dropped and the drag offset resets to zero */
               key={editable ? `${p.id}-${lay.x}-${lay.y}` : p.id}
               className="absolute cursor-grab touch-none select-none active:cursor-grabbing"
-              style={{ left: `${lay.x}%`, top: `${lay.y}%`, width: lay.w, zIndex: zMap[p.id] ?? p.z }}
+              /* widths are stored as px on the 1152px desk and rendered as a share of
+                 it, so Studio's narrower preview and the live desk agree */
+              style={{ left: `${lay.x}%`, top: `${lay.y}%`, width: `${(lay.w / 1152) * 100}%`, zIndex: zMap[p.id] ?? p.z }}
               initial={reduce || editable ? false : { opacity: 0, y: 28, rotate: rotate + (i % 2 ? 5 : -5) }}
               whileInView={{ opacity: 1, y: 0, rotate }}
               viewport={{ once: true, margin: "-80px" }}

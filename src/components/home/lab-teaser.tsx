@@ -17,12 +17,14 @@ import { labConfig, type LabCascadeSettings } from "./lab-config";
 
 const experiments = [
   {
+    name: "Mint",
     tag: "The Gift",
     title: "Something you take with you",
     blurb: "A genuinely useful tool anyone who lands here can pick up and keep.",
     glow: "20% 15%",
   },
   {
+    name: "Pixel Strings",
     tag: "The Daily",
     title: "The tab you keep open",
     blurb:
@@ -30,6 +32,7 @@ const experiments = [
     glow: "75% 20%",
   },
   {
+    name: "Departures",
     tag: "The Craft",
     title: "Product thinking, refined",
     blurb: "A considered build that shows how I think about products end to end.",
@@ -65,12 +68,8 @@ export function LabTeaser({
             The Lab
           </p>
           <h2 className="mt-5 font-display text-4xl leading-tight tracking-tight sm:text-5xl">
-            Things I built that you can actually use.
+            AI exploration
           </h2>
-          <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted">
-            Small products, made with AI — each one an argument. That I can spot
-            a problem, and that I can ship the fix.
-          </p>
         </Reveal>
       </div>
 
@@ -107,6 +106,22 @@ export function LabTeaser({
                 onBlur={() => setHovered(null)}
                 tabIndex={0}
               >
+                {/* the project's name, on a line dropped down to the cover */}
+                <div
+                  className="pointer-events-none absolute bottom-full left-1/2 z-20 flex -translate-x-1/2 flex-col items-center pb-2"
+                  style={{ opacity: isHover ? 1 : 0, transition: "opacity 250ms ease-out" }}
+                >
+                  <span
+                    className="whitespace-nowrap text-[clamp(12px,1.05vw,15px)] font-medium uppercase tracking-[0.06em]"
+                    style={{ fontFamily: "var(--font-silk)", color: INK, transform: isHover ? "translateY(0)" : "translateY(6px)", transition: "transform 350ms cubic-bezier(0.16,1,0.3,1)" }}
+                  >
+                    {x.name}
+                  </span>
+                  <span
+                    className="mt-1.5 block w-px origin-top"
+                    style={{ height: "clamp(28px,4vw,56px)", background: INK, transform: isHover ? "scaleY(1)" : "scaleY(0)", transition: "transform 350ms cubic-bezier(0.16,1,0.3,1)" }}
+                  />
+                </div>
                 <motion.div
                   className="w-full overflow-hidden"
                   animate={

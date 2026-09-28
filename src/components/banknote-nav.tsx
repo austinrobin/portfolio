@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { Monogram } from "@/components/home/monogram";
 import { heroFonts, INK } from "@/components/home/hero-config";
@@ -39,6 +39,14 @@ export function BanknoteNav({
     () => false,
   );
   const portal = fixed && mounted;
+  /* the links stay put; only the monogram slips up once the page scrolls,
+     and returns at the top */
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const on = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
   /* blend: the nav rides over media — white ink in difference mode reads
      on paper (inverts to near-black) and on any image alike */
   const header = (
@@ -53,7 +61,7 @@ export function BanknoteNav({
       <Link
         href="/"
         aria-label="Austin Moras — home"
-        className="absolute left-1/2 top-[3.6svh] block h-[6.2svh] min-h-10 -translate-x-1/2"
+        className={`absolute left-1/2 top-[3.6svh] block h-[6.2svh] min-h-10 -translate-x-1/2 transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${scrolled ? "-translate-y-[160%] opacity-0" : "translate-y-0 opacity-100"}`}
       >
         <Monogram className="h-full w-auto" />
       </Link>
@@ -62,7 +70,7 @@ export function BanknoteNav({
           <Link
             key={l.href}
             href={l.href}
-            className="absolute top-[5.9svh] text-[clamp(11px,1.06vw,16px)] font-medium uppercase tracking-[0.02em] transition-opacity hover:opacity-60"
+            className="absolute top-[5.9svh] text-[clamp(11px,1.06vw,16px)] font-medium uppercase tracking-[0.02em] after:absolute after:-bottom-[0.35em] after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
             style={{ left: l.left, fontFamily: "var(--font-silk)" }}
           >
             {l.label}

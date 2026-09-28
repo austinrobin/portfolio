@@ -11,6 +11,7 @@ import {
 } from "./hero-config";
 import { PortraitHero2D } from "./portrait-hero-2d";
 import { Monogram } from "./monogram";
+import { hasBooted } from "@/components/loader/site-loader";
 import { mediaUrl } from "@/lib/media-url";
 
 export { heroConfig, type HeroSettings } from "./hero-config";
@@ -350,9 +351,12 @@ void main() {
 export function PortraitHero({
   overrides,
   compact = false,
+  hideNav = false,
 }: {
   overrides?: Partial<HeroSettings>;
   compact?: boolean;
+  /** the page mounts its own fixed nav instead */
+  hideNav?: boolean;
 }) {
   const cfg = useMemo<HeroSettings>(
     () => ({ ...heroConfig, ...overrides }),
@@ -1030,8 +1034,8 @@ export function PortraitHero({
       style={{ touchAction: "pan-y", background: PAPER, color: INK }}
     >
       {/* ---- banknote nav: links flanking the signature monogram ---- */}
-      {!compact && (
-        <header className="absolute inset-x-0 top-0 z-20">
+      {!compact && !hideNav && (
+        <header className="absolute inset-x-0 top-0 z-40">
           <Link
             href="/"
             aria-label="Austin Moras — home"
@@ -1044,7 +1048,7 @@ export function PortraitHero({
               <Link
                 key={l.href}
                 href={l.href}
-                className="absolute top-[5.9svh] text-[clamp(11px,1.06vw,16px)] font-medium uppercase tracking-[0.02em] transition-opacity hover:opacity-60"
+                className="absolute top-[5.9svh] text-[clamp(11px,1.06vw,16px)] font-medium uppercase tracking-[0.02em] after:absolute after:-bottom-[0.35em] after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
                 style={{ left: l.left, fontFamily: "var(--font-silk)" }}
               >
                 {l.label}
@@ -1126,13 +1130,13 @@ export function PortraitHero({
               className="text-[clamp(26px,2.65vw,40px)] font-bold leading-none tracking-[-0.04em]"
               style={{ fontFamily: "var(--font-silk)" }}
             >
-              {cfg.headline}
+              <Letters text={cfg.headline} delay={0} step={0.032} />
             </h1>
             <p
               className="mt-[3.4svh] text-[clamp(24px,2.65vw,40px)] leading-none"
               style={{ fontFamily: "var(--font-peristiwa)" }}
             >
-              {cfg.role}
+              <Letters text={cfg.role} delay={0.3} step={0.02} />
             </p>
           </div>
 
@@ -1141,10 +1145,46 @@ export function PortraitHero({
             className="pointer-events-none absolute left-[70.74%] top-[45.2svh] z-10 w-[24.5vw] max-md:w-auto text-[clamp(24px,2.65vw,40px)] leading-[1.175] max-md:hidden"
             style={{ fontFamily: "var(--font-peristiwa)" }}
           >
-            {cfg.sub}
+            <Letters text={cfg.sub} delay={0.55} step={0.014} />
           </p>
         </>
       )}
     </section>
+  );
+}
+
+/* ---------------------------------------------------------------- letters
+   The hero copy arrives letter by letter the moment the loader lifts (or at
+   once, under reduced motion). Real text stays in the DOM for search and
+   screen readers; the spans only carry the motion. */
+function Letters({ text, delay, step }: { text: string; delay: number; step: number }) {
+  const [go, setGo] = useState(false);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || hasBooted()) {
+      const id = window.setTimeout(() => setGo(true), 0);
+      return () => window.clearTimeout(id);
+    }
+    const on = () => setGo(true);
+    window.addEventListener("site:ready", on, { once: true });
+    return () => window.removeEventListener("site:ready", on);
+  }, []);
+  return (
+    <span aria-label={text}>
+      {text.split("").map((ch, i) => (
+        <span
+          key={i}
+          aria-hidden
+          className="inline-block will-change-transform"
+          style={{
+            whiteSpace: ch === " " ? "pre" : undefined,
+            opacity: go ? 1 : 0,
+            transform: go ? "none" : "translateY(0.45em)",
+            transition: `opacity 420ms ease-out ${(delay + i * step).toFixed(3)}s, transform 520ms cubic-bezier(0.16,1,0.3,1) ${(delay + i * step).toFixed(3)}s`,
+          }}
+        >
+          {ch}
+        </span>
+      ))}
+    </span>
   );
 }

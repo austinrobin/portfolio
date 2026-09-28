@@ -15,6 +15,8 @@ import {
 import { usePinned, useScrollProgress } from "@/lib/scroll-progress";
 import type { ShowcaseItem } from "@/lib/showcase";
 import { heroFonts, INK } from "./hero-config";
+import { caseFont } from "@/components/case-study/case-font";
+import { useRouter } from "next/navigation";
 
 /* Smoothstep — flat near 0 and 1 so cards dwell in their resting states. */
 const smooth = (x: number) => {
@@ -35,7 +37,7 @@ const smooth = (x: number) => {
 const LEAN = 22; // deg — the standing sheets' lean back
 const STEP_UP = 4; // % of card height per queued sheet
 const STEP_BACK = 130; // px deeper per queued sheet (the camera distance scales with the sheet: 2.7× its width)
-const FLOOR = -90; // deg — fallen flat (the whole floor sheet stays inside the stage)
+const FLOOR = -80; // deg — fallen, tilted a touch away, so the whole floor sheet stays inside the stage
 
 function DeckCard({
   item,
@@ -51,6 +53,7 @@ function DeckCard({
   /** featured sheet or its neighbours: the only ones whose reel runs */
   playing?: boolean;
 }) {
+  const router = useRouter();
   // t < 0: standing in the queue · t 0→1: falling forward · t > 1: the floor
   const t = useTransform(p, (v) => v - index);
 
@@ -88,7 +91,9 @@ function DeckCard({
       <div
         className="absolute inset-0 cursor-pointer overflow-hidden rounded-lg border border-border shadow-[0_30px_80px_rgba(26,25,19,0.22)]"
         style={{ background: item.theme.bg }}
-        onClick={onActivate}
+        onClick={() => { if (item.href) router.push(item.href); else onActivate?.(); }}
+        role={item.href ? "link" : undefined}
+        aria-label={item.href ? `Open ${item.title}` : undefined}
       >
         <Cover item={item} sizes="(max-width: 860px) 92vw, 1240px" playing={playing} />
       </div>
@@ -246,8 +251,8 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
     <div ref={wrapRef} className={fontVars} style={{ height: `${n * 100}vh` }}>
       <div
         ref={stageRef}
-        className="flex h-svh flex-col items-center justify-center overflow-hidden pt-[4svh]"
-        style={{ ["--deck-w" as string]: "min(92vw, 1054px, calc((100svh - 160px) * 0.97))" }}
+        className="flex h-svh flex-col items-center justify-center overflow-hidden pt-[12svh]"
+        style={{ ["--deck-w" as string]: "min(92vw, 1370px, calc((100svh - 160px) * 1.14))" }}
       >
         {/* The section's name — a huge script watermark. Starts as the
             highlight, recedes behind the folder as it lands. */}
@@ -270,14 +275,13 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
         >
           <div className="min-w-0">
             <p
-              className="truncate text-[clamp(20px,1.9vw,28px)] font-bold uppercase tracking-[0.04em]"
+              className="truncate text-[clamp(28px,2.75vw,42px)] font-bold uppercase leading-none tracking-[0.04em]"
               style={{ fontFamily: "var(--font-silk)" }}
             >
               {current.title}
             </p>
             <p
-              className="mt-0.5 truncate text-[clamp(20px,1.9vw,28px)] leading-tight"
-              style={{ fontFamily: "var(--font-peristiwa)" }}
+              className={`mt-2 truncate text-[clamp(14px,1.1vw,17px)] leading-snug opacity-70 ${caseFont.variable} font-[family-name:var(--font-case)]`}
             >
               {current.subtitle}
             </p>
@@ -285,12 +289,17 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
           {current.href ? (
             <Link
               href={current.href}
-              className="shrink-0 rounded-full border border-[#101BBC]/35 px-4 py-2 text-sm transition-colors hover:bg-[#101BBC]/5"
+              className={`group inline-flex shrink-0 items-center gap-2.5 border border-[#101BBC] px-4 py-2 text-sm transition-colors hover:bg-[#101BBC] hover:text-[#F9F7F1] ${caseFont.variable} font-[family-name:var(--font-case)]`}
             >
-              View case study →
+              View case study
+              {/* a vintage swash arrow */}
+              <svg width="30" height="16" viewBox="0 0 26 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
+                <path d="M1.5 11.5 C5 11.5, 5.5 3, 11.5 3 C16 3, 19.5 5, 24 7.5" />
+                <path d="M20.2 3.8 L24 7.5 L19.6 9.4" />
+              </svg>
             </Link>
           ) : (
-            <span className="shrink-0 rounded-full border border-[#101BBC]/25 px-4 py-2 font-mono text-[11px] uppercase tracking-wider opacity-70">
+            <span className="shrink-0 border border-[#101BBC]/40 px-4 py-2 font-mono text-[11px] uppercase tracking-wider opacity-70">
               Coming soon
             </span>
           )}
@@ -302,7 +311,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
             that is reserved so the composition centres on it), so the sheet
             is sized to the viewport with that headroom (max 1240px wide). */}
         <motion.div
-          className="z-10 w-[var(--deck-w)] pt-[calc(var(--deck-w)*0.078)] pb-[calc(var(--deck-w)*0.26)]"
+          className="z-10 w-[var(--deck-w)] pt-[calc(var(--deck-w)*0.078)] pb-[calc(var(--deck-w)*0.16)]"
           style={{ perspective: "calc(var(--deck-w) * 2.7)", perspectiveOrigin: "50% 0%", y: deckY }}
         >
           <div className="relative aspect-[16/10] [transform-style:preserve-3d]">
