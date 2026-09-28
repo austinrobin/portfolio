@@ -55,19 +55,29 @@ export function LabTeaser({
   const groupW = cfg.paneWidth + (n - 1) * cfg.stepX;
   const offsetX = Math.max(0, (100 - groupW) / 2);
   const totalH = paneH + (n - 1) * cfg.stepY;
+  /* a hovered pane slides right by `slide`% of its width; the last one can
+     poke past the stage by this much (in stage %). The stage is kept narrow
+     enough — as a share of the viewport — that the overhang never crosses
+     the viewport edge, where the page clips */
+  const overhang = Math.max(0, (cfg.slide * cfg.paneWidth) / 100 - offsetX) + 1;
+  const stageVw = Math.floor(100 / (1 + (2 * overhang) / 100));
+  const stageWidth = `min(92vw, max(${stageVw}vw, 560px), 990px)`;
   const tilt = reduce ? {} : { rotateY: cfg.rotY, rotateX: cfg.rotX };
 
   return (
     <section
-      className={`mx-auto max-w-6xl overflow-hidden px-6 py-20 ${heroFonts.silk.variable} ${heroFonts.peristiwa.variable}`}
+      className={`py-20 ${heroFonts.silk.variable} ${heroFonts.peristiwa.variable}`}
     >
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-6xl px-6 text-center">
         <Reveal>
-          <p className="flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.2em] text-accent">
+          <p className="flex items-center justify-center gap-2.5 font-mono text-xs uppercase tracking-[0.2em] text-accent">
             <span className="size-2 rounded-full bg-accent" />
             The Lab
           </p>
-          <h2 className="mt-5 font-display text-4xl leading-tight tracking-tight sm:text-5xl">
+          <h2
+            className="mt-5 text-[clamp(28px,2.75vw,42px)] font-bold uppercase leading-none tracking-[0.02em]"
+            style={{ fontFamily: "var(--font-silk)", color: INK }}
+          >
             AI exploration
           </h2>
         </Reveal>
@@ -76,8 +86,8 @@ export function LabTeaser({
       {/* ---- the cascade — sized to the works stage ---- */}
       <div className="mt-10 flex justify-center">
         <div
-          className="relative w-[min(92vw,990px)]"
-          style={{ perspective: cfg.perspective, aspectRatio: `100 / ${totalH}` }}
+          className="relative"
+          style={{ width: stageWidth, perspective: cfg.perspective, aspectRatio: `100 / ${totalH}` }}
         >
           {experiments.map((x, i) => {
             const isHover = hovered === i;

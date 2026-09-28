@@ -29,8 +29,10 @@ export default function Home() {
         <ProjectDeck items={showcase} />
       </section>
 
-      {/* The Lab — AI / design-engineer teaser */}
-      <div className="border-t border-border">
+      {/* The Lab — AI / design-engineer teaser (no rule above it: the paper
+          runs on from the deck; the wrapper only stops the cascade's slide-in
+          from widening the page) */}
+      <div className="overflow-x-clip">
         <LabTeaser />
       </div>
 

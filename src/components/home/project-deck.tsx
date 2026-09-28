@@ -293,9 +293,9 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
             >
               View case study
               {/* a vintage swash arrow */}
-              <svg width="30" height="16" viewBox="0 0 26 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
-                <path d="M1.5 11.5 C5 11.5, 5.5 3, 11.5 3 C16 3, 19.5 5, 24 7.5" />
-                <path d="M20.2 3.8 L24 7.5 L19.6 9.4" />
+              <svg width="20" height="12" viewBox="0 0 20 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
+                <path d="M1 6H18.5" />
+                <path d="M13.5 1.5L18.5 6l-5 4.5" />
               </svg>
             </Link>
           ) : (

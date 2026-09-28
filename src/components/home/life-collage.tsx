@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { heroFonts, INK } from "./hero-config";
@@ -161,7 +161,7 @@ function Lines({ cfg }: { cfg: LifeSettings }) {
 /* The camera: a photographed compact with its backdrop removed, its screen
    playing a muted loop cut from the film. The screen rect is measured on the
    cutout (percent of the image). Hovering shows a cursor pill like the case
-   studies' sound toggle; pressing opens the film. */
+   studies' sound toggle; pressing opens the film on YouTube, in a new tab. */
 const CAMERA_SRC = "/life/camera.webp";
 const CAMERA_W = 1081;
 const CAMERA_H = 451;
@@ -172,7 +172,7 @@ const REEL = {
   poster: "/life/camera-reel.poster.webp",
 };
 
-function Camera({ video, onPlay }: { video: LifeVideo; onPlay?: () => void }) {
+function Camera({ video, href }: { video: LifeVideo; href?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [near, setNear] = useState(false);
@@ -220,7 +220,7 @@ function Camera({ video, onPlay }: { video: LifeVideo; onPlay?: () => void }) {
     io.observe(v);
     return () => io.disconnect();
   }, [near]);
-  const playable = !!onPlay;
+  const playable = !!href;
   const showPill = pos !== null || !finePointer || focused;
   const label = playable ? "WATCH" : "WATCH · SOON";
   return (
@@ -280,13 +280,14 @@ function Camera({ video, onPlay }: { video: LifeVideo; onPlay?: () => void }) {
         decoding="async"
       />
       {playable ? (
-        <button
-          type="button"
-          aria-label={`Watch ${video.title}`}
-          onClick={onPlay}
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Watch ${video.title} on YouTube (opens in a new tab)`}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          className="absolute inset-0 h-full w-full bg-transparent focus:outline-none"
+          className="absolute inset-0 block h-full w-full focus:outline-none"
           style={finePointer ? { cursor: "none" } : undefined}
         />
       ) : null}
@@ -361,57 +362,6 @@ function Note({ note }: { note: string[] }) {
   );
 }
 
-function VideoLightbox({ id, title, onClose }: { id: string; title: string; onClose: () => void }) {
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prev;
-    };
-  }, [onClose]);
-  return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label={title}
-      className="fixed inset-0 z-[100] grid place-items-center p-4 sm:p-8"
-      style={{ background: "rgba(249,247,241,0.92)", backdropFilter: "blur(6px)" }}
-      onClick={onClose}
-    >
-      <div className="w-full max-w-[960px]" onClick={(e) => e.stopPropagation()}>
-        <div className="rounded-[4px] bg-white p-2 shadow-[0_30px_80px_rgba(26,25,19,0.28)]">
-          <div className="relative aspect-video overflow-hidden rounded-[2px] bg-black">
-            <iframe
-              className="absolute inset-0 h-full w-full"
-              src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`}
-              title={title}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              referrerPolicy="strict-origin-when-cross-origin"
-            />
-          </div>
-          <div className="flex items-center justify-between px-2 pb-1 pt-2">
-            <p className="text-[22px] leading-none" style={{ fontFamily: "var(--font-peristiwa)", color: INK }}>
-              {title}
-            </p>
-            <button
-              type="button"
-              onClick={onClose}
-              className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted hover:text-foreground"
-            >
-              close ×
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* ---------------------------------------------------------------- section */
 
@@ -432,10 +382,8 @@ export function LifeCollage({
   const reduce = useReducedMotion();
   const zTop = useRef(10);
   const [zMap, setZMap] = useState<Record<string, number>>({});
-  const [playing, setPlaying] = useState(false);
-  const videoId = youtubeId(cfg.video.url);
-  const closeVideo = useCallback(() => setPlaying(false), []);
-  const play = videoId ? () => setPlaying(true) : undefined;
+  /* the camera links out only when the URL is a real YouTube link */
+  const filmHref = youtubeId(cfg.video.url) ? cfg.video.url : undefined;
 
   const lift = (id: string) => {
     zTop.current += 1;
@@ -468,7 +416,7 @@ export function LifeCollage({
       case "lines":
         return <Lines cfg={cfg} />;
       case "camera":
-        return <Camera video={cfg.video} onPlay={play} />;
+        return <Camera video={cfg.video} href={filmHref} />;
       case "note":
         return <Note note={cfg.note} />;
       case "seal":
@@ -546,9 +494,6 @@ export function LifeCollage({
 
       <div className="pb-20 sm:pb-24" />
 
-      {playing && videoId ? (
-        <VideoLightbox id={videoId} title={cfg.video.title} onClose={closeVideo} />
-      ) : null}
     </section>
   );
 }

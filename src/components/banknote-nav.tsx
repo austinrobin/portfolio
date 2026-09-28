@@ -61,7 +61,7 @@ export function BanknoteNav({
       <Link
         href="/"
         aria-label="Austin Moras — home"
-        className={`absolute left-1/2 top-[3.6svh] block h-[6.2svh] min-h-10 -translate-x-1/2 transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${scrolled ? "-translate-y-[160%] opacity-0" : "translate-y-0 opacity-100"}`}
+        className={`absolute left-1/2 top-[1.5svh] block h-[6.2svh] min-h-10 -translate-x-1/2 transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${scrolled ? "-translate-y-[160%] opacity-0" : "translate-y-0 opacity-100"}`}
       >
         <Monogram className="h-full w-auto" />
       </Link>
@@ -70,7 +70,7 @@ export function BanknoteNav({
           <Link
             key={l.href}
             href={l.href}
-            className="absolute top-[5.9svh] text-[clamp(11px,1.06vw,16px)] font-medium uppercase tracking-[0.02em] after:absolute after:-bottom-[0.35em] after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
+            className="absolute top-[3.7svh] text-[clamp(11px,1.06vw,16px)] font-medium uppercase tracking-[0.02em] after:absolute after:-bottom-[0.35em] after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
             style={{ left: l.left, fontFamily: "var(--font-silk)" }}
           >
             {l.label}
@@ -78,7 +78,7 @@ export function BanknoteNav({
         ))}
       </nav>
       {/* narrow: two links each side of the monogram */}
-      <nav className="flex items-center justify-between px-5 pt-[4.2svh] md:hidden">
+      <nav className="flex items-center justify-between px-5 pt-[2.4svh] md:hidden">
         <div className="flex gap-4">
           {navLinks.slice(0, 2).map((l) => (
             <Link
