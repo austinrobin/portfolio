@@ -18,7 +18,7 @@
   "order": 1,
   "heroMedia": {
     "kind": "video",
-    "src": "/case/stockbee/perspective-mock.mp4",
+    "src": "/case/stockbee/product-workspace.mp4",
     "caption": "",
     "aspect": "wide"
   },
@@ -51,12 +51,13 @@
       "statement": "The goal: reduce the distance between information and understanding.",
       "media": [
         {
-          "kind": "video",
-          "src": "/case/stockbee/product-workspace.webm",
-          "srcFallback": "/case/stockbee/product-workspace.mp4",
-          "poster": "/case/stockbee/product-workspace-poster.poster.webp",
-          "caption": "",
-          "aspect": "screen"
+          "kind": "image",
+          "src": "/case/stockbee/dashboard-ui.webp",
+          "alt": "The StockBee dashboard — news with impact tags, tickers and since-news moves, and an AI summary of the selected story",
+          "block": "custom",
+          "ratio": 1.622,
+          "w": 1317,
+          "h": 812
         }
       ]
     },

@@ -21,8 +21,10 @@ import { heroFonts } from "@/components/home/hero-config";
  *    active chapter lights up with a dot) and jumps on click.
  *  · The RIGHT COLUMN is a continuous river of media on Austin's block
  *    system (primary full row · secondary half · tertiary halves stacked
- *    beside a secondary, 8px gutters). Chapter copy sits in the flow — a
- *    small uppercase kicker, a light heading, quiet grey body.
+ *    beside a secondary, 8px gutters). Chapter copy sits in the flow with
+ *    a real hierarchy: a numbered ink kicker, a big black heading that
+ *    states the chapter, quiet grey body, and the takeaway as a large ink
+ *    statement under a short rule — the pointers do the talking.
  *  · On the site's own paper — the home page's canvas — with ink type; the
  *    media do the talking. The left panel is PINNED with ScrollTrigger:
  *    position:sticky is dead under ScrollSmoother's transform.
@@ -610,8 +612,18 @@ function River({ media, alt }: { media: CaseMedia[]; alt: string }) {
 
 /* -------------------------------------------------------------- chapter */
 
+/* the heading is the chapter's big pointer; long ones step down so a
+   full-sentence heading still reads as a headline, not a wall */
+function headingSize(text: string) {
+  const n = text.length;
+  if (n <= 64) return "text-[clamp(30px,2.7vw,42px)]";
+  if (n <= 120) return "text-[clamp(24px,2.05vw,31px)]";
+  return "text-[clamp(21px,1.65vw,25px)]";
+}
+
 function Chapter({
   id,
+  n,
   kicker,
   heading,
   body,
@@ -619,6 +631,8 @@ function Chapter({
   children,
 }: {
   id: string;
+  /** chapter number, printed with the kicker */
+  n?: number;
   kicker: string;
   heading: string;
   body?: string[];
@@ -633,23 +647,24 @@ function Chapter({
     >
       {/* a hairline opens the chapter; only its name sits on the left — the
           heading and copy are one block pushed to the viewport's right edge */}
-      <Rise className="grid gap-x-8 gap-y-3 md:grid-cols-2">
-        <p className="text-[10px] font-semibold uppercase leading-[1.2] tracking-[0.17em] text-black/40 md:pt-2">
+      <Rise className="grid gap-x-8 gap-y-4 md:grid-cols-2">
+        <p className="font-mono text-[11px] font-semibold uppercase leading-[1.2] tracking-[0.2em] text-accent md:pt-3">
+          {n != null ? <span className="mr-2.5 opacity-60">{String(n).padStart(2, "0")}</span> : null}
           {kicker}
         </p>
-        <div className="max-w-[50ch] md:justify-self-end">
-          <h2 className="text-[22.4px] font-medium leading-[1.1] tracking-[-0.02em] text-black/60">
+        <div className="max-w-[580px] md:justify-self-end">
+          <h2 className={`${headingSize(heading)} font-semibold leading-[1.06] tracking-[-0.028em] text-black`}>
             {heading}
           </h2>
           {body?.length ? (
-            <div className="mt-4 space-y-2 text-[16px] font-normal leading-[1.52] tracking-[-0.02em] text-black/60">
+            <div className="mt-6 max-w-[56ch] space-y-3 text-[17px] font-normal leading-[1.55] tracking-[-0.012em] text-black/60">
               {body.map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
             </div>
           ) : null}
           {statement ? (
-            <p className="mt-5 text-[22.4px] font-medium leading-[1.1] tracking-[-0.02em] text-black">
+            <p className="mt-8 border-t-2 border-accent pt-4 text-[clamp(22px,1.95vw,29px)] font-semibold leading-[1.15] tracking-[-0.022em] text-accent">
               {statement}
             </p>
           ) : null}
@@ -897,10 +912,11 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
             </p>
           </div>
 
-          {cs.sections.map((s) => (
+          {cs.sections.map((s, i) => (
             <Chapter
               key={s.id}
               id={s.id}
+              n={i + 1}
               kicker={s.kicker}
               heading={s.heading}
               body={s.body}
@@ -912,7 +928,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
 
           {/* ---- in numbers — only when the case has stats ---- */}
           {cs.impact.stats.length > 0 ? (
-          <Chapter id="impact" kicker="In numbers" heading={cs.impact.title}>
+          <Chapter id="impact" n={cs.sections.length + 1} kicker="In numbers" heading={cs.impact.title}>
             <Rise className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 sm:mt-[50px] md:grid-cols-3">
               {cs.impact.stats.map((stat, i) => {
                 const placeholder = /^x+$/i.test(stat.value.replace(/[^a-z]/gi, ""));
@@ -938,6 +954,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
           {/* ---- outcome ---- */}
           <Chapter
             id="result"
+            n={cs.sections.length + (cs.impact.stats.length > 0 ? 2 : 1)}
             kicker="Outcome"
             heading={cs.result.heading}
             body={cs.result.body}

@@ -775,6 +775,14 @@
         960
       ]
     },
+    "/case/stockbee/dashboard-ui.webp": {
+      "w": 1317,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
     "/case/stockbee/fno-table.webp": {
       "w": 1543,
       "widths": [
@@ -1823,6 +1831,7 @@
     "/case/stockbee/custom-insights.w640.webp": 20284,
     "/case/stockbee/custom-insights.w960.webp": 32070,
     "/case/stockbee/custom-insights.webp": 38992,
+    "/case/stockbee/dashboard-ui.webp": 89950,
     "/case/stockbee/fno-table.w1280.webp": 57120,
     "/case/stockbee/fno-table.w640.webp": 21140,
     "/case/stockbee/fno-table.w960.webp": 39864,
