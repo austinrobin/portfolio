@@ -34,7 +34,7 @@ import { VIDEO_TYPE } from "@/lib/video-sources";
 
 type Placed =
   | { id: LifePieceId; kind: "photo"; index: number; z: number }
-  | { id: LifePieceId; kind: "lines" | "camera" | "note"; z: number };
+  | { id: LifePieceId; kind: "lines" | "camera" | "note" | "seal"; z: number };
 
 /* what sits on the desk; where and how big comes from content/life.json */
 const SPREAD: Placed[] = [
@@ -44,6 +44,7 @@ const SPREAD: Placed[] = [
   { id: "lines", kind: "lines", z: 4 },
   { id: "camera", kind: "camera", z: 5 },
   { id: "note", kind: "note", z: 6 },
+  { id: "seal", kind: "seal", z: 7 },
 ];
 
 /* ---------------------------------------------------------------- pieces */
@@ -323,6 +324,24 @@ function Clover({ className }: { className?: string }) {
   );
 }
 
+/* the wax seal: a cut-out lying flat, so a tight shadow and a faint ink halo */
+function Seal({ src }: { src: string }) {
+  return (
+    /* eslint-disable-next-line @next/next/no-img-element -- a cut-out at its own size */
+    <img
+      src={mediaUrl(src)}
+      alt="A blue wax seal with the AR monogram"
+      width={900}
+      height={898}
+      className="block h-auto w-full"
+      style={{ aspectRatio: "900 / 898", filter: "drop-shadow(0 6px 10px rgba(16,27,188,0.28)) drop-shadow(0 1px 2px rgba(20,0,60,0.25))" }}
+      draggable={false}
+      loading="lazy"
+      decoding="async"
+    />
+  );
+}
+
 function Note({ note }: { note: string[] }) {
   return (
     <div className="flex items-start gap-3">
@@ -407,7 +426,7 @@ export function LifeCollage({
   onLayout?: (id: LifePieceId, patch: Partial<LifePieceLayout>) => void;
 }) {
   const cfg: LifeSettings = { ...lifeConfig, ...overrides };
-  const layout = cfg.layout ?? lifeConfig.layout;
+  const layout = { ...lifeConfig.layout, ...(cfg.layout ?? {}) };
   const deskHeight = cfg.deskHeight ?? lifeConfig.deskHeight;
   const canvasRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
@@ -452,6 +471,8 @@ export function LifeCollage({
         return <Camera video={cfg.video} onPlay={play} />;
       case "note":
         return <Note note={cfg.note} />;
+      case "seal":
+        return cfg.seal ? <Seal src={cfg.seal} /> : null;
     }
   };
 
@@ -469,6 +490,7 @@ export function LifeCollage({
         style={{ height: deskHeight }}
       >
         {SPREAD.map((p, i) => {
+          if (p.kind === "seal" && !cfg.seal) return null;
           const rotate = rotateOf(p);
           const lay = layout[p.id];
           return (
@@ -502,11 +524,12 @@ export function LifeCollage({
       <div className="mx-auto mt-12 flex max-w-xl flex-wrap items-start justify-center gap-x-5 gap-y-10 px-6 pb-4 md:hidden">
         {SPREAD.map((p, i) => {
           const rotate = rotateOf(p);
-          const wide = p.kind !== "photo";
+          if (p.kind === "seal" && !cfg.seal) return null;
+          const wide = p.kind !== "photo" && p.kind !== "seal";
           return (
             <motion.div
               key={p.id}
-              className={wide ? "w-full max-w-[380px]" : "w-[46%] min-w-[150px] max-w-[240px]"}
+              className={p.kind === "seal" ? "w-[38%] max-w-[180px]" : wide ? "w-full max-w-[380px]" : "w-[46%] min-w-[150px] max-w-[240px]"}
               style={{ rotate: rotate * 0.7 }}
               initial={reduce ? false : { opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

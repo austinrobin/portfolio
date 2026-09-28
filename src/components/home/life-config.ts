@@ -20,7 +20,7 @@ export interface LifeVideo {
   sub: string; // small line under the title
 }
 
-export type LifePieceId = "p1" | "p2" | "p3" | "lines" | "camera" | "note";
+export type LifePieceId = "p1" | "p2" | "p3" | "lines" | "camera" | "note" | "seal";
 export interface LifePieceLayout {
   x: number; // % of the desk's width, the piece's left edge
   y: number; // % of the desk's height, the piece's top edge
@@ -30,6 +30,7 @@ export interface LifePieceLayout {
 export type LifeLayout = Record<LifePieceId, LifePieceLayout>;
 
 export interface LifeSettings {
+  seal: string; // the wax seal (a cut-out with alpha); empty hides it
   deskHeight: number; // px, the desktop canvas
   layout: LifeLayout; // where every piece sits on the desk
   lines: string[]; // the note top-right, one line per entry

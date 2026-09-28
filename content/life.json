@@ -68,7 +68,14 @@
       "y": 76,
       "w": 330,
       "r": -2
+    },
+    "seal": {
+      "x": 4,
+      "y": 60,
+      "w": 210,
+      "r": -8
     }
   },
-  "deskHeight": 1000
+  "deskHeight": 1000,
+  "seal": "/life/seal.webp"
 }
