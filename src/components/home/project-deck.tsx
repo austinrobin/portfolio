@@ -84,7 +84,10 @@ function DeckCard({
   // cut there it dissolves into the paper toward its near (top) edge — the
   // fade grows as the sheet falls, so a standing sheet is never masked
   const mask = useTransform(t, (v) => {
-    const f = v <= 0 ? 100 : v <= 1 ? 100 - 76 * smooth(v) : 24;
+    // only once the sheet is nearly flat (past 70% of the fall, done by 85%) —
+    // earlier it still stands and a fade would read as a ghost over the sheet
+    // behind; later its near edge is already past the stage's bottom
+    const f = v <= 0.7 ? 100 : v <= 0.85 ? 100 - 76 * smooth((v - 0.7) / 0.15) : 24;
     return f >= 100 ? "none" : `linear-gradient(to top, #000 ${f.toFixed(1)}%, transparent ${Math.min(100, f + 40).toFixed(1)}%)`;
   });
 
