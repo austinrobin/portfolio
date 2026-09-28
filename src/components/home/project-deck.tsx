@@ -35,7 +35,7 @@ const smooth = (x: number) => {
 const LEAN = 22; // deg — the standing sheets' lean back
 const STEP_UP = 4; // % of card height per queued sheet
 const STEP_BACK = 130; // px deeper per queued sheet (the camera distance scales with the sheet: 2.7× its width)
-const FLOOR = -95; // deg — fallen flat, a touch past, toward the camera
+const FLOOR = -90; // deg — fallen flat (the whole floor sheet stays inside the stage)
 
 function DeckCard({
   item,
@@ -80,21 +80,10 @@ function DeckCard({
     return 0;
   });
 
-  // the fallen sheet lies past the stage's bottom edge; rather than being
-  // cut there it dissolves into the paper toward its near (top) edge — the
-  // fade grows as the sheet falls, so a standing sheet is never masked
-  const mask = useTransform(t, (v) => {
-    // only once the sheet is nearly flat (past 70% of the fall, done by 85%) —
-    // earlier it still stands and a fade would read as a ghost over the sheet
-    // behind; later its near edge is already past the stage's bottom
-    const f = v <= 0.7 ? 100 : v <= 0.85 ? 100 - 76 * smooth((v - 0.7) / 0.15) : 24;
-    return f >= 100 ? "none" : `linear-gradient(to top, #000 ${f.toFixed(1)}%, transparent ${Math.min(100, f + 40).toFixed(1)}%)`;
-  });
-
   return (
     <motion.div
       className="absolute inset-0 [transform-style:preserve-3d] will-change-transform"
-      style={{ rotateX, y, z, opacity, maskImage: mask, WebkitMaskImage: mask, transformOrigin: "50% 100%" }}
+      style={{ rotateX, y, z, opacity, transformOrigin: "50% 100%" }}
     >
       <div
         className="absolute inset-0 cursor-pointer overflow-hidden rounded-lg border border-border shadow-[0_30px_80px_rgba(26,25,19,0.22)]"
@@ -258,7 +247,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
       <div
         ref={stageRef}
         className="flex h-svh flex-col items-center justify-center overflow-hidden pt-[4svh]"
-        style={{ ["--deck-w" as string]: "min(92vw, 1054px, calc((100svh - 160px) * 1.03))" }}
+        style={{ ["--deck-w" as string]: "min(92vw, 1054px, calc((100svh - 160px) * 0.97))" }}
       >
         {/* The section's name — a huge script watermark. Starts as the
             highlight, recedes behind the folder as it lands. */}
@@ -313,7 +302,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
             that is reserved so the composition centres on it), so the sheet
             is sized to the viewport with that headroom (max 1240px wide). */}
         <motion.div
-          className="z-10 w-[var(--deck-w)] pt-[calc(var(--deck-w)*0.078)] pb-[calc(var(--deck-w)*0.122)]"
+          className="z-10 w-[var(--deck-w)] pt-[calc(var(--deck-w)*0.078)] pb-[calc(var(--deck-w)*0.26)]"
           style={{ perspective: "calc(var(--deck-w) * 2.7)", perspectiveOrigin: "50% 0%", y: deckY }}
         >
           <div className="relative aspect-[16/10] [transform-style:preserve-3d]">
