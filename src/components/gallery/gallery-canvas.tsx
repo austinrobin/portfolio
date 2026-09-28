@@ -179,11 +179,12 @@ export function GalleryCanvas() {
         items.push(takePhoto ? photos[pi++] : graphics[gi++]);
       }
     }
-    /* the field grows with the collection: the depth per card (and the
-       cards per helix turn) stay at the values tuned for the first thirty,
-       so more work means a longer flight, not a denser one */
+    /* the field grows with the collection: the depth per card stays at the
+       value tuned for the first thirty, so more work means a longer flight,
+       not a denser one. The helix keeps its five windings across the whole
+       field whatever the count — that spiral is the motion Austin liked. */
     const span = (ZSPAN * items.length) / 30;
-    const turns = (TURNS * items.length) / 30;
+    const turns = TURNS;
     const wrap = wrapRef.current;
     const canvas = canvasRef.current;
     if (!wrap || !canvas) return;
