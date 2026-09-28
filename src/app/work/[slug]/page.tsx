@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getCaseStudy, getCaseStudySlugs } from "@/lib/case-studies";
 import { CaseStudyView } from "@/components/case-study/case-study";
+import { RouteCurtain } from "@/components/loader/route-curtain";
 
 export function generateStaticParams() {
   return getCaseStudySlugs().map((slug) => ({ slug }));
@@ -24,5 +25,10 @@ export default async function WorkDetail({
   const { slug } = await params;
   const cs = getCaseStudy(slug);
   if (!cs) notFound();
-  return <CaseStudyView cs={cs} />;
+  return (
+    <>
+      <RouteCurtain />
+      <CaseStudyView cs={cs} />
+    </>
+  );
 }

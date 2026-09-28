@@ -34,6 +34,7 @@ const nextConfig: NextConfig = {
       { source: "/footer/:path*", headers: cache },
       { source: "/lab/:path*", headers: cache },
       { source: "/deck/:path*", headers: cache },
+      { source: "/loader/:path*", headers: cache },
       { source: "/:file(hero-art|hero-face|current-coin)\\.webp", headers: cache },
     ];
   },

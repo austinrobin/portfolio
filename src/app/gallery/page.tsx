@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { GalleryCanvas } from "@/components/gallery/gallery-canvas";
+import { RouteCurtain } from "@/components/loader/route-curtain";
 
 export const metadata: Metadata = {
   title: "Gallery",
@@ -8,5 +9,10 @@ export const metadata: Metadata = {
 };
 
 export default function GalleryPage() {
-  return <GalleryCanvas />;
+  return (
+    <>
+      <RouteCurtain />
+      <GalleryCanvas />
+    </>
+  );
 }

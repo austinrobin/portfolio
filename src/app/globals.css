@@ -84,3 +84,4 @@ a:hover > .monogram .monogram-sheen,
 @media (prefers-reduced-motion: reduce) {
   .monogram-sheen { animation: none !important; opacity: 0 !important; }
 }
+
