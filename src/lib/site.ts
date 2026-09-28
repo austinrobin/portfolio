@@ -6,6 +6,8 @@ export interface SiteConfig {
   url: string;
   description: string;
   email: string;
+  /** the resume PDF, under /public — the nav opens it in a new tab */
+  resume?: string;
   socials: { label: string; href: string }[];
   nav: { label: string; href: string }[];
 }

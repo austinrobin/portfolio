@@ -4,6 +4,7 @@
   "url": "https://www.austinrobin.design",
   "description": "Lead product designer working across product, brand, and creative direction — mostly in fintech. Building with AI to shorten the distance between what I imagine and what ships.",
   "email": "care@stock-bee.com",
+  "resume": "/Austin-Robin-Moras-Resume.pdf",
   "socials": [
     {
       "label": "LinkedIn",
@@ -20,24 +21,20 @@
   ],
   "nav": [
     {
-      "label": "Work",
-      "href": "/work"
-    },
-    {
       "label": "Gallery",
       "href": "/gallery"
     },
     {
-      "label": "About",
-      "href": "/about"
+      "label": "Works",
+      "href": "/#work"
     },
     {
-      "label": "Writing",
-      "href": "/writing"
+      "label": "Resume",
+      "href": "/Austin-Robin-Moras-Resume.pdf"
     },
     {
       "label": "Contact",
-      "href": "/contact"
+      "href": "mailto:care@stock-bee.com"
     }
   ]
 }

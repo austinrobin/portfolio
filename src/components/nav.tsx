@@ -40,6 +40,7 @@ export function Nav() {
             <Link
               key={item.href}
               href={item.href}
+              {...(item.href.endsWith(".pdf") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               className={`rounded-full px-3 py-1.5 text-sm transition-colors hover:bg-subtle ${
                 isActive(item.href) ? "text-foreground" : "text-muted"
               }`}
@@ -69,6 +70,7 @@ export function Nav() {
               <Link
                 key={item.href}
                 href={item.href}
+                {...(item.href.endsWith(".pdf") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 onClick={() => setOpen(false)}
                 className={`py-3 text-base ${
                   isActive(item.href) ? "text-foreground" : "text-muted"

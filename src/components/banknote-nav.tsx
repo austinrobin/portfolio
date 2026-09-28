@@ -5,22 +5,63 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { Monogram } from "@/components/home/monogram";
 import { heroFonts, INK } from "@/components/home/hero-config";
+import { siteConfig } from "@/lib/site";
+import { scrollToHash } from "@/components/scroll-to-hash";
 
 /*
  * The banknote nav — links flanking the signature monogram, at the exact
  * Figma percentages used by the landing hero.
  *
- * NOTE: this is a faithful copy of the nav inside portrait-hero.tsx, which
- * is frozen under checkpoint-01-banknote-hero. When that lock lifts, the
- * hero should import this and the duplicate should go.
+ * Gallery is a page. Works glides to the deck on the home page (and goes
+ * to /#work from anywhere else). Resume opens the PDF in a new tab.
+ * Contact opens a mail draft. Email and resume path live in content/site.json.
+ *
+ * NOTE: the hero in portrait-hero.tsx carries its own (hidden) copy of the
+ * old nav, frozen under checkpoint-01-banknote-hero.
  */
 
-const navLinks = [
-  { label: "Work", href: "/work", left: "6.61%" },
-  { label: "About", href: "/about", left: "21.9%" },
-  { label: "Writing", href: "/writing", left: "64.9%" },
-  { label: "Contact", href: "/contact", left: "80.4%" },
+type NavItem = { label: string; href: string; left: string; kind: "page" | "scroll" | "file" | "mail" };
+
+const navLinks: NavItem[] = [
+  { label: "Gallery", href: "/gallery", left: "6.61%", kind: "page" },
+  { label: "Works", href: "/#work", left: "21.9%", kind: "scroll" },
+  { label: "Resume", href: siteConfig.resume ?? "#", left: "64.9%", kind: "file" },
+  { label: "Contact", href: `mailto:${siteConfig.email}`, left: "80.4%", kind: "mail" },
 ];
+
+/* on the home page Works scrolls in place; elsewhere the link carries on to /#work */
+function onWorks(e: React.MouseEvent<HTMLAnchorElement>) {
+  if (window.location.pathname !== "/") return;
+  e.preventDefault();
+  scrollToHash("#work", true);
+}
+
+function NavLink({ item, className, style }: { item: NavItem; className: string; style: React.CSSProperties }) {
+  if (item.kind === "page") {
+    return (
+      <Link href={item.href} className={className} style={style}>
+        {item.label}
+      </Link>
+    );
+  }
+  if (item.kind === "scroll") {
+    return (
+      <Link href={item.href} onClick={onWorks} className={className} style={style}>
+        {item.label}
+      </Link>
+    );
+  }
+  return (
+    <a
+      href={item.href}
+      className={className}
+      style={style}
+      {...(item.kind === "file" ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
+      {item.label}
+    </a>
+  );
+}
 
 export function BanknoteNav({
   blend = false,
@@ -47,6 +88,7 @@ export function BanknoteNav({
     window.addEventListener("scroll", on, { passive: true });
     return () => window.removeEventListener("scroll", on);
   }, []);
+  const silk = { fontFamily: "var(--font-silk)" };
   /* blend: the nav rides over media — white ink in difference mode reads
      on paper (inverts to near-black) and on any image alike */
   const header = (
@@ -67,40 +109,24 @@ export function BanknoteNav({
       </Link>
       <nav className="hidden md:block">
         {navLinks.map((l) => (
-          <Link
-            key={l.href}
-            href={l.href}
+          <NavLink
+            key={l.label}
+            item={l}
             className="absolute top-[3.7svh] text-[clamp(11px,1.06vw,16px)] font-medium uppercase tracking-[0.02em] after:absolute after:-bottom-[0.35em] after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
-            style={{ left: l.left, fontFamily: "var(--font-silk)" }}
-          >
-            {l.label}
-          </Link>
+            style={{ left: l.left, ...silk }}
+          />
         ))}
       </nav>
       {/* narrow: two links each side of the monogram */}
       <nav className="flex items-center justify-between px-5 pt-[2.4svh] md:hidden">
         <div className="flex gap-4">
           {navLinks.slice(0, 2).map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="text-[11px] font-medium uppercase"
-              style={{ fontFamily: "var(--font-silk)" }}
-            >
-              {l.label}
-            </Link>
+            <NavLink key={l.label} item={l} className="text-[11px] font-medium uppercase" style={silk} />
           ))}
         </div>
         <div className="flex gap-4">
           {navLinks.slice(2).map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="text-[11px] font-medium uppercase"
-              style={{ fontFamily: "var(--font-silk)" }}
-            >
-              {l.label}
-            </Link>
+            <NavLink key={l.label} item={l} className="text-[11px] font-medium uppercase" style={silk} />
           ))}
         </div>
       </nav>
