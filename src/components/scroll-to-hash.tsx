@@ -23,7 +23,7 @@ export function ScrollToHash() {
     /* the smoother is created by a layout effect that can land after the
        page's first paint on a busy machine — so the jump is re-asserted a
        few times; it is idempotent */
-    const timers = [0, 120, 400, 900].map((ms) => window.setTimeout(go, ms));
+    const timers = [0, 120, 400, 900, 1600].map((ms) => window.setTimeout(go, ms));
     window.addEventListener("hashchange", go);
     return () => {
       timers.forEach((t) => window.clearTimeout(t));

@@ -45,8 +45,9 @@ function NavLink({ item, className, style }: { item: NavItem; className: string;
     );
   }
   if (item.kind === "scroll") {
+    // scroll={false}: the home page's hash handler places the deck itself
     return (
-      <Link href={item.href} onClick={onWorks} className={className} style={style}>
+      <Link href={item.href} onClick={onWorks} scroll={false} className={className} style={style}>
         {item.label}
       </Link>
     );
