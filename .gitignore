@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# showreel stages: licensed fonts + assets derived from the handover folder (rebuilt by scripts/reel/*/prep.py)
+/scripts/reel/*/fonts/
+/scripts/reel/*/a/
+/scripts/reel/*/seq/
+/scripts/reel/*/.prep/

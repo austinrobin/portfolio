@@ -1187,7 +1187,11 @@
     },
     "/deck/high.mp4": {
       "av1": true,
-      "hevc": true
+      "hevc": true,
+      "p1080": {
+        "h264": true,
+        "hevc": true
+      }
     },
     "/deck/lwt.mp4": {
       "av1": true,
@@ -1883,10 +1887,12 @@
     "/deck/bloom-algo.hevc.mp4": 1648076,
     "/deck/bloom-algo.mp4": 2825685,
     "/deck/bloom-algo.poster.webp": 44084,
-    "/deck/high.av1.mp4": 1010554,
-    "/deck/high.hevc.mp4": 1918300,
-    "/deck/high.mp4": 2389498,
-    "/deck/high.poster.webp": 69910,
+    "/deck/high.av1.mp4": 2590313,
+    "/deck/high.hevc.mp4": 3156173,
+    "/deck/high.mp4": 4589891,
+    "/deck/high.p1080.hevc.mp4": 1911742,
+    "/deck/high.p1080.mp4": 2489234,
+    "/deck/high.poster.webp": 135792,
     "/deck/lwt.av1.mp4": 712824,
     "/deck/lwt.hevc.mp4": 1129496,
     "/deck/lwt.mp4": 1806455,
