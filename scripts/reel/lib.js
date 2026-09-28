@@ -3,7 +3,8 @@
  * element for t = i / FPS, so any frame renders identically in any order. */
 
 export const W = 1920, H = 1200, CX = W / 2, CY = H / 2;
-export const FPS = 60, DUR = 16, BEAT = 0.5;
+// per project: set window.REEL_FPS / REEL_DUR before the module loads
+export const FPS = globalThis.REEL_FPS ?? 60, DUR = globalThis.REEL_DUR ?? 16, BEAT = 0.5;
 
 /* ------------------------------------------------------------ math */
 export const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));

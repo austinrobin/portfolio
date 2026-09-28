@@ -1183,7 +1183,11 @@
     },
     "/deck/bloom-algo.mp4": {
       "av1": true,
-      "hevc": true
+      "hevc": true,
+      "p1080": {
+        "h264": true,
+        "hevc": true
+      }
     },
     "/deck/high.mp4": {
       "av1": true,
@@ -1883,10 +1887,12 @@
     "/case/stockbee/uptrend.w640.webp": 27708,
     "/case/stockbee/uptrend.w960.webp": 46696,
     "/case/stockbee/uptrend.webp": 66690,
-    "/deck/bloom-algo.av1.mp4": 883732,
-    "/deck/bloom-algo.hevc.mp4": 1648076,
-    "/deck/bloom-algo.mp4": 2825685,
-    "/deck/bloom-algo.poster.webp": 44084,
+    "/deck/bloom-algo.av1.mp4": 1180346,
+    "/deck/bloom-algo.hevc.mp4": 1677835,
+    "/deck/bloom-algo.mp4": 3385650,
+    "/deck/bloom-algo.p1080.hevc.mp4": 529853,
+    "/deck/bloom-algo.p1080.mp4": 1161600,
+    "/deck/bloom-algo.poster.webp": 129832,
     "/deck/high.av1.mp4": 2590313,
     "/deck/high.hevc.mp4": 3156173,
     "/deck/high.mp4": 4589891,
