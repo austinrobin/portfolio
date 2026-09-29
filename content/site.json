@@ -36,5 +36,11 @@
       "label": "Contact",
       "href": "mailto:austin.moras2001@gmail.com"
     }
-  ]
+  ],
+  "closing": {
+    "line": "Enough about me.",
+    "ask": "What are you working on?",
+    "cta": "Tell me about it →",
+    "subject": "What I'm working on"
+  }
 }

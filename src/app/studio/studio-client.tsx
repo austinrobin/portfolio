@@ -1171,6 +1171,13 @@ export function StudioClient() {
                   setDraft({ ...draft, site: { ...draft.site, resume: v } })
                 }
               />
+              <div className="mt-3 border-t border-border pt-3">
+                <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">Closing line (under the desk)</p>
+                {([["line", "Small line (Silk caps)"], ["ask", "The ask (script)"], ["cta", "Button"], ["subject", "Mail subject"]] as const).map(([k, label]) => (
+                  <TextField key={k} label={label} value={draft.site.closing?.[k] ?? ""}
+                    onChange={(v) => setDraft({ ...draft, site: { ...draft.site, closing: { line: "", ask: "", cta: "", ...(draft.site.closing ?? {}), [k]: v } } })} />
+                ))}
+              </div>
               {draft.site.socials.map((s, i) => (
                 <div key={i} className="grid grid-cols-[1fr_2fr_auto] gap-2">
                   <TextField

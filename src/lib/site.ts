@@ -10,6 +10,8 @@ export interface SiteConfig {
   resume?: string;
   socials: { label: string; href: string }[];
   nav: { label: string; href: string }[];
+  /** the last word on the home page, above the banknote — a line, the ask, and the button that opens a mail */
+  closing?: { line: string; ask: string; cta: string; subject?: string };
 }
 
 /* Content lives in content/site.json — editable from /studio. */
