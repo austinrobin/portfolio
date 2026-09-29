@@ -1,5 +1,91 @@
 [
   {
+    "at": "2026-09-29T16:01:09.143Z",
+    "summary": "update x, x, y +13 more",
+    "changes": [
+      {
+        "field": "life.layout.p1.x",
+        "from": 8,
+        "to": 5.5
+      },
+      {
+        "field": "life.layout.p2.x",
+        "from": 32.5,
+        "to": 31
+      },
+      {
+        "field": "life.layout.p2.y",
+        "from": 22.5,
+        "to": 15.5
+      },
+      {
+        "field": "life.layout.p3.x",
+        "from": 5.5,
+        "to": 9
+      },
+      {
+        "field": "life.layout.p3.y",
+        "from": 47,
+        "to": 29.5
+      },
+      {
+        "field": "life.layout.camera.x",
+        "from": 61,
+        "to": 49.5
+      },
+      {
+        "field": "life.layout.camera.y",
+        "from": 31.5,
+        "to": 20
+      },
+      {
+        "field": "life.layout.seal.x",
+        "from": 29.5,
+        "to": 33.5
+      },
+      {
+        "field": "life.layout.seal.y",
+        "from": 60,
+        "to": 53
+      },
+      {
+        "field": "life.layout.seal.w",
+        "from": 210,
+        "to": 175
+      },
+      {
+        "field": "life.layout.record.x",
+        "from": 58,
+        "to": 80
+      },
+      {
+        "field": "life.layout.record.y",
+        "from": 5,
+        "to": 6
+      },
+      {
+        "field": "life.layout.stamp.x",
+        "from": 75,
+        "to": 67
+      },
+      {
+        "field": "life.layout.stamp.y",
+        "from": 68,
+        "to": 52.5
+      },
+      {
+        "field": "life.layout.stamp.w",
+        "from": 180,
+        "to": 165
+      },
+      {
+        "field": "life.layout.stamp.r",
+        "from": -7,
+        "to": 13.5
+      }
+    ]
+  },
+  {
     "at": "2026-09-29T15:54:03.070Z",
     "summary": "update scanSpeed",
     "changes": [
