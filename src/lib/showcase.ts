@@ -43,7 +43,7 @@ export const showcase: ShowcaseItem[] = [
     id: "bloom-algo",
     title: "Bloom Algo",
     subtitle: "Making algo trading feel less like an algorithm",
-    year: "2024",
+    year: "2025",
     href: "/work/bloom-algo",
     cover: "/deck/bloom-algo.mp4",
     coverPoster: "/deck/bloom-algo.poster.webp",
