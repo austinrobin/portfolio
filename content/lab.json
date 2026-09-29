@@ -16,14 +16,19 @@
       "title": "The tab you keep open",
       "blurb": "One small, overlooked problem — solved so cleanly it earns a spot in your workflow.",
       "glow": "75% 20%",
-      "cover": "/lab/pixel-strings.webp"
+      "cover": "/lab/pixel-strings.webp",
+      "href": "https://pixel-strings.vercel.app/",
+      "tool": "Claude Code"
     },
     {
-      "name": "Departures",
+      "name": "Holo",
       "tag": "The Craft",
-      "title": "Product thinking, refined",
-      "blurb": "A considered build that shows how I think about products end to end.",
-      "glow": "40% 80%"
+      "title": "Hologram works",
+      "blurb": "Press a logo into a holographic foil plate — tilt it, re-emboss it, export the loop.",
+      "glow": "40% 80%",
+      "href": "https://holo-two-jade.vercel.app/",
+      "cover": "/lab/holo.webp",
+      "tool": "Claude Code"
     }
   ],
   "paneWidth": 46,
