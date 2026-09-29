@@ -256,6 +256,14 @@
       "media": [
         {
           "kind": "image",
+          "src": "/case/bloom-algo/future.webp",
+          "alt": "Bloom's landing: 'The future of trading is here' — an iMac among flowers on a rock",
+          "block": "primary",
+          "w": 2024,
+          "h": 1332
+        },
+        {
+          "kind": "image",
           "src": "/case/bloom-algo/brand-board.webp",
           "alt": "Bloom Algo brand board: logo, gradients, connect broker and Earnings Pulse cards",
           "w": 1533,
@@ -373,6 +381,14 @@
         },
         {
           "kind": "image",
+          "src": "/case/bloom-algo/pricing-tiers.webp",
+          "alt": "Deploy, Test, Optimize — the three plans on glass cards",
+          "block": "primary",
+          "w": 1728,
+          "h": 1140
+        },
+        {
+          "kind": "image",
           "src": "/case/bloom-algo/pricing.webp",
           "alt": "Deploy, Test, Optimize: Bloom Prime, Bloom Elite and FinX plans",
           "w": 1482,
@@ -392,7 +408,16 @@
         "The focus was on reducing unnecessary configuration, making strategy selection clearer, and keeping risk and performance visible throughout the experience."
       ],
       "statement": "The complexity still exists. It just doesn't need to sit in front of the user.",
-      "media": []
+      "media": [
+        {
+          "kind": "image",
+          "src": "/case/bloom-algo/smart-fast-secure.webp",
+          "alt": "Bloom Algo — Smart. Fast. Secure.",
+          "block": "primary",
+          "w": 1788,
+          "h": 1030
+        }
+      ]
     }
   ],
   "impact": {

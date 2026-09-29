@@ -34,6 +34,22 @@
           "block": "primary",
           "w": 1280,
           "h": 720
+        },
+        {
+          "kind": "image",
+          "src": "/case/mach/world-scifi.webp",
+          "alt": "A figure at the centre of a luminous, half-built desert world",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
+        },
+        {
+          "kind": "image",
+          "src": "/case/mach/world-fire.webp",
+          "alt": "A figure between LED panels of fire, the scene intentionally incomplete",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
         }
       ]
     },
@@ -48,6 +64,14 @@
       ],
       "statement": "Creative enough to excite. Technical enough to trust.",
       "media": [
+        {
+          "kind": "image",
+          "src": "/case/mach/volume-crew.webp",
+          "alt": "A film crew on the LED volume, a Nordic lake on the wall behind them",
+          "block": "primary",
+          "w": 2560,
+          "h": 1433
+        },
         {
           "kind": "video",
           "src": "/case/mach/camera.mp4",
@@ -74,6 +98,38 @@
           "block": "primary",
           "w": 1280,
           "h": 720
+        },
+        {
+          "kind": "image",
+          "src": "/case/mach/world-forest.webp",
+          "alt": "An ancient fig-tree forest, extreme wide",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
+        },
+        {
+          "kind": "image",
+          "src": "/case/mach/world-dusk.webp",
+          "alt": "An architectural visualisation at dusk, mirrored in water",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
+        },
+        {
+          "kind": "image",
+          "src": "/case/mach/world-waterfront.webp",
+          "alt": "A bustling public waterfront at golden hour",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
+        },
+        {
+          "kind": "image",
+          "src": "/case/mach/world-valley.webp",
+          "alt": "A panoramic mountain valley with a lone figure",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
         }
       ]
     },
@@ -107,6 +163,15 @@
           "cols": 2,
           "ratio": 1.7778,
           "zoom": 1.35
+        },
+        {
+          "kind": "image",
+          "src": "/case/mach/wordmark.webp",
+          "alt": "The MACH wordmark",
+          "block": "custom",
+          "w": 512,
+          "h": 157,
+          "ratio": 3.261
         }
       ]
     }

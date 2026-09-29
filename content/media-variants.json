@@ -87,6 +87,15 @@
         1280
       ]
     },
+    "/case/bloom-algo/future.webp": {
+      "w": 2024,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
     "/case/bloom-algo/goldfish.webp": {
       "w": 2560,
       "widths": [
@@ -145,8 +154,24 @@
         1280
       ]
     },
+    "/case/bloom-algo/pricing-tiers.webp": {
+      "w": 1728,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
     "/case/bloom-algo/pricing.webp": {
       "w": 1482,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
+    "/case/bloom-algo/smart-fast-secure.webp": {
+      "w": 1788,
       "widths": [
         640,
         960,
@@ -753,6 +778,73 @@
         1280
       ]
     },
+    "/case/mach/volume-crew.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/mach/wordmark.webp": {
+      "w": 512,
+      "widths": []
+    },
+    "/case/mach/world-dusk.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/mach/world-fire.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/mach/world-forest.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/mach/world-scifi.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/mach/world-valley.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
+    "/case/mach/world-waterfront.webp": {
+      "w": 2560,
+      "widths": [
+        640,
+        960,
+        1280,
+        1920
+      ]
+    },
     "/case/stockbee/ai-section.webp": {
       "w": 1491,
       "widths": [
@@ -1312,6 +1404,7 @@
     "/case/bloom-algo/future-instances.w640.webp": 19010,
     "/case/bloom-algo/future-instances.w960.webp": 34136,
     "/case/bloom-algo/future-instances.webp": 81144,
+    "/case/bloom-algo/future.webp": 224346,
     "/case/bloom-algo/goldfish.w1280.webp": 80518,
     "/case/bloom-algo/goldfish.w1920.webp": 202764,
     "/case/bloom-algo/goldfish.w640.webp": 24416,
@@ -1345,10 +1438,12 @@
     "/case/bloom-algo/plug-play.w640.webp": 26398,
     "/case/bloom-algo/plug-play.w960.webp": 48254,
     "/case/bloom-algo/plug-play.webp": 131128,
+    "/case/bloom-algo/pricing-tiers.webp": 68754,
     "/case/bloom-algo/pricing.w1280.webp": 51898,
     "/case/bloom-algo/pricing.w640.webp": 21034,
     "/case/bloom-algo/pricing.w960.webp": 36976,
     "/case/bloom-algo/pricing.webp": 68618,
+    "/case/bloom-algo/smart-fast-secure.webp": 25850,
     "/case/bloom-algo/splash.w640.webp": 82538,
     "/case/bloom-algo/splash.webp": 120382,
     "/case/bloom-algo/strategy-cards.w640.webp": 21594,
@@ -1829,6 +1924,14 @@
     "/case/mach/reveal.p1080.hevc.mp4": 1534530,
     "/case/mach/reveal.p1080.mp4": 2041795,
     "/case/mach/reveal.poster.webp": 14558,
+    "/case/mach/volume-crew.webp": 659430,
+    "/case/mach/wordmark.webp": 30424,
+    "/case/mach/world-dusk.webp": 502980,
+    "/case/mach/world-fire.webp": 295474,
+    "/case/mach/world-forest.webp": 480298,
+    "/case/mach/world-scifi.webp": 474408,
+    "/case/mach/world-valley.webp": 565400,
+    "/case/mach/world-waterfront.webp": 678964,
     "/case/stockbee/ai-section.w1280.webp": 59880,
     "/case/stockbee/ai-section.w640.webp": 24440,
     "/case/stockbee/ai-section.w960.webp": 41526,
