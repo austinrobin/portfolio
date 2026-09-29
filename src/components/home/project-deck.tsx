@@ -74,6 +74,10 @@ function DeckCard({
     return (v - 1) * 40; // the floor creeps toward the camera as it waits
   });
 
+  /* only the featured sheet takes the click: the fallen ones on the floor
+     project over its lower half, and the queue is behind it */
+  const pointerEvents = useTransform(t, (v) => (Math.abs(v) < 0.5 ? "auto" : "none"));
+
   const opacity = useTransform(t, (v) => {
     if (v <= -5.5) return 0;
     if (v < -4.5) return v + 5.5; // deep in the queue, sheets fade in
@@ -86,7 +90,7 @@ function DeckCard({
   return (
     <motion.div
       className="absolute inset-0 [transform-style:preserve-3d] will-change-transform"
-      style={{ rotateX, y, z, opacity, transformOrigin: "50% 100%" }}
+      style={{ rotateX, y, z, opacity, pointerEvents, transformOrigin: "50% 100%" }}
     >
       <div
         className="absolute inset-0 cursor-pointer overflow-hidden rounded-lg border border-border shadow-[0_12px_30px_rgba(26,25,19,0.2)] sm:shadow-[0_30px_80px_rgba(26,25,19,0.22)]"
@@ -210,7 +214,10 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
      unchanged, it just reads a GSAP-fed MotionValue now. */
   const scrollYProgress = useScrollProgress(wrapRef, "top top", "bottom bottom");
   usePinned(wrapRef, stageRef);
-  const p = useTransform(scrollYProgress, (v) => v * (n - 1));
+  /* the last sheet holds for a tail of TAIL screens before the stage lets go,
+     so it can be read and opened like the others */
+  const TAIL = 0.6;
+  const p = useTransform(scrollYProgress, (v) => Math.min(v * (n - 1 + TAIL), n - 1));
 
   /* Entrance choreography, complete BEFORE the section top pins: while the
      section rides up from the viewport bottom, the big script is the
@@ -259,7 +266,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
   const current = items[active];
 
   return (
-    <div ref={wrapRef} className={fontVars} style={{ height: `${n * 100}vh` }}>
+    <div ref={wrapRef} className={fontVars} style={{ height: `${(n + 0.6) * 100}vh` }}>
       <div
         ref={stageRef}
         className="flex h-svh flex-col items-center justify-center overflow-hidden pt-[12svh]"
@@ -281,7 +288,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
 
         {/* Project name + details, inked like the design */}
         <motion.div
-          className="relative z-10 mb-[16px] flex w-[var(--deck-w)] flex-col items-start gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4"
+          className="relative z-20 mb-[16px] flex w-[var(--deck-w)] flex-col items-start gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4"
           style={{ opacity: capOpacity, color: INK, y: capY }}
         >
           <div className="min-w-0">
@@ -321,11 +328,15 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
             above it and the floor projects ~39% of its height below (half of
             that is reserved so the composition centres on it), so the sheet
             is sized to the viewport with that headroom (max 1240px wide). */}
+        {/* the box and its stage plane take no clicks: a sheet leaning back
+            has its top half behind the stage's plane in 3D, and real input
+            hit-testing would hand those clicks to the (transparent) stage.
+            Only the featured sheet opts back in. */}
         <motion.div
-          className="z-10 w-[var(--deck-w)] pt-[calc(var(--deck-w)*0.078)] pb-[calc(var(--deck-w)*0.16)]"
+          className="pointer-events-none z-10 w-[var(--deck-w)] pt-[calc(var(--deck-w)*0.078)] pb-[calc(var(--deck-w)*0.16)]"
           style={{ perspective: "calc(var(--deck-w) * 2.7)", perspectiveOrigin: "50% 0%", y: deckY }}
         >
-          <div className="relative aspect-[16/10] [transform-style:preserve-3d]">
+          <div className="pointer-events-none relative aspect-[16/10] [transform-style:preserve-3d]">
             {items.map((item, i) => (
               <DeckCard key={item.id} item={item} index={i} p={p} playing={phone ? i === active : Math.abs(i - active) <= 1} />
             ))}

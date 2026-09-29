@@ -37,6 +37,6 @@
   "idleMs": 2500,
   "scanCenterX": 0.5,
   "scanCenterY": 0.42,
-  "scanRadiusX": 0.26,
+  "scanRadiusX": 0.4,
   "scanRadiusY": 0.28
 }
