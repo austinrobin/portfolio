@@ -409,8 +409,9 @@ export function GalleryCanvas() {
     const onPointerDown = (e: PointerEvent) => {
       armAudio();
       if (e.pointerType === "mouse" && e.button !== 0) return;
+      // the nav and the sound button live inside this box: their taps are theirs
+      if ((e.target as Element | null)?.closest("a, button, [data-banknote-nav]")) return;
       dragY = e.clientY; dragId = e.pointerId;
-      try { wrap.setPointerCapture(e.pointerId); } catch {}
     };
     const onPointerMove = (e: PointerEvent) => {
       if (dragY === null || e.pointerId !== dragId) return;
@@ -520,9 +521,11 @@ export function GalleryCanvas() {
     (wrap as HTMLDivElement & { __boost?: () => number }).__boost = () => boost;
     wrap.addEventListener("wheel", onWheel, { passive: false });
     wrap.addEventListener("pointerdown", onPointerDown);
-    wrap.addEventListener("pointermove", onPointerMove);
-    wrap.addEventListener("pointerup", onPointerUp);
-    wrap.addEventListener("pointercancel", onPointerUp);
+    // the drag is followed on the window (no pointer capture — capture would
+    // swallow the clicks of everything else inside this full-screen box)
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
+    window.addEventListener("pointercancel", onPointerUp);
     window.addEventListener("keydown", onKey);
     raf = requestAnimationFrame(frame);
 
@@ -532,9 +535,9 @@ export function GalleryCanvas() {
       ro.disconnect();
       wrap.removeEventListener("wheel", onWheel);
       wrap.removeEventListener("pointerdown", onPointerDown);
-      wrap.removeEventListener("pointermove", onPointerMove);
-      wrap.removeEventListener("pointerup", onPointerUp);
-      wrap.removeEventListener("pointercancel", onPointerUp);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
+      window.removeEventListener("pointercancel", onPointerUp);
       window.removeEventListener("keydown", onKey);
       for (const tx of textures) if (tx) gl.deleteTexture(tx);
       void ctx?.close();
