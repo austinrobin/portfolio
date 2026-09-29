@@ -1,6 +1,8 @@
 import { heroFonts, INK } from "./hero-config";
 import { Reveal } from "@/components/motion";
 import { siteConfig } from "@/lib/site";
+import { caseFont } from "@/components/case-study/case-font";
+
 
 /*
  * The last word before the banknote: the desk winds down, and the page
@@ -39,9 +41,14 @@ export function ClosingInvite() {
             href={href}
             data-track="contact"
             data-track-label="closing"
-            className="mt-9 inline-flex items-center rounded-full border border-[#101BBC] px-6 py-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#101BBC] transition-colors duration-300 hover:bg-[#101BBC] hover:text-[#F9F7F1]"
+            className={`group mt-10 inline-flex min-h-[56px] items-center gap-3 border border-[#101BBC] px-8 py-4 text-[clamp(16px,1.25vw,19px)] text-[#101BBC] transition-colors hover:bg-[#101BBC] hover:text-[#F9F7F1] ${caseFont.variable} font-[family-name:var(--font-case)]`}
           >
             {c.cta}
+            {/* the deck's swash arrow, a size up */}
+            <svg width="24" height="14" viewBox="0 0 20 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
+              <path d="M1 6H18.5" />
+              <path d="M13.5 1.5L18.5 6l-5 4.5" />
+            </svg>
           </a>
         ) : null}
       </Reveal>

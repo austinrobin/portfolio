@@ -40,7 +40,7 @@
   "closing": {
     "line": "Enough about me.",
     "ask": "What are you working on?",
-    "cta": "Tell me about it →",
+    "cta": "Tell me about it",
     "subject": "What I'm working on"
   }
 }
