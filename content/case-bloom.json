@@ -433,12 +433,12 @@
         "label": "Broker integrations"
       },
       {
-        "value": "XX%",
-        "label": "Activation"
+        "value": "5K+",
+        "label": "Users"
       },
       {
-        "value": "XX%",
-        "label": "Retention"
+        "value": "20K+",
+        "label": "Deployments per month"
       }
     ]
   },
