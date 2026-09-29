@@ -1147,7 +1147,11 @@
         "h264": true
       }
     },
-    "/case/high/phone-fno.mp4": {},
+    "/case/high/phone-fno.mp4": {
+      "p1080": {
+        "h264": true
+      }
+    },
     "/case/high/phone-investor.mp4": {
       "p1080": {
         "h264": true
@@ -1630,26 +1634,26 @@
     "/case/high/phone-badge.p1080.hevc.mp4": 2115909,
     "/case/high/phone-badge.p1080.mp4": 1888112,
     "/case/high/phone-badge.poster.webp": 41176,
-    "/case/high/phone-cards.mp4": 4158935,
-    "/case/high/phone-cards.p1080.hevc.mp4": 1978834,
-    "/case/high/phone-cards.p1080.mp4": 2095447,
-    "/case/high/phone-cards.poster.webp": 72004,
+    "/case/high/phone-cards.mp4": 4109930,
+    "/case/high/phone-cards.p1080.hevc.mp4": 1866540,
+    "/case/high/phone-cards.p1080.mp4": 2037931,
+    "/case/high/phone-cards.poster.webp": 26194,
     "/case/high/phone-collectible.mp4": 5451186,
     "/case/high/phone-collectible.p1080.hevc.mp4": 2727712,
     "/case/high/phone-collectible.p1080.mp4": 2737024,
     "/case/high/phone-collectible.poster.webp": 52536,
     "/case/high/phone-fno.mp4": 6066442,
-    "/case/high/phone-fno.p1080.hevc.mp4": 3529973,
-    "/case/high/phone-fno.p1080.mp4": 2097200,
-    "/case/high/phone-fno.poster.webp": 77610,
+    "/case/high/phone-fno.p1080.hevc.mp4": 3350685,
+    "/case/high/phone-fno.p1080.mp4": 3308064,
+    "/case/high/phone-fno.poster.webp": 50544,
     "/case/high/phone-hill.w1280.webp": 97946,
     "/case/high/phone-hill.w640.webp": 41580,
     "/case/high/phone-hill.w960.webp": 69722,
     "/case/high/phone-hill.webp": 126604,
-    "/case/high/phone-investor.mp4": 1617287,
-    "/case/high/phone-investor.p1080.hevc.mp4": 1022921,
-    "/case/high/phone-investor.p1080.mp4": 895549,
-    "/case/high/phone-investor.poster.webp": 134748,
+    "/case/high/phone-investor.mp4": 1720422,
+    "/case/high/phone-investor.p1080.hevc.mp4": 976520,
+    "/case/high/phone-investor.p1080.mp4": 964489,
+    "/case/high/phone-investor.poster.webp": 65772,
     "/case/high/phone-portfolio.mp4": 2831292,
     "/case/high/phone-portfolio.p1080.hevc.mp4": 916663,
     "/case/high/phone-portfolio.p1080.mp4": 1166946,
