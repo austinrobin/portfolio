@@ -64,6 +64,12 @@
       "y": 5,
       "w": 250,
       "r": 3
+    },
+    "stamp": {
+      "x": 75,
+      "y": 68,
+      "w": 180,
+      "r": -7
     }
   },
   "deskHeight": 1080,
@@ -74,7 +80,8 @@
     "title": "Sugar",
     "artist": "Maroon 5",
     "from": 0,
-    "to": 31,
+    "to": 35,
     "resume": 3
-  }
+  },
+  "stamp": "/life/stamp.webp"
 }

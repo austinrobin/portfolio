@@ -29,7 +29,7 @@ export interface LifeRecord {
   resume: number; // seconds — hover again within this and the song carries on, later and it starts over
 }
 
-export type LifePieceId = "p1" | "p2" | "p3" | "camera" | "seal" | "record";
+export type LifePieceId = "p1" | "p2" | "p3" | "camera" | "seal" | "record" | "stamp";
 export interface LifePieceLayout {
   x: number; // % of the desk's width, the piece's left edge
   y: number; // % of the desk's height, the piece's top edge
@@ -40,6 +40,7 @@ export type LifeLayout = Record<LifePieceId, LifePieceLayout>;
 
 export interface LifeSettings {
   seal: string; // the wax seal (a cut-out with alpha); empty hides it
+  stamp: string; // a postage stamp (a cut-out with alpha); empty hides it
   deskHeight: number; // px, the desktop canvas
   layout: LifeLayout; // where every piece sits on the desk
   photos: LifePhoto[]; // three

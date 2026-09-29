@@ -34,7 +34,7 @@ import { VIDEO_TYPE } from "@/lib/video-sources";
 
 type Placed =
   | { id: LifePieceId; kind: "photo"; index: number; z: number }
-  | { id: LifePieceId; kind: "camera" | "seal" | "record"; z: number };
+  | { id: LifePieceId; kind: "camera" | "seal" | "record" | "stamp"; z: number };
 
 /* what sits on the desk; where and how big comes from content/life.json */
 const SPREAD: Placed[] = [
@@ -44,6 +44,7 @@ const SPREAD: Placed[] = [
   { id: "camera", kind: "camera", z: 5 },
   { id: "seal", kind: "seal", z: 7 },
   { id: "record", kind: "record", z: 8 },
+  { id: "stamp", kind: "stamp", z: 6 },
 ];
 
 /* ---------------------------------------------------------------- pieces */
@@ -315,6 +316,24 @@ const DISC =
   "conic-gradient(from 210deg, rgba(255,255,255,0.12), transparent 22%, rgba(255,255,255,0.05) 48%, transparent 72%, rgba(255,255,255,0.12)), " +
   "repeating-radial-gradient(circle at 50% 50%, #121212 0 1.4px, #222 1.4px 2.8px)";
 
+/* a postage stamp lying flat: a tight shadow, nothing more */
+function Stamp({ src }: { src: string }) {
+  return (
+    /* eslint-disable-next-line @next/next/no-img-element -- a cut-out at its own size */
+    <img
+      src={mediaUrl(src)}
+      alt="A postage stamp from Himachal, October 2025"
+      width={640}
+      height={769}
+      className="block h-auto w-full"
+      style={{ aspectRatio: "640 / 769", filter: "drop-shadow(0 3px 6px rgba(26,25,19,0.28)) drop-shadow(0 1px 1px rgba(26,25,19,0.2))" }}
+      draggable={false}
+      loading="lazy"
+      decoding="async"
+    />
+  );
+}
+
 function Record({ record }: { record: LifeRecord }) {
   const ref = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -323,7 +342,6 @@ function Record({ record }: { record: LifeRecord }) {
   const fade = useRef(0); // the volume ramp's frame
   const [near, setNear] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const [blocked, setBlocked] = useState(false); // the browser refused sound before a press
   const [coarse, setCoarse] = useState(false);
   const reduce = useReducedMotion();
 
@@ -377,11 +395,9 @@ function Record({ record }: { record: LifeRecord }) {
       if (!wanted.current) { a.pause(); return; } // the pointer left while play() was pending
       ramp(a, 1, 250);
       setPlaying(true);
-      setBlocked(false);
-    } catch (e) {
-      /* only a refusal to make sound before a press is worth a pill; an
-         interrupted play() (left again before it started) is not */
-      if (e instanceof DOMException && e.name === "NotAllowedError") setBlocked(true);
+    } catch {
+      /* refused before any press on the site, or interrupted by leaving
+         again — the first press anywhere unlocks it, and the next hover plays */
     }
   };
   const stop = () => {
@@ -392,13 +408,38 @@ function Record({ record }: { record: LifeRecord }) {
     setPlaying(false);
     ramp(a, 0, 140, () => a.pause());
   };
+  /* browsers only let a page make sound after a press somewhere. The first
+     press anywhere on the site (a link, a drag on the desk, a key) unlocks
+     the record silently, so hovering it afterwards simply plays. */
+  useEffect(() => {
+    if (!near) return;
+    let unlocked = false;
+    const unlock = () => {
+      const a = audioRef.current;
+      if (!a || unlocked) return;
+      unlocked = true;
+      const v = a.volume;
+      a.volume = 0;
+      a.play()
+        .then(() => {
+          if (!wanted.current) { a.pause(); a.currentTime = record.from; a.volume = v; }
+          else { a.volume = 0; ramp(a, 1, 250); setPlaying(true); }
+        })
+        .catch(() => { unlocked = false; a.volume = v; });
+    };
+    const evs = ["pointerdown", "keydown", "touchend"] as const;
+    evs.forEach((e) => document.addEventListener(e, unlock, { capture: true, passive: true }));
+    return () => evs.forEach((e) => document.removeEventListener(e, unlock, { capture: true }));
+  }, [near, record.from]);
   const onTime = () => {
     const a = audioRef.current;
     if (a && a.currentTime >= record.to) a.currentTime = record.from;
   };
   const toggle = () => (playing ? stop() : start());
-  const out = playing || blocked;
-  const pill = blocked ? "press to play" : coarse && !playing ? "tap to play" : null;
+  const out = playing;
+  /* desktop never asks for a press: the hover is the switch, and the first
+     press anywhere on the site has already unlocked the sound */
+  const pill = coarse && !playing ? "tap to play" : null;
 
   return (
     <div
@@ -528,6 +569,8 @@ export function LifeCollage({
         return cfg.seal ? <Seal src={cfg.seal} /> : null;
       case "record":
         return cfg.record?.cover ? <Record record={cfg.record} /> : null;
+      case "stamp":
+        return cfg.stamp ? <Stamp src={cfg.stamp} /> : null;
     }
   };
 
@@ -547,6 +590,7 @@ export function LifeCollage({
         {SPREAD.map((p, i) => {
           if (p.kind === "seal" && !cfg.seal) return null;
           if (p.kind === "record" && !cfg.record?.cover) return null;
+          if (p.kind === "stamp" && !cfg.stamp) return null;
           const rotate = rotateOf(p);
           const lay = layout[p.id];
           return (
@@ -584,11 +628,12 @@ export function LifeCollage({
           const rotate = rotateOf(p);
           if (p.kind === "seal" && !cfg.seal) return null;
           if (p.kind === "record" && !cfg.record?.cover) return null;
-          const wide = p.kind !== "photo" && p.kind !== "seal" && p.kind !== "record";
+          if (p.kind === "stamp" && !cfg.stamp) return null;
+          const wide = p.kind !== "photo" && p.kind !== "seal" && p.kind !== "record" && p.kind !== "stamp";
           return (
             <motion.div
               key={p.id}
-              className={p.kind === "seal" ? "w-[38%] max-w-[180px]" : p.kind === "record" ? "mr-[28%] w-[52%] max-w-[240px]" : wide ? "w-full max-w-[380px]" : "w-[46%] min-w-[150px] max-w-[240px]"}
+              className={p.kind === "seal" || p.kind === "stamp" ? "w-[38%] max-w-[180px]" : p.kind === "record" ? "mr-[28%] w-[52%] max-w-[240px]" : wide ? "w-full max-w-[380px]" : "w-[46%] min-w-[150px] max-w-[240px]"}
               style={{ rotate: rotate * 0.7 }}
               initial={reduce ? false : { opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
