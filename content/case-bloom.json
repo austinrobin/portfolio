@@ -302,6 +302,16 @@
           "zoom": 1,
           "focusX": 14,
           "focusY": 50
+        },
+        {
+          "kind": "image",
+          "src": "/case/bloom-algo/flowers.webp",
+          "alt": "Bloom Algo brand art: chrome flowers",
+          "w": 2560,
+          "h": 1433,
+          "block": "tertiary",
+          "cols": 2,
+          "ratio": 1.786
         }
       ]
     },
