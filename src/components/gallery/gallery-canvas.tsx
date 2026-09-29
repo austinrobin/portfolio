@@ -336,66 +336,42 @@ export function GalleryCanvas() {
     const ro = new ResizeObserver(resize);
     ro.observe(wrap);
 
-    /* ---------------- audio ---------------- */
-    let ctx: AudioContext | null = null;
-    let wooshGain: GainNode | null = null;
-    let lastShutter = 0;
-
-    const armAudio = () => {
-      if (ctx) {
-        // wheel isn't "user activation" in Chrome — resume whenever we can
-        if (ctx.state === "suspended") void ctx.resume();
-        return;
-      }
-      try {
-        ctx = new AudioContext();
-        if (ctx.state === "suspended") void ctx.resume();
-        // woosh: looped noise through a low bandpass, gain rides speed
-        const len = ctx.sampleRate * 2;
-        const buf2 = ctx.createBuffer(1, len, ctx.sampleRate);
-        const data = buf2.getChannelData(0);
-        for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
-        const src = ctx.createBufferSource();
-        src.buffer = buf2;
-        src.loop = true;
-        const bp = ctx.createBiquadFilter();
-        bp.type = "bandpass";
-        bp.frequency.value = 380;
-        bp.Q.value = 0.6;
-        wooshGain = ctx.createGain();
-        wooshGain.gain.value = 0;
-        src.connect(bp).connect(wooshGain).connect(ctx.destination);
-        src.start();
-      } catch {
-        ctx = null;
-      }
+    /* ---------------- audio ----------------
+       "Evening Sea Breeze", looped, under the flight. It starts on the first
+       wheel or press that the browser lets make sound, fades in over a
+       second, and the sound button fades it out and back. */
+    let music: HTMLAudioElement | null = null;
+    let fadeRaf = 0;
+    const MUSIC_LEVEL = 0.55;
+    const fadeTo = (to: number, ms: number) => {
+      if (!music) return;
+      const a = music;
+      cancelAnimationFrame(fadeRaf);
+      const from = a.volume, t0 = performance.now();
+      const step = (t: number) => {
+        const k = Math.min(1, Math.max(0, (t - t0) / ms));
+        a.volume = from + (to - from) * k;
+        if (k < 1) fadeRaf = requestAnimationFrame(step);
+        else if (to === 0) a.pause();
+      };
+      fadeRaf = requestAnimationFrame(step);
     };
-
-    const shutter = (strength: number) => {
-      if (!ctx || mutedRef.current) return;
-      const now = ctx.currentTime;
-      if (now - lastShutter < 0.14) return;
-      lastShutter = now;
-      // two tight noise blades = curtain open/close
-      for (const [dt, dur, level] of [
-        [0, 0.018, 0.5],
-        [0.052, 0.026, 0.32],
-      ] as const) {
-        const len = Math.ceil(ctx.sampleRate * dur);
-        const b = ctx.createBuffer(1, len, ctx.sampleRate);
-        const ch = b.getChannelData(0);
-        for (let i = 0; i < len; i++)
-          ch[i] = (Math.random() * 2 - 1) * (1 - i / len);
-        const s = ctx.createBufferSource();
-        s.buffer = b;
-        const hp = ctx.createBiquadFilter();
-        hp.type = "highpass";
-        hp.frequency.value = 1800;
-        const g = ctx.createGain();
-        g.gain.value = level * Math.min(1, 0.3 + strength);
-        s.connect(hp).connect(g).connect(ctx.destination);
-        s.start(now + dt);
+    const armAudio = () => {
+      if (mutedRef.current) return;
+      if (!music) {
+        music = new Audio(mediaUrl("/gallery/evening-sea-breeze.mp3"));
+        music.loop = true;
+        music.preload = "auto";
+        music.volume = 0;
       }
+      if (!music.paused) return;
+      // wheel isn't "user activation" in Chrome — this may be refused until a press
+      music.play().then(() => fadeTo(MUSIC_LEVEL, 1200)).catch(() => {});
+    };
+    const setMuted = (m: boolean) => {
+      mutedRef.current = m;
+      if (m) fadeTo(0, 600);
+      else armAudio();
     };
 
     /* ---------------- input ---------------- */
@@ -496,7 +472,6 @@ export function GalleryCanvas() {
           // wrap threshold, so a recycled card can never ping-pong (the old
           // 0.12/ZSPAN pair trapped cards in an invisible flicker loop)
           z[i] += span;
-          if (speedNorm > 0.22) shutter(speedNorm);
         } else if (z[i] > span + RECYCLE_AT) {
           z[i] -= span; // (reverse travel)
         }
@@ -504,19 +479,11 @@ export function GalleryCanvas() {
 
       drawFrame(now);
 
-      if (wooshGain && ctx) {
-        wooshGain.gain.setTargetAtTime(
-          mutedRef.current ? 0 : speedNorm * 0.26,
-          ctx.currentTime,
-          0.08,
-        );
-      }
-
       raf = requestAnimationFrame(frame);
     };
 
     drawFrame(last); // eager first paint — no blank flash before rAF
-    (wrap as HTMLDivElement & { __armAudio?: () => void }).__armAudio = armAudio;
+    (wrap as HTMLDivElement & { __setMuted?: (m: boolean) => void }).__setMuted = setMuted;
     // read-only probe of the fly speed, for headless checks
     (wrap as HTMLDivElement & { __boost?: () => number }).__boost = () => boost;
     wrap.addEventListener("wheel", onWheel, { passive: false });
@@ -532,6 +499,8 @@ export function GalleryCanvas() {
     return () => {
       disposed = true;
       cancelAnimationFrame(raf);
+      cancelAnimationFrame(fadeRaf);
+      if (music) { music.pause(); music.src = ""; music = null; }
       ro.disconnect();
       wrap.removeEventListener("wheel", onWheel);
       wrap.removeEventListener("pointerdown", onPointerDown);
@@ -540,7 +509,6 @@ export function GalleryCanvas() {
       window.removeEventListener("pointercancel", onPointerUp);
       window.removeEventListener("keydown", onKey);
       for (const tx of textures) if (tx) gl.deleteTexture(tx);
-      void ctx?.close();
     };
   }, [reduce]);
 
@@ -579,12 +547,13 @@ export function GalleryCanvas() {
       <button
         ref={muteBtnRef}
         onClick={() => {
+          const next = !mutedRef.current;
           (
             wrapRef.current as
-              | (HTMLDivElement & { __armAudio?: () => void })
+              | (HTMLDivElement & { __setMuted?: (m: boolean) => void })
               | null
-          )?.__armAudio?.();
-          mutedRef.current = !mutedRef.current;
+          )?.__setMuted?.(next);
+          mutedRef.current = next;
           if (muteBtnRef.current)
             muteBtnRef.current.textContent = mutedRef.current
               ? "sound off"
