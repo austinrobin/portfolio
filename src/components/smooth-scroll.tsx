@@ -32,6 +32,9 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     () => {
       if (isImmersive(pathname)) return;
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      // phones and tablets scroll natively: smoothing them means re-compositing
+      // the whole page on every frame, which is exactly what makes them jitter
+      if (navigator.maxTouchPoints > 0 || window.matchMedia("(pointer: coarse)").matches) return;
       const wrapper = wrapRef.current;
       const content = wrapper?.firstElementChild;
       if (!wrapper || !content) return;

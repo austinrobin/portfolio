@@ -549,7 +549,7 @@ export function PortraitHero({
     let fSy = 1;
     let patPhase = 0;
     let idleThrottle = false;
-    const dprCap = isTouchDevice() ? 1.5 : 2;
+    const dprCap = isTouchDevice() ? 1 : 2; // a phone GPU pays per pixel; the engraving reads at 1x
 
     let raf = 0;
     let running = false;
@@ -732,8 +732,9 @@ export function PortraitHero({
         return;
       }
       const now = performance.now();
-      // idle = only the pattern drifting: half the cadence
-      if (idleThrottle && now - last < 30) {
+      // idle = only the pattern drifting: half the cadence — and on touch
+      // screens (no cursor to follow) the sweep runs at that cadence too
+      if ((idleThrottle || isTouch) && now - last < 30) {
         raf = requestAnimationFrame(frame);
         return;
       }
@@ -1087,28 +1088,33 @@ export function PortraitHero({
 
       {/* ---- portrait layers ---- */}
       {/* Art, shown until the GL scene has painted (no empty-hero flash) */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        ref={imgARef}
-        src={mediaUrl("/hero-art.webp")}
-        crossOrigin="anonymous"
-        alt=""
-        aria-hidden
-        decoding="async"
-        className={`pointer-events-none absolute select-none transition-opacity duration-300 ${
-          painted ? "opacity-0" : "opacity-100"
-        }`}
-      />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        ref={imgBRef}
-        src={mediaUrl("/hero-face.webp")}
-        crossOrigin="anonymous"
-        alt=""
-        aria-hidden
-        decoding="async"
-        className="pointer-events-none absolute size-px opacity-0"
-      />
+      {/* phones get a 760px texture: the browser picks it before fetching anything */}
+      <picture>
+        <source media="(max-width: 767px)" srcSet={mediaUrl("/hero-art-m.webp")} />
+        <img
+          ref={imgARef}
+          src={mediaUrl("/hero-art.webp")}
+          crossOrigin="anonymous"
+          alt=""
+          aria-hidden
+          decoding="async"
+          className={`pointer-events-none absolute select-none transition-opacity duration-300 ${
+            painted ? "opacity-0" : "opacity-100"
+          }`}
+        />
+      </picture>
+      <picture>
+        <source media="(max-width: 767px)" srcSet={mediaUrl("/hero-face-m.webp")} />
+        <img
+          ref={imgBRef}
+          src={mediaUrl("/hero-face.webp")}
+          crossOrigin="anonymous"
+          alt=""
+          aria-hidden
+          decoding="async"
+          className="pointer-events-none absolute size-px opacity-0"
+        />
+      </picture>
 
       <canvas ref={canvasRef} className="absolute inset-0" aria-hidden />
 

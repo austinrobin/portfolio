@@ -1,4 +1,3 @@
-import { preload } from "react-dom";
 import { mediaUrl } from "@/lib/media-url";
 import { showcase } from "@/lib/showcase";
 import { PortraitHero } from "@/components/home/portrait-hero";
@@ -11,11 +10,13 @@ import { LifeCollage } from "@/components/home/life-collage";
 import { BanknoteFooter } from "@/components/home/banknote-footer";
 
 export default function Home() {
-  /* the engraving is the hero's texture and its largest byte — ask for it
-     before the stylesheet and scripts are even parsed */
-  preload(mediaUrl("/hero-art.webp"), { as: "image", fetchPriority: "high", crossOrigin: "anonymous" });
   return (
     <div>
+      {/* the engraving is the hero's texture and its largest byte — ask for it
+          before the stylesheet and scripts are even parsed; phones get their
+          own size (React hoists these links into <head>) */}
+      <link rel="preload" as="image" href={mediaUrl("/hero-art-m.webp")} media="(max-width: 767px)" fetchPriority="high" crossOrigin="anonymous" />
+      <link rel="preload" as="image" href={mediaUrl("/hero-art.webp")} media="(min-width: 768px)" fetchPriority="high" crossOrigin="anonymous" />
       {/* the nav stays with the reader; only the monogram slips away on scroll */}
       <BanknoteNav fixed />
       <ScrollToHash />

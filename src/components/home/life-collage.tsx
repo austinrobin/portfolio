@@ -229,8 +229,6 @@ function Camera({ video, href }: { video: LifeVideo; href?: string }) {
       className="relative"
       style={{
         aspectRatio: `${CAMERA_W} / ${CAMERA_H}`,
-        filter:
-          "drop-shadow(0 22px 26px rgba(26,25,19,0.26)) drop-shadow(0 3px 5px rgba(26,25,19,0.12))",
         cursor: finePointer && playable ? "none" : undefined,
       }}
       onMouseMove={(e) => {
@@ -255,7 +253,7 @@ function Camera({ video, href }: { video: LifeVideo; href?: string }) {
           muted
           loop
           playsInline
-          preload={near ? "auto" : "none"}
+          preload={near ? (finePointer ? "auto" : "metadata") : "none"}
           poster={near ? mediaUrl(REEL.poster) : undefined}
           aria-label="Moments from the film, on the camera's screen"
         >
@@ -275,6 +273,7 @@ function Camera({ video, href }: { video: LifeVideo; href?: string }) {
         width={CAMERA_W}
         height={CAMERA_H}
         className="relative block h-auto w-full"
+        style={{ filter: "drop-shadow(0 22px 26px rgba(26,25,19,0.26)) drop-shadow(0 3px 5px rgba(26,25,19,0.12))" }}
         draggable={false}
         loading="lazy"
         decoding="async"

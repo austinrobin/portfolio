@@ -326,7 +326,7 @@ export function GalleryCanvas() {
     const resize = () => {
       vw = wrap.clientWidth;
       vh = wrap.clientHeight;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, navigator.maxTouchPoints > 0 ? 1.5 : 2);
       canvas.width = Math.round(vw * dpr);
       canvas.height = Math.round(vh * dpr);
       gl.viewport(0, 0, canvas.width, canvas.height);

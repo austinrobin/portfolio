@@ -89,7 +89,7 @@ function DeckCard({
       style={{ rotateX, y, z, opacity, transformOrigin: "50% 100%" }}
     >
       <div
-        className="absolute inset-0 cursor-pointer overflow-hidden rounded-lg border border-border shadow-[0_30px_80px_rgba(26,25,19,0.22)]"
+        className="absolute inset-0 cursor-pointer overflow-hidden rounded-lg border border-border shadow-[0_12px_30px_rgba(26,25,19,0.2)] sm:shadow-[0_30px_80px_rgba(26,25,19,0.22)]"
         style={{ background: item.theme.bg }}
         onClick={() => { if (item.href) router.push(item.href); else onActivate?.(); }}
         role={item.href ? "link" : undefined}
@@ -113,6 +113,8 @@ function Cover({ item, sizes, playing = true }: { item: ShowcaseItem; sizes: str
   useEffect(() => {
     const el = ref.current;
     if (!el || !isVideo || !item.cover) return;
+    // a phone downloads and decodes only the reel that is playing
+    if (!playing && window.matchMedia("(max-width: 767px)").matches) return;
     const attach = () => setSources((s) => s ?? pickVideoSources(item.cover!));
     const r = el.getBoundingClientRect();
     if (r.top < window.innerHeight && r.bottom > -window.innerHeight) attach();
@@ -124,7 +126,7 @@ function Cover({ item, sizes, playing = true }: { item: ShowcaseItem; sizes: str
     );
     io.observe(el);
     return () => io.disconnect();
-  }, [isVideo, item.cover]);
+  }, [isVideo, item.cover, playing]);
   // the queue behind the featured sheet holds its poster — five reels
   // decoding at once is what made the folder stutter on laptops
   useEffect(() => {
@@ -193,6 +195,15 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
   const [active, setActive] = useState(0);
   const reduce = useReducedMotion();
   const n = items.length;
+  /* a phone decodes one reel: the featured sheet's; laptops warm the neighbours too */
+  const [phone, setPhone] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const sync = () => setPhone(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
   /* GSAP spine (ScrollTrigger progress + pin) — CSS sticky and motion's
      useScroll both break under ScrollSmoother; the choreography below is
@@ -316,7 +327,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
         >
           <div className="relative aspect-[16/10] [transform-style:preserve-3d]">
             {items.map((item, i) => (
-              <DeckCard key={item.id} item={item} index={i} p={p} playing={Math.abs(i - active) <= 1} />
+              <DeckCard key={item.id} item={item} index={i} p={p} playing={phone ? i === active : Math.abs(i - active) <= 1} />
             ))}
           </div>
         </motion.div>

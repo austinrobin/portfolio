@@ -43,7 +43,7 @@ const queue = [];
 walk(CASE);
 walk(join(PUB, "deck"));
 for (const d of ["footer", "gallery", "life"]) if (existsSync(join(PUB, d))) for (const e of readdirSync(join(PUB, d))) { const q = join(PUB, d, e); if (statSync(q).isFile() && e !== ".DS_Store") sizeOf(q); }
-for (const e of ["hero-art.webp", "hero-face.webp", "current-coin.webp"]) if (existsSync(join(PUB, e))) sizeOf(join(PUB, e));
+for (const e of ["hero-art.webp", "hero-face.webp", "hero-art-m.webp", "hero-face-m.webp", "current-coin.webp"]) if (existsSync(join(PUB, e))) sizeOf(join(PUB, e));
 
 for (const [kind, p] of queue) {
   const url = "/" + relative(PUB, p).split("/").join("/");
