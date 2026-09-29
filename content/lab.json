@@ -15,7 +15,8 @@
       "tag": "The Gift",
       "title": "The tab you keep open",
       "blurb": "One small, overlooked problem — solved so cleanly it earns a spot in your workflow.",
-      "glow": "75% 20%"
+      "glow": "75% 20%",
+      "cover": "/lab/pixel-strings.webp"
     },
     {
       "name": "Departures",

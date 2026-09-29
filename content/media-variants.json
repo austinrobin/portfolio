@@ -778,6 +778,14 @@
         1280
       ]
     },
+    "/case/mach/cover.webp": {
+      "w": 1920,
+      "widths": [
+        640,
+        960,
+        1280
+      ]
+    },
     "/case/mach/volume-crew.webp": {
       "w": 2560,
       "widths": [
@@ -997,14 +1005,6 @@
       "widths": [
         640,
         960
-      ]
-    },
-    "/deck/mach.webp": {
-      "w": 1920,
-      "widths": [
-        640,
-        960,
-        1280
       ]
     }
   },
@@ -1306,6 +1306,14 @@
       }
     },
     "/deck/lwt.mp4": {
+      "av1": true,
+      "hevc": true,
+      "p1080": {
+        "h264": true,
+        "hevc": true
+      }
+    },
+    "/deck/mach.mp4": {
       "av1": true,
       "hevc": true,
       "p1080": {
@@ -1910,6 +1918,10 @@
     "/case/mach/camera.p1080.hevc.mp4": 1331200,
     "/case/mach/camera.p1080.mp4": 1888218,
     "/case/mach/camera.poster.webp": 11334,
+    "/case/mach/cover.w1280.webp": 13574,
+    "/case/mach/cover.w640.webp": 6144,
+    "/case/mach/cover.w960.webp": 10100,
+    "/case/mach/cover.webp": 25446,
     "/case/mach/drive.av1.mp4": 6873465,
     "/case/mach/drive.hevc.mp4": 11975345,
     "/case/mach/drive.mp4": 9146093,
@@ -2071,10 +2083,12 @@
     "/deck/lwt.p1080.hevc.mp4": 509862,
     "/deck/lwt.p1080.mp4": 891478,
     "/deck/lwt.poster.webp": 33844,
-    "/deck/mach.w1280.webp": 9860,
-    "/deck/mach.w640.webp": 3850,
-    "/deck/mach.w960.webp": 7026,
-    "/deck/mach.webp": 20504,
+    "/deck/mach.av1.mp4": 1211119,
+    "/deck/mach.hevc.mp4": 2051330,
+    "/deck/mach.mp4": 2454736,
+    "/deck/mach.p1080.hevc.mp4": 1050003,
+    "/deck/mach.p1080.mp4": 1456284,
+    "/deck/mach.poster.webp": 39158,
     "/deck/stockbee.av1.mp4": 1372133,
     "/deck/stockbee.hevc.mp4": 2498135,
     "/deck/stockbee.mp4": 4133482,
@@ -2146,6 +2160,7 @@
     "/life/record.mp3": 621298,
     "/life/seal.webp": 137914,
     "/lab/asciify.webp": 29518,
+    "/lab/pixel-strings.webp": 203058,
     "/hero-art.webp": 2362718,
     "/hero-face.webp": 1047380,
     "/hero-art-m.webp": 780306,

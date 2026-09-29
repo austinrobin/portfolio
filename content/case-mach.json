@@ -29,6 +29,14 @@
       "media": [
         {
           "kind": "video",
+          "src": "/case/mach/hero.mp4",
+          "poster": "/case/mach/hero.poster.webp",
+          "block": "primary",
+          "w": 1280,
+          "h": 720
+        },
+        {
+          "kind": "video",
           "src": "/case/mach/reveal.mp4",
           "poster": "/case/mach/reveal.poster.webp",
           "block": "primary",
@@ -186,11 +194,11 @@
     "statement": "Possibilities made limitless."
   },
   "heroMedia": {
-    "kind": "video",
-    "src": "/case/mach/hero.mp4",
-    "poster": "/case/mach/hero.poster.webp",
+    "kind": "image",
+    "src": "/case/mach/cover.webp",
+    "alt": "The MACH wordmark in orange on black",
     "block": "primary",
-    "w": 1280,
-    "h": 720
+    "w": 1920,
+    "h": 1200
   }
 }

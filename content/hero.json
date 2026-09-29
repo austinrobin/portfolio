@@ -36,7 +36,7 @@
   "scanSpeed": 1.5,
   "idleMs": 2500,
   "scanCenterX": 0.5,
-  "scanCenterY": 0.42,
-  "scanRadiusX": 0.4,
-  "scanRadiusY": 0.28
+  "scanCenterY": 0.5,
+  "scanRadiusX": 1.0,
+  "scanRadiusY": 0.46
 }

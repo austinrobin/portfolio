@@ -65,7 +65,8 @@ export const showcase: ShowcaseItem[] = [
     subtitle: "Making the impossible feel production-ready",
     year: "2025",
     href: "/work/mach",
-    cover: "/deck/mach.webp", // the wordmark on solid grey (Austin's call; the reel kit stays in scripts/reel/mach)
+    cover: "/deck/mach.mp4",
+    coverPoster: "/deck/mach.poster.webp",
     theme: { bg: "#070708", fg: "#F3F3F1", accent: "#C9CCD1" },
   },
 ];

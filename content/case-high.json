@@ -818,24 +818,20 @@
     "title": "Impact",
     "stats": [
       {
-        "value": "XXK+",
-        "label": "Users"
+        "value": "75K+",
+        "label": "Waitlist registrations"
       },
       {
-        "value": "XX+",
-        "label": "Product surfaces"
+        "value": "5K+",
+        "label": "Downloads in a week"
       },
       {
-        "value": "XX%",
-        "label": "Activation"
+        "value": "2K+",
+        "label": "Activations"
       },
       {
-        "value": "XX%",
-        "label": "Retention"
-      },
-      {
-        "value": "XXM+",
-        "label": "Interactions / orders"
+        "value": "500+",
+        "label": "Transactions in a week"
       }
     ]
   },

@@ -52,7 +52,7 @@ const peristiwa = heroFonts.peristiwa;
 const SCAN_SWEEP = 2.5; // one pass down (or up) the head
 const SCAN_REST_LOW = 1.5; // rest at the bottom
 const SCAN_REST_HIGH = 3; // rest at the top
-const SCAN_ZIGS = 2; // full zig-zags across the head per pass
+const SCAN_ZIGS = 3; // full zig-zags across the whole hero per pass
 const SCAN_CYCLE = SCAN_SWEEP * 2 + SCAN_REST_LOW + SCAN_REST_HIGH;
 const SCAN_LEAD = 0.6; // rest before the first pass after a cursor lets go
 const SCAN_LEAD_FIRST = 1.5; // …and on the very first paint
@@ -301,6 +301,12 @@ void main() {
 
   vec4 A = texture2D(uTexA, tA);
   vec4 B = texture2D(uTexB, tB);
+  // a tear that reaches past the art's side must show paper, not the edge
+  // column repeated (the sweep now crosses the whole hero, edges included)
+  float inA = step(0.0, pUv.x + off * 0.45) * step(pUv.x + off * 0.45, 1.0);
+  float inB = step(0.0, pUv.x + off) * step(pUv.x + off, 1.0);
+  A *= inA;
+  B *= inB;
 
   if (RGBSPLIT > 0.001) {
     float cs = RGBSPLIT * (0.3 + 0.7 * VEL) * edgeProx / uPortrait.z * uTexRect.z;

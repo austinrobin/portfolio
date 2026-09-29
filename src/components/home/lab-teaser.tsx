@@ -75,17 +75,23 @@ export function LabTeaser({
               className="relative flex flex-col justify-between overflow-hidden p-6"
               style={{ aspectRatio: "4 / 3", borderRadius: cfg.radius, background: glow(x), color: PAPER, boxShadow: `0 12px 32px rgba(26,25,19,${cfg.shadowRest})` }}
             >
-              {x.cover ? <Cover src={x.cover} /> : null}
-              <span className="relative font-mono text-[11px] uppercase tracking-[0.25em] opacity-70">{x.tag}</span>
-              <div className="relative">
-                <p className="text-[26px] leading-tight" style={{ fontFamily: "var(--font-peristiwa)" }}>
-                  {x.title}
-                </p>
-                <p className="mt-2 text-[14px] leading-relaxed opacity-80">{x.blurb}</p>
-                <span className="mt-3 inline-block font-mono text-[11px] uppercase tracking-[0.3em] opacity-60">{foot(x)}</span>
-              </div>
+              {x.cover ? (
+                <Cover src={x.cover} />
+              ) : (
+                <>
+                  <span className="relative font-mono text-[11px] uppercase tracking-[0.25em] opacity-70">{x.tag}</span>
+                  <div className="relative">
+                    <p className="text-[26px] leading-tight" style={{ fontFamily: "var(--font-peristiwa)" }}>
+                      {x.title}
+                    </p>
+                    <p className="mt-2 text-[14px] leading-relaxed opacity-80">{x.blurb}</p>
+                    <span className="mt-3 inline-block font-mono text-[11px] uppercase tracking-[0.3em] opacity-60">{foot(x)}</span>
+                  </div>
+                </>
+              )}
               {x.href ? <a href={x.href} target="_blank" rel="noopener noreferrer" aria-label={`Open ${x.name}`} className="absolute inset-0 z-10" /> : null}
             </div>
+            {x.cover ? <Caption x={x} /> : null}
           </div>
         ))}
       </div>
@@ -140,38 +146,34 @@ export function LabTeaser({
                     style={{ height: "clamp(28px,4vw,56px)", background: INK, transform: isHover ? "scaleY(1)" : "scaleY(0)", transition: "transform 350ms cubic-bezier(0.16,1,0.3,1)" }}
                   />
                 </div>
+                {/* the slide, scale and turn on the mover; the sheet and its shadow inside, so a
+                    caption under an image cover travels with it */}
                 <motion.div
-                  className="pointer-events-auto relative w-full cursor-pointer overflow-hidden"
+                  className="pointer-events-auto relative w-full cursor-pointer"
                   animate={
                     reduce
                       ? undefined
                       : isHover
-                        ? {
-                            x: `${cfg.slide}%`,
-                            scale: cfg.activeScale,
-                            rotateY: cfg.activeRotY,
-                            rotateX: cfg.rotX,
-                            boxShadow: `0 18px 44px rgba(26,25,19,${cfg.shadowHover})`,
-                          }
-                        : {
-                            x: "0%",
-                            scale: 1,
-                            rotateY: cfg.rotY,
-                            rotateX: cfg.rotX,
-                            boxShadow: `0 12px 32px rgba(26,25,19,${cfg.shadowRest})`,
-                          }
+                        ? { x: `${cfg.slide}%`, scale: cfg.activeScale, rotateY: cfg.activeRotY, rotateX: cfg.rotX }
+                        : { x: "0%", scale: 1, rotateY: cfg.rotY, rotateX: cfg.rotX }
                   }
+                  transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                  style={tilt}
+                >
+                <motion.div
+                  className="relative w-full overflow-hidden"
+                  animate={{ boxShadow: isHover ? `0 18px 44px rgba(26,25,19,${cfg.shadowHover})` : `0 12px 32px rgba(26,25,19,${cfg.shadowRest})` }}
                   transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
                   style={{
                     aspectRatio: `1 / ${cfg.paneAspect}`,
                     borderRadius: cfg.radius,
-                    ...tilt,
                     background: glow(x),
                     color: PAPER,
                   }}
                 >
                   {x.cover ? <Cover src={x.cover} /> : null}
                   {x.href ? <a href={x.href} target="_blank" rel="noopener noreferrer" aria-label={`Open ${x.name}`} className="absolute inset-0 z-10" /> : null}
+                  {x.cover ? null : (
                   <div className="relative flex h-full flex-col justify-between p-6 sm:p-9">
                     <span className="font-mono text-[clamp(11px,0.8vw,12px)] uppercase tracking-[0.25em] opacity-70">
                       {x.tag}
@@ -197,6 +199,9 @@ export function LabTeaser({
                       </motion.div>
                     </div>
                   </div>
+                  )}
+                </motion.div>
+                {x.cover ? <Caption x={x} /> : null}
                 </motion.div>
               </motion.div>
             );
@@ -207,13 +212,30 @@ export function LabTeaser({
   );
 }
 
-/* the app's own share image as the cover, shaded at the foot so the type reads */
+/* the app's own share image as the cover — nothing is written over it */
 function Cover({ src }: { src: string }) {
   return (
     <>
       {/* eslint-disable-next-line @next/next/no-img-element -- a cover at its own size */}
       <img src={mediaUrl(src)} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" draggable={false} />
-      <div aria-hidden className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(16,27,188,0.10) 0%, rgba(10,12,40,0.25) 45%, rgba(10,12,40,0.86) 100%)" }} />
     </>
+  );
+}
+
+/* the words for a cover that is an image: under it, not on it */
+function Caption({ x, className = "" }: { x: LabCascadeSettings["experiments"][number]; className?: string }) {
+  return (
+    <div className={`mt-3 flex items-baseline justify-between gap-4 ${className}`}>
+      <p className="text-[clamp(17px,1.3vw,22px)] leading-tight" style={{ fontFamily: "var(--font-peristiwa)", color: INK }}>
+        {x.title}
+      </p>
+      {x.href ? (
+        <a href={x.href} target="_blank" rel="noopener noreferrer" className="shrink-0 font-mono text-[10px] uppercase tracking-[0.25em] opacity-60 transition-opacity hover:opacity-100" style={{ color: INK }}>
+          Open ↗{x.tool ? ` · Built with ${x.tool}` : ""}
+        </a>
+      ) : (
+        <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.25em] opacity-60" style={{ color: INK }}>{x.tool ? `Built with ${x.tool}` : "Coming soon"}</span>
+      )}
+    </div>
   );
 }
