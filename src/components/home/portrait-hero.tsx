@@ -12,6 +12,7 @@ import {
 import { PortraitHero2D } from "./portrait-hero-2d";
 import { Monogram } from "./monogram";
 import { hasBooted } from "@/components/loader/site-loader";
+import { LIFT_MS } from "@/components/loader/plate-run";
 import { mediaUrl } from "@/lib/media-url";
 
 export { heroConfig, type HeroSettings } from "./hero-config";
@@ -583,6 +584,13 @@ export function PortraitHero({
     // the sweep always begins at the top; primed so the first sweep starts
     // after a short rest instead of on the very first frame
     let ambT0 = performance.now() - (SCAN_CYCLE - SCAN_LEAD_FIRST) * 1000;
+    /* the first sweep waits for the loader's curtain, then starts as it
+       clears — so the viewer sees the effect begin rather than finding it
+       mid-cycle (a return visit with the curtain long gone starts at once) */
+    let ambHold = !hasBooted();
+    let ambHoldTimer = 0;
+    const onReady = () => { ambHoldTimer = window.setTimeout(() => { ambHold = false; }, LIFT_MS * 0.7); };
+    if (ambHold) window.addEventListener("site:ready", onReady, { once: true });
 
     let velocity = 0;
     let bandSeed = 0.137;
@@ -766,7 +774,7 @@ export function PortraitHero({
       }
       wasReal = wantsReal;
 
-      const amb = ambientActive();
+      const amb = ambientActive() && !ambHold;
       if (amb) {
         if (!wasAmb) ambT0 = now - (SCAN_CYCLE - SCAN_LEAD) * 1000;
         const p = scanPath(((now - ambT0) / 1000) * c.scanSpeed);
@@ -994,6 +1002,8 @@ export function PortraitHero({
 
     return () => {
       disposed = true;
+      window.removeEventListener("site:ready", onReady);
+      window.clearTimeout(ambHoldTimer);
       wakeRef.current = null;
       cancelAnimationFrame(raf);
       ro.disconnect();
