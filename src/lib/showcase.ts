@@ -33,7 +33,7 @@ export const showcase: ShowcaseItem[] = [
     id: "stockbee",
     title: "StockBee",
     subtitle: "AI-powered stock intelligence, on WhatsApp",
-    year: "2026",
+    year: "2024",
     href: "/work/stockbee",
     cover: "/deck/stockbee.mp4",
     coverPoster: "/deck/stockbee.poster.webp",
