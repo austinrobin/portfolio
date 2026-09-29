@@ -414,32 +414,7 @@
   ],
   "impact": {
     "title": "The identity, in numbers",
-    "stats": [
-      {
-        "value": "10",
-        "label": "Segments in the mark — capabilities becoming one whole"
-      },
-      {
-        "value": "6",
-        "label": "Industries served, where failure isn't an option"
-      },
-      {
-        "value": "5",
-        "label": "System principles, from precision to humanity"
-      },
-      {
-        "value": "6",
-        "label": "Environments the identity travels across"
-      },
-      {
-        "value": "1",
-        "label": "Family story hidden inside the ten"
-      },
-      {
-        "value": "2024",
-        "label": "The year the group found its face"
-      }
-    ]
+    "stats": []
   },
   "result": {
     "heading": "The transformation",
