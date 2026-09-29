@@ -89,6 +89,7 @@ function DeckCard({
 
   return (
     <motion.div
+      data-deck-card
       className="absolute inset-0 [transform-style:preserve-3d] will-change-transform"
       style={{ rotateX, y, z, opacity, pointerEvents, transformOrigin: "50% 100%" }}
     >
@@ -196,6 +197,7 @@ function PlaceholderCover({ item }: { item: ShowcaseItem }) {
 export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const reduce = useReducedMotion();
   const n = items.length;
@@ -333,9 +335,11 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
             hit-testing would hand those clicks to the (transparent) stage.
             Only the featured sheet opts back in. */}
         <motion.div
-          className="pointer-events-none z-10 w-[var(--deck-w)] pt-[calc(var(--deck-w)*0.078)] pb-[calc(var(--deck-w)*0.16)]"
+          ref={boxRef}
+          className="pointer-events-none relative z-10 w-[var(--deck-w)] pt-[calc(var(--deck-w)*0.078)] pb-[calc(var(--deck-w)*0.16)]"
           style={{ perspective: "calc(var(--deck-w) * 2.7)", perspectiveOrigin: "50% 0%", y: deckY }}
         >
+          <ClickLayer boxRef={boxRef} href={current.href} title={current.title} />
           <div className="pointer-events-none relative aspect-[16/10] [transform-style:preserve-3d]">
             {items.map((item, i) => (
               <DeckCard key={item.id} item={item} index={i} p={p} playing={phone ? i === active : Math.abs(i - active) <= 1} />
@@ -344,6 +348,52 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
         </motion.div>
       </div>
     </div>
+  );
+}
+
+/* A flat, invisible layer over the featured sheet's on-screen box. Every
+   featured sheet shares one geometry (it stands at the same lean), so one
+   measured rectangle serves them all; it opens whichever project is current.
+   Browsers disagree on hit-testing inside a 3D stage; a 2D layer above it
+   does not depend on any of that. */
+function ClickLayer({ boxRef, href, title }: { boxRef: React.RefObject<HTMLDivElement | null>; href?: string; title: string }) {
+  const router = useRouter();
+  const [box, setBox] = useState<{ left: number; top: number; width: number; height: number } | null>(null);
+  useEffect(() => {
+    const host = boxRef.current;
+    if (!host) return;
+    let raf = 0;
+    const measure = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        // the featured sheet is the one taking pointer events; at rest they all stand at the same lean
+        const card = host.querySelector<HTMLElement>('[data-deck-card][style*="pointer-events: auto"] > div') ?? host.querySelector<HTMLElement>("[data-deck-card] > div");
+        const hr = host.getBoundingClientRect();
+        const r = card?.getBoundingClientRect();
+        if (!r || r.width < 40) return;
+        setBox({ left: r.left - hr.left, top: r.top - hr.top, width: r.width, height: r.height });
+      });
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(host);
+    window.addEventListener("resize", measure);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [boxRef]);
+  if (!box || !href) return null;
+  return (
+    <div
+      aria-hidden
+      data-deck-click
+      className="pointer-events-auto absolute z-30 cursor-pointer"
+      style={box}
+      onClick={() => router.push(href)}
+      title={`Open ${title}`}
+    />
   );
 }
 
