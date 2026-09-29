@@ -29,7 +29,7 @@
   "sections": [
     {
       "id": "comfortable",
-      "kicker": "01 — The problem",
+      "kicker": "The problem",
       "heading": "Finance had become comfortable",
       "body": [
         "For years, fintech had settled into a familiar formula.",
@@ -102,7 +102,7 @@
     },
     {
       "id": "outside",
-      "kicker": "02 — Direction",
+      "kicker": "Direction",
       "heading": "Start outside the interface",
       "body": [
         "I didn't want us to begin with UI references. That felt too easy. We'd end up borrowing the same visual language the category had already settled into.",
@@ -196,7 +196,7 @@
     },
     {
       "id": "world",
-      "kicker": "03 — The world",
+      "kicker": "The world",
       "heading": "Build the world first",
       "body": [
         "I deliberately reversed the usual order.",
@@ -281,7 +281,7 @@
     },
     {
       "id": "alive",
-      "kicker": "04 — The product",
+      "kicker": "The product",
       "heading": "Make finance feel alive",
       "body": [
         "The challenge was never just making screens prettier.",
@@ -414,7 +414,7 @@
     },
     {
       "id": "limit",
-      "kicker": "05 — Restraint",
+      "kicker": "Restraint",
       "heading": "Personality has a limit",
       "body": [
         "The easiest way to make fintech feel young is to make everything loud. We didn't.",
@@ -539,7 +539,7 @@
     },
     {
       "id": "scale",
-      "kicker": "06 — Scale",
+      "kicker": "Scale",
       "heading": "Designing at product scale",
       "body": [
         "As HIGH grew, so did the surface area.",
@@ -621,7 +621,7 @@
     },
     {
       "id": "team",
-      "kicker": "07 — The team",
+      "kicker": "The team",
       "heading": "Keeping the team on one wavelength",
       "body": [
         "The product was built by a team, not a single designer.",
@@ -707,7 +707,7 @@
     },
     {
       "id": "everywhere",
-      "kicker": "08 — The brand",
+      "kicker": "The brand",
       "heading": "One character, everywhere",
       "body": [
         "HIGH was never meant to be just an app.",

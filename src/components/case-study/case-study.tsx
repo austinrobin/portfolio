@@ -839,6 +839,22 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
     return () => io.disconnect();
   }, [cs.slug]);
 
+  /* open at the top. Next scrolls the new page "into view" from the
+     smoother's transformed rects, so a case opened while the last page was
+     still gliding lands a little below its top, and a reload restores
+     wherever the reader was. The top is re-asserted a few times while the
+     curtain is still down (a hash in the URL keeps its own target). */
+  useEffect(() => {
+    if (window.location.hash) return;
+    const top = () => {
+      const smoother = ScrollSmoother.get();
+      if (smoother) smoother.scrollTop(0);
+      window.scrollTo(0, 0);
+    };
+    const timers = [0, 60, 200, 500, 900].map((ms) => window.setTimeout(top, ms));
+    return () => timers.forEach((t) => window.clearTimeout(t));
+  }, [cs.slug]);
+
   const jump = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
