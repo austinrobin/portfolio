@@ -1,5 +1,1644 @@
 [
   {
+    "at": "2026-09-29T11:27:02.657Z",
+    "summary": "update src, alt, w +153 more",
+    "changes": [
+      {
+        "field": "caseHigh.sections.2.media.2.src",
+        "from": "/case/high/sticker-box.webp",
+        "to": "/case/high/card-logo.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.2.alt",
+        "from": "Sticker set",
+        "to": "HI*H card"
+      },
+      {
+        "field": "caseHigh.sections.2.media.2.w",
+        "from": 711,
+        "to": 2050
+      },
+      {
+        "field": "caseHigh.sections.2.media.2.h",
+        "from": 1006,
+        "to": 3215
+      },
+      {
+        "field": "caseHigh.sections.2.media.2.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.2.ratio",
+        "from": 0.68,
+        "to": 0.637
+      },
+      {
+        "field": "caseHigh.sections.2.media.2.focusY",
+        "to": 98
+      },
+      {
+        "field": "caseHigh.sections.2.media.3.src",
+        "from": "/case/high/card-logo.webp",
+        "to": "/case/high/sticker-box.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.3.alt",
+        "from": "HI*H card",
+        "to": "Sticker set"
+      },
+      {
+        "field": "caseHigh.sections.2.media.3.w",
+        "from": 2050,
+        "to": 711
+      },
+      {
+        "field": "caseHigh.sections.2.media.3.h",
+        "from": 3215,
+        "to": 1006
+      },
+      {
+        "field": "caseHigh.sections.2.media.3.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.3.ratio",
+        "from": 0.637,
+        "to": 0.68
+      },
+      {
+        "field": "caseHigh.sections.2.media.3.focusY",
+        "from": 98
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.src",
+        "from": "/case/high/founder-card-perspective.webp",
+        "to": "/case/high/sticker-sheet.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.alt",
+        "from": "The founder card in perspective",
+        "to": "Sticker sheet — #Carry the culture"
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.w",
+        "from": 2560,
+        "to": 711
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.h",
+        "from": 1494,
+        "to": 1006
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.cols",
+        "to": 2
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.ratio",
+        "to": 0.68
+      },
+      {
+        "field": "caseHigh.sections.2.media.5.focusY",
+        "to": 100
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.src",
+        "from": "/case/high/sticker-sheet.webp",
+        "to": "/case/high/card-hands-off.webp"
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.alt",
+        "from": "Sticker sheet — #Carry the culture",
+        "to": "Hands off, bro — the business card"
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.w",
+        "from": 711,
+        "to": 1025
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.h",
+        "from": 1006,
+        "to": 1608
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.ratio",
+        "from": 0.68,
+        "to": 0.637
+      },
+      {
+        "field": "caseHigh.sections.2.media.6.focusY",
+        "from": 100,
+        "to": 74
+      },
+      {
+        "field": "caseHigh.sections.2.media.7",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/card-hands-off.webp",
+          "alt": "Hands off, bro — the business card",
+          "w": 1025,
+          "h": 1608,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.637,
+          "focusY": 74
+        }
+      },
+      {
+        "field": "caseHigh.sections.2.media.8",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/waitlist-signup.webp",
+          "alt": "You got in — welcome to the Founding Club",
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.664,
+          "w": 1082,
+          "h": 1629,
+          "focusY": 68
+        }
+      },
+      {
+        "field": "caseHigh.sections.2.media.9",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/founding-generation.webp",
+          "alt": "The founding generation — editorial photography",
+          "block": "primary",
+          "cols": 2,
+          "ratio": 0.664,
+          "w": 1122,
+          "h": 1402
+        }
+      },
+      {
+        "field": "caseHigh.sections.2.media.10",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/card-carry-culture.webp",
+          "alt": "Carry the culture — the founder card",
+          "block": "primary",
+          "cols": 2,
+          "ratio": 0.888,
+          "w": 1122,
+          "h": 1263
+        }
+      },
+      {
+        "field": "caseHigh.sections.2.media.11",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/card-early-access.webp",
+          "alt": "Get early access to the waitlist",
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.888,
+          "w": 1122,
+          "h": 1263,
+          "focusY": 37,
+          "focusX": 0,
+          "zoom": 1
+        }
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.src",
+        "from": "/case/high/site.mp4",
+        "to": "/case/high/render-hand.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.poster",
+        "from": "/case/high/site.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.w",
+        "from": 2560,
+        "to": 1426
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.h",
+        "from": 1439,
+        "to": 1103
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.alt",
+        "to": "Spotlight in hand"
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.cols",
+        "to": 2
+      },
+      {
+        "field": "caseHigh.sections.3.media.6.ratio",
+        "to": 1.15
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.src",
+        "from": "/case/high/render-hand.webp",
+        "to": "/case/high/phone-watchlist.mp4"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.alt",
+        "from": "Spotlight in hand"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.w",
+        "from": 1426,
+        "to": 1440
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.h",
+        "from": 1103,
+        "to": 1800
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.block",
+        "from": "primary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.ratio",
+        "from": 1.15,
+        "to": 0.8
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.poster",
+        "to": "/case/high/phone-watchlist.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.zoom",
+        "to": 1.65
+      },
+      {
+        "field": "caseHigh.sections.3.media.7.focusY",
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.src",
+        "from": "/case/high/phone-watchlist.mp4",
+        "to": "/case/high/app-watchlist.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.poster",
+        "from": "/case/high/phone-watchlist.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.w",
+        "from": 1440,
+        "to": 1314
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.h",
+        "from": 1800,
+        "to": 1250
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.ratio",
+        "from": 0.8,
+        "to": 1.1
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.zoom",
+        "from": 1.65,
+        "to": 1.1
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.alt",
+        "to": "Fyne Shyt! — a watchlist that feels like yours"
+      },
+      {
+        "field": "caseHigh.sections.3.media.8.caption",
+        "to": ""
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.src",
+        "from": "/case/high/app-watchlist.webp",
+        "to": "/case/high/meme-horse.mp4"
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.alt",
+        "from": "Fyne Shyt! — a watchlist that feels like yours"
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.w",
+        "from": 1314,
+        "to": 960
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.h",
+        "from": 1250,
+        "to": 940
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.ratio",
+        "from": 1.1,
+        "to": 1
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.focusY",
+        "from": 0
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.zoom",
+        "from": 1.1
+      },
+      {
+        "field": "caseHigh.sections.3.media.9.poster",
+        "to": "/case/high/meme-horse.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.src",
+        "from": "/case/high/app-buzz.webp",
+        "to": "/case/high/site.mp4"
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.alt",
+        "from": "Buzz — silver is the new buzz in town"
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.w",
+        "from": 1148,
+        "to": 2560
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.h",
+        "from": 1110,
+        "to": 1439
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.block",
+        "from": "secondary",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.cols",
+        "from": 2
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.ratio",
+        "from": 1.1
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.focusY",
+        "from": 80
+      },
+      {
+        "field": "caseHigh.sections.3.media.10.poster",
+        "to": "/case/high/site.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.3.media.11",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/app-sector.webp",
+          "alt": "Sector ranking",
+          "w": 1496,
+          "h": 1854,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.8,
+          "zoom": 1.2,
+          "focusY": 100,
+          "focusX": 38
+        }
+      },
+      {
+        "field": "caseHigh.sections.3.media.12",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/app-titan.webp",
+          "alt": "Titan — stock page",
+          "w": 1482,
+          "h": 1854,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.8,
+          "zoom": 1.6,
+          "focusX": 20,
+          "focusY": 2
+        }
+      },
+      {
+        "field": "caseHigh.sections.3.media.13",
+        "from": {
+          "kind": "video",
+          "src": "/case/high/meme-horse.mp4",
+          "poster": "/case/high/meme-horse.poster.webp",
+          "w": 960,
+          "h": 940,
+          "block": "tertiary",
+          "cols": 2,
+          "ratio": 1
+        }
+      },
+      {
+        "field": "caseHigh.sections.3.media.14",
+        "from": {
+          "kind": "image",
+          "src": "/case/high/render-nifty.webp",
+          "alt": "Nifty 50 on the phone",
+          "w": 1288,
+          "h": 1221,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 1.15,
+          "focusY": 38,
+          "zoom": 1.3
+        }
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.src",
+        "from": "/current-coin.webp",
+        "to": "/case/high/render-nifty.webp"
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.alt",
+        "from": "The High Club coin — 999.9 fine silver",
+        "to": "Nifty 50 on the phone"
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.block",
+        "from": "tertiary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.ratio",
+        "from": 1.22,
+        "to": 1.15
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.w",
+        "from": 655,
+        "to": 1288
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.h",
+        "from": 536,
+        "to": 1221
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.focusY",
+        "to": 38
+      },
+      {
+        "field": "caseHigh.sections.4.media.4.zoom",
+        "to": 1.3
+      },
+      {
+        "field": "caseHigh.sections.4.media.5",
+        "to": {
+          "kind": "image",
+          "src": "/case/high/app-titan.webp",
+          "alt": "Titan — stock page",
+          "w": 1482,
+          "h": 1854,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.8,
+          "zoom": 1.6,
+          "focusX": 20,
+          "focusY": 2
+        }
+      },
+      {
+        "field": "caseHigh.sections.4.media.6",
+        "to": {
+          "kind": "image",
+          "src": "/case/high/app-sector.webp",
+          "alt": "Sector ranking",
+          "w": 1496,
+          "h": 1854,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.8,
+          "zoom": 1.2,
+          "focusY": 100,
+          "focusX": 38
+        }
+      },
+      {
+        "field": "caseHigh.sections.4.media.7",
+        "to": {
+          "kind": "image",
+          "src": "/case/high/app-buzz.webp",
+          "alt": "Buzz — silver is the new buzz in town",
+          "w": 1148,
+          "h": 1110,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 1.1,
+          "focusY": 80
+        }
+      },
+      {
+        "field": "caseHigh.sections.4.media.8",
+        "to": {
+          "kind": "image",
+          "src": "/case/high/post-break-default.webp",
+          "alt": "Break the default",
+          "w": 2778,
+          "h": 3689,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.753
+        }
+      },
+      {
+        "field": "caseHigh.sections.4.media.9",
+        "to": {
+          "kind": "image",
+          "src": "/case/high/post-blink.webp",
+          "alt": "Blink and you've traded",
+          "w": 2778,
+          "h": 3689,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.753
+        }
+      },
+      {
+        "field": "caseHigh.sections.5.media.1.src",
+        "from": "/case/high/social-set.webp",
+        "to": "/case/high/post-crush-list.webp"
+      },
+      {
+        "field": "caseHigh.sections.5.media.1.alt",
+        "from": "Social set — Break the default, Add to cart, Blink and you've traded, Your market crush list, Too high too fast",
+        "to": "Your market crush list"
+      },
+      {
+        "field": "caseHigh.sections.5.media.1.w",
+        "from": 2948,
+        "to": 2778
+      },
+      {
+        "field": "caseHigh.sections.5.media.1.h",
+        "from": 1732,
+        "to": 3689
+      },
+      {
+        "field": "caseHigh.sections.5.media.1.block",
+        "from": "primary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseHigh.sections.5.media.1.cols",
+        "to": 2
+      },
+      {
+        "field": "caseHigh.sections.5.media.1.ratio",
+        "to": 0.753
+      },
+      {
+        "field": "caseHigh.sections.5.media.2.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.5.media.2.src",
+        "from": "/case/high/post-blink.webp",
+        "to": "/case/high/phone-investor.mp4"
+      },
+      {
+        "field": "caseHigh.sections.5.media.2.alt",
+        "from": "Blink and you've traded"
+      },
+      {
+        "field": "caseHigh.sections.5.media.2.w",
+        "from": 2778,
+        "to": 1440
+      },
+      {
+        "field": "caseHigh.sections.5.media.2.h",
+        "from": 3689,
+        "to": 1800
+      },
+      {
+        "field": "caseHigh.sections.5.media.2.ratio",
+        "from": 0.753,
+        "to": 0.8
+      },
+      {
+        "field": "caseHigh.sections.5.media.2.poster",
+        "to": "/case/high/phone-investor.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.5.media.2.zoom",
+        "to": 1.55
+      },
+      {
+        "field": "caseHigh.sections.5.media.2.focusY",
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.5.media.3.src",
+        "from": "/case/high/post-crush-list.webp",
+        "to": "/case/high/social-set.webp"
+      },
+      {
+        "field": "caseHigh.sections.5.media.3.alt",
+        "from": "Your market crush list",
+        "to": "Social set — Break the default, Add to cart, Blink and you've traded, Your market crush list, Too high too fast"
+      },
+      {
+        "field": "caseHigh.sections.5.media.3.w",
+        "from": 2778,
+        "to": 2948
+      },
+      {
+        "field": "caseHigh.sections.5.media.3.h",
+        "from": 3689,
+        "to": 1732
+      },
+      {
+        "field": "caseHigh.sections.5.media.3.block",
+        "from": "secondary",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.5.media.3.cols",
+        "from": 2
+      },
+      {
+        "field": "caseHigh.sections.5.media.3.ratio",
+        "from": 0.753
+      },
+      {
+        "field": "caseHigh.sections.5.media.4.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.5.media.4.src",
+        "from": "/case/high/post-too-high.webp",
+        "to": "/case/high/phone-fno.mp4"
+      },
+      {
+        "field": "caseHigh.sections.5.media.4.alt",
+        "from": "Too high too fast"
+      },
+      {
+        "field": "caseHigh.sections.5.media.4.w",
+        "from": 2778,
+        "to": 1440
+      },
+      {
+        "field": "caseHigh.sections.5.media.4.h",
+        "from": 3689,
+        "to": 1800
+      },
+      {
+        "field": "caseHigh.sections.5.media.4.ratio",
+        "from": 0.753,
+        "to": 0.8
+      },
+      {
+        "field": "caseHigh.sections.5.media.4.poster",
+        "to": "/case/high/phone-fno.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.5.media.4.zoom",
+        "to": 1.4
+      },
+      {
+        "field": "caseHigh.sections.5.media.4.focusY",
+        "to": 0
+      },
+      {
+        "field": "caseHigh.sections.5.media.4.focusX",
+        "to": 48
+      },
+      {
+        "field": "caseHigh.sections.5.media.5.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseHigh.sections.5.media.5.src",
+        "from": "/case/high/post-break-default.webp",
+        "to": "/case/high/phone-cards.mp4"
+      },
+      {
+        "field": "caseHigh.sections.5.media.5.alt",
+        "from": "Break the default"
+      },
+      {
+        "field": "caseHigh.sections.5.media.5.w",
+        "from": 2778,
+        "to": 1440
+      },
+      {
+        "field": "caseHigh.sections.5.media.5.h",
+        "from": 3689,
+        "to": 1800
+      },
+      {
+        "field": "caseHigh.sections.5.media.5.ratio",
+        "from": 0.753,
+        "to": 0.8
+      },
+      {
+        "field": "caseHigh.sections.5.media.5.poster",
+        "to": "/case/high/phone-cards.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.src",
+        "from": "/case/high/phone-investor.mp4",
+        "to": "/case/high/drop.mp4"
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.poster",
+        "from": "/case/high/phone-investor.poster.webp",
+        "to": "/case/high/drop.poster.webp"
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.w",
+        "from": 1440,
+        "to": 1920
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.h",
+        "from": 1800,
+        "to": 1080
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.block",
+        "from": "secondary",
+        "to": "primary"
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.cols",
+        "from": 2
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.ratio",
+        "from": 0.8
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.zoom",
+        "from": 1.55
+      },
+      {
+        "field": "caseHigh.sections.5.media.6.focusY",
+        "from": 0
+      },
+      {
+        "field": "caseHigh.sections.5.media.7",
+        "from": {
+          "kind": "video",
+          "src": "/case/high/phone-cards.mp4",
+          "poster": "/case/high/phone-cards.poster.webp",
+          "w": 1440,
+          "h": 1800,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.8
+        }
+      },
+      {
+        "field": "caseHigh.sections.5.media.8",
+        "from": {
+          "kind": "video",
+          "src": "/case/high/drop.mp4",
+          "poster": "/case/high/drop.poster.webp",
+          "w": 1920,
+          "h": 1080,
+          "block": "primary"
+        }
+      },
+      {
+        "field": "caseHigh.sections.5.media.9",
+        "from": {
+          "kind": "video",
+          "src": "/case/high/phone-fno.mp4",
+          "poster": "/case/high/phone-fno.poster.webp",
+          "w": 1440,
+          "h": 1800,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.8,
+          "zoom": 1.4,
+          "focusY": 0,
+          "focusX": 48
+        }
+      },
+      {
+        "field": "caseHigh.sections.6.media.0",
+        "to": {
+          "kind": "image",
+          "src": "/case/high/card-carry-culture.webp",
+          "alt": "Carry the culture — the founder card",
+          "block": "primary",
+          "cols": 2,
+          "ratio": 0.888,
+          "w": 1122,
+          "h": 1263
+        }
+      },
+      {
+        "field": "caseHigh.sections.6.media.1",
+        "to": {
+          "kind": "image",
+          "src": "/case/high/founder-card-perspective.webp",
+          "alt": "The founder card in perspective",
+          "block": "tertiary",
+          "w": 2560,
+          "h": 1494
+        }
+      },
+      {
+        "field": "caseHigh.sections.6.media.2",
+        "to": {
+          "kind": "image",
+          "src": "/current-coin.webp",
+          "alt": "The High Club coin — 999.9 fine silver",
+          "block": "tertiary",
+          "cols": 2,
+          "ratio": 1.22,
+          "w": 655,
+          "h": 536
+        }
+      },
+      {
+        "field": "caseHigh.sections.6.media.3",
+        "to": {
+          "kind": "image",
+          "src": "/case/high/waitlist-signup.webp",
+          "alt": "You got in — welcome to the Founding Club",
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.664,
+          "w": 1082,
+          "h": 1629,
+          "focusY": 68
+        }
+      },
+      {
+        "field": "caseHigh.sections.6.media.4",
+        "to": {
+          "kind": "image",
+          "src": "/case/high/founding-generation.webp",
+          "alt": "The founding generation — editorial photography",
+          "block": "primary",
+          "cols": 2,
+          "ratio": 0.664,
+          "w": 1122,
+          "h": 1402
+        }
+      },
+      {
+        "field": "caseHigh.sections.6.media.5",
+        "to": {
+          "kind": "image",
+          "src": "/case/high/card-early-access.webp",
+          "alt": "Get early access to the waitlist",
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.888,
+          "w": 1122,
+          "h": 1263,
+          "focusY": 37,
+          "focusX": 0,
+          "zoom": 1
+        }
+      },
+      {
+        "field": "caseHigh.sections.6.media.6",
+        "to": {
+          "kind": "image",
+          "src": "/case/high/post-too-high.webp",
+          "alt": "Too high too fast",
+          "w": 2778,
+          "h": 3689,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.753
+        }
+      }
+    ]
+  },
+  {
+    "at": "2026-09-29T09:59:06.960Z",
+    "summary": "update 1, src, alt +119 more",
+    "changes": [
+      {
+        "field": "caseStockbee.sections.1.media.1",
+        "to": {
+          "kind": "image",
+          "src": "/case/stockbee/no-noise.webp",
+          "alt": "No Noise: StockBee Spotlight, sector surge, breakout tracker",
+          "w": 1543,
+          "h": 868,
+          "block": "primary"
+        }
+      },
+      {
+        "field": "caseStockbee.sections.2.media.0.src",
+        "from": "/case/stockbee/ai-section.webp",
+        "to": "/case/stockbee/lightning-fast.webp"
+      },
+      {
+        "field": "caseStockbee.sections.2.media.0.alt",
+        "from": "Four StockBee capabilities: real-time scanning, lightning-fast WhatsApp delivery, smart summaries and precision filtering",
+        "to": "Lightning-fast stock updates, delivered to your WhatsApp"
+      },
+      {
+        "field": "caseStockbee.sections.2.media.0.w",
+        "from": 1491,
+        "to": 1543
+      },
+      {
+        "field": "caseStockbee.sections.2.media.0.h",
+        "from": 879,
+        "to": 868
+      },
+      {
+        "field": "caseStockbee.sections.2.media.1.src",
+        "from": "/case/stockbee/lightning-fast.webp",
+        "to": "/case/stockbee/ai-section.webp"
+      },
+      {
+        "field": "caseStockbee.sections.2.media.1.alt",
+        "from": "Lightning-fast stock updates, delivered to your WhatsApp",
+        "to": "Four StockBee capabilities: real-time scanning, lightning-fast WhatsApp delivery, smart summaries and precision filtering"
+      },
+      {
+        "field": "caseStockbee.sections.2.media.1.w",
+        "from": 1543,
+        "to": 1491
+      },
+      {
+        "field": "caseStockbee.sections.2.media.1.h",
+        "from": 868,
+        "to": 879
+      },
+      {
+        "field": "caseStockbee.sections.3.media.0.src",
+        "from": "/case/stockbee/uptrend.webp",
+        "to": "/case/stockbee/news-impact.webp"
+      },
+      {
+        "field": "caseStockbee.sections.3.media.0.alt",
+        "from": "Uptrend list: stocks, CMP and day change",
+        "to": "News with impact tags — each story scored for the stocks it moves"
+      },
+      {
+        "field": "caseStockbee.sections.3.media.0.w",
+        "from": 1107,
+        "to": 1543
+      },
+      {
+        "field": "caseStockbee.sections.3.media.0.h",
+        "from": 1384,
+        "to": 868
+      },
+      {
+        "field": "caseStockbee.sections.3.media.0.block",
+        "from": "custom",
+        "to": "primary"
+      },
+      {
+        "field": "caseStockbee.sections.3.media.0.cols",
+        "from": 2
+      },
+      {
+        "field": "caseStockbee.sections.3.media.0.ratio",
+        "from": 0.8
+      },
+      {
+        "field": "caseStockbee.sections.3.media.1.src",
+        "from": "/case/stockbee/tablet-feed.webp",
+        "to": "/case/stockbee/uptrend.webp"
+      },
+      {
+        "field": "caseStockbee.sections.3.media.1.alt",
+        "from": "The live update feed on a tablet",
+        "to": "Uptrend list: stocks, CMP and day change"
+      },
+      {
+        "field": "caseStockbee.sections.3.media.1.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseStockbee.sections.3.media.2.src",
+        "from": "/case/stockbee/phone-transcript.webp",
+        "to": "/case/stockbee/tablet-feed.webp"
+      },
+      {
+        "field": "caseStockbee.sections.3.media.2.alt",
+        "from": "An earnings-call summary on the phone",
+        "to": "The live update feed on a tablet"
+      },
+      {
+        "field": "caseStockbee.sections.3.media.2.w",
+        "from": 731,
+        "to": 1107
+      },
+      {
+        "field": "caseStockbee.sections.3.media.2.h",
+        "from": 759,
+        "to": 1384
+      },
+      {
+        "field": "caseStockbee.sections.3.media.2.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseStockbee.sections.3.media.2.ratio",
+        "from": 0.96,
+        "to": 0.8
+      },
+      {
+        "field": "caseStockbee.sections.3.media.3.src",
+        "from": "/case/stockbee/news-impact.webp",
+        "to": "/case/stockbee/phone-transcript.webp"
+      },
+      {
+        "field": "caseStockbee.sections.3.media.3.alt",
+        "from": "News with impact tags — each story scored for the stocks it moves",
+        "to": "An earnings-call summary on the phone"
+      },
+      {
+        "field": "caseStockbee.sections.3.media.3.block",
+        "from": "primary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseStockbee.sections.3.media.3.w",
+        "from": 1543,
+        "to": 731
+      },
+      {
+        "field": "caseStockbee.sections.3.media.3.h",
+        "from": 868,
+        "to": 759
+      },
+      {
+        "field": "caseStockbee.sections.3.media.3.cols",
+        "to": 2
+      },
+      {
+        "field": "caseStockbee.sections.3.media.3.ratio",
+        "to": 0.96
+      },
+      {
+        "field": "caseStockbee.sections.3.media.4",
+        "to": {
+          "kind": "image",
+          "src": "/case/stockbee/custom-insights.webp",
+          "alt": "Enterprise solutions: custom insights, scalable impact",
+          "w": 1107,
+          "h": 1384,
+          "block": "secondary",
+          "cols": 2,
+          "ratio": 0.8
+        }
+      },
+      {
+        "field": "caseStockbee.sections.4.media.1.src",
+        "from": "/case/stockbee/no-noise.webp",
+        "to": "/case/stockbee/fno-table.webp"
+      },
+      {
+        "field": "caseStockbee.sections.4.media.1.alt",
+        "from": "No Noise: StockBee Spotlight, sector surge, breakout tracker",
+        "to": "F&O table with option chain data"
+      },
+      {
+        "field": "caseStockbee.sections.4.media.1.cols",
+        "to": 2
+      },
+      {
+        "field": "caseStockbee.sections.4.media.1.ratio",
+        "to": 1.78
+      },
+      {
+        "field": "caseStockbee.sections.4.media.2.src",
+        "from": "/case/stockbee/fno-table.webp",
+        "to": "/case/stockbee/options-chart.webp"
+      },
+      {
+        "field": "caseStockbee.sections.4.media.2.alt",
+        "from": "F&O table with option chain data",
+        "to": "NIFTY 50 options open-interest chart"
+      },
+      {
+        "field": "caseStockbee.sections.4.media.2.block",
+        "from": "custom",
+        "to": "primary"
+      },
+      {
+        "field": "caseStockbee.sections.4.media.3.src",
+        "from": "/case/stockbee/options-chart.webp",
+        "to": "/case/stockbee/oi-gainers.webp"
+      },
+      {
+        "field": "caseStockbee.sections.4.media.3.alt",
+        "from": "NIFTY 50 options open-interest chart",
+        "to": "Index and stocks — OI gainers and losers, price gainers and losers"
+      },
+      {
+        "field": "caseStockbee.sections.4.media.3.w",
+        "from": 1543,
+        "to": 1107
+      },
+      {
+        "field": "caseStockbee.sections.4.media.3.h",
+        "from": 868,
+        "to": 1384
+      },
+      {
+        "field": "caseStockbee.sections.4.media.3.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseStockbee.sections.4.media.3.ratio",
+        "from": 1.78,
+        "to": 0.8
+      },
+      {
+        "field": "caseStockbee.sections.4.media.4.src",
+        "from": "/case/stockbee/oi-gainers.webp",
+        "to": "/case/stockbee/breakouts.webp"
+      },
+      {
+        "field": "caseStockbee.sections.4.media.4.alt",
+        "from": "Index and stocks — OI gainers and losers, price gainers and losers",
+        "to": "Breakouts — above day high, below day low, with volume vs the 1-week average"
+      },
+      {
+        "field": "caseStockbee.sections.4.media.4.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseStockbee.sections.4.media.5",
+        "from": {
+          "kind": "image",
+          "src": "/case/stockbee/breakouts.webp",
+          "alt": "Breakouts — above day high, below day low, with volume vs the 1-week average",
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.8,
+          "w": 1107,
+          "h": 1384
+        }
+      },
+      {
+        "field": "caseStockbee.sections.5.media.0.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseStockbee.sections.5.media.1.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseStockbee.sections.5.media.2.block",
+        "from": "custom",
+        "to": "secondary"
+      },
+      {
+        "field": "caseStockbee.sections.7.media.1",
+        "from": {
+          "kind": "image",
+          "src": "/case/stockbee/custom-insights.webp",
+          "alt": "Enterprise solutions: custom insights, scalable impact",
+          "w": 1107,
+          "h": 1384,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 0.8
+        }
+      },
+      {
+        "field": "caseMach.sections.0.media.1",
+        "from": {
+          "kind": "image",
+          "src": "/case/mach/world-scifi.webp",
+          "alt": "A figure at the centre of a luminous, half-built desert world",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
+        }
+      },
+      {
+        "field": "caseMach.sections.0.media.2",
+        "from": {
+          "kind": "image",
+          "src": "/case/mach/world-fire.webp",
+          "alt": "A figure between LED panels of fire, the scene intentionally incomplete",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
+        }
+      },
+      {
+        "field": "caseMach.sections.1.media.0.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseMach.sections.1.media.0.src",
+        "from": "/case/mach/volume-crew.webp",
+        "to": "/case/mach/camera.mp4"
+      },
+      {
+        "field": "caseMach.sections.1.media.0.alt",
+        "from": "A film crew on the LED volume, a Nordic lake on the wall behind them"
+      },
+      {
+        "field": "caseMach.sections.1.media.0.block",
+        "from": "primary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseMach.sections.1.media.0.w",
+        "from": 2560,
+        "to": 720
+      },
+      {
+        "field": "caseMach.sections.1.media.0.h",
+        "from": 1433,
+        "to": 1280
+      },
+      {
+        "field": "caseMach.sections.1.media.0.poster",
+        "to": "/case/mach/camera.poster.webp"
+      },
+      {
+        "field": "caseMach.sections.1.media.1",
+        "from": {
+          "kind": "video",
+          "src": "/case/mach/camera.mp4",
+          "poster": "/case/mach/camera.poster.webp",
+          "block": "secondary",
+          "w": 720,
+          "h": 1280
+        }
+      },
+      {
+        "field": "caseMach.sections.2.media.1",
+        "from": {
+          "kind": "image",
+          "src": "/case/mach/world-forest.webp",
+          "alt": "An ancient fig-tree forest, extreme wide",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
+        }
+      },
+      {
+        "field": "caseMach.sections.2.media.2",
+        "from": {
+          "kind": "image",
+          "src": "/case/mach/world-dusk.webp",
+          "alt": "An architectural visualisation at dusk, mirrored in water",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
+        }
+      },
+      {
+        "field": "caseMach.sections.2.media.3",
+        "from": {
+          "kind": "image",
+          "src": "/case/mach/world-waterfront.webp",
+          "alt": "A bustling public waterfront at golden hour",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
+        }
+      },
+      {
+        "field": "caseMach.sections.2.media.4",
+        "from": {
+          "kind": "image",
+          "src": "/case/mach/world-valley.webp",
+          "alt": "A panoramic mountain valley with a lone figure",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
+        }
+      },
+      {
+        "field": "caseMach.sections.3.media.2",
+        "from": {
+          "kind": "image",
+          "src": "/case/mach/wordmark.webp",
+          "alt": "The MACH wordmark",
+          "block": "custom",
+          "w": 512,
+          "h": 157,
+          "ratio": 3.261
+        }
+      },
+      {
+        "field": "caseBloom.sections.4.media.0.src",
+        "from": "/case/bloom-algo/future.webp",
+        "to": "/case/bloom-algo/brand-board.webp"
+      },
+      {
+        "field": "caseBloom.sections.4.media.0.alt",
+        "from": "Bloom's landing: 'The future of trading is here' — an iMac among flowers on a rock",
+        "to": "Bloom Algo brand board: logo, gradients, connect broker and Earnings Pulse cards"
+      },
+      {
+        "field": "caseBloom.sections.4.media.0.w",
+        "from": 2024,
+        "to": 1533
+      },
+      {
+        "field": "caseBloom.sections.4.media.0.h",
+        "from": 1332,
+        "to": 863
+      },
+      {
+        "field": "caseBloom.sections.4.media.1.src",
+        "from": "/case/bloom-algo/brand-board.webp",
+        "to": "/case/bloom-algo/deploy-settings.webp"
+      },
+      {
+        "field": "caseBloom.sections.4.media.1.alt",
+        "from": "Bloom Algo brand board: logo, gradients, connect broker and Earnings Pulse cards",
+        "to": "Turbo Expiry deployment settings: multiplier, period and stop loss"
+      },
+      {
+        "field": "caseBloom.sections.4.media.1.cols",
+        "to": 2
+      },
+      {
+        "field": "caseBloom.sections.4.media.1.ratio",
+        "to": 1.776
+      },
+      {
+        "field": "caseBloom.sections.4.media.2.src",
+        "from": "/case/bloom-algo/deploy-settings.webp",
+        "to": "/case/bloom-algo/features.webp"
+      },
+      {
+        "field": "caseBloom.sections.4.media.2.alt",
+        "from": "Turbo Expiry deployment settings: multiplier, period and stop loss"
+      },
+      {
+        "field": "caseBloom.sections.4.media.2.w",
+        "from": 1533,
+        "to": 2300
+      },
+      {
+        "field": "caseBloom.sections.4.media.2.h",
+        "from": 863,
+        "to": 1294
+      },
+      {
+        "field": "caseBloom.sections.4.media.2.cols",
+        "from": 2
+      },
+      {
+        "field": "caseBloom.sections.4.media.2.ratio",
+        "from": 1.776
+      },
+      {
+        "field": "caseBloom.sections.4.media.3.src",
+        "from": "/case/bloom-algo/features.webp",
+        "to": "/case/bloom-algo/splash.webp"
+      },
+      {
+        "field": "caseBloom.sections.4.media.3.block",
+        "from": "primary",
+        "to": "secondary"
+      },
+      {
+        "field": "caseBloom.sections.4.media.3.w",
+        "from": 2300,
+        "to": 700
+      },
+      {
+        "field": "caseBloom.sections.4.media.3.h",
+        "from": 1294,
+        "to": 888
+      },
+      {
+        "field": "caseBloom.sections.4.media.3.alt",
+        "to": "Bloom Algo splash: logo over a mountain landscape"
+      },
+      {
+        "field": "caseBloom.sections.4.media.3.cols",
+        "to": 2
+      },
+      {
+        "field": "caseBloom.sections.4.media.3.ratio",
+        "to": 0.75
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.src",
+        "from": "/case/bloom-algo/splash.webp",
+        "to": "/case/bloom-algo/ticker.webp"
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.alt",
+        "from": "Bloom Algo splash: logo over a mountain landscape",
+        "to": "Ticker: Automation isn't the future. It's the present. And it's here."
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.w",
+        "from": 700,
+        "to": 1728
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.h",
+        "from": 888,
+        "to": 431
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.block",
+        "from": "secondary",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.cols",
+        "from": 2,
+        "to": 1
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.ratio",
+        "from": 0.75,
+        "to": 4
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.zoom",
+        "to": 1
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.focusX",
+        "to": 14
+      },
+      {
+        "field": "caseBloom.sections.4.media.4.focusY",
+        "to": 50
+      },
+      {
+        "field": "caseBloom.sections.4.media.5.src",
+        "from": "/case/bloom-algo/ticker.webp",
+        "to": "/case/bloom-algo/flowers.webp"
+      },
+      {
+        "field": "caseBloom.sections.4.media.5.alt",
+        "from": "Ticker: Automation isn't the future. It's the present. And it's here.",
+        "to": "Bloom Algo brand art: chrome flowers"
+      },
+      {
+        "field": "caseBloom.sections.4.media.5.w",
+        "from": 1728,
+        "to": 2560
+      },
+      {
+        "field": "caseBloom.sections.4.media.5.h",
+        "from": 431,
+        "to": 1433
+      },
+      {
+        "field": "caseBloom.sections.4.media.5.cols",
+        "from": 1,
+        "to": 2
+      },
+      {
+        "field": "caseBloom.sections.4.media.5.ratio",
+        "from": 4,
+        "to": 1.786
+      },
+      {
+        "field": "caseBloom.sections.4.media.5.zoom",
+        "from": 1
+      },
+      {
+        "field": "caseBloom.sections.4.media.5.focusX",
+        "from": 14
+      },
+      {
+        "field": "caseBloom.sections.4.media.5.focusY",
+        "from": 50
+      },
+      {
+        "field": "caseBloom.sections.5.media.6.src",
+        "from": "/case/bloom-algo/pricing-tiers.webp",
+        "to": "/case/bloom-algo/pricing.webp"
+      },
+      {
+        "field": "caseBloom.sections.5.media.6.alt",
+        "from": "Deploy, Test, Optimize — the three plans on glass cards",
+        "to": "Deploy, Test, Optimize: Bloom Prime, Bloom Elite and FinX plans"
+      },
+      {
+        "field": "caseBloom.sections.5.media.6.block",
+        "from": "primary",
+        "to": "custom"
+      },
+      {
+        "field": "caseBloom.sections.5.media.6.w",
+        "from": 1728,
+        "to": 1482
+      },
+      {
+        "field": "caseBloom.sections.5.media.6.h",
+        "from": 1140,
+        "to": 804
+      },
+      {
+        "field": "caseBloom.sections.5.media.6.cols",
+        "to": 2
+      },
+      {
+        "field": "caseBloom.sections.5.media.6.ratio",
+        "to": 1.78
+      },
+      {
+        "field": "caseBloom.sections.5.media.7",
+        "from": {
+          "kind": "image",
+          "src": "/case/bloom-algo/pricing.webp",
+          "alt": "Deploy, Test, Optimize: Bloom Prime, Bloom Elite and FinX plans",
+          "w": 1482,
+          "h": 804,
+          "block": "custom",
+          "cols": 2,
+          "ratio": 1.78
+        }
+      },
+      {
+        "field": "caseBloom.sections.6.media.0",
+        "from": {
+          "kind": "image",
+          "src": "/case/bloom-algo/smart-fast-secure.webp",
+          "alt": "Bloom Algo — Smart. Fast. Secure.",
+          "block": "primary",
+          "w": 1788,
+          "h": 1030
+        }
+      },
+      {
+        "field": "caseBloom.heroMedia.src",
+        "from": "/case/bloom-algo/flowers.webp",
+        "to": "/case/bloom-algo/hero.webp"
+      },
+      {
+        "field": "caseBloom.heroMedia.alt",
+        "from": "Bloom's chrome flowers"
+      },
+      {
+        "field": "caseBloom.heroMedia.w",
+        "from": 2560,
+        "to": 2300
+      },
+      {
+        "field": "caseBloom.heroMedia.h",
+        "from": 1433,
+        "to": 1293
+      }
+    ]
+  },
+  {
     "at": "2026-09-28T17:56:28.580Z",
     "summary": "update patternOpacity, patternHover, patternSpacing +7 more",
     "changes": [
