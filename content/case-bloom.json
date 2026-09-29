@@ -417,6 +417,14 @@
     "title": "Impact",
     "stats": [
       {
+        "value": "5K+",
+        "label": "Users"
+      },
+      {
+        "value": "20K+",
+        "label": "Deployments per month"
+      },
+      {
         "value": "10+",
         "label": "Pre-built strategies"
       },
@@ -431,14 +439,6 @@
       {
         "value": "Multiple",
         "label": "Broker integrations"
-      },
-      {
-        "value": "5K+",
-        "label": "Users"
-      },
-      {
-        "value": "20K+",
-        "label": "Deployments per month"
       }
     ]
   },
