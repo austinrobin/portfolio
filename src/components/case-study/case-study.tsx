@@ -666,7 +666,7 @@ function Chapter({
             </div>
           ) : null}
           {statement ? (
-            <p className="mt-8 border-t-2 border-accent pt-4 text-[clamp(22px,1.95vw,29px)] font-semibold leading-[1.15] tracking-[-0.022em] text-accent">
+            <p className="mt-6 text-[clamp(19px,1.45vw,23px)] font-medium leading-[1.25] tracking-[-0.015em] text-black">
               {statement}
             </p>
           ) : null}
@@ -693,7 +693,7 @@ function ChapterIndex({
   return (
     <nav
       aria-label="Chapters"
-      className={horizontal ? "flex gap-x-5 overflow-x-auto pb-1" : "flex flex-col gap-y-[18px]"}
+      className={horizontal ? "flex gap-x-5 overflow-x-auto pb-1" : "flex flex-col gap-y-[10px]"}
     >
       {chapters.map((c) => {
         const on = c.id === active;
@@ -702,14 +702,14 @@ function ChapterIndex({
             key={c.id}
             type="button"
             onClick={() => onJump(c.id)}
-            className={`group relative -my-1.5 whitespace-nowrap py-3 text-left text-[14px] font-normal leading-none transition-colors sm:text-[15px] ${
-              on ? "text-foreground" : "text-muted hover:text-foreground"
+            className={`group relative -my-1 whitespace-nowrap py-2 text-left text-[14px] font-normal leading-none transition-colors sm:text-[15px] ${
+              on ? "text-accent" : "text-muted hover:text-foreground"
             }`}
           >
             {!horizontal ? (
               <span
                 aria-hidden
-                className={`absolute -left-3.5 top-1/2 size-1 -translate-y-1/2 rounded-full bg-foreground transition-opacity ${
+                className={`absolute -left-3.5 top-1/2 size-1 -translate-y-1/2 rounded-full bg-accent transition-opacity ${
                   on ? "opacity-100" : "opacity-0"
                 }`}
               />
@@ -857,7 +857,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
       ref={rootRef}
       className={`relative min-h-screen bg-background text-foreground ${caseFont.variable} ${heroFonts.silk.variable} font-[family-name:var(--font-case)]`}
     >
-      <BanknoteNav blend fixed />
+      <BanknoteNav blend fixed monogramOnScrollUp />
       <ChapterPill title={cs.title} chapters={chapters} active={active} onJump={jump} />
 
       <div

@@ -27,7 +27,7 @@ export function nextProject(slug: string): ShowcaseItem | null {
   return withPages[(i + 1) % withPages.length] ?? null;
 }
 
-const TRAVEL = "280svh";
+const TRAVEL = "220svh";
 
 export function NextUp({
   next,
@@ -46,12 +46,12 @@ export function NextUp({
   const p = useScrollProgress(trigger, "top top", "bottom bottom");
 
   /* the screen leaves to the left and dims over the first third — a strip
-     of it stays at the edge, then it is gone once the cover has the room */
-  const screenX = useTransform(p, [0, 0.36, 1], ["0vw", "-78vw", "-100vw"]);
-  const screenOpacity = useTransform(p, [0, 0.36, 0.82, 1], [1, 0.3, 0.3, 0]);
+     of it stays at the edge */
+  const screenX = useTransform(p, [0, 0.36], ["0vw", "-78vw"]);
+  const screenOpacity = useTransform(p, [0, 0.36], [1, 0.3]);
   /* the panel's copy arrives as the screen leaves, and steps aside once the
      cover has taken the whole screen */
-  const copyOpacity = useTransform(p, [0.1, 0.36, 0.86, 1], [0, 1, 1, 0]);
+  const copyOpacity = useTransform(p, [0.1, 0.36], [0, 1]);
   const copyY = useTransform(p, [0.1, 0.36], [28, 0]);
   /* the cover opens from the corner: a thumbnail that grows to the full stage */
   /* the thumbnail reads as a card on portrait screens too */
@@ -63,9 +63,9 @@ export function NextUp({
     mq.addEventListener("change", sync);
     return () => mq.removeEventListener("change", sync);
   }, []);
-  const coverW = useTransform(p, [0.3, 1], [portrait ? "64%" : "42%", "100%"]);
-  const coverH = useTransform(p, [0.3, 1], [portrait ? "32%" : "46%", "100%"]);
-  const coverRadius = useTransform(p, [0.7, 1], [10, 0]);
+  const coverW = useTransform(p, [0.3, 1], [portrait ? "64%" : "40%", portrait ? "78%" : "56%"]);
+  const coverH = useTransform(p, [0.3, 1], [portrait ? "32%" : "44%", portrait ? "44%" : "58%"]);
+  const coverRadius = useTransform(p, [0.3, 1], [10, 10]);
   const coverOpacity = useTransform(p, [0.14, 0.3], [0, 1]);
 
   return (

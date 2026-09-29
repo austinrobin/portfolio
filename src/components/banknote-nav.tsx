@@ -67,8 +67,12 @@ function NavLink({ item, className, style }: { item: NavItem; className: string;
 export function BanknoteNav({
   blend = false,
   fixed = false,
+  monogramOnScrollUp = false,
 }: {
   blend?: boolean;
+  /** case studies: the monogram returns whenever the reader scrolls back up,
+      not only at the top */
+  monogramOnScrollUp?: boolean;
   /** pin to the viewport through a body portal — position:fixed is dead
       inside ScrollSmoother's transformed content. Pages animate it via
       [data-banknote-nav]. */
@@ -85,10 +89,15 @@ export function BanknoteNav({
      and returns at the top */
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
-    const on = () => setScrolled(window.scrollY > 40);
+    let last = window.scrollY;
+    const on = () => {
+      const y = window.scrollY;
+      setScrolled(monogramOnScrollUp ? y > 40 && y > last - 2 : y > 40);
+      last = y;
+    };
     window.addEventListener("scroll", on, { passive: true });
     return () => window.removeEventListener("scroll", on);
-  }, []);
+  }, [monogramOnScrollUp]);
   const silk = { fontFamily: "var(--font-silk)" };
   /* blend: the nav rides over media — white ink in difference mode reads
      on paper (inverts to near-black) and on any image alike */
