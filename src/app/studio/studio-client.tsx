@@ -359,6 +359,9 @@ export function StudioClient() {
   /* Restore draft + key. localStorage can't be read during render (it doesn't
      exist on the server), so hydrating from it in an effect is the correct
      pattern here despite the lint rule's general advice. */
+  /* …and again whenever the content underneath changes while the tab is
+     open (in dev the files hot-reload; BASE is a new value then): the edits
+     are re-applied on the fresh content, so the previews never lag behind. */
   useEffect(() => {
     try {
       const d = localStorage.getItem(DRAFT_KEY);
@@ -369,7 +372,11 @@ export function StudioClient() {
           setDraft(rebase(stored));
           if (stored.base !== BASE && stored.changes.length)
             setStatus(`Content changed since this draft — your ${stored.changes.length} edit${stored.changes.length === 1 ? "" : "s"} were re-applied on top of it.`);
+        } else {
+          setDraft(structuredClone(defaults) as Draft);
         }
+      } else {
+        setDraft(structuredClone(defaults) as Draft);
       }
       const k = sessionStorage.getItem(KEY_KEY);
       if (k !== null) {
@@ -378,7 +385,8 @@ export function StudioClient() {
         void tryAuth(k);
       }
     } catch {}
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- BASE changes when the content modules hot-reload
+  }, [BASE]);
 
   /* persist draft locally so nothing is ever lost */
   useEffect(() => {
