@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Curtain } from "./plate-run";
+import { Curtain, LIFT_MS } from "./plate-run";
 import { hasBooted } from "./site-loader";
 
 /* Opening a project or the gallery from within the site: the same plates
@@ -19,7 +19,7 @@ export function RouteCurtain() {
   useEffect(() => {
     if (!hasBooted()) return;
     const t = window.setTimeout(() => setState("lift"), MIN_MS);
-    const gone = window.setTimeout(() => setState("idle"), MIN_MS + 800);
+    const gone = window.setTimeout(() => setState("idle"), MIN_MS + LIFT_MS);
     return () => {
       window.clearTimeout(t);
       window.clearTimeout(gone);

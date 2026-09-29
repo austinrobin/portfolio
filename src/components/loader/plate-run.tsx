@@ -1,3 +1,9 @@
+"use client";
+
+import { useEffect, useRef, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
+import { gsap } from "@/lib/gsap";
+
 /* The loader plate: six engravings (a coastline, palms, a gathering, a
    valley, a summit, a wave) flipped through at speed, like riffling a stack
    of banknote plates. Three sprites of cream lines on transparency — 1x,
@@ -22,11 +28,12 @@ const CSS = `@keyframes plate-run{from{background-position-y:0%}to{background-po
 /* The plates fill the whole screen: the smallest 16:9 box that covers the
    viewport, centred, so each engraving is cropped like a cover image rather
    than stretched. */
-export function PlateRun({ running = true }: { running?: boolean }) {
+export function PlateRun({ running = true, plateRef }: { running?: boolean; plateRef?: React.Ref<HTMLDivElement> }) {
   return (
     <div aria-hidden className="absolute inset-0 overflow-hidden" style={{ background: "#101BBC" }}>
       <style>{CSS}</style>
       <div
+        ref={plateRef}
         className={`plate-sprite absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ${running ? "plate-run" : ""}`}
         style={{
           backgroundSize: `100% ${PLATE_FRAMES * 100}%`,
@@ -37,19 +44,47 @@ export function PlateRun({ running = true }: { running?: boolean }) {
   );
 }
 
-/** The full-screen curtain the plates run on. `lift` slides it away. */
-export function Curtain({ lift, running = true }: { lift: boolean; running?: boolean }) {
-  return (
-    <div
-      className="fixed inset-0 z-[100] overflow-hidden"
-      style={{
-        background: "#101BBC",
-        transform: lift ? "translateY(-101%)" : "translateY(0)",
-        transition: lift ? "transform 720ms cubic-bezier(0.76, 0, 0.24, 1)" : "none",
-        willChange: "transform",
-      }}
-    >
-      <PlateRun running={running && !lift} />
+/** How long the lift takes, for whoever unmounts the curtain afterwards. */
+export const LIFT_MS = 1400;
+
+/** The full-screen curtain the plates run on. `lift` raises it: a GSAP
+    timeline — the plates keep riffling, the sheet rises on a long power4
+    ease while the plates lag its edge (a stage curtain, not a slide), and a
+    soft shade travels along the bottom edge over the page it uncovers. */
+export function Curtain({ lift, running = true, portal = true }: {
+  lift: boolean;
+  running?: boolean;
+  /** render into <body> once on the client: inside ScrollSmoother's
+      transformed content a fixed box is page-sized, and "100% up" is a few
+      frames instead of a lift. The first-paint loader sits outside it and
+      keeps its server-rendered node. */
+  portal?: boolean;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const plateRef = useRef<HTMLDivElement>(null);
+  const mounted = useSyncExternalStore(() => () => {}, () => true, () => false);
+  useEffect(() => {
+    const sheet = ref.current, plate = plateRef.current;
+    if (!lift || !sheet || !plate) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const tl = gsap.timeline({ defaults: { duration: reduce ? 0.35 : 1.2, ease: "power4.inOut" } });
+    tl.to(sheet, { yPercent: -100 }, 0.08).to(plate, { yPercent: reduce ? 0 : 26 }, 0.08);
+    return () => {
+      tl.kill();
+    };
+  }, [lift]);
+  const node = (
+    <div ref={ref} className="fixed inset-0 z-[100] overflow-visible" style={{ background: "#101BBC", willChange: "transform" }}>
+      <div className="absolute inset-0 overflow-hidden">
+        <PlateRun running={running} plateRef={plateRef} />
+      </div>
+      {/* the shade the rising sheet casts on the page below */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-full h-24"
+        style={{ background: "linear-gradient(180deg, rgba(16,27,188,0.34) 0%, rgba(16,27,188,0.12) 40%, rgba(16,27,188,0) 100%)" }}
+      />
     </div>
   );
+  return portal && mounted ? createPortal(node, document.body) : node;
 }

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Curtain } from "./plate-run";
+import { Curtain, LIFT_MS } from "./plate-run";
 
 /* First paint of the site: the curtain is in the server HTML, so it covers
    the page before anything else loads; it lifts once the document has loaded
@@ -32,7 +32,7 @@ export function SiteLoader() {
       booted = true;
       window.dispatchEvent(new Event("site:ready"));
       setState("lift");
-      window.setTimeout(() => setState("gone"), 800);
+      window.setTimeout(() => setState("gone"), LIFT_MS);
     };
     // the document's load event (fonts from next/font are preloaded and
     // block first paint, so they are in by then), never before MIN_MS
@@ -49,5 +49,5 @@ export function SiteLoader() {
   }, [studio]);
 
   if (studio || state === "gone") return null;
-  return <Curtain lift={state === "lift"} />;
+  return <Curtain lift={state === "lift"} portal={false} />;
 }
