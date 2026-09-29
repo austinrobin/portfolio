@@ -27,13 +27,6 @@
       "media": [
         {
           "kind": "image",
-          "src": "/case/bloom-algo/calm.webp",
-          "block": "primary",
-          "w": 2300,
-          "h": 1293
-        },
-        {
-          "kind": "image",
           "src": "/case/bloom-algo/banner.webp",
           "alt": "Algo trading for everyone.",
           "w": 1051,
@@ -386,16 +379,6 @@
           "block": "primary",
           "w": 1728,
           "h": 1140
-        },
-        {
-          "kind": "image",
-          "src": "/case/bloom-algo/pricing.webp",
-          "alt": "Deploy, Test, Optimize: Bloom Prime, Bloom Elite and FinX plans",
-          "w": 1482,
-          "h": 804,
-          "block": "custom",
-          "cols": 2,
-          "ratio": 1.78
         }
       ]
     },
@@ -458,10 +441,10 @@
   },
   "heroMedia": {
     "kind": "image",
-    "src": "/case/bloom-algo/flowers.webp",
-    "alt": "Bloom's chrome flowers",
+    "src": "/case/bloom-algo/calm.webp",
+    "alt": "At a desk among blue flowers, Bloom on the screen",
     "block": "primary",
-    "w": 2560,
-    "h": 1433
+    "w": 2300,
+    "h": 1293
   }
 }
