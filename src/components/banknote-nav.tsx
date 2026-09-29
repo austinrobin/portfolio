@@ -36,10 +36,13 @@ function onWorks(e: React.MouseEvent<HTMLAnchorElement>) {
   scrollToHash("#work", true);
 }
 
+const TRACK: Record<NavItem["kind"], string> = { page: "nav", scroll: "nav", file: "resume", mail: "contact" };
+
 function NavLink({ item, className, style }: { item: NavItem; className: string; style: React.CSSProperties }) {
+  const track = { "data-track": TRACK[item.kind], "data-track-label": item.label };
   if (item.kind === "page") {
     return (
-      <Link href={item.href} className={className} style={style}>
+      <Link href={item.href} className={className} style={style} {...track}>
         {item.label}
       </Link>
     );
@@ -47,7 +50,7 @@ function NavLink({ item, className, style }: { item: NavItem; className: string;
   if (item.kind === "scroll") {
     // scroll={false}: the home page's hash handler places the deck itself
     return (
-      <Link href={item.href} onClick={onWorks} scroll={false} className={className} style={style}>
+      <Link href={item.href} onClick={onWorks} scroll={false} className={className} style={style} {...track}>
         {item.label}
       </Link>
     );
@@ -57,6 +60,7 @@ function NavLink({ item, className, style }: { item: NavItem; className: string;
       href={item.href}
       className={className}
       style={style}
+      {...track}
       {...(item.kind === "file" ? { target: "_blank", rel: "noopener noreferrer" } : {})}
     >
       {item.label}

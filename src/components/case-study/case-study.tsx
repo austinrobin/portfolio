@@ -1,5 +1,6 @@
 "use client";
 
+import { trackEvent } from "@/lib/analytics";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { motion, useReducedMotion } from "motion/react";
@@ -856,6 +857,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
   }, [cs.slug]);
 
   const jump = (id: string) => {
+    trackEvent("chapter_jump", `${cs.slug}/${id}`);
     const el = document.getElementById(id);
     if (!el) return;
     const smoother = ScrollSmoother.get();

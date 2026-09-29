@@ -16,6 +16,7 @@
     "@next/mdx": "^16.2.6",
     "@tailwindcss/typography": "^0.5.19",
     "@types/mdx": "^2.0.13",
+    "@vercel/analytics": "^2.0.1",
     "gray-matter": "^4.0.3",
     "gsap": "^3.15.0",
     "motion": "^12.40.0",

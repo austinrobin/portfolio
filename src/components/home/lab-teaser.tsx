@@ -90,7 +90,7 @@ export function LabTeaser({
                   </div>
                 </>
               )}
-              {x.href ? <a href={x.href} target="_blank" rel="noopener noreferrer" aria-label={`Open ${x.name}`} className="absolute inset-0 z-10" /> : null}
+              {x.href ? <a href={x.href} target="_blank" rel="noopener noreferrer" aria-label={`Open ${x.name}`} data-track="lab_open" data-track-label={x.name} className="absolute inset-0 z-10" /> : null}
             </div>
             {x.cover ? <Caption x={x} /> : null}
           </div>
@@ -173,7 +173,7 @@ export function LabTeaser({
                   }}
                 >
                   {x.cover ? <Cover src={x.cover} /> : null}
-                  {x.href ? <a href={x.href} target="_blank" rel="noopener noreferrer" aria-label={`Open ${x.name}`} className="absolute inset-0 z-10" /> : null}
+                  {x.href ? <a href={x.href} target="_blank" rel="noopener noreferrer" aria-label={`Open ${x.name}`} data-track="lab_open" data-track-label={x.name} className="absolute inset-0 z-10" /> : null}
                   {x.cover ? null : (
                   <div className="relative flex h-full flex-col justify-between p-6 sm:p-9">
                     <span className="font-mono text-[clamp(11px,0.8vw,12px)] uppercase tracking-[0.25em] opacity-70">
@@ -228,7 +228,7 @@ function Caption({ x, className = "" }: { x: LabCascadeSettings["experiments"][n
   return (
     <div className={`mt-3 flex justify-center ${className}`}>
       {x.href ? (
-        <a href={x.href} target="_blank" rel="noopener noreferrer" className="shrink-0 font-mono text-[10px] uppercase tracking-[0.25em] opacity-60 transition-opacity hover:opacity-100" style={{ color: INK }}>
+        <a href={x.href} target="_blank" rel="noopener noreferrer" data-track="lab_open" data-track-label={x.name} className="shrink-0 font-mono text-[10px] uppercase tracking-[0.25em] opacity-60 transition-opacity hover:opacity-100" style={{ color: INK }}>
           Open ↗{x.tool ? ` · Built with ${x.tool}` : ""}
         </a>
       ) : (

@@ -99,7 +99,7 @@ export function NextUp({
           className="absolute bottom-0 right-0 z-20 overflow-hidden"
           style={{ width: coverW, height: coverH, borderRadius: coverRadius, opacity: coverOpacity }}
         >
-          <Link href={next.href ?? "/#work"} aria-label={`Next project: ${next.title}`} className="group absolute inset-0 block bg-black">
+          <Link href={next.href ?? "/#work"} aria-label={`Next project: ${next.title}`} data-track="next_up" data-track-label={next.title} className="group absolute inset-0 block bg-black">
             <Cover item={next} progress={p} />
             <span className="absolute bottom-5 left-5 flex items-center gap-2 rounded-[4px] px-[9px] py-[6px] font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#F9F7F1] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.18)] backdrop-blur-md" style={{ background: "rgba(16,27,188,0.9)" }}>
               Open project

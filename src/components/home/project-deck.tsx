@@ -389,6 +389,8 @@ function ClickLayer({ boxRef, href, title }: { boxRef: React.RefObject<HTMLDivEl
       href={href}
       aria-label={`Open ${title}`}
       data-deck-click
+      data-track="case_open"
+      data-track-label={title}
       className="pointer-events-auto absolute z-30 block cursor-pointer"
       style={box}
     />

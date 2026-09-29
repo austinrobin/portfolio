@@ -16,6 +16,7 @@ import {
 } from "./life-config";
 import { mediaUrl, fallbackToOrigin } from "@/lib/media-url";
 import { playSfx } from "@/lib/sfx";
+import { trackEvent } from "@/lib/analytics";
 import { VIDEO_TYPE } from "@/lib/video-sources";
 
 /*
@@ -262,6 +263,7 @@ function Camera({ video, href }: { video: LifeVideo; href?: string }) {
           rel="noopener noreferrer"
           aria-label={`Watch ${video.title} on YouTube (opens in a new tab)`}
           data-sfx="shutter"
+          data-track="film_open"
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           className="absolute inset-0 block h-full w-full focus:outline-none"
@@ -397,6 +399,7 @@ function Record({ record }: { record: LifeRecord }) {
       if (!wanted.current) { a.pause(); return; } // the pointer left while play() was pending
       ramp(a, 1, 250);
       setPlaying(true);
+      trackEvent("record_play");
     } catch {
       /* refused before any press on the site, or interrupted by leaving
          again — the first press anywhere unlocks it, and the next hover plays */
@@ -614,7 +617,7 @@ export function LifeCollage({
               dragMomentum={false}
               whileHover={reduce || editable ? undefined : { rotate: rotate * 0.4, y: -4 }}
               whileDrag={{ scale: 1.04, rotate: 0 }}
-              onDragStart={() => { lift(p.id); playSfx("whoosh"); }}
+              onDragStart={() => { lift(p.id); playSfx("whoosh"); trackEvent("desk_drag", p.id); }}
               onDragEnd={editable ? (e) => settle(p.id, (e.target as HTMLElement).closest("[data-piece]") as HTMLElement) : undefined}
               data-piece={p.id}
             >

@@ -7,6 +7,8 @@ import { ChromeGate } from "@/components/chrome-gate";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { SiteLoader } from "@/components/loader/site-loader";
 import { SoundEffects } from "@/components/sound-effects";
+import { AnalyticsEvents } from "@/components/analytics-events";
+import { Analytics } from "@vercel/analytics/next";
 import { siteConfig } from "@/lib/site";
 
 const geistSans = Geist({
@@ -59,6 +61,8 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <SiteLoader />
         <SoundEffects />
+        <AnalyticsEvents />
+        <Analytics />
         <Nav />
         <SmoothScroll>
           <main className="flex-1">{children}</main>

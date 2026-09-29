@@ -37,6 +37,8 @@ export function ClosingInvite() {
         {c.cta ? (
           <a
             href={href}
+            data-track="contact"
+            data-track-label="closing"
             className="mt-9 inline-flex items-center rounded-full border border-[#101BBC] px-6 py-3 font-mono text-[11px] uppercase tracking-[0.25em] text-[#101BBC] transition-colors duration-300 hover:bg-[#101BBC] hover:text-[#F9F7F1]"
           >
             {c.cta}
