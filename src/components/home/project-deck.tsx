@@ -97,8 +97,7 @@ function DeckCard({
         className="absolute inset-0 cursor-pointer overflow-hidden rounded-lg border border-border shadow-[0_12px_30px_rgba(26,25,19,0.2)] sm:shadow-[0_30px_80px_rgba(26,25,19,0.22)]"
         style={{ background: item.theme.bg }}
         onClick={() => { if (item.href) router.push(item.href); else onActivate?.(); }}
-        role={item.href ? "link" : undefined}
-        aria-label={item.href ? `Open ${item.title}` : undefined}
+        aria-hidden
       >
         <Cover item={item} sizes="(max-width: 860px) 92vw, 1240px" playing={playing} />
       </div>
@@ -357,7 +356,6 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
    Browsers disagree on hit-testing inside a 3D stage; a 2D layer above it
    does not depend on any of that. */
 function ClickLayer({ boxRef, href, title }: { boxRef: React.RefObject<HTMLDivElement | null>; href?: string; title: string }) {
-  const router = useRouter();
   const [box, setBox] = useState<{ left: number; top: number; width: number; height: number } | null>(null);
   useEffect(() => {
     const host = boxRef.current;
@@ -385,14 +383,14 @@ function ClickLayer({ boxRef, href, title }: { boxRef: React.RefObject<HTMLDivEl
     };
   }, [boxRef]);
   if (!box || !href) return null;
+  // a real link: every browser knows what to do with one, and so do middle-clicks
   return (
-    <div
-      aria-hidden
+    <Link
+      href={href}
+      aria-label={`Open ${title}`}
       data-deck-click
-      className="pointer-events-auto absolute z-30 cursor-pointer"
+      className="pointer-events-auto absolute z-30 block cursor-pointer"
       style={box}
-      onClick={() => router.push(href)}
-      title={`Open ${title}`}
     />
   );
 }
