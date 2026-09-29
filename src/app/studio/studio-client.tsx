@@ -60,7 +60,7 @@ interface PendingMedia {
   bytes: number;
 }
 
-const DRAFT_KEY = "studio-draft-v44"; // v44: Bloom + MACH media placed outside Studio (v43: site nav + resume path added outside Studio (v42: StockBee hero + product media changed outside Studio (v41: drop the stale draft that kept overwriting the Life prints and the hero auto-scan (v40: HIGH hero = High Department Co. (v39: site url = austinrobin.design (v38: HIGH round 3 (v37: StockBee 3 frames (v36: HIGH assets round 2 (v35: HIGH copy v2 (v34: HIGH site+times (v33: HIGH copy (v32: High case (v31: StockBee assets round 2 (v30: webp posters (v29: Bloom meta 2024 (v28: Bloom assets round 3 (v27: round 2 (v26: Bloom copy rewrite (v25: Bloom assets; v23: sound toggle; v20: zoom; v14: custom blocks + focal point)
+const DRAFT_KEY = "studio-draft-v45"; // v45: the draft is a list of edits rebased onto the current content (v44: Bloom + MACH media placed outside Studio (v43: site nav + resume path added outside Studio (v42: StockBee hero + product media changed outside Studio (v41: drop the stale draft that kept overwriting the Life prints and the hero auto-scan (v40: HIGH hero = High Department Co. (v39: site url = austinrobin.design (v38: HIGH round 3 (v37: StockBee 3 frames (v36: HIGH assets round 2 (v35: HIGH copy v2 (v34: HIGH site+times (v33: HIGH copy (v32: High case (v31: StockBee assets round 2 (v30: webp posters (v29: Bloom meta 2024 (v28: Bloom assets round 3 (v27: round 2 (v26: Bloom copy rewrite (v25: Bloom assets; v23: sound toggle; v20: zoom; v14: custom blocks + focal point)
 const KEY_KEY = "studio-key";
 
 const defaults: Draft = {
@@ -138,6 +138,34 @@ async function readVideo(
 }
 
 /* ------------------------------------------------------------- utilities */
+/* The draft is stored as the list of edits against the content it was made
+   on, never as a full copy: content changed elsewhere (a placement, a hero
+   swap, a new image) stays, and only the fields Austin touched are
+   re-applied on top. `base` says which content the edits were made on. */
+const BASE = (() => {
+  const s = JSON.stringify(defaults);
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619);
+  return (h >>> 0).toString(36);
+})();
+function setPath(obj: unknown, field: string, value: unknown) {
+  const keys = field.split(".");
+  let cur = obj as Record<string, unknown>;
+  for (let i = 0; i < keys.length - 1; i++) {
+    const k = keys[i];
+    if (cur[k] === undefined || cur[k] === null || typeof cur[k] !== "object") cur[k] = /^\d+$/.test(keys[i + 1]) ? [] : {};
+    cur = cur[k] as Record<string, unknown>;
+  }
+  const last = keys[keys.length - 1];
+  if (value === undefined) delete cur[last];
+  else cur[last] = value;
+}
+function rebase(stored: { base?: string; changes?: { field: string; to: unknown }[] }) {
+  const next = structuredClone(defaults) as Draft;
+  for (const c of stored.changes ?? []) setPath(next, c.field, c.to);
+  return next;
+}
+
 function diff(before: Draft, after: Draft) {
   const changes: { field: string; from: unknown; to: unknown }[] = [];
   const walk = (a: unknown, b: unknown, prefix: string) => {
@@ -334,8 +362,15 @@ export function StudioClient() {
   useEffect(() => {
     try {
       const d = localStorage.getItem(DRAFT_KEY);
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      if (d) setDraft({ ...defaults, ...JSON.parse(d) });
+      if (d) {
+        const stored = JSON.parse(d) as { base?: string; changes?: { field: string; to: unknown }[] };
+        if (Array.isArray(stored.changes)) {
+          // eslint-disable-next-line react-hooks/set-state-in-effect
+          setDraft(rebase(stored));
+          if (stored.base !== BASE && stored.changes.length)
+            setStatus(`Content changed since this draft — your ${stored.changes.length} edit${stored.changes.length === 1 ? "" : "s"} were re-applied on top of it.`);
+        }
+      }
       const k = sessionStorage.getItem(KEY_KEY);
       if (k !== null) {
 
@@ -347,7 +382,7 @@ export function StudioClient() {
 
   /* persist draft locally so nothing is ever lost */
   useEffect(() => {
-    localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+    localStorage.setItem(DRAFT_KEY, JSON.stringify({ base: BASE, changes: diff(defaults, draft) }));
   }, [draft]);
 
   const changes = useMemo(() => diff(defaults, draft), [draft]);
