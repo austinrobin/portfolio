@@ -223,13 +223,10 @@ function Cover({ src }: { src: string }) {
   );
 }
 
-/* the words for a cover that is an image: under it, not on it */
+/* under a cover that is an image: only the credit line, nothing on the image */
 function Caption({ x, className = "" }: { x: LabCascadeSettings["experiments"][number]; className?: string }) {
   return (
-    <div className={`mt-3 flex items-baseline justify-between gap-4 ${className}`}>
-      <p className="text-[clamp(17px,1.3vw,22px)] leading-tight" style={{ fontFamily: "var(--font-peristiwa)", color: INK }}>
-        {x.title}
-      </p>
+    <div className={`mt-3 flex justify-center ${className}`}>
       {x.href ? (
         <a href={x.href} target="_blank" rel="noopener noreferrer" className="shrink-0 font-mono text-[10px] uppercase tracking-[0.25em] opacity-60 transition-opacity hover:opacity-100" style={{ color: INK }}>
           Open ↗{x.tool ? ` · Built with ${x.tool}` : ""}
