@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import { ChromeGate } from "@/components/chrome-gate";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { SiteLoader } from "@/components/loader/site-loader";
+import { SoundEffects } from "@/components/sound-effects";
 import { siteConfig } from "@/lib/site";
 
 const geistSans = Geist({
@@ -57,6 +58,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <SiteLoader />
+        <SoundEffects />
         <Nav />
         <SmoothScroll>
           <main className="flex-1">{children}</main>

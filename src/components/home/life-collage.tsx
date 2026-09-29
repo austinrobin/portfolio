@@ -15,6 +15,7 @@ import {
   type LifeVideo,
 } from "./life-config";
 import { mediaUrl } from "@/lib/media-url";
+import { playSfx } from "@/lib/sfx";
 import { VIDEO_TYPE } from "@/lib/video-sources";
 
 /*
@@ -260,6 +261,7 @@ function Camera({ video, href }: { video: LifeVideo; href?: string }) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`Watch ${video.title} on YouTube (opens in a new tab)`}
+          data-sfx="shutter"
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           className="absolute inset-0 block h-full w-full focus:outline-none"
@@ -448,6 +450,7 @@ function Record({ record }: { record: LifeRecord }) {
       tabIndex={0}
       aria-label={`${playing ? "Stop" : "Play"} a clip of ${record.title} by ${record.artist}`}
       aria-pressed={playing}
+      data-sfx="none"
       className="relative"
       style={{ aspectRatio: "1 / 1" }}
       onPointerEnter={(e) => { if (e.pointerType !== "touch") void start(); }}
@@ -612,7 +615,7 @@ export function LifeCollage({
               dragMomentum={false}
               whileHover={reduce || editable ? undefined : { rotate: rotate * 0.4, y: -4 }}
               whileDrag={{ scale: 1.04, rotate: 0 }}
-              onDragStart={() => lift(p.id)}
+              onDragStart={() => { lift(p.id); playSfx("whoosh"); }}
               onDragEnd={editable ? (e) => settle(p.id, (e.target as HTMLElement).closest("[data-piece]") as HTMLElement) : undefined}
               data-piece={p.id}
             >
