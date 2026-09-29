@@ -38,7 +38,7 @@ export function CurrentBuild() {
           />
         </div>
         <p
-          className="text-[clamp(28px,3.57vw,54px)] leading-[1.22]"
+          className="text-[clamp(28px,3.57vw,54px)] leading-[0.85]"
           style={{ fontFamily: "var(--font-peristiwa)", color: INK }}
         >
           Currently
