@@ -2,7 +2,7 @@
   "photos": [
     {
       "src": "/life/polaroid-01.webp",
-      "caption": "the crew",
+      "caption": "",
       "date": "",
       "rotate": -2,
       "framed": true,
@@ -11,7 +11,7 @@
     },
     {
       "src": "/life/polaroid-02.webp",
-      "caption": "somewhere high",
+      "caption": "",
       "date": "",
       "rotate": 8,
       "framed": true,
@@ -20,7 +20,7 @@
     },
     {
       "src": "/gallery/photo-07.webp",
-      "caption": "window seat",
+      "caption": "",
       "date": "",
       "rotate": -12,
       "framed": false
@@ -62,7 +62,7 @@
     "record": {
       "x": 58,
       "y": 5,
-      "w": 250,
+      "w": 125,
       "r": 3
     },
     "stamp": {

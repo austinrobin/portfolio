@@ -1414,6 +1414,12 @@ export function StudioClient() {
                 onChange={(v) => setFooter({ dedicationY: v })} />
               <Slider label="Dedication size" value={draft.footer.dedicationSize} min={0.7} max={4} step={0.05}
                 onChange={(v) => setFooter({ dedicationSize: v })} />
+              <TextField label="Place line (tiny, at the foot — empty hides it)" value={draft.footer.placeText ?? ""}
+                onChange={(v) => setFooter({ placeText: v })} />
+              <Slider label="Place line from top" value={draft.footer.placeY ?? 93.5} min={80} max={99} step={0.5}
+                onChange={(v) => setFooter({ placeY: v })} />
+              <Slider label="Place line size" value={draft.footer.placeSize ?? 0.85} min={0.5} max={2} step={0.05}
+                onChange={(v) => setFooter({ placeSize: v })} />
             </Group>
               </>
             ) : null}

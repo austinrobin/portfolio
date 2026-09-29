@@ -20,5 +20,8 @@
   "monogramW": 4.75,
   "dedicationText": "Dedicated to my mother",
   "dedicationY": 83,
-  "dedicationSize": 2
+  "dedicationSize": 1,
+  "placeText": "Currently in Bhopal, India",
+  "placeY": 93.5,
+  "placeSize": 0.85
 }

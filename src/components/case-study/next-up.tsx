@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, useTransform } from "motion/react";
 import { showcase, type ShowcaseItem } from "@/lib/showcase";
 import { pickVideoSources, type VideoSource } from "@/lib/video-sources";
-import { mediaUrl } from "@/lib/media-url";
+import { mediaUrl, fallbackToOrigin } from "@/lib/media-url";
 import { usePinned, useScrollProgress } from "@/lib/scroll-progress";
 import { heroFonts, INK, PAPER } from "@/components/home/hero-config";
 
@@ -156,7 +156,7 @@ function Cover({ item, progress }: { item: ShowcaseItem; progress: ReturnType<ty
   if (!item.cover) return <div className="absolute inset-0" style={{ background: item.theme.bg }} />;
   if (!isVideo) {
     // eslint-disable-next-line @next/next/no-img-element -- a cover still at its own size
-    return <img src={mediaUrl(item.cover)} alt="" className="absolute inset-0 h-full w-full object-cover" />;
+    return <img src={mediaUrl(item.cover)} onError={fallbackToOrigin} alt="" className="absolute inset-0 h-full w-full object-cover" />;
   }
   return (
     <video

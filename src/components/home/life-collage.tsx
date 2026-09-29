@@ -14,7 +14,7 @@ import {
   type LifeSettings,
   type LifeVideo,
 } from "./life-config";
-import { mediaUrl } from "@/lib/media-url";
+import { mediaUrl, fallbackToOrigin } from "@/lib/media-url";
 import { playSfx } from "@/lib/sfx";
 import { VIDEO_TYPE } from "@/lib/video-sources";
 
@@ -63,7 +63,7 @@ function Polaroid({ photo }: { photo: LifePhoto }) {
         {/* eslint-disable-next-line @next/next/no-img-element -- a real
             print at its own size; the frame is in the file */}
         <img
-          src={mediaUrl(photo.src)}
+          src={mediaUrl(photo.src)} onError={fallbackToOrigin}
           alt={photo.caption}
           width={photo.w}
           height={photo.h}
@@ -100,7 +100,7 @@ function Polaroid({ photo }: { photo: LifePhoto }) {
             /* eslint-disable-next-line @next/next/no-img-element -- collage
                photos are small local files; the frame sizes them, not next/image */
             <img
-              src={mediaUrl(photo.src)}
+              src={mediaUrl(photo.src)} onError={fallbackToOrigin}
               alt={photo.caption}
               className="absolute inset-0 h-full w-full object-cover"
               draggable={false}
@@ -245,7 +245,7 @@ function Camera({ video, href }: { video: LifeVideo; href?: string }) {
       {/* eslint-disable-next-line @next/next/no-img-element -- a cutout with
           alpha at its own size; the frame sizes it */}
       <img
-        src={mediaUrl(CAMERA_SRC)}
+        src={mediaUrl(CAMERA_SRC)} onError={fallbackToOrigin}
         alt="A silver compact camera"
         width={CAMERA_W}
         height={CAMERA_H}
@@ -295,7 +295,7 @@ function Seal({ src }: { src: string }) {
   return (
     /* eslint-disable-next-line @next/next/no-img-element -- a cut-out at its own size */
     <img
-      src={mediaUrl(src)}
+      src={mediaUrl(src)} onError={fallbackToOrigin}
       alt="A blue wax seal with the AR monogram"
       width={900}
       height={898}
@@ -323,7 +323,7 @@ function Stamp({ src }: { src: string }) {
   return (
     /* eslint-disable-next-line @next/next/no-img-element -- a cut-out at its own size */
     <img
-      src={mediaUrl(src)}
+      src={mediaUrl(src)} onError={fallbackToOrigin}
       alt="A postage stamp from Himachal, October 2025"
       width={640}
       height={769}
@@ -414,7 +414,6 @@ function Record({ record }: { record: LifeRecord }) {
      press anywhere on the site (a link, a drag on the desk, a key) unlocks
      the record silently, so hovering it afterwards simply plays. */
   useEffect(() => {
-    if (!near) return;
     let unlocked = false;
     const unlock = () => {
       const a = audioRef.current;
@@ -432,7 +431,7 @@ function Record({ record }: { record: LifeRecord }) {
     const evs = ["pointerdown", "keydown", "touchend"] as const;
     evs.forEach((e) => document.addEventListener(e, unlock, { capture: true, passive: true }));
     return () => evs.forEach((e) => document.removeEventListener(e, unlock, { capture: true }));
-  }, [near, record.from]);
+  }, [record.from]);
   const onTime = () => {
     const a = audioRef.current;
     if (a && a.currentTime >= record.to) a.currentTime = record.from;
@@ -489,7 +488,7 @@ function Record({ record }: { record: LifeRecord }) {
       {/* the sleeve */}
       {/* eslint-disable-next-line @next/next/no-img-element -- a small square cover at its own size */}
       <img
-        src={mediaUrl(record.cover)}
+        src={mediaUrl(record.cover)} onError={fallbackToOrigin}
         alt={`${record.title} by ${record.artist}, the album cover`}
         width={640}
         height={640}
@@ -507,8 +506,8 @@ function Record({ record }: { record: LifeRecord }) {
           {pill}
         </span>
       ) : null}
-      {near && record.audio ? (
-        <audio ref={audioRef} src={mediaUrl(record.audio)} preload="auto" onTimeUpdate={onTime} onEnded={onTime} aria-hidden />
+      {record.audio ? (
+        <audio ref={audioRef} src={mediaUrl(record.audio)} preload={near ? "auto" : "none"} onTimeUpdate={onTime} onEnded={onTime} aria-hidden />
       ) : null}
     </div>
   );

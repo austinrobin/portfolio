@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
 import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
 import { Monogram } from "./monogram";
-import { mediaUrl } from "@/lib/media-url";
+import { mediaUrl, fallbackToOrigin } from "@/lib/media-url";
 import { heroFonts, INK } from "./hero-config";
 import { footerConfig, type FooterSettings } from "./footer-config";
 
@@ -52,7 +52,7 @@ function GuillocheGround({ strength }: { strength: number }) {
           /* eslint-disable-next-line @next/next/no-img-element -- static ground plate */
           <img
             key={i}
-            src={mediaUrl("/footer/guilloche.webp")}
+            src={mediaUrl("/footer/guilloche.webp")} onError={fallbackToOrigin}
             alt=""
             aria-hidden
             data-ground
@@ -85,7 +85,10 @@ const svgCache = new Map<string, Promise<string>>();
 function loadSvg(src: string) {
   let p = svgCache.get(src);
   if (!p) {
-    p = fetch(src).then((r) => r.text());
+    // the CDN copy first; if it is unreachable, the site's own copy
+    const text = (url: string) => fetch(url).then((r) => (r.ok ? r.text() : Promise.reject(new Error(String(r.status)))));
+    const base = process.env.NEXT_PUBLIC_MEDIA_BASE ?? "";
+    p = text(src).catch(() => (base && src.startsWith(base) ? text(src.slice(base.length)) : Promise.reject(new Error("plate"))));
     svgCache.set(src, p);
   }
   return p;
@@ -133,7 +136,7 @@ function Plate({
       style={{ "--mask": `url(${src})`, ...style } as React.CSSProperties}
     >
       {/* eslint-disable-next-line @next/next/no-img-element -- the plate as supplied */}
-      <img src={src} alt={alt} draggable={false} className="block h-auto w-full select-none" />
+      <img src={src} alt={alt} draggable={false} onError={fallbackToOrigin} className="block h-auto w-full select-none" />
     </div>
   );
 }
@@ -426,7 +429,7 @@ export function BanknoteFooter({
           ref={(el) => {
             scriptsRef.current[0] = el;
           }}
-          className="absolute left-1/2 w-max -translate-x-1/2 text-center leading-[1.3]"
+          className="absolute left-1/2 w-max -translate-x-1/2 text-center leading-[0.98]"
           style={{
             top: `${cfg.verseY}%`,
             fontSize: `clamp(16px, ${cfg.verseSize}cqw, ${cfg.verseSize * 20}px)`,
@@ -464,6 +467,20 @@ export function BanknoteFooter({
         >
           {cfg.dedicationText}
         </p>
+        {cfg.placeText ? (
+          <p
+            className="absolute left-1/2 w-max -translate-x-1/2 text-center font-light tracking-[0.06em]"
+            style={{
+              top: `${cfg.placeY}%`,
+              fontSize: `clamp(10px, ${cfg.placeSize}cqw, ${cfg.placeSize * 20}px)`,
+              fontFamily: "var(--font-geist-sans)",
+              color: INK,
+              opacity: 0.7,
+            }}
+          >
+            {cfg.placeText}
+          </p>
+        ) : null}
       </div>
     </section>
   );

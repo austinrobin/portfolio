@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/motion";
 import { heroFonts, INK, PAPER } from "./hero-config";
 import { labConfig, type LabCascadeSettings } from "./lab-config";
-import { mediaUrl } from "@/lib/media-url";
+import { mediaUrl, fallbackToOrigin } from "@/lib/media-url";
 
 /*
  * The Lab — teaser cards as a diagonal cover cascade (stellium reference).
@@ -218,7 +218,7 @@ function Cover({ src }: { src: string }) {
   return (
     <>
       {/* eslint-disable-next-line @next/next/no-img-element -- a cover at its own size */}
-      <img src={mediaUrl(src)} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" draggable={false} />
+      <img src={mediaUrl(src)} onError={fallbackToOrigin} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" draggable={false} />
     </>
   );
 }
