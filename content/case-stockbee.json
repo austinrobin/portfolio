@@ -230,6 +230,15 @@
       "statement": "Fast, without feeling careless.",
       "media": [
         {
+          "kind": "video",
+          "src": "/case/stockbee/perspective-mock.mp4",
+          "alt": "The StockBee app in perspective over the engraved note",
+          "block": "primary",
+          "w": 1280,
+          "h": 720,
+          "poster": "/case/stockbee/perspective-mock.poster.webp"
+        },
+        {
           "kind": "image",
           "src": "/case/stockbee/notification-filters.webp",
           "alt": "Notification filters and account controls",
