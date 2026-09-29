@@ -398,6 +398,10 @@ export function StudioClient() {
 
   const setLab = (patch: Partial<LabCascadeSettings>) =>
     setDraft({ ...draft, lab: { ...draft.lab, ...patch } });
+  const setLabExp = (i: number, patch: Partial<LabCascadeSettings["experiments"][number]>) => {
+    const experiments = draft.lab.experiments.map((x, j) => (j === i ? { ...x, ...patch } : x));
+    setDraft({ ...draft, lab: { ...draft.lab, experiments } });
+  };
 
   const setLife = (patch: Partial<LifeSettings>) =>
     setDraft({ ...draft, life: { ...draft.life, ...patch } });
@@ -1226,6 +1230,19 @@ export function StudioClient() {
               <p className="font-mono text-[10px] uppercase tracking-wider text-muted">
                 Placement
               </p>
+              {draft.lab.experiments.map((x, i) => (
+                <div key={i} className="space-y-2 border-t border-border pt-3">
+                  <p className="font-mono text-[10px] uppercase tracking-wider text-muted">Cover {i + 1}</p>
+                  <TextField label="Name" value={x.name} onChange={(v) => setLabExp(i, { name: v })} />
+                  <TextField label="Tag" value={x.tag} onChange={(v) => setLabExp(i, { tag: v })} />
+                  <TextField label="Title" value={x.title} onChange={(v) => setLabExp(i, { title: v })} />
+                  <TextField label="Line" value={x.blurb} onChange={(v) => setLabExp(i, { blurb: v })} />
+                  <TextField label="Link (the live app — leave empty for 'Coming soon')" value={x.href ?? ""} onChange={(v) => setLabExp(i, { href: v || undefined })} />
+                  <TextField label="Cover image (under /public, e.g. /lab/asciify.webp)" value={x.cover ?? ""} onChange={(v) => setLabExp(i, { cover: v || undefined })} />
+                  <TextField label="AI tool it was built with" value={x.tool ?? ""} onChange={(v) => setLabExp(i, { tool: v || undefined })} />
+                </div>
+              ))}
+              <p className="font-mono text-[10px] uppercase tracking-wider text-muted">Placement</p>
               <Slider label="Cover width" value={draft.lab.paneWidth} min={28} max={64} step={1}
                 onChange={(v) => setLab({ paneWidth: v })}
                 hint="% of the stage each cover takes." />

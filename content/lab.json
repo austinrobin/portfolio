@@ -1,4 +1,30 @@
 {
+  "experiments": [
+    {
+      "name": "Asciify",
+      "tag": "The Daily",
+      "title": "Turn images into typographic art",
+      "blurb": "Mask reveals, six render modes, seventeen export formats, live webcam input.",
+      "glow": "20% 15%",
+      "href": "https://asciify-nine.vercel.app/",
+      "cover": "/lab/asciify.webp",
+      "tool": "AI"
+    },
+    {
+      "name": "Pixel Strings",
+      "tag": "The Gift",
+      "title": "The tab you keep open",
+      "blurb": "One small, overlooked problem — solved so cleanly it earns a spot in your workflow.",
+      "glow": "75% 20%"
+    },
+    {
+      "name": "Departures",
+      "tag": "The Craft",
+      "title": "Product thinking, refined",
+      "blurb": "A considered build that shows how I think about products end to end.",
+      "glow": "40% 80%"
+    }
+  ],
   "paneWidth": 46,
   "paneAspect": 1,
   "stepX": 27,

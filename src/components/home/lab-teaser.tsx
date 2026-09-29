@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/motion";
 import { heroFonts, INK, PAPER } from "./hero-config";
 import { labConfig, type LabCascadeSettings } from "./lab-config";
+import { mediaUrl } from "@/lib/media-url";
 
 /*
  * The Lab — teaser cards as a diagonal cover cascade (stellium reference).
@@ -15,30 +16,7 @@ import { labConfig, type LabCascadeSettings } from "./lab-config";
  * its face; the tilt is held unless activeRotY says otherwise.
  */
 
-const experiments = [
-  {
-    name: "Mint",
-    tag: "The Gift",
-    title: "Something you take with you",
-    blurb: "A genuinely useful tool anyone who lands here can pick up and keep.",
-    glow: "20% 15%",
-  },
-  {
-    name: "Pixel Strings",
-    tag: "The Daily",
-    title: "The tab you keep open",
-    blurb:
-      "One small, overlooked problem — solved so cleanly it earns a spot in your workflow.",
-    glow: "75% 20%",
-  },
-  {
-    name: "Departures",
-    tag: "The Craft",
-    title: "Product thinking, refined",
-    blurb: "A considered build that shows how I think about products end to end.",
-    glow: "40% 80%",
-  },
-];
+/* the covers come from content/lab.json (Studio: Lab — cascade) */
 
 export function LabTeaser({
   overrides,
@@ -48,7 +26,10 @@ export function LabTeaser({
   const cfg: LabCascadeSettings = { ...labConfig, ...overrides };
   const reduce = useReducedMotion();
   const [hovered, setHovered] = useState<number | null>(null);
+  const experiments = cfg.experiments;
   const n = experiments.length;
+  const foot = (x: LabCascadeSettings["experiments"][number]) => (x.href ? `Open ↗${x.tool ? ` · Built with ${x.tool}` : ""}` : "Coming soon");
+  const glow = (x: LabCascadeSettings["experiments"][number]) => `radial-gradient(ellipse 90% 80% at ${x.glow ?? "50% 20%"}, rgba(249,247,241,0.16) 0%, transparent 55%), ${INK}`;
 
   /* geometry, all in % of the stage width */
   const paneH = cfg.paneWidth * cfg.paneAspect;
@@ -91,17 +72,19 @@ export function LabTeaser({
               {x.name}
             </p>
             <div
-              className="flex flex-col justify-between overflow-hidden p-6"
-              style={{ aspectRatio: "4 / 3", borderRadius: cfg.radius, background: `radial-gradient(ellipse 90% 80% at ${x.glow}, rgba(249,247,241,0.16) 0%, transparent 55%), ${INK}`, color: PAPER, boxShadow: `0 12px 32px rgba(26,25,19,${cfg.shadowRest})` }}
+              className="relative flex flex-col justify-between overflow-hidden p-6"
+              style={{ aspectRatio: "4 / 3", borderRadius: cfg.radius, background: glow(x), color: PAPER, boxShadow: `0 12px 32px rgba(26,25,19,${cfg.shadowRest})` }}
             >
-              <span className="font-mono text-[11px] uppercase tracking-[0.25em] opacity-70">{x.tag}</span>
-              <div>
+              {x.cover ? <Cover src={x.cover} /> : null}
+              <span className="relative font-mono text-[11px] uppercase tracking-[0.25em] opacity-70">{x.tag}</span>
+              <div className="relative">
                 <p className="text-[26px] leading-tight" style={{ fontFamily: "var(--font-peristiwa)" }}>
                   {x.title}
                 </p>
                 <p className="mt-2 text-[14px] leading-relaxed opacity-80">{x.blurb}</p>
-                <span className="mt-3 inline-block font-mono text-[11px] uppercase tracking-[0.3em] opacity-60">Coming soon</span>
+                <span className="mt-3 inline-block font-mono text-[11px] uppercase tracking-[0.3em] opacity-60">{foot(x)}</span>
               </div>
+              {x.href ? <a href={x.href} target="_blank" rel="noopener noreferrer" aria-label={`Open ${x.name}`} className="absolute inset-0 z-10" /> : null}
             </div>
           </div>
         ))}
@@ -118,7 +101,8 @@ export function LabTeaser({
             return (
               <motion.div
                 key={x.tag}
-                className="absolute cursor-pointer"
+                /* the wrapper's flat plane would catch clicks in front of the tilted cover — let them through to the card */
+                className="pointer-events-none absolute"
                 style={{
                   width: `${cfg.paneWidth}%`,
                   left: `${offsetX + i * cfg.stepX}%`,
@@ -157,7 +141,7 @@ export function LabTeaser({
                   />
                 </div>
                 <motion.div
-                  className="w-full overflow-hidden"
+                  className="pointer-events-auto relative w-full cursor-pointer overflow-hidden"
                   animate={
                     reduce
                       ? undefined
@@ -182,11 +166,13 @@ export function LabTeaser({
                     aspectRatio: `1 / ${cfg.paneAspect}`,
                     borderRadius: cfg.radius,
                     ...tilt,
-                    background: `radial-gradient(ellipse 90% 80% at ${x.glow}, rgba(249,247,241,0.16) 0%, transparent 55%), ${INK}`,
+                    background: glow(x),
                     color: PAPER,
                   }}
                 >
-                  <div className="flex h-full flex-col justify-between p-6 sm:p-9">
+                  {x.cover ? <Cover src={x.cover} /> : null}
+                  {x.href ? <a href={x.href} target="_blank" rel="noopener noreferrer" aria-label={`Open ${x.name}`} className="absolute inset-0 z-10" /> : null}
+                  <div className="relative flex h-full flex-col justify-between p-6 sm:p-9">
                     <span className="font-mono text-[clamp(11px,0.8vw,12px)] uppercase tracking-[0.25em] opacity-70">
                       {x.tag}
                     </span>
@@ -206,7 +192,7 @@ export function LabTeaser({
                           {x.blurb}
                         </p>
                         <span className="mt-3 inline-block font-mono text-[11px] uppercase tracking-[0.3em] opacity-60">
-                          Coming soon
+                          {foot(x)}
                         </span>
                       </motion.div>
                     </div>
@@ -218,5 +204,16 @@ export function LabTeaser({
         </div>
       </div>
     </section>
+  );
+}
+
+/* the app's own share image as the cover, shaded at the foot so the type reads */
+function Cover({ src }: { src: string }) {
+  return (
+    <>
+      {/* eslint-disable-next-line @next/next/no-img-element -- a cover at its own size */}
+      <img src={mediaUrl(src)} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" draggable={false} />
+      <div aria-hidden className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(16,27,188,0.10) 0%, rgba(10,12,40,0.25) 45%, rgba(10,12,40,0.86) 100%)" }} />
+    </>
   );
 }
