@@ -1303,6 +1303,17 @@ export function StudioClient() {
               <TextField label="YouTube link" value={draft.life.video.url} onChange={(v) => setLife({ video: { ...draft.life.video, url: v } })} />
               <TextField label="Film title" value={draft.life.video.title} onChange={(v) => setLife({ video: { ...draft.life.video, title: v } })} />
               <TextField label="Film line" value={draft.life.video.sub} onChange={(v) => setLife({ video: { ...draft.life.video, sub: v } })} />
+              <div className="mt-3 border-t border-border pt-3">
+                <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">The record</p>
+                <p className="mb-3 text-[12px] leading-snug text-muted">Hover the sleeve and the vinyl slides out while the cut plays. Leave and come back within the resume window and it carries on; later, it starts over.</p>
+                <TextField label="Cover image (square)" value={draft.life.record.cover} onChange={(v) => setLife({ record: { ...draft.life.record, cover: v } })} />
+                <TextField label="Audio file" value={draft.life.record.audio} onChange={(v) => setLife({ record: { ...draft.life.record, audio: v } })} />
+                <TextField label="Title" value={draft.life.record.title} onChange={(v) => setLife({ record: { ...draft.life.record, title: v } })} />
+                <TextField label="Artist" value={draft.life.record.artist} onChange={(v) => setLife({ record: { ...draft.life.record, artist: v } })} />
+                <Slider label="Play from (s)" value={draft.life.record.from} min={0} max={300} step={0.5} onChange={(v) => setLife({ record: { ...draft.life.record, from: v } })} hint="Seconds into the file. The shipped file is already the 0:38–1:09 cut, so 0 is 0:38." />
+                <Slider label="Play to (s)" value={draft.life.record.to} min={1} max={300} step={0.5} onChange={(v) => setLife({ record: { ...draft.life.record, to: v } })} />
+                <Slider label="Resume window (s)" value={draft.life.record.resume} min={0} max={15} step={0.5} onChange={(v) => setLife({ record: { ...draft.life.record, resume: v } })} />
+              </div>
               {draft.life.photos.map((ph, i) => (
                 <div key={i} className="mt-3 border-t border-border pt-3">
                   <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">Polaroid {i + 1}</p>
@@ -1317,7 +1328,7 @@ export function StudioClient() {
                 <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">The desk</p>
                 <p className="mb-3 text-[12px] leading-snug text-muted">Drag a piece on the desk to place it; the sliders fine-tune. Phones ignore this and stack the pieces.</p>
                 <Slider label="Desk height (px)" value={draft.life.deskHeight ?? lifeConfig.deskHeight} min={500} max={1200} step={10} onChange={(v) => setLife({ deskHeight: v })} />
-                {([["p1", "Print 1"], ["p2", "Print 2"], ["p3", "Print 3"], ["lines", "Note"], ["camera", "Camera"], ["note", "Handwritten line"], ["seal", "Wax seal"]] as [LifePieceId, string][]).map(([id, name]) => (
+                {([["p1", "Print 1"], ["p2", "Print 2"], ["p3", "Print 3"], ["lines", "Note"], ["camera", "Camera"], ["note", "Handwritten line"], ["seal", "Wax seal"], ["record", "Record"]] as [LifePieceId, string][]).map(([id, name]) => (
                   <div key={id} className="mt-3 border-t border-border/60 pt-3">
                     <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">{name}</p>
                     <Slider label="Left (%)" value={lifeLayout[id].x} min={-10} max={100} step={0.5} onChange={(v) => setLifeLayout(id, { x: v })} />

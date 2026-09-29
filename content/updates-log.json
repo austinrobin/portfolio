@@ -1,5 +1,21 @@
 [
   {
+    "at": "2026-09-29T11:52:29.564Z",
+    "summary": "update x, deskHeight",
+    "changes": [
+      {
+        "field": "life.layout.seal.x",
+        "from": 4,
+        "to": 29.5
+      },
+      {
+        "field": "life.deskHeight",
+        "from": 1000,
+        "to": 1080
+      }
+    ]
+  },
+  {
     "at": "2026-09-29T11:27:02.657Z",
     "summary": "update src, alt, w +153 more",
     "changes": [

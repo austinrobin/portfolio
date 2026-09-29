@@ -76,12 +76,27 @@
       "r": -2
     },
     "seal": {
-      "x": 4,
+      "x": 29.5,
       "y": 60,
       "w": 210,
       "r": -8
+    },
+    "record": {
+      "x": 47.5,
+      "y": 69,
+      "w": 250,
+      "r": 3
     }
   },
-  "deskHeight": 1000,
-  "seal": "/life/seal.webp"
+  "deskHeight": 1080,
+  "seal": "/life/seal.webp",
+  "record": {
+    "cover": "/life/record-cover.webp",
+    "audio": "/life/record.mp3",
+    "title": "Sugar",
+    "artist": "Maroon 5",
+    "from": 0,
+    "to": 31,
+    "resume": 3
+  }
 }

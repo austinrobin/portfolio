@@ -20,7 +20,17 @@ export interface LifeVideo {
   sub: string; // small line under the title
 }
 
-export type LifePieceId = "p1" | "p2" | "p3" | "lines" | "camera" | "note" | "seal";
+export interface LifeRecord {
+  cover: string; // the album sleeve, square (≤800px WebP); empty hides the record
+  audio: string; // the cut of the song, /life/… (mp3)
+  title: string; // on the label
+  artist: string;
+  from: number; // seconds into the file where the cut starts
+  to: number; // …and where it stops (loops back to `from` while hovered)
+  resume: number; // seconds — hover again within this and the song carries on, later and it starts over
+}
+
+export type LifePieceId = "p1" | "p2" | "p3" | "lines" | "camera" | "note" | "seal" | "record";
 export interface LifePieceLayout {
   x: number; // % of the desk's width, the piece's left edge
   y: number; // % of the desk's height, the piece's top edge
@@ -39,6 +49,7 @@ export interface LifeSettings {
   note: string[]; // the handwritten line by the clover
   photos: LifePhoto[]; // three
   video: LifeVideo;
+  record: LifeRecord; // the album on the desk — hover and it plays
 }
 
 export const lifeConfig: LifeSettings = lifeDefaults;

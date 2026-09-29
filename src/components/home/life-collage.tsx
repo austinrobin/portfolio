@@ -10,6 +10,7 @@ import {
   type LifePhoto,
   type LifePieceId,
   type LifePieceLayout,
+  type LifeRecord,
   type LifeSettings,
   type LifeVideo,
 } from "./life-config";
@@ -34,7 +35,7 @@ import { VIDEO_TYPE } from "@/lib/video-sources";
 
 type Placed =
   | { id: LifePieceId; kind: "photo"; index: number; z: number }
-  | { id: LifePieceId; kind: "lines" | "camera" | "note" | "seal"; z: number };
+  | { id: LifePieceId; kind: "lines" | "camera" | "note" | "seal" | "record"; z: number };
 
 /* what sits on the desk; where and how big comes from content/life.json */
 const SPREAD: Placed[] = [
@@ -45,6 +46,7 @@ const SPREAD: Placed[] = [
   { id: "camera", kind: "camera", z: 5 },
   { id: "note", kind: "note", z: 6 },
   { id: "seal", kind: "seal", z: 7 },
+  { id: "record", kind: "record", z: 8 },
 ];
 
 /* ---------------------------------------------------------------- pieces */
@@ -342,6 +344,171 @@ function Seal({ src }: { src: string }) {
   );
 }
 
+/* The record: an album sleeve lying on the desk. Hover it and the vinyl slides
+   out and spins while a short cut of the song plays; leave and it stops. Come
+   back within a few seconds and the song carries on, later and it starts over.
+   A page may only make sound after a click or tap, so if the first hover is
+   refused a "press to play" pill appears — one press primes it. On phones the
+   tap is the switch. */
+const DISC =
+  "conic-gradient(from 210deg, rgba(255,255,255,0.12), transparent 22%, rgba(255,255,255,0.05) 48%, transparent 72%, rgba(255,255,255,0.12)), " +
+  "repeating-radial-gradient(circle at 50% 50%, #121212 0 1.4px, #222 1.4px 2.8px)";
+
+function Record({ record }: { record: LifeRecord }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const leftAt = useRef(0); // when the pointer last left, for the resume window
+  const wanted = useRef(false); // is the pointer on the sleeve right now
+  const fade = useRef(0); // the volume ramp's frame
+  const [near, setNear] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [blocked, setBlocked] = useState(false); // the browser refused sound before a press
+  const [coarse, setCoarse] = useState(false);
+  const reduce = useReducedMotion();
+
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: none), (pointer: coarse)");
+    const sync = () => setCoarse(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  /* the cut only downloads once the record is about a viewport away */
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setNear(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "100% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  useEffect(() => () => cancelAnimationFrame(fade.current), []);
+
+  /* a short volume ramp so the song neither pops in nor cuts off */
+  const ramp = (a: HTMLAudioElement, to: number, ms: number, then?: () => void) => {
+    cancelAnimationFrame(fade.current);
+    const from = a.volume;
+    const t0 = performance.now();
+    const step = (t: number) => {
+      const k = Math.min(1, Math.max(0, (t - t0) / ms));
+      a.volume = from + (to - from) * k;
+      if (k < 1) fade.current = requestAnimationFrame(step);
+      else then?.();
+    };
+    fade.current = requestAnimationFrame(step);
+  };
+  const start = async () => {
+    const a = audioRef.current;
+    wanted.current = true;
+    if (!a || !a.paused) return;
+    const within = leftAt.current > 0 && performance.now() - leftAt.current < record.resume * 1000;
+    if (!within || a.currentTime < record.from || a.currentTime >= record.to) a.currentTime = record.from;
+    a.volume = 0;
+    try {
+      await a.play();
+      if (!wanted.current) { a.pause(); return; } // the pointer left while play() was pending
+      ramp(a, 1, 250);
+      setPlaying(true);
+      setBlocked(false);
+    } catch (e) {
+      /* only a refusal to make sound before a press is worth a pill; an
+         interrupted play() (left again before it started) is not */
+      if (e instanceof DOMException && e.name === "NotAllowedError") setBlocked(true);
+    }
+  };
+  const stop = () => {
+    const a = audioRef.current;
+    wanted.current = false;
+    if (!a || a.paused) return;
+    leftAt.current = performance.now();
+    setPlaying(false);
+    ramp(a, 0, 140, () => a.pause());
+  };
+  const onTime = () => {
+    const a = audioRef.current;
+    if (a && a.currentTime >= record.to) a.currentTime = record.from;
+  };
+  const toggle = () => (playing ? stop() : start());
+  const out = playing || blocked;
+  const pill = blocked ? "press to play" : coarse && !playing ? "tap to play" : null;
+
+  return (
+    <div
+      ref={ref}
+      role="button"
+      tabIndex={0}
+      aria-label={`${playing ? "Stop" : "Play"} a clip of ${record.title} by ${record.artist}`}
+      aria-pressed={playing}
+      className="relative"
+      style={{ aspectRatio: "1 / 1" }}
+      onPointerEnter={(e) => { if (e.pointerType !== "touch") void start(); }}
+      onPointerLeave={(e) => { if (e.pointerType !== "touch") stop(); }}
+      onClick={() => { if (coarse) toggle(); else if (!playing) void start(); }}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } }}
+    >
+      {/* the vinyl, behind the sleeve, sliding out to the right */}
+      <motion.div
+        className="absolute inset-[3%] rounded-full"
+        animate={{ x: out ? "44%" : "0%" }}
+        transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+        style={{ boxShadow: "0 8px 22px rgba(26,25,19,0.32), 0 1px 2px rgba(26,25,19,0.3)" }}
+      >
+        <motion.div
+          className="relative h-full w-full rounded-full"
+          animate={playing && !reduce ? { rotate: 360 } : {}}
+          transition={{ duration: 1.8, ease: "linear", repeat: Infinity }}
+          style={{ background: DISC }}
+        >
+          {/* the label */}
+          <div
+            className="absolute inset-[32%] flex flex-col items-center justify-center rounded-full text-center"
+            style={{ background: "#101BBC", boxShadow: "inset 0 0 0 1.5px rgba(249,247,241,0.85)" }}
+          >
+            <span className="font-mono text-[6px] uppercase leading-none tracking-[0.2em]" style={{ color: "#F9F7F1" }}>
+              {record.artist}
+            </span>
+            <span className="mt-[3px] text-[11px] leading-none" style={{ fontFamily: "var(--font-peristiwa)", color: "#F9F7F1" }}>
+              {record.title}
+            </span>
+            <span className="absolute left-1/2 top-1/2 size-[9%] -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: "#F9F7F1" }} />
+          </div>
+        </motion.div>
+      </motion.div>
+      {/* the sleeve */}
+      {/* eslint-disable-next-line @next/next/no-img-element -- a small square cover at its own size */}
+      <img
+        src={mediaUrl(record.cover)}
+        alt={`${record.title} by ${record.artist}, the album cover`}
+        width={640}
+        height={640}
+        className="relative z-10 block h-auto w-full rounded-[3px]"
+        style={{ aspectRatio: "1 / 1", boxShadow: PRINT_SHADOW }}
+        draggable={false}
+        loading="lazy"
+        decoding="async"
+      />
+      {pill ? (
+        <span
+          className="pointer-events-none absolute bottom-[7%] left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.25em]"
+          style={{ background: "rgba(249,247,241,0.92)", color: INK, boxShadow: "0 2px 8px rgba(26,25,19,0.25)" }}
+        >
+          {pill}
+        </span>
+      ) : null}
+      {near && record.audio ? (
+        <audio ref={audioRef} src={mediaUrl(record.audio)} preload="auto" onTimeUpdate={onTime} onEnded={onTime} aria-hidden />
+      ) : null}
+    </div>
+  );
+}
+
 function Note({ note }: { note: string[] }) {
   return (
     <div className="flex items-start gap-3">
@@ -420,6 +587,8 @@ export function LifeCollage({
         return <Note note={cfg.note} />;
       case "seal":
         return cfg.seal ? <Seal src={cfg.seal} /> : null;
+      case "record":
+        return cfg.record?.cover ? <Record record={cfg.record} /> : null;
     }
   };
 
@@ -438,6 +607,7 @@ export function LifeCollage({
       >
         {SPREAD.map((p, i) => {
           if (p.kind === "seal" && !cfg.seal) return null;
+          if (p.kind === "record" && !cfg.record?.cover) return null;
           const rotate = rotateOf(p);
           const lay = layout[p.id];
           return (
@@ -474,11 +644,12 @@ export function LifeCollage({
         {SPREAD.map((p, i) => {
           const rotate = rotateOf(p);
           if (p.kind === "seal" && !cfg.seal) return null;
-          const wide = p.kind !== "photo" && p.kind !== "seal";
+          if (p.kind === "record" && !cfg.record?.cover) return null;
+          const wide = p.kind !== "photo" && p.kind !== "seal" && p.kind !== "record";
           return (
             <motion.div
               key={p.id}
-              className={p.kind === "seal" ? "w-[38%] max-w-[180px]" : wide ? "w-full max-w-[380px]" : "w-[46%] min-w-[150px] max-w-[240px]"}
+              className={p.kind === "seal" ? "w-[38%] max-w-[180px]" : p.kind === "record" ? "mr-[28%] w-[52%] max-w-[240px]" : wide ? "w-full max-w-[380px]" : "w-[46%] min-w-[150px] max-w-[240px]"}
               style={{ rotate: rotate * 0.7 }}
               initial={reduce ? false : { opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
