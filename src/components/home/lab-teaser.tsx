@@ -56,10 +56,11 @@ export function LabTeaser({
             The Lab
           </p>
           <h2
-            className="mt-5 text-[clamp(28px,2.75vw,42px)] font-bold uppercase leading-none tracking-[0.02em]"
-            style={{ fontFamily: "var(--font-silk)", color: INK }}
+            className="mt-5 flex items-center justify-center gap-[0.45em] text-[clamp(30px,3vw,46px)] leading-none"
+            style={{ fontFamily: "var(--font-peristiwa)", color: INK }}
           >
-            AI exploration
+            <GuillocheMark />
+            <span>AI exploration</span>
           </h2>
         </Reveal>
       </div>
@@ -237,5 +238,23 @@ function Caption({ x, className = "" }: { x: LabCascadeSettings["experiments"][n
         <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.25em] opacity-60" style={{ color: INK }}>{x.tool ? `Built with ${x.tool}` : "Coming soon"}</span>
       )}
     </div>
+  );
+}
+
+/* a small guilloché rosette, turning — the lathe at work beside the title */
+function GuillocheMark() {
+  const ring = (n: number, rx: number, ry: number, cls: string, w: number) => (
+    <g className={cls} style={{ transformOrigin: "50% 50%" }} fill="none" stroke="currentColor" strokeWidth={w}>
+      {Array.from({ length: n }, (_, i) => (
+        <ellipse key={i} cx="50" cy="50" rx={rx} ry={ry} transform={`rotate(${(180 / n) * i} 50 50)`} />
+      ))}
+    </g>
+  );
+  return (
+    <svg viewBox="0 0 100 100" aria-hidden className="h-[0.95em] w-[0.95em] shrink-0 overflow-visible" style={{ color: INK }}>
+      {ring(9, 47, 17, "lab-lathe-a", 0.9)}
+      {ring(7, 30, 11, "lab-lathe-b", 0.9)}
+      <circle cx="50" cy="50" r="3" fill="currentColor" />
+    </svg>
   );
 }

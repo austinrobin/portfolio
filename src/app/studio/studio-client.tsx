@@ -1293,12 +1293,6 @@ export function StudioClient() {
             </Group>
 
             <Group title={"Life — desk"} open={group === "Life — desk"} onToggle={() => setGroup(group === "Life — desk" ? null : "Life — desk")}>
-              <TextField label="Note, line 1" value={draft.life.lines[0] ?? ""} onChange={(v) => setLife({ lines: [v, draft.life.lines[1] ?? ""] })} />
-              <TextField label="Note, line 2" value={draft.life.lines[1] ?? ""} onChange={(v) => setLife({ lines: [draft.life.lines[0] ?? "", v] })} />
-              <TextField label="Sign-off" value={draft.life.signoff} onChange={(v) => setLife({ signoff: v })} />
-              <TextField label="Handle" value={draft.life.handle} onChange={(v) => setLife({ handle: v })} />
-              <TextField label="Handwritten, line 1" value={draft.life.note[0] ?? ""} onChange={(v) => setLife({ note: [v, draft.life.note[1] ?? ""] })} />
-              <TextField label="Handwritten, line 2" value={draft.life.note[1] ?? ""} onChange={(v) => setLife({ note: [draft.life.note[0] ?? "", v] })} />
               <TextField label="Wax seal image" value={draft.life.seal ?? ""} onChange={(v) => setLife({ seal: v })} />
               <TextField label="YouTube link" value={draft.life.video.url} onChange={(v) => setLife({ video: { ...draft.life.video, url: v } })} />
               <TextField label="Film title" value={draft.life.video.title} onChange={(v) => setLife({ video: { ...draft.life.video, title: v } })} />
@@ -1328,7 +1322,7 @@ export function StudioClient() {
                 <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">The desk</p>
                 <p className="mb-3 text-[12px] leading-snug text-muted">Drag a piece on the desk to place it; the sliders fine-tune. Phones ignore this and stack the pieces.</p>
                 <Slider label="Desk height (px)" value={draft.life.deskHeight ?? lifeConfig.deskHeight} min={500} max={1200} step={10} onChange={(v) => setLife({ deskHeight: v })} />
-                {([["p1", "Print 1"], ["p2", "Print 2"], ["p3", "Print 3"], ["lines", "Note"], ["camera", "Camera"], ["note", "Handwritten line"], ["seal", "Wax seal"], ["record", "Record"]] as [LifePieceId, string][]).map(([id, name]) => (
+                {([["p1", "Print 1"], ["p2", "Print 2"], ["p3", "Print 3"], ["camera", "Camera"], ["seal", "Wax seal"], ["record", "Record"]] as [LifePieceId, string][]).map(([id, name]) => (
                   <div key={id} className="mt-3 border-t border-border/60 pt-3">
                     <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">{name}</p>
                     <Slider label="Left (%)" value={lifeLayout[id].x} min={-10} max={100} step={0.5} onChange={(v) => setLifeLayout(id, { x: v })} />

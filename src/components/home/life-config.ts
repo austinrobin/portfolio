@@ -2,8 +2,7 @@ import lifeDefaults from "../../../content/life.json";
 
 /* Studio / Life — the desk spread. Everything on the desk is editable from
    /studio (content/life.json, git-backed saves): the three polaroids, the
-   short note top-right, the handwritten line, and the cassette that plays
-   the YouTube video. */
+   camera that plays the YouTube film, the wax seal and the record. */
 export interface LifePhoto {
   src: string; // /life/… or any public path (≤1200px WebP)
   caption: string; // handwritten under the photo
@@ -30,7 +29,7 @@ export interface LifeRecord {
   resume: number; // seconds — hover again within this and the song carries on, later and it starts over
 }
 
-export type LifePieceId = "p1" | "p2" | "p3" | "lines" | "camera" | "note" | "seal" | "record";
+export type LifePieceId = "p1" | "p2" | "p3" | "camera" | "seal" | "record";
 export interface LifePieceLayout {
   x: number; // % of the desk's width, the piece's left edge
   y: number; // % of the desk's height, the piece's top edge
@@ -43,10 +42,6 @@ export interface LifeSettings {
   seal: string; // the wax seal (a cut-out with alpha); empty hides it
   deskHeight: number; // px, the desktop canvas
   layout: LifeLayout; // where every piece sits on the desk
-  lines: string[]; // the note top-right, one line per entry
-  signoff: string; // "Studio / Life."
-  handle: string; // "/austin"
-  note: string[]; // the handwritten line by the clover
   photos: LifePhoto[]; // three
   video: LifeVideo;
   record: LifeRecord; // the album on the desk — hover and it plays

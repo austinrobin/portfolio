@@ -52,6 +52,11 @@
   }
 }
 
+/* The Lab's small guilloché rosette keeps turning */
+@keyframes lab-lathe { to { transform: rotate(360deg); } }
+.lab-lathe-a { animation: lab-lathe 28s linear infinite; }
+.lab-lathe-b { animation: lab-lathe 18s linear infinite reverse; }
+
 /* Respect reduced-motion: disable all animation/transition. */
 @media (prefers-reduced-motion: reduce) {
   *,

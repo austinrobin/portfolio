@@ -21,12 +21,11 @@ import { VIDEO_TYPE } from "@/lib/video-sources";
  * Studio / Life — the desk spread.
  *
  * Reference: a teaser spread of three instax prints scattered on white with
- * a short note top-right, a cassette on the right and a handwritten line
- * with a clover at the bottom. Translated into the site's paper world:
- * three polaroids of Austin's, the note in the display serif, the camera
- * is his YouTube channel — its screen loops moments from the film (press it,
- * the film opens over the page), and the
- * clover line is in the script. Everything lives in content/life.json.
+ * a cassette on the right. Translated into the site's paper world: three
+ * polaroids of Austin's, the camera is his YouTube channel — its screen loops
+ * moments from the film (press it, the film opens over the page) — a wax
+ * seal, and a record that plays when hovered. Everything lives in
+ * content/life.json.
  *
  * Every piece is draggable on desktop — pick it up, move it, the pile is
  * yours to mess up. On small screens the same pieces settle into a loose
@@ -35,16 +34,14 @@ import { VIDEO_TYPE } from "@/lib/video-sources";
 
 type Placed =
   | { id: LifePieceId; kind: "photo"; index: number; z: number }
-  | { id: LifePieceId; kind: "lines" | "camera" | "note" | "seal" | "record"; z: number };
+  | { id: LifePieceId; kind: "camera" | "seal" | "record"; z: number };
 
 /* what sits on the desk; where and how big comes from content/life.json */
 const SPREAD: Placed[] = [
   { id: "p1", kind: "photo", index: 0, z: 2 },
   { id: "p2", kind: "photo", index: 1, z: 3 },
   { id: "p3", kind: "photo", index: 2, z: 1 },
-  { id: "lines", kind: "lines", z: 4 },
   { id: "camera", kind: "camera", z: 5 },
-  { id: "note", kind: "note", z: 6 },
   { id: "seal", kind: "seal", z: 7 },
   { id: "record", kind: "record", z: 8 },
 ];
@@ -135,30 +132,6 @@ function Polaroid({ photo }: { photo: LifePhoto }) {
   );
 }
 
-function Lines({ cfg }: { cfg: LifeSettings }) {
-  return (
-    <div className="text-right">
-      {cfg.lines.map((l, i) => (
-        <p
-          key={i}
-          className="text-[17px] leading-[1.6] tracking-[0.01em] text-muted"
-          style={{ fontFamily: "var(--font-display)" }}
-        >
-          {l}
-        </p>
-      ))}
-      <p
-        className="mt-6 text-[17px] leading-none tracking-[0.01em]"
-        style={{ fontFamily: "var(--font-display)", color: INK }}
-      >
-        {cfg.signoff}
-      </p>
-      <p className="mt-1.5 font-mono text-[11px] tracking-[0.12em] text-muted">
-        {cfg.handle}
-      </p>
-    </div>
-  );
-}
 
 /* The camera: a photographed compact with its backdrop removed, its screen
    playing a muted loop cut from the film. The screen rect is measured on the
@@ -313,18 +286,6 @@ function Camera({ video, href }: { video: LifeVideo; href?: string }) {
   );
 }
 
-function Clover({ className }: { className?: string }) {
-  const leaf =
-    "M20 19 C18 12 11 8.5 9 12.5 C7 16.5 14 20 20 19 C26 20 33 16.5 31 12.5 C29 8.5 22 12 20 19 Z";
-  return (
-    <svg viewBox="0 0 40 44" className={className} aria-hidden fill="none" stroke={INK} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      {[0, 90, 180, 270].map((r) => (
-        <path key={r} d={leaf} transform={`rotate(${r} 20 20)`} />
-      ))}
-      <path d="M21 23 C22 29 24 34 28 41" />
-    </svg>
-  );
-}
 
 /* the wax seal: a cut-out lying flat, so a tight shadow and a faint ink halo */
 function Seal({ src }: { src: string }) {
@@ -509,24 +470,6 @@ function Record({ record }: { record: LifeRecord }) {
   );
 }
 
-function Note({ note }: { note: string[] }) {
-  return (
-    <div className="flex items-start gap-3">
-      <Clover className="mt-1 h-11 w-10 shrink-0" />
-      <div>
-        {note.map((l, i) => (
-          <p
-            key={i}
-            className="text-[27px] leading-[1.15]"
-            style={{ fontFamily: "var(--font-peristiwa)", color: INK }}
-          >
-            {l}
-          </p>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 
 /* ---------------------------------------------------------------- section */
@@ -579,12 +522,8 @@ export function LifeCollage({
         const photo = cfg.photos[p.index];
         return photo ? <Polaroid photo={photo} /> : null;
       }
-      case "lines":
-        return <Lines cfg={cfg} />;
       case "camera":
         return <Camera video={cfg.video} href={filmHref} />;
-      case "note":
-        return <Note note={cfg.note} />;
       case "seal":
         return cfg.seal ? <Seal src={cfg.seal} /> : null;
       case "record":

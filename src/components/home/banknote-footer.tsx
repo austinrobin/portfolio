@@ -331,7 +331,7 @@ export function BanknoteFooter({
     <section
       ref={sectionRef}
       aria-label="Dedication"
-      className={`relative overflow-hidden bg-background ${heroFonts.peristiwa.variable}`}
+      className={`relative overflow-hidden bg-background ${heroFonts.peristiwa.variable} ${heroFonts.silk.variable}`}
     >
       <style>{`
         .bnf-gild { transition: filter 0.45s ease; }
@@ -454,11 +454,11 @@ export function BanknoteFooter({
           ref={(el) => {
             scriptsRef.current[1] = el;
           }}
-          className="absolute left-1/2 w-max -translate-x-1/2 text-center"
+          className="absolute left-1/2 w-max -translate-x-1/2 text-center uppercase tracking-[0.12em]"
           style={{
             top: `${cfg.dedicationY}%`,
             fontSize: `clamp(11px, ${cfg.dedicationSize}cqw, ${cfg.dedicationSize * 20}px)`,
-            fontFamily: "var(--font-peristiwa)",
+            fontFamily: "var(--font-silk)",
             color: INK,
           }}
         >

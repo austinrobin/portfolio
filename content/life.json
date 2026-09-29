@@ -1,14 +1,4 @@
 {
-  "lines": [
-    "Work is most of my days.",
-    "This is the rest of them."
-  ],
-  "signoff": "Studio / Life.",
-  "handle": "/austin",
-  "note": [
-    "whatever it is,",
-    "it'll all work out."
-  ],
   "photos": [
     {
       "src": "/life/polaroid-01.webp",
@@ -57,23 +47,11 @@
       "y": 47,
       "w": 300
     },
-    "lines": {
-      "x": 55,
-      "y": 8,
-      "w": 330,
-      "r": 0
-    },
     "camera": {
       "x": 61,
       "y": 31.5,
       "w": 760,
       "r": -9.5
-    },
-    "note": {
-      "x": 73,
-      "y": 76,
-      "w": 330,
-      "r": -2
     },
     "seal": {
       "x": 29.5,
@@ -82,8 +60,8 @@
       "r": -8
     },
     "record": {
-      "x": 47.5,
-      "y": 69,
+      "x": 58,
+      "y": 5,
       "w": 250,
       "r": 3
     }
