@@ -113,7 +113,7 @@ export function BanknoteNav({
           <NavLink
             key={l.label}
             item={l}
-            className="absolute top-[3.7svh] text-[clamp(11px,1.06vw,16px)] font-medium uppercase tracking-[0.02em] after:absolute after:-bottom-[0.35em] after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
+            className="absolute top-[3.7svh] -my-3 -mx-2 px-2 py-3 text-[clamp(11px,1.06vw,16px)] font-medium uppercase tracking-[0.02em] after:absolute after:bottom-[calc(0.75rem-0.35em)] after:left-2 after:right-2 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
             style={{ left: l.left, ...silk }}
           />
         ))}
@@ -122,12 +122,12 @@ export function BanknoteNav({
       <nav className="flex items-center justify-between px-5 pt-[2.4svh] md:hidden">
         <div className="flex gap-4">
           {navLinks.slice(0, 2).map((l) => (
-            <NavLink key={l.label} item={l} className="text-[11px] font-medium uppercase" style={silk} />
+            <NavLink key={l.label} item={l} className="-my-3 py-3 px-1 text-[11px] font-medium uppercase" style={silk} />
           ))}
         </div>
         <div className="flex gap-4">
           {navLinks.slice(2).map((l) => (
-            <NavLink key={l.label} item={l} className="text-[11px] font-medium uppercase" style={silk} />
+            <NavLink key={l.label} item={l} className="-my-3 py-3 px-1 text-[11px] font-medium uppercase" style={silk} />
           ))}
         </div>
       </nav>

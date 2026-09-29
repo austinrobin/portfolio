@@ -12,7 +12,8 @@ export function ChromeGate({ children }: { children: React.ReactNode }) {
   if (
     pathname === "/" ||
     pathname.startsWith("/studio") ||
-    pathname.startsWith("/gallery")
+    pathname.startsWith("/gallery") ||
+    pathname.startsWith("/work/")
   )
     return null;
   return <>{children}</>;

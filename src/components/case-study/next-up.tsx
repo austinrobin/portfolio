@@ -54,8 +54,17 @@ export function NextUp({
   const copyOpacity = useTransform(p, [0.1, 0.36, 0.86, 1], [0, 1, 1, 0]);
   const copyY = useTransform(p, [0.1, 0.36], [28, 0]);
   /* the cover opens from the corner: a thumbnail that grows to the full stage */
-  const coverW = useTransform(p, [0.3, 1], ["42%", "100%"]);
-  const coverH = useTransform(p, [0.3, 1], ["46%", "100%"]);
+  /* the thumbnail reads as a card on portrait screens too */
+  const [portrait, setPortrait] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(orientation: portrait)");
+    const sync = () => setPortrait(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  const coverW = useTransform(p, [0.3, 1], [portrait ? "64%" : "42%", "100%"]);
+  const coverH = useTransform(p, [0.3, 1], [portrait ? "32%" : "46%", "100%"]);
   const coverRadius = useTransform(p, [0.7, 1], [10, 0]);
   const coverOpacity = useTransform(p, [0.14, 0.3], [0, 1]);
 
@@ -79,7 +88,7 @@ export function NextUp({
           </div>
           <Link
             href="/#work"
-            className="absolute bottom-[7svh] left-[27vw] font-mono text-[11px] uppercase tracking-[0.22em] opacity-70 transition-opacity hover:opacity-100"
+            className="absolute bottom-[5svh] left-[27vw] -ml-2 px-2 py-3 font-mono text-[11px] uppercase tracking-[0.22em] opacity-70 transition-opacity hover:opacity-100"
           >
             [ All projects ]
           </Link>

@@ -434,7 +434,7 @@ export function LifeCollage({
       {/* -------- desktop: the draggable desk -------- */}
       <div
         ref={canvasRef}
-        className="relative mx-auto mt-16 hidden max-w-6xl md:block"
+        className="relative mx-auto mt-16 hidden max-w-6xl lg:block"
         style={{ height: deskHeight }}
       >
         {SPREAD.map((p, i) => {
@@ -471,7 +471,7 @@ export function LifeCollage({
       </div>
 
       {/* -------- small screens: the same pieces, settled -------- */}
-      <div className="mx-auto mt-12 flex max-w-xl flex-wrap items-start justify-center gap-x-5 gap-y-10 px-6 pb-4 md:hidden">
+      <div className="mx-auto mt-12 flex max-w-xl flex-wrap items-start justify-center gap-x-5 gap-y-10 px-6 pb-4 lg:hidden">
         {SPREAD.map((p, i) => {
           const rotate = rotateOf(p);
           if (p.kind === "seal" && !cfg.seal) return null;

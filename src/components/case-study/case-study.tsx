@@ -313,7 +313,7 @@ function ChapterPill({
   const current = chapters.find((c) => c.id === active) ?? chapters[0];
   return createPortal(
     <div
-      className="fixed inset-x-4 z-[70] md:hidden"
+      className="fixed inset-x-4 z-[70] lg:hidden"
       style={{ bottom: "calc(14px + env(safe-area-inset-bottom))" }}
     >
       {open ? (
@@ -649,12 +649,12 @@ function Chapter({
     >
       {/* a hairline opens the chapter; only its name sits on the left — the
           heading and copy are one block pushed to the viewport's right edge */}
-      <Rise className="grid gap-x-8 gap-y-4 md:grid-cols-2">
-        <p className="font-mono text-[11px] font-semibold uppercase leading-[1.2] tracking-[0.2em] text-accent md:pt-3">
+      <Rise className="grid gap-x-8 gap-y-4 lg:grid-cols-2">
+        <p className="font-mono text-[11px] font-semibold uppercase leading-[1.2] tracking-[0.2em] text-accent lg:pt-3">
           {n != null ? <span className="mr-2.5 opacity-60">{String(n).padStart(2, "0")}</span> : null}
           {kicker}
         </p>
-        <div className="max-w-[580px] md:justify-self-end">
+        <div className="max-w-[580px] lg:justify-self-end">
           <h2 className={`${headingSize(heading)} font-semibold leading-[1.06] tracking-[-0.028em] text-black`}>
             {heading}
           </h2>
@@ -702,7 +702,7 @@ function ChapterIndex({
             key={c.id}
             type="button"
             onClick={() => onJump(c.id)}
-            className={`group relative whitespace-nowrap text-left text-[14px] font-normal leading-none transition-colors sm:text-[15px] ${
+            className={`group relative -my-1.5 whitespace-nowrap py-3 text-left text-[14px] font-normal leading-none transition-colors sm:text-[15px] ${
               on ? "text-foreground" : "text-muted hover:text-foreground"
             }`}
           >
@@ -740,7 +740,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
       const panel = panelRef.current;
       if (!row || !panel) return;
       const mm = gsap.matchMedia();
-      mm.add("(min-width: 768px)", () => {
+      mm.add("(min-width: 1024px)", () => {
         ScrollTrigger.create({
           trigger: panel,
           start: "top 12%",
@@ -865,7 +865,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
         className="flex gap-x-[clamp(12px,1.6vw,32px)] px-0 pb-32 pt-0 md:px-[clamp(8px,1.1vw,22px)] md:pb-28 md:pt-[clamp(8px,1.1vw,22px)]"
       >
         {/* ---- left panel (pinned for the article's whole run) ---- */}
-        <aside className="hidden w-[296px] shrink-0 pt-[13svh] md:block lg:w-[316px]">
+        <aside className="hidden w-[316px] shrink-0 pt-[13svh] lg:block">
           <div ref={panelRef} className="relative">
             {/* the home monogram, at the nav's level, revealed once the nav tucks away */}
             <Link
@@ -901,7 +901,7 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
           ) : null}
 
           {/* phones: identity under the hero; the bottom pill owns the chapters */}
-          <div className="mb-2 px-5 pt-7 md:hidden">
+          <div className="mb-2 px-5 pt-7 lg:hidden">
             <h1
               className="text-[22px] font-bold uppercase leading-none tracking-[0.02em]"
               style={{ fontFamily: "var(--font-silk)" }}

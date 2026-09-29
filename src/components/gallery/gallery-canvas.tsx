@@ -1,7 +1,7 @@
 "use client";
 import { mediaUrl } from "@/lib/media-url";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
 import { galleryItems } from "@/lib/gallery";
 import { BanknoteNav } from "@/components/banknote-nav";
@@ -35,6 +35,7 @@ import { heroFonts } from "@/components/home/hero-config";
 const ZSPAN = 14; // depth of the field, arbitrary units
 const IDLE_SPEED = 0.35; // units/s of self-drift
 const SCROLL_GAIN = 0.0045;
+const TOUCH_GAIN = 0.02; // per dragged px — a swipe flies like the wheel
 const BOOST_DECAY = 1.6; // /s
 const MAX_BOOST = 6;
 const FOV = 1.9;
@@ -144,6 +145,15 @@ function compile(gl: WebGLRenderingContext, type: number, src: string) {
 
 export function GalleryCanvas() {
   const reduce = useReducedMotion();
+  /* touch screens are told to swipe, not scroll */
+  const [coarse, setCoarse] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: coarse)");
+    const sync = () => setCoarse(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mutedRef = useRef(false);
@@ -394,7 +404,20 @@ export function GalleryCanvas() {
       armAudio();
       boost = Math.min(MAX_BOOST, Math.max(-2, boost + e.deltaY * SCROLL_GAIN));
     };
-    const onPointerDown = () => armAudio();
+    /* a drag (finger or mouse) flies the helix: up = forward, like the wheel */
+    let dragY: number | null = null, dragId = -1;
+    const onPointerDown = (e: PointerEvent) => {
+      armAudio();
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      dragY = e.clientY; dragId = e.pointerId;
+      try { wrap.setPointerCapture(e.pointerId); } catch {}
+    };
+    const onPointerMove = (e: PointerEvent) => {
+      if (dragY === null || e.pointerId !== dragId) return;
+      const dy = e.clientY - dragY; dragY = e.clientY;
+      boost = Math.min(MAX_BOOST, Math.max(-2, boost - dy * TOUCH_GAIN));
+    };
+    const onPointerUp = (e: PointerEvent) => { if (e.pointerId === dragId) { dragY = null; dragId = -1; } };
     const onKey = () => armAudio();
 
     /* ---------------- frame ---------------- */
@@ -493,8 +516,13 @@ export function GalleryCanvas() {
 
     drawFrame(last); // eager first paint — no blank flash before rAF
     (wrap as HTMLDivElement & { __armAudio?: () => void }).__armAudio = armAudio;
+    // read-only probe of the fly speed, for headless checks
+    (wrap as HTMLDivElement & { __boost?: () => number }).__boost = () => boost;
     wrap.addEventListener("wheel", onWheel, { passive: false });
     wrap.addEventListener("pointerdown", onPointerDown);
+    wrap.addEventListener("pointermove", onPointerMove);
+    wrap.addEventListener("pointerup", onPointerUp);
+    wrap.addEventListener("pointercancel", onPointerUp);
     window.addEventListener("keydown", onKey);
     raf = requestAnimationFrame(frame);
 
@@ -504,6 +532,9 @@ export function GalleryCanvas() {
       ro.disconnect();
       wrap.removeEventListener("wheel", onWheel);
       wrap.removeEventListener("pointerdown", onPointerDown);
+      wrap.removeEventListener("pointermove", onPointerMove);
+      wrap.removeEventListener("pointerup", onPointerUp);
+      wrap.removeEventListener("pointercancel", onPointerUp);
       window.removeEventListener("keydown", onKey);
       for (const tx of textures) if (tx) gl.deleteTexture(tx);
       void ctx?.close();
@@ -539,8 +570,8 @@ export function GalleryCanvas() {
         <BanknoteNav />
       </div>
 
-      <p className="pointer-events-none absolute bottom-6 left-6 z-[1200] font-mono text-[10px] uppercase tracking-[0.25em] text-muted">
-        Gallery — scroll to fly
+      <p className="pointer-events-none absolute bottom-6 left-6 z-[1200] font-mono text-[11px] uppercase tracking-[0.25em] text-muted">
+        Gallery — {coarse ? "swipe" : "scroll"} to fly
       </p>
       <button
         ref={muteBtnRef}
@@ -556,7 +587,7 @@ export function GalleryCanvas() {
               ? "sound off"
               : "sound on";
         }}
-        className="absolute bottom-6 right-6 z-[1200] font-mono text-[10px] uppercase tracking-[0.25em] text-muted transition-colors hover:text-foreground"
+        className="absolute bottom-3 right-3 z-[1200] p-3 font-mono text-[11px] uppercase tracking-[0.25em] text-muted transition-colors hover:text-foreground"
       >
         sound on
       </button>

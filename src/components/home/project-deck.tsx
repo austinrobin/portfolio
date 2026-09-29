@@ -270,7 +270,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
 
         {/* Project name + details, inked like the design */}
         <motion.div
-          className="relative z-10 mb-[16px] flex w-[var(--deck-w)] items-end justify-between gap-4"
+          className="relative z-10 mb-[16px] flex w-[var(--deck-w)] flex-col items-start gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4"
           style={{ opacity: capOpacity, color: INK, y: capY }}
         >
           <div className="min-w-0">
@@ -281,7 +281,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
               {current.title}
             </p>
             <p
-              className={`mt-2 truncate text-[clamp(14px,1.1vw,17px)] leading-snug opacity-70 ${caseFont.variable} font-[family-name:var(--font-case)]`}
+              className={`mt-2 line-clamp-2 text-[clamp(14px,1.1vw,17px)] leading-snug opacity-70 sm:line-clamp-none sm:truncate ${caseFont.variable} font-[family-name:var(--font-case)]`}
             >
               {current.subtitle}
             </p>
@@ -289,7 +289,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
           {current.href ? (
             <Link
               href={current.href}
-              className={`group inline-flex shrink-0 items-center gap-2.5 border border-[#101BBC] px-4 py-2 text-sm transition-colors hover:bg-[#101BBC] hover:text-[#F9F7F1] ${caseFont.variable} font-[family-name:var(--font-case)]`}
+              className={`group inline-flex min-h-[44px] shrink-0 items-center gap-2.5 border border-[#101BBC] px-4 py-2 text-sm transition-colors hover:bg-[#101BBC] hover:text-[#F9F7F1] lg:min-h-0 ${caseFont.variable} font-[family-name:var(--font-case)]`}
             >
               View case study
               {/* a vintage swash arrow */}

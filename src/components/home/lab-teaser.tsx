@@ -83,8 +83,32 @@ export function LabTeaser({
         </Reveal>
       </div>
 
+      {/* ---- phones and small tablets: the three covers, stacked, everything shown ---- */}
+      <div className="mx-auto mt-10 flex w-[min(88vw,420px)] flex-col gap-8 lg:hidden">
+        {experiments.map((x) => (
+          <div key={x.tag}>
+            <p className="mb-2 text-[12px] font-medium uppercase tracking-[0.06em]" style={{ fontFamily: "var(--font-silk)", color: INK }}>
+              {x.name}
+            </p>
+            <div
+              className="flex flex-col justify-between overflow-hidden p-6"
+              style={{ aspectRatio: "4 / 3", borderRadius: cfg.radius, background: `radial-gradient(ellipse 90% 80% at ${x.glow}, rgba(249,247,241,0.16) 0%, transparent 55%), ${INK}`, color: PAPER, boxShadow: `0 12px 32px rgba(26,25,19,${cfg.shadowRest})` }}
+            >
+              <span className="font-mono text-[11px] uppercase tracking-[0.25em] opacity-70">{x.tag}</span>
+              <div>
+                <p className="text-[26px] leading-tight" style={{ fontFamily: "var(--font-peristiwa)" }}>
+                  {x.title}
+                </p>
+                <p className="mt-2 text-[14px] leading-relaxed opacity-80">{x.blurb}</p>
+                <span className="mt-3 inline-block font-mono text-[11px] uppercase tracking-[0.3em] opacity-60">Coming soon</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
       {/* ---- the cascade — sized to the works stage ---- */}
-      <div className="mt-10 flex justify-center">
+      <div className="mt-10 hidden justify-center lg:flex">
         <div
           className="relative"
           style={{ width: stageWidth, perspective: cfg.perspective, aspectRatio: `100 / ${totalH}` }}
@@ -163,7 +187,7 @@ export function LabTeaser({
                   }}
                 >
                   <div className="flex h-full flex-col justify-between p-6 sm:p-9">
-                    <span className="font-mono text-[clamp(9px,0.8vw,11px)] uppercase tracking-[0.25em] opacity-70">
+                    <span className="font-mono text-[clamp(11px,0.8vw,12px)] uppercase tracking-[0.25em] opacity-70">
                       {x.tag}
                     </span>
                     <div>
@@ -181,7 +205,7 @@ export function LabTeaser({
                         <p className="text-[clamp(12px,1.05vw,15px)] leading-relaxed opacity-80">
                           {x.blurb}
                         </p>
-                        <span className="mt-3 inline-block font-mono text-[clamp(8px,0.7vw,10px)] uppercase tracking-[0.3em] opacity-60">
+                        <span className="mt-3 inline-block font-mono text-[11px] uppercase tracking-[0.3em] opacity-60">
                           Coming soon
                         </span>
                       </motion.div>

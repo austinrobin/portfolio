@@ -310,9 +310,11 @@ export function BanknoteFooter({
 
       /* inject + measure one viewport early, so the draw starts clean */
       ScrollTrigger.create({ trigger: section, start: "top 130%", once: true, onEnter: build });
+      /* as soon as the plate shows (a short plate at the page's end never
+         reaches mid-viewport on a phone) */
       ScrollTrigger.create({
         trigger: section,
-        start: "top 50%",
+        start: "top 92%",
         once: true,
         onEnter: () => {
           if (!tl) build();

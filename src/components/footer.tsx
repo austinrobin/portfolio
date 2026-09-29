@@ -9,7 +9,7 @@ export function Footer() {
           <p className="font-display text-3xl leading-tight">Let&rsquo;s talk.</p>
           <a
             href={`mailto:${siteConfig.email}`}
-            className="mt-1 inline-block text-muted underline-offset-4 hover:text-foreground hover:underline"
+            className="mt-1 inline-block py-2 text-muted underline-offset-4 hover:text-foreground hover:underline"
           >
             {siteConfig.email}
           </a>
@@ -23,7 +23,7 @@ export function Footer() {
                 href={s.href}
                 target="_blank"
                 rel="noreferrer"
-                className="text-sm text-muted transition-colors hover:text-foreground"
+                className="-mx-1 inline-block min-w-[44px] px-1 py-2 text-center text-sm text-muted transition-colors hover:text-foreground"
               >
                 {s.label}
               </Link>
