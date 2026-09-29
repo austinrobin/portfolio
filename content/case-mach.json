@@ -29,35 +29,29 @@
       "media": [
         {
           "kind": "video",
-          "src": "/case/mach/hero.mp4",
-          "poster": "/case/mach/hero.poster.webp",
+          "src": "/case/mach/drive.mp4",
+          "poster": "/case/mach/drive.poster.webp",
           "block": "primary",
-          "w": 1280,
-          "h": 720
-        },
-        {
-          "kind": "video",
-          "src": "/case/mach/reveal.mp4",
-          "poster": "/case/mach/reveal.poster.webp",
-          "block": "primary",
-          "w": 1280,
-          "h": 720
-        },
-        {
-          "kind": "image",
-          "src": "/case/mach/world-scifi.webp",
-          "alt": "A figure at the centre of a luminous, half-built desert world",
-          "block": "secondary",
-          "w": 2560,
-          "h": 1433
+          "w": 1276,
+          "h": 718,
+          "zoom": 1.45,
+          "sound": true
         },
         {
           "kind": "image",
           "src": "/case/mach/world-fire.webp",
           "alt": "A figure between LED panels of fire, the scene intentionally incomplete",
-          "block": "secondary",
+          "block": "primary",
           "w": 2560,
           "h": 1433
+        },
+        {
+          "kind": "video",
+          "src": "/case/mach/hero.mp4",
+          "poster": "/case/mach/hero.poster.webp",
+          "block": "primary",
+          "w": 1280,
+          "h": 720
         }
       ]
     },
@@ -87,6 +81,23 @@
           "block": "secondary",
           "w": 720,
           "h": 1280
+        },
+        {
+          "kind": "image",
+          "src": "/case/mach/world-valley.webp",
+          "alt": "A panoramic mountain valley with a lone figure",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
+        },
+        {
+          "kind": "image",
+          "src": "/case/mach/world-scifi.webp",
+          "alt": "A figure at the centre of a luminous, half-built desert world",
+          "block": "primary",
+          "w": 2560,
+          "h": 1433,
+          "zoom": 1.4
         }
       ]
     },
@@ -105,13 +116,14 @@
           "poster": "/case/mach/anywhere.poster.webp",
           "block": "primary",
           "w": 1280,
-          "h": 720
+          "h": 720,
+          "sound": true
         },
         {
           "kind": "image",
           "src": "/case/mach/world-forest.webp",
           "alt": "An ancient fig-tree forest, extreme wide",
-          "block": "secondary",
+          "block": "primary",
           "w": 2560,
           "h": 1433
         },
@@ -119,23 +131,7 @@
           "kind": "image",
           "src": "/case/mach/world-dusk.webp",
           "alt": "An architectural visualisation at dusk, mirrored in water",
-          "block": "secondary",
-          "w": 2560,
-          "h": 1433
-        },
-        {
-          "kind": "image",
-          "src": "/case/mach/world-waterfront.webp",
-          "alt": "A bustling public waterfront at golden hour",
-          "block": "secondary",
-          "w": 2560,
-          "h": 1433
-        },
-        {
-          "kind": "image",
-          "src": "/case/mach/world-valley.webp",
-          "alt": "A panoramic mountain valley with a lone figure",
-          "block": "secondary",
+          "block": "primary",
           "w": 2560,
           "h": 1433
         }
@@ -153,19 +149,17 @@
       "media": [
         {
           "kind": "video",
-          "src": "/case/mach/drive.mp4",
-          "poster": "/case/mach/drive.poster.webp",
+          "src": "/case/mach/reveal.mp4",
+          "poster": "/case/mach/reveal.poster.webp",
           "block": "primary",
-          "w": 1276,
-          "h": 718,
-          "zoom": 1.45,
-          "sound": true
+          "w": 1280,
+          "h": 720
         },
         {
           "kind": "video",
           "src": "/case/mach/mark.mp4",
           "poster": "/case/mach/mark.poster.webp",
-          "block": "custom",
+          "block": "tertiary",
           "w": 640,
           "h": 360,
           "cols": 2,
@@ -176,10 +170,19 @@
           "kind": "image",
           "src": "/case/mach/wordmark.webp",
           "alt": "The MACH wordmark",
-          "block": "custom",
+          "block": "tertiary",
           "w": 512,
           "h": 157,
-          "ratio": 3.261
+          "ratio": 3.261,
+          "zoom": 1
+        },
+        {
+          "kind": "image",
+          "src": "/case/mach/world-waterfront.webp",
+          "alt": "A bustling public waterfront at golden hour",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
         }
       ]
     }

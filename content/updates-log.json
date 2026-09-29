@@ -1,5 +1,223 @@
 [
   {
+    "at": "2026-09-29T13:24:35.262Z",
+    "summary": "update src, poster, w +34 more",
+    "changes": [
+      {
+        "field": "caseMach.sections.0.media.0.src",
+        "from": "/case/mach/hero.mp4",
+        "to": "/case/mach/drive.mp4"
+      },
+      {
+        "field": "caseMach.sections.0.media.0.poster",
+        "from": "/case/mach/hero.poster.webp",
+        "to": "/case/mach/drive.poster.webp"
+      },
+      {
+        "field": "caseMach.sections.0.media.0.w",
+        "from": 1280,
+        "to": 1276
+      },
+      {
+        "field": "caseMach.sections.0.media.0.h",
+        "from": 720,
+        "to": 718
+      },
+      {
+        "field": "caseMach.sections.0.media.0.zoom",
+        "to": 1.45
+      },
+      {
+        "field": "caseMach.sections.0.media.0.sound",
+        "to": true
+      },
+      {
+        "field": "caseMach.sections.0.media.1.kind",
+        "from": "video",
+        "to": "image"
+      },
+      {
+        "field": "caseMach.sections.0.media.1.src",
+        "from": "/case/mach/reveal.mp4",
+        "to": "/case/mach/world-fire.webp"
+      },
+      {
+        "field": "caseMach.sections.0.media.1.poster",
+        "from": "/case/mach/reveal.poster.webp"
+      },
+      {
+        "field": "caseMach.sections.0.media.1.w",
+        "from": 1280,
+        "to": 2560
+      },
+      {
+        "field": "caseMach.sections.0.media.1.h",
+        "from": 720,
+        "to": 1433
+      },
+      {
+        "field": "caseMach.sections.0.media.1.alt",
+        "to": "A figure between LED panels of fire, the scene intentionally incomplete"
+      },
+      {
+        "field": "caseMach.sections.0.media.2.kind",
+        "from": "image",
+        "to": "video"
+      },
+      {
+        "field": "caseMach.sections.0.media.2.src",
+        "from": "/case/mach/world-scifi.webp",
+        "to": "/case/mach/hero.mp4"
+      },
+      {
+        "field": "caseMach.sections.0.media.2.alt",
+        "from": "A figure at the centre of a luminous, half-built desert world"
+      },
+      {
+        "field": "caseMach.sections.0.media.2.block",
+        "from": "secondary",
+        "to": "primary"
+      },
+      {
+        "field": "caseMach.sections.0.media.2.w",
+        "from": 2560,
+        "to": 1280
+      },
+      {
+        "field": "caseMach.sections.0.media.2.h",
+        "from": 1433,
+        "to": 720
+      },
+      {
+        "field": "caseMach.sections.0.media.2.poster",
+        "to": "/case/mach/hero.poster.webp"
+      },
+      {
+        "field": "caseMach.sections.0.media.3",
+        "from": {
+          "kind": "image",
+          "src": "/case/mach/world-fire.webp",
+          "alt": "A figure between LED panels of fire, the scene intentionally incomplete",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
+        }
+      },
+      {
+        "field": "caseMach.sections.1.media.2",
+        "to": {
+          "kind": "image",
+          "src": "/case/mach/world-valley.webp",
+          "alt": "A panoramic mountain valley with a lone figure",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
+        }
+      },
+      {
+        "field": "caseMach.sections.1.media.3",
+        "to": {
+          "kind": "image",
+          "src": "/case/mach/world-scifi.webp",
+          "alt": "A figure at the centre of a luminous, half-built desert world",
+          "block": "primary",
+          "w": 2560,
+          "h": 1433,
+          "zoom": 1.4
+        }
+      },
+      {
+        "field": "caseMach.sections.2.media.0.sound",
+        "to": true
+      },
+      {
+        "field": "caseMach.sections.2.media.1.block",
+        "from": "secondary",
+        "to": "primary"
+      },
+      {
+        "field": "caseMach.sections.2.media.2.block",
+        "from": "secondary",
+        "to": "primary"
+      },
+      {
+        "field": "caseMach.sections.2.media.3",
+        "from": {
+          "kind": "image",
+          "src": "/case/mach/world-waterfront.webp",
+          "alt": "A bustling public waterfront at golden hour",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
+        }
+      },
+      {
+        "field": "caseMach.sections.2.media.4",
+        "from": {
+          "kind": "image",
+          "src": "/case/mach/world-valley.webp",
+          "alt": "A panoramic mountain valley with a lone figure",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
+        }
+      },
+      {
+        "field": "caseMach.sections.3.media.0.src",
+        "from": "/case/mach/drive.mp4",
+        "to": "/case/mach/reveal.mp4"
+      },
+      {
+        "field": "caseMach.sections.3.media.0.poster",
+        "from": "/case/mach/drive.poster.webp",
+        "to": "/case/mach/reveal.poster.webp"
+      },
+      {
+        "field": "caseMach.sections.3.media.0.w",
+        "from": 1276,
+        "to": 1280
+      },
+      {
+        "field": "caseMach.sections.3.media.0.h",
+        "from": 718,
+        "to": 720
+      },
+      {
+        "field": "caseMach.sections.3.media.0.zoom",
+        "from": 1.45
+      },
+      {
+        "field": "caseMach.sections.3.media.0.sound",
+        "from": true
+      },
+      {
+        "field": "caseMach.sections.3.media.1.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseMach.sections.3.media.2.block",
+        "from": "custom",
+        "to": "tertiary"
+      },
+      {
+        "field": "caseMach.sections.3.media.2.zoom",
+        "to": 1
+      },
+      {
+        "field": "caseMach.sections.3.media.3",
+        "to": {
+          "kind": "image",
+          "src": "/case/mach/world-waterfront.webp",
+          "alt": "A bustling public waterfront at golden hour",
+          "block": "secondary",
+          "w": 2560,
+          "h": 1433
+        }
+      }
+    ]
+  },
+  {
     "at": "2026-09-29T11:52:29.564Z",
     "summary": "update x, deskHeight",
     "changes": [
