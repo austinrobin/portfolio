@@ -322,28 +322,20 @@
     "title": "Impact",
     "stats": [
       {
-        "value": "XXK+",
-        "label": "Active users"
+        "value": "3,000+",
+        "label": "Active users / month"
       },
       {
-        "value": "XXM+",
+        "value": "890K+",
         "label": "Alerts delivered"
       },
       {
-        "value": "7,000+",
+        "value": "2,000+",
         "label": "Stocks tracked"
       },
       {
-        "value": "XX%",
+        "value": "35%",
         "label": "Retention"
-      },
-      {
-        "value": "XXM+",
-        "label": "Market events processed"
-      },
-      {
-        "value": "XX%",
-        "label": "Increase in engagement"
       }
     ]
   },
