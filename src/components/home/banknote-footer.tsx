@@ -467,20 +467,25 @@ export function BanknoteFooter({
         >
           {cfg.dedicationText}
         </p>
-        {cfg.placeText ? (
-          <p
-            className="absolute left-1/2 w-max -translate-x-1/2 text-center font-light tracking-[0.06em]"
-            style={{
-              top: `${cfg.placeY}%`,
-              fontSize: `clamp(10px, ${cfg.placeSize}cqw, ${cfg.placeSize * 20}px)`,
-              fontFamily: "var(--font-geist-sans)",
-              color: INK,
-              opacity: 0.7,
-            }}
-          >
-            {cfg.placeText}
-          </p>
-        ) : null}
+        {/* the foot of the plate: where he is, on the left; what he is open to, on the right */}
+        {([["left", cfg.placeText], ["right", cfg.placeTextRight]] as const).map(([side, text]) =>
+          text ? (
+            <p
+              key={side}
+              className="absolute w-max font-light uppercase tracking-[0.14em]"
+              style={{
+                top: `${cfg.placeY}%`,
+                [side]: `${cfg.placeX ?? 3.5}%`,
+                fontSize: `clamp(10px, ${cfg.placeSize}cqw, ${cfg.placeSize * 20}px)`,
+                fontFamily: "var(--font-geist-sans)",
+                color: INK,
+                opacity: 0.7,
+              }}
+            >
+              {text}
+            </p>
+          ) : null,
+        )}
       </div>
     </section>
   );

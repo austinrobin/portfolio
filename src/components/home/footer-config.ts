@@ -33,7 +33,9 @@ export interface FooterSettings {
   dedicationText: string;
   dedicationY: number;
   dedicationSize: number; // % of the plate's width
-  placeText: string; // "Currently in Bhopal, India" — tiny, light, at the plate's foot; empty hides it
+  placeText: string; // "BASED IN INDIA" — tiny, light caps at the plate's foot, on the left; empty hides it
+  placeTextRight: string; // "OPEN TO RELOCATION" — its pair, on the right; empty hides it
+  placeX: number; // % in from each side
   placeY: number; // % from the plate's top
   placeSize: number; // % of the plate's width
 }
