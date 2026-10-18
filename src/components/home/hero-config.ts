@@ -27,6 +27,7 @@ export interface HeroSettings {
   /* text (rendered as normal DOM per the banknote design) */
   headline: string; // name, letterspaced caps — left block
   role: string; // script line under the name
+  proof?: string; // one plain line of proof under the role — what he does and a number
   sub: string; // script tagline — right block
 
   /* layout — where the portrait sits inside the hero (fractions of the

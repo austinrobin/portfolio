@@ -16,6 +16,7 @@ export function ClosingInvite() {
   const href = `mailto:${siteConfig.email}?subject=${encodeURIComponent(c.subject || "What I'm working on")}`;
   return (
     <section
+      id="contact"
       aria-label="Get in touch"
       className={`${heroFonts.silk.variable} ${heroFonts.peristiwa.variable} px-6 pb-28 pt-4 text-center sm:pb-36`}
     >
@@ -50,6 +51,18 @@ export function ClosingInvite() {
               <path d="M13.5 1.5L18.5 6l-5 4.5" />
             </svg>
           </a>
+        ) : null}
+        {siteConfig.socials.length ? (
+          <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.2em]" style={{ color: INK }}>
+            {siteConfig.socials.map((s, i) => (
+              <span key={s.label}>
+                {i ? <span className="mx-3 opacity-40">·</span> : <span className="opacity-60">or find me on </span>}
+                <a href={s.href} target="_blank" rel="noopener noreferrer" data-track="social" data-track-label={s.label} className="underline-offset-4 hover:underline">
+                  {s.label} ↗
+                </a>
+              </span>
+            ))}
+          </p>
         ) : null}
       </Reveal>
     </section>

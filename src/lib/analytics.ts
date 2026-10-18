@@ -16,6 +16,7 @@ export type SiteEvent =
   | "film_open" // the camera on the desk
   | "record_play" // the record on the desk, when it actually plays
   | "desk_drag" // a piece moved on the desk: label = the piece
+  | "social" // LinkedIn or another profile: label = which
   | "contact" // the closing "Tell me about it" button or the Contact link
   | "resume" // the resume opened
   | "gallery_open"; // the gallery entered

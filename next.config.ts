@@ -21,6 +21,10 @@ const nextConfig: NextConfig = {
      from the origin at ~200KB/s (measured 2026-09-25). The edge cache is
      keyed per deployment, so a year is safe: a new deploy never serves an
      old file. */
+  /* the old standalone contact page now lives at the foot of the home page */
+  async redirects() {
+    return [{ source: "/contact", destination: "/#contact", permanent: true }];
+  },
   async headers() {
     const cache = [
       {

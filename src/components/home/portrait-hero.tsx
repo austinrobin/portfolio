@@ -1160,6 +1160,14 @@ export function PortraitHero({
             >
               <Letters text={cfg.role} delay={0.3} step={0.02} />
             </p>
+            {cfg.proof ? (
+              <p
+                className="hero-proof mt-[3.2svh] max-w-[min(27vw,380px)] text-balance text-[clamp(14px,1.05vw,16px)] leading-[1.5] max-md:max-w-[300px]"
+                style={{ fontFamily: "var(--font-geist-sans)", color: "currentColor", opacity: 0.78 }}
+              >
+                {cfg.proof}
+              </p>
+            ) : null}
           </div>
 
           {/* right block — script tagline (design: x 70.7%, baseline 474) */}

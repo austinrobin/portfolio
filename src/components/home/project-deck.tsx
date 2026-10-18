@@ -238,10 +238,23 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
     return `calc(var(--deck-w) * ${((empty * STEP_UP * 0.57) / 100 / 1.6).toFixed(4)})`;
   });
 
+  /* The outgoing sheet stays mostly in front until ~80% of its fall, so a
+     caption that switched at the halfway point named the next project over
+     the last one's artwork. The caption now fades out as a sheet starts to
+     fall, switches while hidden, and fades back in once the next one stands. */
   useMotionValueEvent(p, "change", (v) => {
-    const idx = Math.min(Math.max(Math.round(v), 0), n - 1);
+    const idx = Math.min(Math.max(Math.floor(v + 0.38), 0), n - 1);
     if (idx !== active) setActive(idx);
   });
+  const capFade = useTransform(p, (v) => {
+    const fr = v - Math.floor(v);
+    if (fr < 0.3) return 1;
+    if (fr < 0.45) return 1 - (fr - 0.3) / 0.15;
+    if (fr < 0.75) return 0;
+    if (fr < 0.88) return (fr - 0.75) / 0.13;
+    return 1;
+  });
+  const capShown = useTransform([capOpacity, capFade], ([a, b]: number[]) => a * b);
 
   const fontVars = `${heroFonts.silk.variable} ${heroFonts.peristiwa.variable}`;
 
@@ -290,7 +303,7 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
         {/* Project name + details, inked like the design */}
         <motion.div
           className="relative z-20 mb-[16px] flex w-[var(--deck-w)] flex-col items-start gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4"
-          style={{ opacity: capOpacity, color: INK, y: capY }}
+          style={{ opacity: capShown, color: INK, y: capY }}
         >
           <div className="min-w-0">
             <p
@@ -304,6 +317,11 @@ export function ProjectDeck({ items }: { items: ShowcaseItem[] }) {
             >
               {current.subtitle}
             </p>
+            {current.role || current.metric ? (
+              <p className="mt-2.5 font-mono text-[11px] uppercase tracking-[0.16em] opacity-80">
+                {[current.role, current.metric].filter(Boolean).join(" · ")}
+              </p>
+            ) : null}
           </div>
           {current.href ? (
             <Link

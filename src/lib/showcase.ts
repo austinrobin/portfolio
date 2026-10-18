@@ -3,6 +3,10 @@ export interface ShowcaseItem {
   title: string;
   subtitle: string;
   year: string;
+  /** what Austin was on it, shown under the card's line */
+  role?: string;
+  /** one proof number, beside the role */
+  metric?: string;
   /** Real cover (public/ path): a still, or a looping .mp4 reel. Falls back
       to a styled placeholder. */
   cover?: string;
@@ -24,6 +28,8 @@ export const showcase: ShowcaseItem[] = [
     title: "HIGH",
     subtitle: "Markets, meet culture",
     year: "2026",
+    role: "Lead Product Designer",
+    metric: "75K+ waitlist",
     href: "/work/high",
     cover: "/deck/high.mp4",
     coverPoster: "/deck/high.poster.webp",
@@ -34,6 +40,8 @@ export const showcase: ShowcaseItem[] = [
     title: "StockBee",
     subtitle: "AI-powered stock intelligence, on WhatsApp",
     year: "2024",
+    role: "Lead Product Designer",
+    metric: "890K+ alerts delivered",
     href: "/work/stockbee",
     cover: "/deck/stockbee.mp4",
     coverPoster: "/deck/stockbee.poster.webp",
@@ -44,6 +52,8 @@ export const showcase: ShowcaseItem[] = [
     title: "Bloom Algo",
     subtitle: "Making algo trading feel less like an algorithm",
     year: "2025",
+    role: "Lead Product Designer",
+    metric: "20K+ deployments / month",
     href: "/work/bloom-algo",
     cover: "/deck/bloom-algo.mp4",
     coverPoster: "/deck/bloom-algo.poster.webp",
@@ -54,6 +64,7 @@ export const showcase: ShowcaseItem[] = [
     title: "LWT",
     subtitle: "Reframing an engineering legacy",
     year: "2024",
+    role: "Brand strategy & identity",
     href: "/work/lwt",
     cover: "/deck/lwt.mp4",
     coverPoster: "/deck/lwt.poster.webp",
@@ -64,6 +75,7 @@ export const showcase: ShowcaseItem[] = [
     title: "MACH",
     subtitle: "Making the impossible feel production-ready",
     year: "2025",
+    role: "Brand strategy & creative direction",
     href: "/work/mach",
     cover: "/deck/mach.mp4",
     coverPoster: "/deck/mach.poster.webp",

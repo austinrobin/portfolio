@@ -766,6 +766,13 @@ export function StudioClient() {
                 }
               />
               <TextField
+                label="Proof line (under the role — what you do and a number)"
+                value={draft.hero.proof ?? ""}
+                onChange={(v) =>
+                  setDraft({ ...draft, hero: { ...draft.hero, proof: v } })
+                }
+              />
+              <TextField
                 label="Tagline"
                 value={draft.hero.sub}
                 onChange={(v) =>

@@ -918,6 +918,18 @@ export function CaseStudyView({ cs }: { cs: CaseStudy }) {
             <Tile media={cs.heroMedia} alt={cs.title} frame="primary" loop={false} eager bleed wide />
           ) : null}
 
+          {/* the result first: the top three numbers, right under the hero */}
+          {cs.impact.stats.length > 0 ? (
+            <div className="mx-5 grid grid-cols-3 gap-4 py-6 md:mx-0 lg:py-7">
+              {cs.impact.stats.slice(0, 3).map((st) => (
+                <div key={st.label} className="min-w-0">
+                  <p className="text-[clamp(26px,2.6vw,40px)] font-light leading-none tracking-[-0.03em] text-black">{st.value}</p>
+                  <p className="mt-2 text-[13px] leading-snug text-black/60 lg:text-[14px]">{st.label}</p>
+                </div>
+              ))}
+            </div>
+          ) : null}
+
           {/* phones: identity under the hero; the bottom pill owns the chapters */}
           <div className="mb-2 px-5 pt-7 lg:hidden">
             <h1
