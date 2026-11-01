@@ -14,6 +14,7 @@ import { Monogram } from "./monogram";
 import { hasBooted } from "@/components/loader/site-loader";
 import { LIFT_MS } from "@/components/loader/plate-run";
 import { mediaUrl } from "@/lib/media-url";
+import { siteConfig } from "@/lib/site";
 
 export { heroConfig, type HeroSettings } from "./hero-config";
 
@@ -1036,10 +1037,10 @@ export function PortraitHero({
 
   /* Design-canvas fractions (1512x982 Figma frame) */
   const navLinks = [
-    { label: "Work", href: "/work", left: "6.61%" },
-    { label: "About", href: "/about", left: "21.9%" },
-    { label: "Writing", href: "/writing", left: "64.9%" },
-    { label: "Contact", href: "/contact", left: "80.4%" },
+    { label: "Gallery", href: "/gallery", left: "6.61%" },
+    { label: "Works", href: "/#work", left: "21.9%" },
+    { label: "Resume", href: siteConfig.resume ?? "/", left: "64.9%" },
+    { label: "Contact", href: "/#contact", left: "80.4%" },
   ];
 
   return (

@@ -5,7 +5,7 @@
 # jsDelivr caches per commit URL, so every deploy starts cold in each region; the first fetch of a file
 # fills the edge near whoever runs this. Files over 20MB are skipped (jsDelivr refuses them).
 cd "$(dirname "$0")/.." || exit 1
-if [ -n "$1" ]; then U="$1"; else U="https://cdn.jsdelivr.net/gh/austinrobin/portfolio@$(git rev-parse HEAD)/public"; fi
+if [ -n "$1" ]; then U="$1"; elif [ "$USE_JSDELIVR" = "1" ]; then U="https://cdn.jsdelivr.net/gh/austinrobin/portfolio@$(git rev-parse HEAD)/public"; else U="https://www.austinrobin.design"; fi
 list=$(mktemp)
 { find public/case public/deck public/footer public/gallery public/life public/lab -type f ! -name .DS_Store -size -20000000c; for f in hero-art.webp hero-face.webp hero-art-m.webp hero-face-m.webp current-coin.webp; do echo public/$f; done; } | sed 's|^public||' > "$list"
 n=$(wc -l < "$list" | tr -d ' '); echo "warming $n files on $U"

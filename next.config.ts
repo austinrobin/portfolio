@@ -1,11 +1,15 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 
-/* On Vercel, media is served from jsDelivr pinned to the deployed commit
-   (see src/lib/media-url.ts). VERCEL_GIT_COMMIT_SHA is set by Vercel for
-   every git-triggered build; locally the base stays empty. */
+/* Media is served from the site itself. It used to come from jsDelivr pinned
+   to the deployed commit, but a jsDelivr region that had not yet seen a file
+   fetched it from GitHub first and could stall for 40 s+ — and with frequent
+   deploys and visitors spread one or two per country, nearly every visitor
+   was the first in their region (measured 2026-10-27: the hero took 11–21 s
+   to appear). Vercel's own edge is as fast from here and never stalls. Set
+   USE_JSDELIVR=1 at build time to bring the CDN back. */
 const sha = process.env.VERCEL_GIT_COMMIT_SHA;
-const mediaBase = sha && process.env.VERCEL ? `https://cdn.jsdelivr.net/gh/austinrobin/portfolio@${sha}/public` : "";
+const mediaBase = sha && process.env.VERCEL && process.env.USE_JSDELIVR === "1" ? `https://cdn.jsdelivr.net/gh/austinrobin/portfolio@${sha}/public` : "";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
@@ -23,7 +27,13 @@ const nextConfig: NextConfig = {
      old file. */
   /* the old standalone contact page now lives at the foot of the home page */
   async redirects() {
-    return [{ source: "/contact", destination: "/#contact", permanent: true }];
+    return [
+      { source: "/contact", destination: "/#contact", permanent: true },
+      { source: "/about", destination: "/", permanent: true },
+      { source: "/writing", destination: "/", permanent: true },
+      { source: "/writing/:slug*", destination: "/", permanent: true },
+      { source: "/work", destination: "/#work", permanent: true },
+    ];
   },
   async headers() {
     const cache = [
