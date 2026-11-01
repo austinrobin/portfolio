@@ -218,7 +218,7 @@ function Cover({ src }: { src: string }) {
   return (
     <>
       {/* eslint-disable-next-line @next/next/no-img-element -- a cover at its own size */}
-      <img src={mediaUrl(src)} onError={fallbackToOrigin} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" draggable={false} />
+      <img src={mediaUrl(src)} onError={fallbackToOrigin} alt="" aria-hidden loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" draggable={false} />
     </>
   );
 }

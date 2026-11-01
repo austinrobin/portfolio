@@ -53,6 +53,8 @@ function GuillocheGround({ strength }: { strength: number }) {
           <img
             key={i}
             src={mediaUrl("/footer/guilloche.webp")} onError={fallbackToOrigin}
+            loading="lazy"
+            decoding="async"
             alt=""
             aria-hidden
             data-ground
@@ -136,7 +138,7 @@ function Plate({
       style={{ "--mask": `url(${src})`, ...style } as React.CSSProperties}
     >
       {/* eslint-disable-next-line @next/next/no-img-element -- the plate as supplied */}
-      <img src={src} alt={alt} draggable={false} onError={fallbackToOrigin} className="block h-auto w-full select-none" />
+      <img src={src} alt={alt} draggable={false} onError={fallbackToOrigin} loading="lazy" decoding="async" className="block h-auto w-full select-none" />
     </div>
   );
 }
@@ -161,17 +163,29 @@ export function BanknoteFooter({
   const scriptsRef = useRef<(HTMLElement | null)[]>([]);
   const [svgs, setSvgs] = useState<Map<string, string> | null>(null);
 
-  /* fetch the four vectors once, early — the inject happens later */
+  /* fetch the four vectors once the footer is about two screens away — early
+     enough for the draw, late enough not to compete with the first screen */
   useEffect(() => {
     if (reduce) return;
+    const el = sectionRef.current;
+    if (!el) return;
     let alive = true;
-    Promise.all(PLATE_SRCS.map((s) => loadSvg(s).then((t) => [s, t] as const))).then(
-      (pairs) => {
-        if (alive) setSvgs(new Map(pairs));
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        Promise.all(PLATE_SRCS.map((s) => loadSvg(s).then((t) => [s, t] as const))).then(
+          (pairs) => {
+            if (alive) setSvgs(new Map(pairs));
+          },
+        );
       },
+      { rootMargin: "200% 0px" },
     );
+    io.observe(el);
     return () => {
       alive = false;
+      io.disconnect();
     };
   }, [reduce]);
 
